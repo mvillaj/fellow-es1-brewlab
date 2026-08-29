@@ -1,0 +1,590 @@
+/* ── Crema: a dark, warm, coffee-coloured system ───────────────────────────── */
+
+:root {
+  --bg: #100e0c;
+  --bg-raised: #17140f;
+  --surface: #1d1915;
+  --surface-2: #241f1a;
+  --border: #322b24;
+  --border-strong: #453b31;
+
+  --text: #f3ece2;
+  --text-dim: #b3a596;
+  --text-faint: #7d7266;
+
+  --crema: #e0a458;
+  --crema-dim: #a97a3f;
+  --espresso: #c4703f;
+  --good: #7fae72;
+  --warn: #d9a441;
+  --bad: #d4674f;
+  --cool: #6f9dc4;
+
+  /* Colours that used to be hardcoded at their point of use. Every one of these
+     had to invert or re-tune for light, which is why they are tokens now. */
+  --on-accent: #241606;
+  --accent-hover: #eab066;
+  --btn-hover-bg: #2c251e;
+  --btn-hover-border: #57493c;
+  --danger-border: #4a2c25;
+  --danger-hover-bg: #35211c;
+  --danger-hover-border: #6b3a30;
+  --scrim: rgba(6, 5, 4, 0.72);
+  --focus-ring: rgba(224, 164, 88, 0.13);
+
+  --tint-accent-bg: #2a2013;
+  --tint-accent-border: #4a3720;
+  --tint-good-bg: #1b2618;
+  --tint-good-border: #2f4429;
+  --tint-bad-bg: #2a1a16;
+  --tint-bad-border: #4a2c25;
+  --tint-cool-bg: #16202a;
+  --tint-cool-border: #2a3c4a;
+
+  --banner-bad-bg: #2a1a16;
+  --banner-bad-border: #5a3129;
+  --banner-bad-text: #f0b3a5;
+  --banner-good-bg: #1b2618;
+  --banner-good-border: #35492e;
+  --banner-good-text: #bcd8b2;
+  --banner-info-bg: #241d13;
+  --banner-info-border: #3a3122;
+  --banner-info-text: #e2cba3;
+
+  /* Tints lighten against dark and must darken against light, so the alphas are
+     per-theme, not just the hues. */
+  --chart-band-opacity: 0.06;
+  --chart-target-opacity: 0.09;
+  --chart-area-opacity: 0.34;
+
+  /* Height of a text input: 0.92rem x 1.55 line-height + 16px padding + 2px
+     border. The infusion step marker uses it too, so the number lines up with
+     the fields beside it rather than floating 3px high. */
+  --control-h: 2.55rem;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Light. Same warm coffee character, inverted. Only the tokens change — every
+   rule below the :root block is shared, which is the point of the swap. */
+:root[data-theme='light'] {
+  --bg: #f7f3ec;
+  --bg-raised: #fffdfa;
+  --surface: #fffdfa;
+  --surface-2: #f0e9de;
+  --border: #e2d8c9;
+  --border-strong: #c8b9a4;
+
+  --text: #241c14;
+  --text-dim: #665949;
+  --text-faint: #907f6c;
+
+  --crema: #9c6416;
+  --crema-dim: #b98a3f;
+  --espresso: #a2542a;
+  --good: #46733a;
+  --warn: #97690f;
+  --bad: #a83f28;
+  --cool: #3a6a91;
+
+  --shadow: 0 1px 2px rgba(60, 44, 26, 0.08), 0 8px 24px -12px rgba(60, 44, 26, 0.28);
+
+  /* Amber is mid-tone, so the accent takes light text here rather than dark, and
+     hover darkens instead of lightening. */
+  --on-accent: #fffaf2;
+  --accent-hover: #855314;
+  --btn-hover-bg: #ece3d6;
+  --btn-hover-border: #b8a68e;
+  --danger-border: #e0c0b6;
+  --danger-hover-bg: #f7e4de;
+  --danger-hover-border: #c98d7b;
+  --scrim: rgba(60, 44, 26, 0.38);
+  --focus-ring: rgba(156, 100, 22, 0.18);
+
+  --tint-accent-bg: #f7eddc;
+  --tint-accent-border: #e4d0ac;
+  --tint-good-bg: #eaf1e6;
+  --tint-good-border: #c3d8ba;
+  --tint-bad-bg: #fbe9e4;
+  --tint-bad-border: #ecc4b9;
+  --tint-cool-bg: #e7eff6;
+  --tint-cool-border: #bed3e3;
+
+  --banner-bad-bg: #fbe9e4;
+  --banner-bad-border: #e9bcae;
+  --banner-bad-text: #8a3220;
+  --banner-good-bg: #eaf1e6;
+  --banner-good-border: #bfd6b5;
+  --banner-good-text: #35592b;
+  --banner-info-bg: #f7eddc;
+  --banner-info-border: #e2cba3;
+  --banner-info-text: #6f4a10;
+
+  --chart-band-opacity: 0.1;
+  --chart-target-opacity: 0.14;
+  --chart-area-opacity: 0.2;
+}
+
+/* "Auto" is resolved to a concrete data-theme in JS before first paint, so the
+   attribute is always one of light/dark and there is no second copy of the
+   palette to keep in sync. This just tells the UA to match its own chrome —
+   scrollbars, form controls, caret. */
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark'] { color-scheme: dark; }
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3 { font-family: var(--sans); font-weight: 600; margin: 0; }
+h1 { font-size: 2rem; line-height: 1.15; letter-spacing: -0.022em; }
+h2 { font-size: 1.4rem; letter-spacing: -0.015em; }
+h3 { font-size: 1.1rem; letter-spacing: -0.01em; }
+
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.dim { color: var(--text-dim); }
+.faint { color: var(--text-faint); }
+.small { font-size: 0.83rem; }
+.center { text-align: center; }
+.row { display: flex; align-items: center; gap: 12px; }
+.row-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.spread { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.stack-sm { display: flex; flex-direction: column; gap: 8px; }
+.grow { flex: 1; }
+
+/* ── Shell ─────────────────────────────────────────────────────────────────── */
+
+.shell { display: grid; grid-template-columns: 232px 1fr; min-height: 100%; }
+
+.sidebar {
+  background: var(--bg-raised);
+  border-right: 1px solid var(--border);
+  padding: 22px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand { padding: 0 8px; }
+.brand-lockup { display: inline-block; font-size: 1.72rem; }
+/* Lowercase: c, r, e, m and a are every one an x-height letter, so the word
+   presents a single flat top edge for the bar row to sit on. x-height is
+   shorter than cap-height, which is why this is set larger than the headings. */
+.brand-name {
+  font-family: var(--display); font-weight: 700; font-size: 1em;
+  line-height: 1; text-transform: lowercase; letter-spacing: 0; margin: 0;
+}
+/* Flex children with no intrinsic width, so the row measures exactly as wide
+   as the word below it — whatever the font renders. */
+.brand-bars { display: flex; align-items: flex-end; gap: 0.13em; height: 0.5em; margin-bottom: 0.24em; }
+.brand-bars i { flex: 1; background: var(--crema); border-radius: 0.09em; }
+.brand-sub { margin-top: 7px; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-label {
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-faint); padding: 14px 10px 6px;
+}
+.nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: var(--radius-sm);
+  color: var(--text-dim); font-size: 0.92rem;
+  transition: background 0.12s, color 0.12s;
+}
+.nav a:hover { background: var(--surface); color: var(--text); }
+.nav a.active { background: var(--surface-2); color: var(--text); box-shadow: inset 2px 0 0 var(--crema); }
+.nav-icon { width: 18px; text-align: center; opacity: 0.9; }
+
+.sidebar-foot { margin-top: auto; border-top: 1px solid var(--border); padding-top: 14px; }
+
+.main { padding: 32px 40px 80px; max-width: 1180px; width: 100%; min-width: 0; }
+.page-head { margin-bottom: 26px; }
+.page-head p { color: var(--text-dim); margin: 6px 0 0; max-width: 62ch; }
+
+/* Below the shell breakpoint the sidebar becomes a sticky top bar: brand and
+   account on one line, the links on a scrollable strip beneath. The section
+   wrappers go `display: contents` so the links become direct flex children of
+   .nav — without that, a row-direction .nav lays out the *groups* side by side
+   and the links still stack inside them. */
+@media (max-width: 860px) {
+  /* minmax(0,…) rather than 1fr: a grid item defaults to min-width:auto, so the
+     column would otherwise be floored at the nav's min-content width and the
+     strip's overflow-x would never engage. */
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: sticky; top: 0; z-index: 40;
+    height: auto; padding: 10px 0 0; min-width: 0;
+    flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px;
+    border-right: none; border-bottom: 1px solid var(--border);
+  }
+
+  .brand { order: 1; flex: 1 1 auto; min-width: 0; padding: 0 14px; }
+  .brand-lockup { font-size: 1.25rem; }
+  .brand-sub { display: none; }
+
+  /* Out of the column's `margin-top: auto` and onto the brand line, so signing
+     out is reachable at all — it used to be display:none here. */
+  .sidebar-foot {
+    order: 2; margin-top: 0; padding: 0 14px 0 0;
+    border-top: none; display: flex; align-items: center; gap: 10px;
+  }
+  .sidebar-foot .small { padding: 0 !important; }
+
+  .nav {
+    order: 3; flex-basis: 100%; min-width: 0;
+    flex-direction: row; gap: 4px;
+    overflow-x: auto; padding: 0 14px 8px;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav > div { display: contents; }
+  .nav a { white-space: nowrap; }
+  /* A left rail reads as wrong in a horizontal strip. */
+  .nav a.active { box-shadow: inset 0 -2px 0 var(--crema); }
+  .nav-label { display: none; }
+
+  .main { padding: 22px 18px 60px; }
+}
+
+/* ── Surfaces ──────────────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.card.tight { padding: 14px; }
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
+
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+.stat-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+.stat-value { font-family: var(--mono); font-size: 1.7rem; font-variant-numeric: tabular-nums; margin-top: 4px; }
+.stat-value .unit { font-size: 0.9rem; color: var(--text-faint); margin-left: 3px; }
+.stat-note { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+
+/* ── Controls ──────────────────────────────────────────────────────────────── */
+
+.btn {
+  font: inherit; font-size: 0.9rem; font-weight: 500;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text);
+  cursor: pointer; transition: background 0.12s, border-color 0.12s, opacity 0.12s;
+  display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+}
+.btn:hover { background: var(--btn-hover-bg); border-color: var(--btn-hover-border); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--crema); border-color: var(--crema); color: var(--on-accent); font-weight: 600; }
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--text-dim); }
+.btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+.btn-danger { color: var(--bad); border-color: var(--danger-border); }
+.btn-danger:hover { background: var(--danger-hover-bg); border-color: var(--danger-hover-border); }
+.btn-sm { padding: 5px 10px; font-size: 0.82rem; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field > label { font-size: 0.78rem; letter-spacing: 0.04em; color: var(--text-dim); }
+.field .hint { font-size: 0.75rem; color: var(--text-faint); }
+
+input:not([type='checkbox']):not([type='radio']):not([type='range']),
+select,
+textarea {
+  font: inherit; font-size: 0.92rem;
+  background: var(--bg-raised); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 8px 10px; width: 100%;
+  min-height: var(--control-h);
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--crema-dim);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+input[type='number'], .numeric { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-faint) 50%), linear-gradient(135deg, var(--text-faint) 50%, transparent 50%); background-position: right 14px center, right 9px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 30px; }
+
+input[type='range'] { width: 100%; accent-color: var(--crema); }
+
+.checkbox { display: flex; align-items: center; gap: 9px; cursor: pointer; font-size: 0.9rem; }
+.checkbox input { width: auto; accent-color: var(--crema); }
+
+.segmented { display: inline-flex; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 3px; gap: 3px; }
+.segmented button {
+  font: inherit; font-size: 0.84rem; padding: 5px 12px; border: none; border-radius: 6px;
+  background: transparent; color: var(--text-dim); cursor: pointer;
+}
+.segmented button.on { background: var(--surface-2); color: var(--text); }
+
+/* ── Bits ──────────────────────────────────────────────────────────────────── */
+
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.74rem; padding: 2px 8px; border-radius: 99px;
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim);
+}
+.tag.crema { color: var(--crema); border-color: var(--tint-accent-border); background: var(--tint-accent-bg); }
+.tag.good { color: var(--good); border-color: var(--tint-good-border); background: var(--tint-good-bg); }
+.tag.bad { color: var(--bad); border-color: var(--tint-bad-border); background: var(--tint-bad-bg); }
+.tag.cool { color: var(--cool); border-color: var(--tint-cool-border); background: var(--tint-cool-bg); }
+
+.divider { height: 1px; background: var(--border); margin: 18px 0; }
+
+.empty { text-align: center; padding: 48px 20px; color: var(--text-faint); }
+.empty h3 { color: var(--text-dim); margin-bottom: 6px; }
+
+.banner {
+  border-radius: var(--radius-sm); padding: 10px 13px; font-size: 0.87rem;
+  border: 1px solid var(--border-strong); background: var(--surface-2);
+}
+.banner.bad { border-color: var(--banner-bad-border); background: var(--banner-bad-bg); color: var(--banner-bad-text); }
+.banner.good { border-color: var(--banner-good-border); background: var(--banner-good-bg); color: var(--banner-good-text); }
+.banner.info { border-color: var(--banner-info-border); background: var(--banner-info-bg); color: var(--banner-info-text); }
+
+.table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.table th {
+  text-align: left; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-faint); padding: 0 10px 8px; white-space: nowrap;
+}
+.table td { padding: 10px; border-top: 1px solid var(--border); vertical-align: middle; }
+.table tbody tr:hover { background: var(--surface-2); }
+.table .num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.list-item {
+  display: block; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 15px 17px; transition: border-color 0.12s, background 0.12s;
+}
+a.list-item:hover, button.list-item:hover { border-color: var(--border-strong); background: var(--surface-2); }
+button.list-item { width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+
+.stars { color: var(--crema); letter-spacing: 1px; font-size: 0.9rem; }
+.stars .off { color: var(--border-strong); }
+
+.rating-input { display: inline-flex; gap: 2px; }
+.rating-input button {
+  background: none; border: none; cursor: pointer; font-size: 1.15rem; padding: 0 2px;
+  color: var(--border-strong); transition: color 0.1s;
+}
+.rating-input button.on { color: var(--crema); }
+
+/* Modal */
+.overlay {
+  position: fixed; inset: 0; background: var(--scrim); backdrop-filter: blur(3px);
+  display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; z-index: 50;
+}
+.modal {
+  background: var(--surface); border: 1px solid var(--border-strong); border-radius: 16px;
+  box-shadow: var(--shadow); width: 100%; max-width: 620px; padding: 22px;
+}
+.modal.wide { max-width: 900px; }
+
+/* Auth */
+.auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.auth-card { width: 100%; max-width: 400px; }
+.auth-hero { text-align: center; margin-bottom: 24px; }
+.auth-hero .brand-lockup { font-size: 3.1rem; margin-bottom: 4px; }
+
+/* Charts */
+.chart { width: 100%; display: block; overflow: visible; }
+.chart text { font-family: var(--mono); font-size: 9px; fill: var(--text-faint); }
+.chart .grid-line { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--border-strong); stroke-width: 1; }
+
+/* One infusion step. The action column is `auto` rather than a fixed width: the
+   old grid reserved 30px for a group of three buttons, so they spilled out of the
+   card — and got worse once touch padding widened them. Sized by content, it
+   cannot overflow whatever the buttons end up being. */
+.infusion-row {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+.infusion-row .handle {
+  width: 26px; height: var(--control-h); border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  font-size: 0.72rem; font-family: var(--mono); color: var(--on-accent);
+}
+.infusion-actions { display: flex; gap: 4px; align-items: center; }
+
+.phase { border-top: 1px solid var(--border); padding-top: 16px; }
+.phase:first-child { border-top: none; padding-top: 0; }
+.phase-head {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 12px; min-height: 32px;
+}
+.phase-head .checkbox { margin: 0; }
+.phase-head .btn { margin-left: auto; }
+
+/* ── Phone ─────────────────────────────────────────────────────────────────── */
+
+/* Nothing below 720px was styled at all. At 375px the main column is 339px, a
+   card 303px and a modal 299px — every number here is measured against those. */
+@media (max-width: 600px) {
+  .main { padding: 18px 14px 56px; }
+  .card { padding: 14px; }
+  .card.tight { padding: 12px; }
+
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.2rem; }
+  .page-head { margin-bottom: 18px; }
+
+  /* Both hold nowrap buttons and neither wrapped, so a page header put an h1 and
+     a primary button on one unbreakable line. */
+  .row, .spread { flex-wrap: wrap; }
+  .spread { align-items: flex-start; }
+
+  /* The 300px floor exceeds the 299px available inside a modal, which pushed a
+     horizontal scrollbar onto the whole page. */
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  /* Four stat tiles stacked is ~410px of dead space above the fold. */
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .grid { gap: 12px; }
+
+  .stat { padding: 12px; }
+  .stat-value { font-size: 1.4rem; }
+
+  .segmented { display: flex; width: 100%; }
+  .segmented button { flex: 1; }
+
+  .modal { padding: 16px; border-radius: 14px; }
+  .overlay { padding: 16px 10px; }
+
+  /* Tables become one card per row. Nine nowrap columns in a 303px card was a
+     ~2.5x horizontal scroll; the header goes away and each cell carries its own
+     label instead. */
+  .table thead { display: none; }
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table tr {
+    border-top: 1px solid var(--border);
+    padding: 10px 0 12px;
+  }
+  .table tbody tr:hover { background: transparent; }
+  .table td {
+    border: none; padding: 2px 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .table td::before {
+    content: attr(data-label);
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-faint); flex: none;
+  }
+  /* The lead cell reads as the row's title rather than a labelled field. */
+  .table td[data-label='When'] { font-size: 0.95rem; padding-bottom: 6px; }
+
+  /* A 720-unit viewBox in a 275px card renders 9px labels at under 4px. */
+  .chart text { font-size: 17px; }
+}
+
+/* Touch targets. Every control was under the 44px minimum: .btn 40, .nav a 39,
+   .segmented button 31, .btn-sm ~30x32, .rating-input button 22x22. Keyed to
+   the pointer rather than the viewport so a touch laptop gets them too. */
+@media (pointer: coarse) {
+  .btn { padding: 11px 16px; }
+  .btn-sm { padding: 9px 12px; }
+  .nav a { padding: 11px 12px; }
+  .segmented button { padding: 9px 14px; }
+  .rating-input { gap: 6px; }
+  .rating-input button { font-size: 1.5rem; padding: 4px 6px; }
+}
+
+/* Anything under 16px makes iOS Safari zoom the page on focus. */
+@media (max-width: 600px) {
+  /* 16px x 1.55 + 16 padding + 2 border = 42.8px. Kept in step with the bump. */
+  :root { --control-h: 2.7rem; }
+
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* The stage grid carries its own labels on phones; on wider screens the column
+   header row above it already says what each field is. */
+
+@media (max-width: 600px) {
+  .table td:not([data-label]) { justify-content: flex-end; padding-top: 8px; }
+  .table td:not([data-label])::before { display: none; }
+}
+
+
+.theme-toggle { margin-bottom: 10px; }
+.theme-toggle button { font-size: 0.8rem; line-height: 1; }
+@media (max-width: 860px) {
+  /* In the top bar the footer is a row, so the toggle sits inline with sign-out. */
+  .theme-toggle { margin-bottom: 0; }
+}
+
+/* ── Working indicator ─────────────────────────────────────────────────────── */
+
+/* The same bars as the brand mark, pulled through a shot. scaleY rather than
+   height so the browser can composite it, and currentColor so one rule works on
+   a ghost button, a primary button, and both themes. */
+.working { display: inline-flex; align-items: center; gap: 8px; }
+
+.working-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 0.8em; }
+.working-bars i {
+  width: 3px;
+  height: 100%;
+  border-radius: 1px;
+  background: currentColor;
+  transform: scaleY(0.28);
+  transform-origin: bottom;
+  animation: pulling 1.05s ease-in-out infinite;
+}
+.working-bars i:nth-child(2) { animation-delay: 0.13s; }
+.working-bars i:nth-child(3) { animation-delay: 0.26s; }
+.working-bars i:nth-child(4) { animation-delay: 0.39s; }
+
+@keyframes pulling {
+  0%, 100% { transform: scaleY(0.28); opacity: 0.55; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+.working-clock {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+/* Motion is the whole point here, so with it off the bars stay as a static
+   ready-state mark rather than disappearing and leaving a button that looks idle
+   while it works. The elapsed seconds carry the "still going" signal instead. */
+@media (prefers-reduced-motion: reduce) {
+  .working-bars i { animation: none; transform: scaleY(0.62); opacity: 0.6; }
+}
+
+@media (max-width: 600px) {
+  .infusion-row { grid-template-columns: 26px minmax(0, 1fr) minmax(0, 1fr); }
+  .infusion-row .handle { grid-row: span 1; }
+  .infusion-actions { grid-column: 1 / -1; justify-content: flex-end; }
+}

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+server/data/
+*.db
+*.db-wal
+*.db-shm
+.DS_Store
+.env
+*.log
+# Account dumps from the probe/discover/har scripts. Real device ids and
+# serials; never commit one.
+scripts/fellow-*-output.json
+scripts/*.har
