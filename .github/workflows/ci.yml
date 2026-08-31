@@ -70,19 +70,22 @@ jobs:
       # --remote-only builds on Fly's builder: no Docker needed in CI, and the
       # image is built for amd64 rather than the runner's architecture.
       #
-      # --depot=false deliberately opts out of Fly's newer Depot builder. Depot
-      # failed repeatedly on the first manual deploy of this app with
-      # "authentication handshake failed: EOF" while Fly reported no incident;
-      # the legacy builder, which runs in your own org, worked first try. Depot
-      # is usually the faster of the two, so if it starts behaving, dropping
-      # this flag is a safe experiment — reliability just matters more in an
-      # unattended job than a minute of build time.
+      # Depot (the default) is used deliberately, despite it having failed on a
+      # local deploy of this app with "authentication handshake failed: EOF".
+      # The legacy builder is not an option here: --depot=false provisions a
+      # fly-builder-* app in the org, and FLY_API_TOKEN is a deploy token scoped
+      # to this app alone, so it cannot touch one. That combination fails with
+      # "Failed to start remote builder heartbeat: unauthorized".
+      #
+      # If Depot proves flaky in CI too, the fix is a broader token
+      # (`fly tokens create org`) rather than re-adding --depot=false with a
+      # token that cannot use it. Prefer keeping the token app-scoped.
       - name: Deploy
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           CLERK_PK: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
         run: |
-          flyctl deploy --remote-only --depot=false \
+          flyctl deploy --remote-only \
             --build-arg VITE_CLERK_PUBLISHABLE_KEY="$CLERK_PK"
 
       # A green deploy step means the image shipped, not that the app came up.
