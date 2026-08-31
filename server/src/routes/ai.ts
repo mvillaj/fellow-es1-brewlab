@@ -18,6 +18,8 @@ import {
 import { db, id } from '../lib/db';
 import { asUrl, fetchPageText } from '../lib/page-text';
 import { requireAuth, type AuthedRequest } from '../lib/auth';
+import { aiLimiter } from '../lib/limits';
+import { budgetRefusal, recordUsage } from '../lib/ai-budget';
 import { toCoffee } from '../lib/rows';
 import { AI_MODEL, aiClient, aiEnabled, aiUnavailableReason } from '../lib/ai';
 
@@ -30,12 +32,29 @@ aiRouter.get('/status', (_req, res) => {
 });
 
 aiRouter.use(requireAuth);
+// After requireAuth so the limiter keys on the user rather than the address.
+aiRouter.use(aiLimiter);
 
 /** Returns true when the request has already been answered. */
 function unavailable(res: Response): boolean {
   if (aiEnabled()) return false;
   res.status(503).json({ error: aiUnavailableReason() });
   return true;
+}
+
+/**
+ * Both gates in one place: the key being absent, and the budget being spent.
+ * Checked before the call rather than after, because a ceiling enforced on the
+ * way out has already paid for the request it was meant to prevent.
+ */
+function blocked(req: AuthedRequest, res: Response): boolean {
+  if (unavailable(res)) return true;
+  const refusal = budgetRefusal(req.userId!);
+  if (refusal) {
+    res.status(429).json({ error: refusal });
+    return true;
+  }
+  return false;
 }
 
 /*
@@ -114,7 +133,7 @@ const PROFILE_SCHEMA = {
 const extractInput = z.object({ text: z.string().min(10).max(8000) });
 
 aiRouter.post('/extract-coffee', async (req: AuthedRequest, res) => {
-  if (unavailable(res)) return;
+  if (blocked(req, res)) return;
   const parsed = extractInput.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: 'Paste a bit more text than that.' });
@@ -158,6 +177,8 @@ aiRouter.post('/extract-coffee', async (req: AuthedRequest, res) => {
       output_config: { format: jsonSchemaOutputFormat(COFFEE_SCHEMA) },
     });
 
+    recordUsage(req.userId!, 'extract-coffee', AI_MODEL, response.usage);
+
     const check = coffeeExtractionSchema.safeParse(response.parsed_output);
     if (!check.success) {
       res.status(502).json({ error: 'Could not read that as a coffee.' });
@@ -200,7 +221,7 @@ const MACHINE_BRIEF = [
 ].join(' ');
 
 aiRouter.post('/suggest-profile/:coffeeId', async (req: AuthedRequest, res) => {
-  if (unavailable(res)) return;
+  if (blocked(req, res)) return;
   const row = db
     .prepare(
       `SELECT c.*, u.display_name AS owner_name FROM coffees c
@@ -237,6 +258,8 @@ aiRouter.post('/suggest-profile/:coffeeId', async (req: AuthedRequest, res) => {
       ],
       output_config: { format: jsonSchemaOutputFormat(PROFILE_SCHEMA) },
     });
+
+    recordUsage(req.userId!, 'suggest-profile', AI_MODEL, response.usage);
 
     const check = profileSuggestionSchema.safeParse(response.parsed_output);
     if (!check.success) {
