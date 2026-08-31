@@ -21,7 +21,16 @@ primary_region = 'iad'
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 0
+  # Was 0. Scale-to-zero is cheaper, but this app needs ~9s to start listening on
+  # a shared core with a cold page cache — the machine itself boots in 1.3s, then
+  # node walks a large node_modules and tsx transpiles the server. Fly's proxy
+  # gives up connecting after ~8s, so the first visitor after an idle period got a
+  # 502 and no reason to try again.
+  #
+  # Keeping one machine warm costs a few dollars a month and removes the failure
+  # entirely. The way back to zero is a faster boot (precompile to JS rather than
+  # running TypeScript through tsx at runtime), not a longer timeout.
+  min_machines_running = 1
 
   [[http_service.checks]]
     interval = '30s'
