@@ -5,9 +5,14 @@ import { ClerkProvider } from '@clerk/clerk-react';
 import App from './App';
 import { AuthProvider } from './lib/auth';
 import { MachineProvider } from './lib/machines';
-import { ThemeProvider } from './lib/theme';
+import { ThemeProvider, applyTheme, storedPref } from './lib/theme';
 import { AiProvider } from './lib/ai';
 import './styles/app.css';
+
+// Before render, not in an effect: React runs child effects before the parent's,
+// so a component reading the palette on mount would otherwise read whichever
+// theme the stylesheet defaults to. Also kills the flash of the wrong theme.
+applyTheme(storedPref());
 
 const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
