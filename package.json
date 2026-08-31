@@ -2,7 +2,7 @@
   "name": "es1-brew-lab",
   "private": true,
   "version": "0.1.0",
-  "description": "Local-first espresso brew tracker and profile studio for the Fellow Espresso Series 1",
+  "description": "Espresso brew tracker and profile studio for the Fellow Espresso Series 1",
   "type": "module",
   "workspaces": [
     "packages/shared",

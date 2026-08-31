@@ -44,8 +44,10 @@ fellowRouter.get('/status', (req: AuthedRequest, res) => {
       'Flow limits are only sent for pre-infusion.';
   } else {
     status.warning =
-      'Simulated Fellow cloud. Nothing leaves this machine, and the seven factory ' +
-      'profiles below are stand-ins so the read-only behaviour can be exercised.';
+      'The Fellow connection is not live here, so nothing you do on this page ' +
+      'reaches Fellow or an espresso machine. The seven factory profiles below ' +
+      'are stand-ins: connect with any email and password to try a simulated ' +
+      'run and see how pushing a profile behaves.';
   }
   res.json(status);
 });
