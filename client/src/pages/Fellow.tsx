@@ -91,8 +91,8 @@ export default function Fellow() {
       <div className="page-head">
         <h1>Fellow account</h1>
         <p>
-          Connect the account your ES1 is paired with, then push profiles to it from the editor. Credentials go to
-          the local API on your own machine and nowhere else.
+          Connect the account your ES1 is paired with, then push profiles to it from the editor. Your password is
+          used for the sign-in call and is never stored; the access token it returns is.
         </p>
         <p className="small faint">
           Crema is an independent project, not affiliated with, endorsed by or supported by Fellow. It talks to

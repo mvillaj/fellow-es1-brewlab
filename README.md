@@ -1,13 +1,14 @@
 # Crema — ES1 Brew Lab
 
-A local-first espresso logbook and profile studio for the **Fellow Espresso Series 1**.
+An espresso logbook and profile studio for the **Fellow Espresso Series 1**.
 
 Track every shot with the setting that produced it, compare grind sizes across
 grinders that don't agree on what a number means, keep a shared library of
 coffees, and build multi-stage pressure profiles you can push to your Fellow
 account.
 
-React SPA + a small Node API + SQLite. Everything runs on your machine.
+React SPA + a small Node API + SQLite. Runs locally for development, or as a
+single container with the API serving the built client — see Deploying below.
 
 > **Not affiliated with Fellow.** Crema is an independent hobby project. It is not
 > affiliated with, endorsed by or supported by Fellow Products, and it talks to
@@ -192,11 +193,14 @@ failed push returns Fellow's raw response verbatim.
 
 Two practical notes: the API sends no CORS headers and is picky about its
 `User-Agent`, which is why these calls go through the local server rather than
-the browser. And in live mode your Fellow token is stored in the local SQLite
-file in plaintext — fine on your laptop, not fine anywhere else.
+the browser. And in live mode your Fellow token is stored in the SQLite database in
+plaintext, which matters wherever this runs and matters more once it is hosted.
 
-If you are thinking about hosting this, read [DEPLOYING.md](DEPLOYING.md) first —
-it is the list of assumptions that stop being true the moment it leaves your machine.
+Hosting changes the threat model rather than the code. The Fellow token in
+plaintext, no rate limits on a route that relays credentials to Fellow, permissive
+CORS, and an uncapped model key are all survivable on a laptop and none of them
+are survivable on the open internet. Work through them before letting anyone else
+sign up.
 
 ```bash
 FELLOW_MODE=live npm run dev
@@ -258,8 +262,9 @@ fly deploy --build-arg VITE_CLERK_PUBLISHABLE_KEY=pk_live_...
 ```
 
 `VITE_CLERK_PUBLISHABLE_KEY` must be a **build arg**, not a `fly secret` — Vite
-inlines it into the bundle at build time. See [DEPLOYING.md](DEPLOYING.md) for
-the full walkthrough, backups, and what is still open.
+inlines it into the bundle at build time, so setting it as a secret silently
+produces a client that cannot sign anyone in. The same value is *also* needed as
+the runtime secret `CLERK_PUBLISHABLE_KEY`, which the API verifies tokens with.
 
 ## Where the numbers come from
 
