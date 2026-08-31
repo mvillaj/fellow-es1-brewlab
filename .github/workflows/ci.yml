@@ -98,7 +98,19 @@ jobs:
           # Read the app name straight out of fly.toml. `flyctl status --json`
           # would also work but its field names have moved between versions, and
           # a smoke test that breaks on a flyctl upgrade is worse than no test.
-          APP=$(grep -m1 '^app = ' fly.toml | sed 's/.*= *"\(.*\)"/\1/')
+          #
+          # Quote-agnostic on purpose: this was originally written for the
+          # double-quoted form, then `fly launch` rewrote fly.toml with single
+          # quotes and the whole line fell through, producing
+          # https://app = 'es1-brew-lab'.fly.dev and 20 rounds of curl error 3.
+          # Take everything after the first '=' and drop spaces and quotes; an
+          # app name can contain none of them.
+          APP=$(grep -m1 -E '^app[[:space:]]*=' fly.toml | cut -d= -f2- | tr -d " '\"")
+          if [ -z "$APP" ]; then
+            echo "Could not read the app name from fly.toml — refusing to probe a malformed URL."
+            grep -n '^app' fly.toml || echo "  (no app line found)"
+            exit 1
+          fi
           echo "Probing https://$APP.fly.dev/api/health"
           for i in $(seq 1 20); do
             if curl -fsS "https://$APP.fly.dev/api/health" > /tmp/health.json; then
