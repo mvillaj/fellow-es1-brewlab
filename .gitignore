@@ -14,3 +14,5 @@ scripts/*.har
 # Local deployment notes. Kept out of the repository deliberately: the file is an
 # ordered list of what is weakest about a live service, and this repo is public.
 DEPLOYING.md
+# Local working notes, same reasoning as DEPLOYING.md.
+TODO.md
