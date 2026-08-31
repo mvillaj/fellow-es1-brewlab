@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: typecheck, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm test
+
+      # The client build is the only step that needs the Clerk key, because Vite
+      # substitutes it into the bundle rather than reading it at runtime. A dummy
+      # value is correct here: this job proves the bundle compiles, and nothing
+      # it produces is deployed.
+      - run: npm run build
+        env:
+          VITE_CLERK_PUBLISHABLE_KEY: pk_test_ci_build_only
+
+  deploy:
+    name: deploy to fly
+    needs: check
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    # Never let two deploys race for the same volume. Queue instead of cancelling:
+    # a half-finished deploy that gets cancelled is worse than a slow one.
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      # Fail here with a readable message rather than 4 minutes later inside a
+      # docker build, or — worse — succeeding with an empty key and shipping a
+      # client that cannot sign anyone in.
+      - name: Verify required secrets are set
+        env:
+          CLERK_PK: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+          FLY_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          missing=""
+          if [ -z "$CLERK_PK" ]; then missing="$missing CLERK_PUBLISHABLE_KEY"; fi
+          if [ -z "$FLY_TOKEN" ]; then missing="$missing FLY_API_TOKEN"; fi
+          if [ -n "$missing" ]; then
+            echo "Missing repository secrets:$missing"
+            echo "Add them under Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # --remote-only builds on Fly's builder: no Docker needed in CI, and the
+      # image is built for amd64 rather than the runner's architecture.
+      #
+      # --depot=false deliberately opts out of Fly's newer Depot builder. Depot
+      # failed repeatedly on the first manual deploy of this app with
+      # "authentication handshake failed: EOF" while Fly reported no incident;
+      # the legacy builder, which runs in your own org, worked first try. Depot
+      # is usually the faster of the two, so if it starts behaving, dropping
+      # this flag is a safe experiment — reliability just matters more in an
+      # unattended job than a minute of build time.
+      - name: Deploy
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          CLERK_PK: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+        run: |
+          flyctl deploy --remote-only --depot=false \
+            --build-arg VITE_CLERK_PUBLISHABLE_KEY="$CLERK_PK"
+
+      # A green deploy step means the image shipped, not that the app came up.
+      # Health is behind no auth and ahead of clerkMiddleware precisely so it can
+      # answer this question.
+      - name: Smoke test
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          # Read the app name straight out of fly.toml. `flyctl status --json`
+          # would also work but its field names have moved between versions, and
+          # a smoke test that breaks on a flyctl upgrade is worse than no test.
+          APP=$(grep -m1 '^app = ' fly.toml | sed 's/.*= *"\(.*\)"/\1/')
+          echo "Probing https://$APP.fly.dev/api/health"
+          for i in $(seq 1 20); do
+            if curl -fsS "https://$APP.fly.dev/api/health" > /tmp/health.json; then
+              cat /tmp/health.json; echo; exit 0
+            fi
+            echo "  not up yet (attempt $i)"; sleep 5
+          done
+          echo "Health check never passed."
+          flyctl logs --no-tail | tail -50
+          exit 1

@@ -20,13 +20,24 @@ React SPA + a small Node API + SQLite. Everything runs on your machine.
 Requires **Node 22.9 or newer** (the API uses the built-in `node:sqlite` and
 `--env-file-if-exists`, so there is no native module to compile and no dotenv).
 
+Sign-in is handled by [Clerk](https://clerk.com), so this is the one bit of setup
+you cannot skip: copy `.env.example` to `.env` and fill in the two keys from your
+Clerk dashboard (API keys). The API refuses to start without them and the client
+refuses to boot.
+
 ```bash
+cp .env.example .env   # then paste your Clerk keys into it
 npm install
-npm run seed      # demo users, coffees, profiles and a dial-in in progress
+npm run seed      # demo coffees, profiles and a dial-in in progress
 npm run dev       # API on :4000, app on http://localhost:5173
 ```
 
-Sign in with `michael@example.com` / `espresso123`, or create your own account.
+Create an account through the app. The first request you make after signing in
+provisions your bench — a local user row, a default Opus 2 and a default ES1.
+
+The seeded `michael@example.com`, `dana@example.com` and `sam@example.com` are
+demo brewers, not accounts: they exist so the Explore page has public profiles to
+show you on day one, and there is no password to sign in as them.
 
 ```bash
 npm test          # pure-logic tests, no test runner to install
@@ -212,7 +223,9 @@ breaks the build in both places at once — which is the point.
 | --- | --- | --- |
 | `PORT` | `4000` | API port |
 | `BREWLAB_DB` | `server/data/brewlab.db` | SQLite file |
-| `BREWLAB_JWT_SECRET` | dev placeholder | Required when `NODE_ENV=production` — the server refuses to start on the dev secret |
+| `CLERK_PUBLISHABLE_KEY` | *(unset)* | **Required.** The API verifies session tokens with it |
+| `VITE_CLERK_PUBLISHABLE_KEY` | *(unset)* | **Required.** Same value; Vite only exposes `VITE_`-prefixed vars to the bundle |
+| `CLERK_SECRET_KEY` | *(unset)* | **Required.** Server only — never let this reach the client |
 | `FELLOW_MODE` | `mock` | `live` to hit the real Fellow API |
 | `ANTHROPIC_API_KEY` | *(unset)* | Enables the two model-backed features; without it they show disabled |
 
@@ -221,6 +234,32 @@ These are read from a gitignored `.env` at the repo root if you make one — see
 | `FELLOW_API_BASE` | AWS endpoint | Override for a proxy |
 
 ---
+
+### Changing the schema
+
+The schema lives in `server/migrations/*.sql`, applied in filename order at boot
+and recorded in a `schema_migrations` table. To change it, add the next numbered
+file — `002_add_whatever.sql`. Never edit one that has already run; the runner
+keys off the filename and will not re-apply it.
+
+`npm run reset` still wipes and re-seeds, which is the right move locally and
+the wrong one anywhere with data you care about.
+
+## Deploying
+
+One Fly machine serves the API and the built SPA, with SQLite on a persistent
+volume and Litestream streaming backups to object storage. `Dockerfile`,
+`docker-entrypoint.sh` and `fly.toml` are in the repo root:
+
+```bash
+fly volumes create brewlab_data --size 1 --region sjc
+fly secrets set CLERK_SECRET_KEY=sk_live_... CLERK_PUBLISHABLE_KEY=pk_live_...
+fly deploy --build-arg VITE_CLERK_PUBLISHABLE_KEY=pk_live_...
+```
+
+`VITE_CLERK_PUBLISHABLE_KEY` must be a **build arg**, not a `fly secret` — Vite
+inlines it into the bundle at build time. See [DEPLOYING.md](DEPLOYING.md) for
+the full walkthrough, backups, and what is still open.
 
 ## Where the numbers come from
 

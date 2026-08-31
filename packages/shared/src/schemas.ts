@@ -3,17 +3,6 @@ import { ES1_LIMITS } from './es1.ts';
 
 const L = ES1_LIMITS;
 
-export const signupSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  displayName: z.string().min(1).max(60),
-});
-
-export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
-});
-
 export const grinderScaleSchema = z.object({
   kind: z.enum(['clicks', 'stepped', 'stepless']),
   min: z.number(),
@@ -149,8 +138,6 @@ export const fellowConnectSchema = z.object({
   password: z.string().min(1),
 });
 
-export type SignupInput = z.infer<typeof signupSchema>;
-export type LoginInput = z.infer<typeof loginSchema>;
 export type GrinderInput = z.infer<typeof grinderInputSchema>;
 export type MachineInput = z.infer<typeof machineInputSchema>;
 export type CoffeeInput = z.infer<typeof coffeeInputSchema>;

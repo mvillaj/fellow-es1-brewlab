@@ -1,10 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const TOKEN_KEY = 'brewlab.token';
+/**
+ * Clerk holds the session, and its `getToken()` is async — so instead of reading
+ * a string out of localStorage, this module takes a getter that AuthProvider
+ * registers once Clerk has loaded. Every call site already awaits `api()`, so
+ * the extra await costs them nothing.
+ */
+type TokenGetter = () => Promise<string | null>;
 
-export const getToken = () => localStorage.getItem(TOKEN_KEY);
-export const setToken = (t: string | null) =>
-  t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY);
+let tokenGetter: TokenGetter = async () => null;
+
+export function setTokenGetter(fn: TokenGetter) {
+  tokenGetter = fn;
+}
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -22,7 +30,7 @@ export async function api<T = unknown>(
   path: string,
   init: Omit<RequestInit, 'body'> & { body?: unknown } = {},
 ): Promise<T> {
-  const token = getToken();
+  const token = await tokenGetter();
   const hasBody = init.body !== undefined;
   const res = await fetch(`/api${path}`, {
     ...init,

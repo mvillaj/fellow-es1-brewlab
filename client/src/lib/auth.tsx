@@ -1,51 +1,67 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import type { AuthResponse, PublicUser } from '@brewlab/shared';
-import { api, getToken, setToken } from './api';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useAuth as useClerkAuth } from '@clerk/clerk-react';
+import type { PublicUser } from '@brewlab/shared';
+import { api, setTokenGetter } from './api';
 
 interface AuthState {
+  /** The local profile row, not the Clerk one — routes key off `users.id`. */
   user: PublicUser | null;
   ready: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, displayName: string) => Promise<void>;
   logout: () => void;
 }
 
 const Ctx = createContext<AuthState | null>(null);
 
+/**
+ * Bridges Clerk's session into the shape the app already speaks. Clerk answers
+ * "who is signed in"; `/auth/me` answers "which local bench is theirs", and
+ * calling it is also what provisions that bench the first time.
+ */
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { isLoaded, isSignedIn, getToken, signOut } = useClerkAuth();
   const [user, setUser] = useState<PublicUser | null>(null);
   const [ready, setReady] = useState(false);
 
+  // Registered during render rather than in an effect on purpose: React runs
+  // child effects before the parent's, so MachineProvider's first fetch would
+  // otherwise go out before the getter existed and get a 401.
+  setTokenGetter(getToken);
+
   useEffect(() => {
-    if (!getToken()) {
+    if (!isLoaded) return;
+    if (!isSignedIn) {
+      setUser(null);
       setReady(true);
       return;
     }
-    api<PublicUser>('/auth/me')
-      .then(setUser)
-      .catch(() => setToken(null))
-      .finally(() => setReady(true));
-  }, []);
 
-  const authenticate = useCallback(async (path: string, body: unknown) => {
-    const res = await api<AuthResponse>(path, { method: 'POST', body });
-    setToken(res.token);
-    setUser(res.user);
-  }, []);
+    let cancelled = false;
+    setReady(false);
+    api<PublicUser>('/auth/me')
+      .then((u) => {
+        if (!cancelled) setUser(u);
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null);
+      })
+      .finally(() => {
+        if (!cancelled) setReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoaded, isSignedIn]);
 
   const value = useMemo<AuthState>(
     () => ({
       user,
       ready,
-      login: (email, password) => authenticate('/auth/login', { email, password }),
-      signup: (email, password, displayName) =>
-        authenticate('/auth/signup', { email, password, displayName }),
       logout: () => {
-        setToken(null);
         setUser(null);
+        void signOut();
       },
     }),
-    [user, ready, authenticate],
+    [user, ready, signOut],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
