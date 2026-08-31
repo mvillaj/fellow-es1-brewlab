@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
 import BrandLockup from '../components/BrandLockup';
+import { useClerkAppearance } from '../lib/clerkAppearance';
 
 /**
  * The form itself is Clerk's now — this page keeps the hero and the segmented
@@ -8,6 +9,7 @@ import BrandLockup from '../components/BrandLockup';
  */
 export default function AuthPage() {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const appearance = useClerkAppearance();
 
   return (
     <div className="auth-wrap">
@@ -33,9 +35,9 @@ export default function AuthPage() {
 
         <div className="center">
           {mode === 'login' ? (
-            <SignIn routing="virtual" />
+            <SignIn routing="virtual" appearance={appearance} />
           ) : (
-            <SignUp routing="virtual" />
+            <SignUp routing="virtual" appearance={appearance} />
           )}
         </div>
       </div>
