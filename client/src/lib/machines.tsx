@@ -6,7 +6,7 @@ import {
   type Machine,
   type MachineCapabilities,
 } from '@brewlab/shared';
-import { api, getToken } from './api';
+import { api } from './api';
 import { useAuth } from './auth';
 
 /**
@@ -33,7 +33,7 @@ export function MachineProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   const reload = useCallback(async () => {
-    if (!getToken()) {
+    if (!user) {
       setMachines([]);
       setReady(true);
       return;
@@ -47,7 +47,7 @@ export function MachineProvider({ children }: { children: ReactNode }) {
     } finally {
       setReady(true);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     void reload();

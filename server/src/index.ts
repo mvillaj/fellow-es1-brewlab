@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import { clerkMiddleware } from '@clerk/express';
 import './lib/db';
 import { authRouter } from './routes/auth';
 import { coffeeRouter } from './routes/coffees';
@@ -17,9 +18,16 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json({ limit: '1mb' }));
 
+// Deliberately ahead of clerkMiddleware: a health probe that fails when the
+// auth provider is misconfigured cannot tell you the process is up, which is
+// the one thing it exists to answer.
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true, fellowMode: getFellowClient().mode, node: process.version });
 });
+
+// Reads the session JWT off the Authorization header and attaches the Clerk auth
+// object. Must run before any router, including the ones behind optionalAuth.
+app.use(clerkMiddleware());
 
 app.use('/api/auth', authRouter);
 app.use('/api/grinders', grinderRouter);

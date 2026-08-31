@@ -5,7 +5,6 @@
  *
  * Safe to re-run: it wipes the tables it owns first.
  */
-import bcrypt from 'bcryptjs';
 import {
   BUILT_IN_GRINDERS,
   BUILT_IN_MACHINES,
@@ -30,14 +29,17 @@ for (const table of [
   db.exec(`DELETE FROM ${table}`);
 }
 
-const PASSWORD = 'espresso123';
-const hash = bcrypt.hashSync(PASSWORD, 10);
-
+/**
+ * Demo brewers, not accounts. Clerk owns sign-in now, and these rows carry
+ * local ids rather than Clerk user ids, so nobody can log in as them — they
+ * exist to give the Explore page a populated shelf of public profiles to show
+ * a brand-new account on its first visit.
+ */
 function makeUser(email: string, displayName: string) {
   const uid = id('usr');
   db.prepare(
-    'INSERT INTO users (id, email, password_hash, display_name, created_at) VALUES (?, ?, ?, ?, ?)',
-  ).run(uid, email, hash, displayName, nowIso());
+    'INSERT INTO users (id, email, display_name, created_at) VALUES (?, ?, ?, ?)',
+  ).run(uid, email, displayName, nowIso());
   return uid;
 }
 
@@ -309,7 +311,9 @@ const counts = ['users', 'machines', 'grinders', 'coffees', 'brew_profiles', 'sh
 });
 
 console.log(`Seeded: ${counts.join(', ')}`);
-console.log(`\nSign in with any of these — password is "${PASSWORD}":`);
+console.log('\nThese are demo brewers, not sign-in accounts — Clerk owns sign-in now.');
+console.log('Their public profiles are what the Explore page shows a new account:');
 console.log('  michael@example.com   (3 grinders, a dial-in in progress)');
 console.log('  dana@example.com');
 console.log('  sam@example.com');
+console.log('\nSign up through the app itself to get your own bench.');
