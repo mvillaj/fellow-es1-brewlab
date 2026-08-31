@@ -21,7 +21,7 @@ import { requireAuth, type AuthedRequest } from '../lib/auth';
 import { aiLimiter } from '../lib/limits';
 import { budgetRefusal, recordUsage } from '../lib/ai-budget';
 import { toCoffee } from '../lib/rows';
-import { AI_MODEL, aiClient, aiEnabled, aiUnavailableReason } from '../lib/ai';
+import { AI_MODEL, aiClient, aiEnabled, aiUnavailableReason, isOutOfCredit } from '../lib/ai';
 
 export const aiRouter: Router = Router();
 
@@ -186,6 +186,13 @@ aiRouter.post('/extract-coffee', async (req: AuthedRequest, res) => {
     }
     res.json(check.data);
   } catch (err) {
+    if (isOutOfCredit(err)) {
+      console.error('Anthropic credit exhausted:', (err as Error).message);
+      res.status(503).json({
+        error: 'The model features are unavailable: the Anthropic account is out of credit.',
+      });
+      return;
+    }
     res.status(502).json({ error: (err as Error).message });
   }
 });
@@ -284,6 +291,13 @@ aiRouter.post('/suggest-profile/:coffeeId', async (req: AuthedRequest, res) => {
 
     res.json({ profile, rationale: s.rationale, coffeeName: coffee.name });
   } catch (err) {
+    if (isOutOfCredit(err)) {
+      console.error('Anthropic credit exhausted:', (err as Error).message);
+      res.status(503).json({
+        error: 'The model features are unavailable: the Anthropic account is out of credit.',
+      });
+      return;
+    }
     res.status(502).json({ error: (err as Error).message });
   }
 });
