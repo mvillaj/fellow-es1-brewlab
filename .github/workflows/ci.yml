@@ -7,7 +7,11 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Superseded PR runs are worth cancelling; a run on main is not, because the
+  # deploy job lives in it. Workflow-level cancellation kills the whole run
+  # including an in-flight deploy, which the job's own concurrency group cannot
+  # prevent — merging two PRs in quick succession killed a release mid-flight.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   check:
@@ -45,6 +49,9 @@ jobs:
   deploy:
     name: deploy to fly
     needs: check
+    # Three 10-minute attempts plus the smoke test, with room to spare. Without
+    # this a stall would occupy a runner until GitHub's 6-hour default.
+    timeout-minutes: 45
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     # Never let two deploys race for the same volume. Queue instead of cancelling:
@@ -92,8 +99,43 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           CLERK_PK: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
         run: |
-          flyctl deploy --remote-only \
-            --build-arg VITE_CLERK_PUBLISHABLE_KEY="$CLERK_PK"
+          # Depot stalls intermittently before the build even starts — the same
+          # failure seen locally, and here it has both finished in 36s and sat
+          # indefinitely on "Waiting for depot builder". `timeout` converts a
+          # stall into an ordinary failure so it can be retried; without it the
+          # job just sits there and there is nothing to retry.
+          #
+          # Retrying a deploy is safe: each attempt builds and releases from the
+          # same commit, and Fly rolls forward to a new release rather than
+          # leaving a half-applied one.
+          for attempt in 1 2 3; do
+            echo "::group::deploy attempt $attempt"
+            set +e
+            timeout 600 flyctl deploy --remote-only \
+              --build-arg VITE_CLERK_PUBLISHABLE_KEY="$CLERK_PK"
+            status=$?
+            set -e
+            echo "::endgroup::"
+
+            if [ $status -eq 0 ]; then
+              echo "deployed on attempt $attempt"
+              exit 0
+            fi
+            if [ $status -eq 124 ]; then
+              echo "attempt $attempt stalled and was killed after 10 minutes"
+            else
+              echo "attempt $attempt failed with exit $status"
+            fi
+            if [ $attempt -lt 3 ]; then sleep 20; fi
+          done
+
+          echo "all three deploy attempts failed"
+          echo "If this becomes the norm rather than the exception, the escalation"
+          echo "is an org-scoped token (fly tokens create org) plus --depot=false,"
+          echo "which uses the legacy builder. That trades a narrower token for a"
+          echo "builder that proved reliable locally — see #3 for why the current"
+          echo "app-scoped token cannot use it."
+          exit 1
 
       # A green deploy step means the image shipped, not that the app came up.
       # Health is behind no auth and ahead of clerkMiddleware precisely so it can
