@@ -195,8 +195,10 @@ Two practical notes: the API sends no CORS headers and is picky about its
 the browser. And in live mode your Fellow token is stored in the local SQLite
 file in plaintext — fine on your laptop, not fine anywhere else.
 
-If you are thinking about hosting this, read [DEPLOYING.md](DEPLOYING.md) first —
-it is the list of assumptions that stop being true the moment it leaves your machine.
+If you are thinking about hosting this, work through what stops being true the
+moment it leaves your machine: the Fellow token in plaintext, no rate limits on a
+route that relays credentials to Fellow, permissive CORS, and an uncapped model
+key. None of those matter on a laptop and all of them matter on the internet.
 
 ```bash
 FELLOW_MODE=live npm run dev
@@ -258,8 +260,9 @@ fly deploy --build-arg VITE_CLERK_PUBLISHABLE_KEY=pk_live_...
 ```
 
 `VITE_CLERK_PUBLISHABLE_KEY` must be a **build arg**, not a `fly secret` — Vite
-inlines it into the bundle at build time. See [DEPLOYING.md](DEPLOYING.md) for
-the full walkthrough, backups, and what is still open.
+inlines it into the bundle at build time, so setting it as a secret silently
+produces a client that cannot sign anyone in. The same value is *also* needed as
+the runtime secret `CLERK_PUBLISHABLE_KEY`, which the API verifies tokens with.
 
 ## Where the numbers come from
 
