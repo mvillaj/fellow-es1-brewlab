@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { fellowConnectSchema, type FellowConnectionStatus } from '@brewlab/shared';
 import { db, jsonCol, nowIso } from '../lib/db';
 import { requireAuth, type AuthedRequest } from '../lib/auth';
+import { decryptSecret, encryptSecret } from '../lib/crypto';
+import { fellowConnectLimiter } from '../lib/limits';
 import { toProfile } from '../lib/rows';
 import { getFellowClient, type FellowSession } from '../fellow/index';
 import {
@@ -20,11 +22,17 @@ fellowRouter.use(requireAuth);
 function loadConnection(userId: string) {
   const row = db.prepare('SELECT * FROM fellow_connections WHERE user_id = ?').get(userId) as any;
   if (!row) return null;
-  const session: FellowSession = {
-    email: row.email,
-    accessToken: row.access_token,
-    refreshToken: row.refresh_token ?? undefined,
-  };
+  let accessToken: string;
+  try {
+    accessToken = decryptSecret(row.access_token);
+  } catch (err) {
+    // An undecryptable credential is not recoverable — a missing key, a rotated
+    // key, or a row from before encryption. Report it as disconnected so the UI
+    // offers the one action that actually helps, rather than 500ing every read.
+    console.error('Could not decrypt the stored Fellow token; treating as disconnected.', err);
+    return null;
+  }
+  const session: FellowSession = { email: row.email, accessToken };
   return { row, session, devices: jsonCol(row.devices, [] as any[]) };
 }
 
@@ -52,7 +60,7 @@ fellowRouter.get('/status', (req: AuthedRequest, res) => {
   res.json(status);
 });
 
-fellowRouter.post('/connect', async (req: AuthedRequest, res) => {
+fellowRouter.post('/connect', fellowConnectLimiter, async (req: AuthedRequest, res) => {
   const parsed = fellowConnectSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: 'A Fellow email and password are required' });
@@ -63,17 +71,16 @@ fellowRouter.post('/connect', async (req: AuthedRequest, res) => {
     const session = await client.login(parsed.data.email, parsed.data.password);
     const devices = await client.listDevices(session);
     db.prepare(
-      `INSERT INTO fellow_connections (user_id, mode, email, access_token, refresh_token, devices, connected_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?)
+      `INSERT INTO fellow_connections (user_id, mode, email, access_token, devices, connected_at)
+       VALUES (?, ?, ?, ?, ?, ?)
        ON CONFLICT(user_id) DO UPDATE SET mode=excluded.mode, email=excluded.email,
-         access_token=excluded.access_token, refresh_token=excluded.refresh_token,
-         devices=excluded.devices, connected_at=excluded.connected_at`,
+         access_token=excluded.access_token, devices=excluded.devices,
+         connected_at=excluded.connected_at`,
     ).run(
       req.userId!,
       client.mode,
       session.email,
-      session.accessToken,
-      session.refreshToken ?? null,
+      encryptSecret(session.accessToken),
       JSON.stringify(devices),
       nowIso(),
     );

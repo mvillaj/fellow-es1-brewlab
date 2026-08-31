@@ -4,7 +4,6 @@ import type { Es1Profile, FellowDevice } from '@brewlab/shared';
 export interface FellowSession {
   email: string;
   accessToken: string;
-  refreshToken?: string;
 }
 
 export interface PushResult {

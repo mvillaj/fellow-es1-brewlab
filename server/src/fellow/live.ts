@@ -452,11 +452,14 @@ export const liveFellowClient: FellowClient = {
   mode: 'live',
 
   async login(email, password): Promise<FellowSession> {
-    const body = await request<{ accessToken: string; refreshToken?: string }>(API.login, {
+    // Fellow also returns a refreshToken. It is deliberately dropped on the
+    // floor: nothing here ever called a refresh endpoint with it, so persisting
+    // it only widened what a leaked database would give away.
+    const body = await request<{ accessToken: string }>(API.login, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    return { email, accessToken: body.accessToken, refreshToken: body.refreshToken };
+    return { email, accessToken: body.accessToken };
   },
 
   async listDevices(session) {
