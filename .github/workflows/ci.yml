@@ -14,9 +14,16 @@ jobs:
     name: typecheck, test, build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      # v5 is the first major of each that runs on node24. v4 runs on node20,
+      # which GitHub is deprecating and which prints a warning on every job.
+      # setup-flyctl@master is deliberately left alone — it already runs on
+      # node24, and pinning it to the 1.5 tag would move it back to node20.
+      #
+      # node-version below is unrelated: that is the Node the build and tests
+      # run under, and must stay >=22.9 for node:sqlite (see engines).
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: npm
@@ -46,7 +53,7 @@ jobs:
       group: deploy-production
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Fail here with a readable message rather than 4 minutes later inside a
       # docker build, or — worse — succeeding with an empty key and shipping a
