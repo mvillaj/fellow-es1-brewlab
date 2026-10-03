@@ -16,3 +16,14 @@ scripts/*.har
 DEPLOYING.md
 # Local working notes, same reasoning as DEPLOYING.md.
 TODO.md
+# Impeccable design skill: a local install (~32 MB with its binaries), not part of
+# the app. Only its outputs are tracked: PRODUCT.md, DESIGN.md and
+# .impeccable/design.json.
+.claude/skills/impeccable/
+.claude/agents/impeccable-*.md
+.github/skills/impeccable/
+.github/agents/impeccable-*.agent.md
+.github/hooks/impeccable.json
+.impeccable/config.local.json
+# Per-user Claude Code settings.
+.claude/settings.local.json
