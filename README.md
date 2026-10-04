@@ -28,9 +28,10 @@ refuses to boot.
 
 ```bash
 cp .env.example .env   # then paste your Clerk keys into it
-npm install
-npm run seed      # demo coffees, profiles and a dial-in in progress
-npm run dev       # API on :4000, app on http://localhost:5173
+corepack enable pnpm   # once per machine; picks up the pinned pnpm version
+pnpm install
+pnpm seed         # demo coffees, profiles and a dial-in in progress
+pnpm dev          # API on :4000, app on http://localhost:5173
 ```
 
 Create an account through the app. The first request you make after signing in
@@ -41,9 +42,9 @@ demo brewers, not accounts: they exist so the Explore page has public profiles t
 show you on day one, and there is no password to sign in as them.
 
 ```bash
-npm test          # pure-logic tests, no test runner to install
-npm run typecheck # tsc across all three packages
-npm run reset     # wipe the database and re-seed
+pnpm test         # pure-logic tests, no test runner to install
+pnpm typecheck    # tsc across all three packages
+pnpm reset        # wipe the database and re-seed
 ```
 
 ---
@@ -178,7 +179,7 @@ and treats anything unrecognised as read-only.
 ### Re-running the probe
 
 ```bash
-npm run probe -- you@example.com 'your-password'
+pnpm probe you@example.com 'your-password'
 ```
 
 `scripts/fellow-probe.mjs` is dependency-free and **read-only** — no POST, PATCH
@@ -203,7 +204,7 @@ are survivable on the open internet. Work through them before letting anyone els
 sign up.
 
 ```bash
-FELLOW_MODE=live npm run dev
+FELLOW_MODE=live pnpm dev
 ```
 
 ---
@@ -246,7 +247,7 @@ and recorded in a `schema_migrations` table. To change it, add the next numbered
 file — `002_add_whatever.sql`. Never edit one that has already run; the runner
 keys off the filename and will not re-apply it.
 
-`npm run reset` still wipes and re-seeds, which is the right move locally and
+`pnpm reset` still wipes and re-seeds, which is the right move locally and
 the wrong one anywhere with data you care about.
 
 ## Deploying

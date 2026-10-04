@@ -25,7 +25,7 @@ if (!publishableKey) {
   document.getElementById('root')!.innerHTML =
     '<div style="font:14px system-ui;padding:40px;max-width:60ch;margin:0 auto">' +
     '<h1 style="font-size:18px">Missing VITE_CLERK_PUBLISHABLE_KEY</h1>' +
-    '<p>Add it to the <code>.env</code> at the repo root, then restart <code>npm run dev</code>. ' +
+    '<p>Add it to the <code>.env</code> at the repo root, then restart <code>pnpm dev</code>. ' +
     'See <code>.env.example</code>.</p></div>';
   throw new Error('VITE_CLERK_PUBLISHABLE_KEY is not set — see .env.example');
 }

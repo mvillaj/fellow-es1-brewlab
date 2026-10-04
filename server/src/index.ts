@@ -78,7 +78,7 @@ app.use('/api/fellow', fellowRouter);
  * whole reason a single small instance is cheaper than splitting the frontend
  * onto a CDN at this size.
  *
- * Skipped entirely when client/dist is absent, so `npm run dev` still hands the
+ * Skipped entirely when client/dist is absent, so `pnpm dev` still hands the
  * frontend to Vite rather than serving a stale build.
  */
 const here = dirname(fileURLToPath(import.meta.url));

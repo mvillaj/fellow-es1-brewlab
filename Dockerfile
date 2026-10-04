@@ -4,12 +4,15 @@
 FROM node:22-slim AS build
 WORKDIR /app
 
-# Manifests first so `npm ci` is cached until a dependency actually changes.
-COPY package.json package-lock.json ./
+# Corepack fetches the pnpm version pinned by packageManager in package.json.
+RUN corepack enable pnpm
+
+# Manifests first so `pnpm install` is cached until a dependency actually changes.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/shared/package.json packages/shared/
 COPY server/package.json server/
 COPY client/package.json client/
-RUN npm ci
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
@@ -28,7 +31,7 @@ RUN test -n "$VITE_CLERK_PUBLISHABLE_KEY" || { \
       exit 1; \
     }
 ENV VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY
-RUN npm run build
+RUN pnpm build
 
 # ---- runtime ----------------------------------------------------------------
 FROM node:22-slim AS runtime
@@ -49,9 +52,11 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # The server runs TypeScript through tsx, so the sources and the full
-# node_modules (tsx is a devDependency) both have to come along.
+# node_modules (tsx is a devDependency) both have to come along. pnpm keeps the
+# packages in the root node_modules/.pnpm store and links them into each
+# workspace's own node_modules, so packages/ and server/ carry those links.
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/package.json /app/pnpm-workspace.yaml ./
 COPY --from=build /app/packages ./packages
 COPY --from=build /app/server ./server
 COPY --from=build /app/client/dist ./client/dist
