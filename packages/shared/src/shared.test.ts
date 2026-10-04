@@ -1,6 +1,6 @@
 /**
  * Dependency-free tests for the pure logic. Run with:
- *   npm test
+ *   pnpm test
  * which is `node --experimental-strip-types --test` — no test runner to install.
  */
 import assert from 'node:assert/strict';

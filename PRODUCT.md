@@ -55,7 +55,7 @@ Adjacent workflows: reading a bag (paste a roaster URL or bag copy to prefill th
 
 ## Evidence on Hand
 
-- Seed data (`npm run seed`): demo coffees, profiles, a dial-in in progress, and three demo brewers (`michael@`, `dana@`, `sam@example.com`) that exist to populate Explore. They are not real users.
+- Seed data (`pnpm seed`): demo coffees, profiles, a dial-in in progress, and three demo brewers (`michael@`, `dana@`, `sam@example.com`) that exist to populate Explore. They are not real users.
 - Fellow's seven factory profiles ship as starting points; fifteen built-in grinder calibrations, tagged by confidence.
 - No testimonials, user counts, press, benchmarks, or endorsements exist. Do not fabricate any.
 

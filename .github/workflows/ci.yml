@@ -20,6 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Installs the pnpm version pinned by packageManager in package.json. It
+      # has to come before setup-node, whose pnpm cache needs pnpm on the path.
+      - uses: pnpm/action-setup@v6
+
       # v5 is the first major of each that runs on node24. v4 runs on node20,
       # which GitHub is deprecating and which prints a warning on every job.
       # setup-flyctl@master is deliberately left alone — it already runs on
@@ -30,19 +34,19 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
-      - run: npm run typecheck
+      - run: pnpm typecheck
 
-      - run: npm test
+      - run: pnpm test
 
       # The client build is the only step that needs the Clerk key, because Vite
       # substitutes it into the bundle rather than reading it at runtime. A dummy
       # value is correct here: this job proves the bundle compiles, and nothing
       # it produces is deployed.
-      - run: npm run build
+      - run: pnpm build
         env:
           VITE_CLERK_PUBLISHABLE_KEY: pk_test_ci_build_only
 

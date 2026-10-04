@@ -1,0 +1,10 @@
+packages:
+  - packages/shared
+  - server
+  - client
+
+# esbuild (under vite and tsx) needs its install script. Clerk's only prints a
+# telemetry notice.
+allowBuilds:
+  '@clerk/shared': false
+  esbuild: true
