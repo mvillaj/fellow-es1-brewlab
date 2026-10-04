@@ -1,5 +1,6 @@
 import type {
   BrewProfileRecord,
+  ChangelogEntry,
   Coffee,
   Es1Profile,
   Grinder,
@@ -129,4 +130,16 @@ export const toProfile = (r: Row): BrewProfileRecord => ({
   createdAt: r.created_at,
   updatedAt: r.updated_at,
   ownerName: r.owner_name ?? undefined,
+});
+
+export const toChangelogEntry = (r: Row): ChangelogEntry => ({
+  id: r.id,
+  title: r.title,
+  version: r.version ?? null,
+  publishedOn: r.published_on,
+  changes: jsonCol<ChangelogEntry['changes']>(r.changes, []),
+  body: r.body ?? '',
+  authorName: r.author_name ?? 'Crema',
+  createdAt: r.created_at,
+  updatedAt: r.updated_at,
 });

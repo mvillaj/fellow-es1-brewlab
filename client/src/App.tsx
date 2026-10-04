@@ -15,6 +15,7 @@ import Machines from './pages/Machines';
 import Profiles from './pages/Profiles';
 import ProfileEditor from './pages/ProfileEditor';
 import Fellow from './pages/Fellow';
+import Changelog from './pages/Changelog';
 import BrandLockup from './components/BrandLockup';
 
 function navFor(caps: MachineCapabilities) {
@@ -34,6 +35,9 @@ function navFor(caps: MachineCapabilities) {
     ]},
     { section: 'Account', links: [
       { to: '/fellow', label: 'Fellow account', icon: '⌁', show: caps.cloud === 'fellow' },
+    ]},
+    { section: 'About', links: [
+      { to: '/changelog', label: 'Changelog', icon: '✎', show: true },
     ]},
   ];
   return groups
@@ -150,6 +154,7 @@ export default function App() {
           </>
         ) : null}
         {capabilities.cloud === 'fellow' ? <Route path="/fellow" element={<Fellow />} /> : null}
+        <Route path="/changelog" element={<Changelog />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Shell>

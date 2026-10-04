@@ -138,8 +138,21 @@ export const fellowConnectSchema = z.object({
   password: z.string().min(1),
 });
 
+export const changeKinds = ['new', 'improved', 'fixed'] as const;
+
+export const changelogEntryInputSchema = z.object({
+  title: z.string().trim().min(1, 'Give the update a title').max(120),
+  version: z.string().trim().max(20).nullish(),
+  publishedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD'),
+  changes: z
+    .array(z.object({ kind: z.enum(changeKinds), text: z.string().trim().min(1).max(300) }))
+    .max(50),
+  body: z.string().max(20000).default(''),
+});
+
 export type GrinderInput = z.infer<typeof grinderInputSchema>;
 export type MachineInput = z.infer<typeof machineInputSchema>;
 export type CoffeeInput = z.infer<typeof coffeeInputSchema>;
 export type ShotInput = z.infer<typeof shotInputSchema>;
 export type BrewProfileInput = z.infer<typeof brewProfileInputSchema>;
+export type ChangelogEntryInput = z.infer<typeof changelogEntryInputSchema>;
