@@ -8,6 +8,7 @@ import { globalLimiter } from './lib/limits';
 import { encryptionConfigured } from './lib/crypto';
 import './lib/db';
 import { authRouter } from './routes/auth';
+import { changelogRouter } from './routes/changelog';
 import { coffeeRouter } from './routes/coffees';
 import { fellowRouter } from './routes/fellow';
 import { grinderRouter } from './routes/grinders';
@@ -71,6 +72,7 @@ app.use('/api/coffees', coffeeRouter);
 app.use('/api/shots', shotRouter);
 app.use('/api/profiles', profileRouter);
 app.use('/api/fellow', fellowRouter);
+app.use('/api/changelog', changelogRouter);
 
 /**
  * Serve the built SPA from the same process as the API. One machine, one origin,

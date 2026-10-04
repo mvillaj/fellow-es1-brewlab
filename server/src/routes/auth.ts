@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import type { PublicUser } from '@brewlab/shared';
 import { db } from '../lib/db';
-import { requireAuth, type AuthedRequest } from '../lib/auth';
+import { isAdmin, requireAuth, type AuthedRequest } from '../lib/auth';
 
 export const authRouter: Router = Router();
 
@@ -10,6 +10,7 @@ const publicUser = (r: any): PublicUser => ({
   email: r.email,
   displayName: r.display_name,
   createdAt: r.created_at,
+  isAdmin: isAdmin(r.id),
 });
 
 /**

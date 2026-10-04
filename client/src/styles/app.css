@@ -279,6 +279,18 @@ h3 { font-size: 1.1rem; letter-spacing: -0.01em; }
 .card.tight { padding: 14px; }
 .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 
+/* Changelog: a single reading column, not a card grid — entries are prose. */
+.changelog { display: flex; flex-direction: column; gap: 16px; max-width: 72ch; }
+.changelog-entry h2 { margin-top: 6px; }
+.changelog-changes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.changelog-changes li { display: grid; grid-template-columns: 5.5rem 1fr; align-items: baseline; gap: 10px; }
+.changelog-changes .tag { justify-self: start; }
+.changelog-body { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text-dim); line-height: 1.6; }
+.changelog-body p { margin: 0 0 0.9em; white-space: pre-line; }
+.changelog-body p:last-child { margin-bottom: 0; }
+.changelog-change-input select { flex: 0 0 auto; width: auto; }
+.changelog-change-input input { flex: 1; min-width: 0; }
+
 .grid { display: grid; gap: 16px; }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }

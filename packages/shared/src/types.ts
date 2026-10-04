@@ -7,6 +7,8 @@ export interface PublicUser {
   email: string;
   displayName: string;
   createdAt: string;
+  /** May write changelog entries. Set by BREWLAB_ADMIN_EMAILS on the server. */
+  isAdmin: boolean;
 }
 
 export interface Grinder {
@@ -144,4 +146,20 @@ export interface FellowConnectionStatus {
   email?: string;
   devices: FellowDevice[];
   warning?: string;
+}
+
+export type ChangeKind = 'new' | 'improved' | 'fixed';
+
+export interface ChangelogEntry {
+  id: string;
+  title: string;
+  version: string | null;
+  /** YYYY-MM-DD — the date the update is filed under, not when the row was written. */
+  publishedOn: string;
+  changes: { kind: ChangeKind; text: string }[];
+  /** Free-form write-up. Blank lines separate paragraphs. */
+  body: string;
+  authorName: string;
+  createdAt: string;
+  updatedAt: string;
 }

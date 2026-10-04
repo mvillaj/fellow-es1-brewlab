@@ -134,6 +134,27 @@ async function resolveUser(req: AuthedRequest): Promise<boolean> {
   return true;
 }
 
+/**
+ * Who may write site-wide content (the changelog). An env list rather than a
+ * column, so granting it needs no migration and no way to grant it from the app.
+ * Unset means nobody, which is the safe reading of a missing setting.
+ */
+function adminEmails(): Set<string> {
+  return new Set(
+    (process.env.BREWLAB_ADMIN_EMAILS ?? '')
+      .split(',')
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean),
+  );
+}
+
+export function isAdmin(userId: string): boolean {
+  const row = db.prepare('SELECT email FROM users WHERE id = ?').get(userId) as
+    | { email: string }
+    | undefined;
+  return Boolean(row && adminEmails().has(row.email.toLowerCase()));
+}
+
 /** Hard gate: 401 if there is no valid session. */
 export async function requireAuth(req: AuthedRequest, res: Response, next: NextFunction) {
   try {
@@ -155,4 +176,13 @@ export async function optionalAuth(req: AuthedRequest, _res: Response, next: Nex
   } catch (err) {
     next(err);
   }
+}
+
+/** Admin gate. Mount after requireAuth. */
+export function requireAdmin(req: AuthedRequest, res: Response, next: NextFunction) {
+  if (!isAdmin(req.userId!)) {
+    res.status(403).json({ error: 'Only the site owner can do that' });
+    return;
+  }
+  next();
 }
