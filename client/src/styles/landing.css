@@ -1,0 +1,267 @@
+/* ── Landing: the public front page ────────────────────────────────────────────
+   One shot across the page. Everything here sits on the tokens in app.css, so
+   both themes come for free; the only new values are layout. */
+
+.landing {
+  --gutter: clamp(16px, 4vw, 48px);
+  --measure: 1240px;
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+.landing ::selection { background: var(--tint-accent-border); color: var(--text); }
+.landing a:focus-visible,
+.landing button:focus-visible,
+.landing select:focus-visible,
+.landing input:focus-visible {
+  outline: 2px solid var(--crema);
+  outline-offset: 2px;
+}
+
+.landing .btn-lg { padding: 11px 20px; font-size: 0.98rem; }
+
+.landing-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  max-width: var(--measure); margin: 0 auto;
+  padding: 20px var(--gutter) 0;
+}
+.landing-bar .brand-lockup { font-size: 1.5rem; }
+
+/* ── Hero ── */
+
+.landing .hero { padding-top: clamp(32px, 7vh, 80px); }
+
+.landing .hero-copy {
+  max-width: var(--measure); margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.landing .hero-copy h1 {
+  font-size: clamp(2.5rem, 5.6vw, 4.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  max-width: 13em;
+  text-wrap: balance;
+}
+.landing .hero-copy p {
+  margin: 22px 0 0;
+  max-width: 54ch;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  color: var(--text-dim);
+}
+.landing-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+
+/* The pull: full-bleed, the profile first as a ghost, then the shot drawn over
+   it with a playhead and a live reading. */
+.landing .pull { margin: clamp(28px, 5vh, 56px) 0 0; }
+
+.landing .pull-plot {
+  position: relative;
+  height: clamp(220px, 36vh, 440px);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-strong);
+}
+/* The shot ends a gutter short of the edge, so the playhead's last reading and
+   dot stay on screen; the frame lines still run full-bleed. */
+.landing .pull-track { position: absolute; top: 0; bottom: 0; left: 0; right: var(--gutter); }
+.landing .pull-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+
+.landing .pull-grid { stroke: var(--border); stroke-width: 1; }
+.landing .pull-ghost { fill: none; stroke: var(--border-strong); stroke-width: 1.5; stroke-dasharray: 3 5; }
+.landing .pull-line { fill: none; stroke: var(--crema); stroke-width: 3; stroke-linejoin: round; }
+
+.landing .pull-axis {
+  position: absolute; left: 12px;
+  transform: translateY(-130%);
+  font-family: var(--mono); font-size: 0.72rem; color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.landing .pull-head {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 1px;
+  background: var(--text-faint); opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.4s ease-out;
+}
+.landing .pull-plot.done .pull-head { opacity: 0; }
+.landing .pull-tail { opacity: 0; transition: opacity 0.5s ease-out; }
+.landing .pull-plot.done .pull-tail { opacity: 1; }
+.landing .pull-dot {
+  position: absolute; left: 0; top: 100%;
+  width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px;
+  border-radius: 50%; background: var(--crema);
+  box-shadow: 0 0 0 3px var(--bg);
+  pointer-events: none;
+}
+
+.landing .pull-readout {
+  position: absolute; top: 14px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 7px 12px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.landing .pull-reading { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1.15rem; color: var(--text); }
+.landing .pull-reading small, .landing .mono small { font-size: 0.72em; color: var(--text-faint); margin-left: 2px; }
+.landing .pull-stage { font-size: 0.78rem; font-weight: 500; min-width: 6.5em; }
+
+.landing .pull-stages { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
+.landing .pull-stages a {
+  position: absolute; bottom: 12px;
+  padding: 0 12px;
+  font-size: 0.85rem; font-weight: 500; line-height: 1.3;
+  display: flex; flex-direction: column;
+  text-underline-offset: 3px;
+}
+.landing .pull-stages a:hover { text-decoration: underline; }
+.landing .pull-stages a.last { align-items: flex-end; text-align: right; white-space: nowrap; }
+.landing .pull-stages a .mono { font-size: 0.72rem; color: var(--text-faint); font-weight: 400; }
+
+.landing .pull-caption {
+  max-width: var(--measure); margin: 0 auto;
+  padding: 12px var(--gutter) 0;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px;
+  font-size: 0.83rem; color: var(--text-faint);
+}
+.landing .pull-caption .btn { margin-left: -10px; }
+
+/* ── Stages: each section carries its slice of the shot in the gutter ── */
+
+.landing .stage {
+  max-width: var(--measure); margin: 0 auto;
+  padding: clamp(72px, 12vh, 128px) var(--gutter) 0;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 72px);
+  scroll-margin-top: 24px;
+}
+.landing .stage-mark { position: sticky; top: 32px; align-self: start; }
+.landing .stage-mark svg { width: 100%; height: auto; display: block; overflow: visible; }
+.landing .stage-mark-rest { fill: none; stroke: var(--border-strong); stroke-width: 1.5; stroke-dasharray: 2 4; }
+.landing .stage-mark-label { margin-top: 10px; font-weight: 600; display: flex; flex-direction: column; }
+.landing .stage-mark-label .mono { font-size: 0.75rem; font-weight: 400; color: var(--text-faint); }
+
+.landing .stage-body { max-width: 760px; }
+.landing .stage-body h2 {
+  font-size: clamp(1.75rem, 3.2vw, 2.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+}
+.landing .stage-body .lead { margin: 16px 0 28px; max-width: 64ch; color: var(--text-dim); font-size: 1.04rem; }
+.landing .stage-body .aside { margin: 14px 0 0; max-width: 64ch; font-size: 0.85rem; color: var(--text-faint); }
+
+.landing .log-line {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px;
+  padding: 12px 16px; margin-bottom: 16px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg-raised);
+  font-size: 0.9rem;
+}
+
+/* ── Demos: the app's own panels, running on sample inputs ── */
+
+.landing .demo {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.landing .demo-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.landing .demo-value { color: var(--text); margin-left: 6px; }
+
+.landing .grind-controls, .landing .coach-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
+.landing .range-ends { display: flex; justify-content: space-between; font-size: 0.72rem; }
+
+.landing .grind-reading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 16px; margin: 22px 0 14px; }
+.landing .reading-xl { font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; color: var(--crema); }
+.landing .reading-xl small { font-size: 0.4em; }
+
+.landing .grind-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.landing .grind-table th {
+  text-align: left; font-weight: 500; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-faint); padding: 0 0 8px;
+}
+.landing .grind-table td { padding: 9px 0; border-top: 1px solid var(--border); }
+.landing .grind-table td + td, .landing .grind-table th + th { padding-left: 12px; }
+
+.landing .coach-answer {
+  margin-top: 22px; padding: 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--tint-accent-border);
+  background: var(--tint-accent-bg);
+}
+.landing .coach-answer.good { border-color: var(--tint-good-border); background: var(--tint-good-bg); }
+.landing .coach-headline { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: var(--crema); }
+.landing .coach-answer.good .coach-headline { color: var(--good); }
+.landing .coach-answer p { margin: 8px 0 12px; color: var(--text-dim); max-width: 60ch; }
+
+.landing .profile-split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.landing .profile-stages { list-style: none; margin: 14px 0 0; padding: 0; font-size: 0.88rem; }
+.landing .profile-stages li {
+  display: grid; grid-template-columns: 10px 1fr auto 6.5em; align-items: center; gap: 10px;
+  padding: 7px 0; border-top: 1px solid var(--border);
+}
+.landing .profile-stages li i { width: 10px; height: 10px; border-radius: 3px; }
+.landing .profile-stages li .mono { text-align: right; }
+
+.landing .facts { list-style: none; margin: 0; padding: 0; }
+.landing .facts li { padding: 14px 0; border-top: 1px solid var(--border); color: var(--text-dim); }
+.landing .facts li:first-child { border-top: none; padding-top: 0; }
+.landing .facts strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+
+/* ── Who, close, foot ── */
+
+.landing .facts .tag { vertical-align: 1px; }
+
+.landing .close {
+  max-width: var(--measure); margin: clamp(96px, 16vh, 168px) auto 0;
+  padding: clamp(56px, 9vh, 96px) var(--gutter);
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.landing .close .brand-lockup { font-size: clamp(3rem, 7vw, 4.6rem); }
+.landing .close p { margin: 18px 0 0; font-size: clamp(1.15rem, 2vw, 1.4rem); color: var(--text-dim); }
+.landing .close .landing-ctas { justify-content: center; margin-top: 24px; }
+
+.landing-foot {
+  max-width: var(--measure); margin: 0 auto;
+  padding: 24px var(--gutter) 40px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem; color: var(--text-faint);
+}
+
+/* ── Small screens ── */
+
+@media (max-width: 860px) {
+  .landing .stage { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .landing .stage-mark { position: static; display: flex; align-items: center; gap: 14px; }
+  /* On one column the label would sit over the heading as an eyebrow; the lit
+     slice of the shot carries the stage on its own. */
+  .landing .stage-mark-label { display: none; }
+  .landing .stage-mark svg { width: 160px; }
+  .landing .profile-split { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .landing-bar .brand-lockup { font-size: 1.25rem; }
+  .landing .hero-copy p { margin-top: 16px; }
+  .landing-ctas .btn { flex: 1 1 auto; justify-content: center; }
+  .landing .pull-readout { gap: 10px; padding: 6px 10px; }
+  .landing .pull-reading { font-size: 1rem; }
+  .landing .pull-stage { display: none; }
+  .landing .pull-stages a { padding: 0 8px; font-size: 0.74rem; bottom: 8px; }
+  .landing .pull-stages a .mono { font-size: 0.66rem; }
+  .landing .grind-controls, .landing .coach-controls { grid-template-columns: minmax(0, 1fr); }
+  .landing .demo { padding: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing { scroll-behavior: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.landing) { scroll-behavior: smooth; }
+}
