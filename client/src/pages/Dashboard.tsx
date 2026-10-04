@@ -48,7 +48,16 @@ export default function Dashboard() {
     void stats.reload();
   }
 
-  const greeting = new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening';
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Morning' : hour < 18 ? 'Afternoon' : 'Evening';
+
+  // First load only: a reload after logging keeps the old data on screen rather
+  // than flashing every card back to "loading".
+  const loadingShots = shots.data == null && !shots.error;
+  const loadError = shots.error ?? stats.error;
+  // With the banner up, an empty state would claim there are no shots when we
+  // simply could not read them.
+  const unavailable = <p className="faint small">Unavailable until your shots load.</p>;
 
   return (
     <>
@@ -58,9 +67,11 @@ export default function Dashboard() {
             {greeting}, {user?.displayName}
           </h1>
           <p>
-            {latest
-              ? `Last pull: ${relativeDate(latest.brewedAt)} — ${latest.coffeeName ?? 'unnamed coffee'}.`
-              : 'No shots logged yet. Pull one and write it down.'}
+            {loadingShots || shots.error
+              ? '\u00a0'
+              : latest
+                ? `Last pull: ${relativeDate(latest.brewedAt)} — ${latest.coffeeName ?? 'unnamed coffee'}.`
+                : 'No shots logged yet. Pull one and write it down.'}
           </p>
         </div>
         <button className="btn btn-primary" onClick={() => setLogging(true)}>
@@ -68,26 +79,29 @@ export default function Dashboard() {
         </button>
       </div>
 
-      <div className="grid grid-4" style={{ marginBottom: 22 }}>
-        <Stat label="Shots logged" value={stats.data?.total ?? '—'} note={`${stats.data?.goodShots ?? 0} rated 4★ or better`} />
-        <Stat label="Average time" value={fmt(stats.data?.avgTimeS)} unit="s" />
-        <Stat label="Average ratio" value={stats.data?.avgRatio ? `1:${fmt(stats.data.avgRatio, 2)}` : '—'} />
-        <Stat label="Days brewing" value={stats.data?.activeDaysLast30 ?? '—'} note="in the last 30" />
-      </div>
+      {loadError ? (
+        <div className="dash-error">
+          <Banner kind="bad">Couldn't load your shots: {loadError}</Banner>
+        </div>
+      ) : null}
 
-      <div className="grid grid-2">
+      <div className="grid grid-2 dash-coach">
         <div className="card">
           <div className="card-head">
             <h2>What to change next</h2>
-            {latest ? <span className="small faint">{relativeDate(latest.brewedAt)}</span> : null}
+            {latest && suggestion ? (
+              <span className={`tag ${suggestion.confidence === 'high' ? 'good' : suggestion.confidence === 'low' ? '' : 'crema'}`}>
+                {suggestion.confidence} confidence
+              </span>
+            ) : null}
           </div>
-          {latest && suggestion ? (
+          {loadingShots ? (
+            <p className="faint small">Loading…</p>
+          ) : latest && suggestion ? (
             <div className="stack">
               <div>
-                <div style={{ fontSize: '1.15rem', color: 'var(--crema)' }}>{suggestion.headline}</div>
-                <p className="dim small" style={{ margin: '6px 0 0' }}>
-                  {suggestion.reason}
-                </p>
+                <p className="coach-headline">{suggestion.headline}</p>
+                <p className="coach-reason">{suggestion.reason}</p>
               </div>
               <div className="row-wrap small">
                 <span className="tag">{latest.grinderName ?? 'no grinder'}</span>
@@ -103,10 +117,9 @@ export default function Dashboard() {
                 <span className="tag mono">{fmt(latest.shotTimeS)}s</span>
                 <Stars value={latest.rating} />
               </div>
-              <div className={`tag ${suggestion.confidence === 'high' ? 'good' : suggestion.confidence === 'low' ? '' : 'crema'}`} style={{ alignSelf: 'flex-start' }}>
-                {suggestion.confidence} confidence
-              </div>
             </div>
+          ) : shots.error ? (
+            unavailable
           ) : (
             <Empty title="Nothing to go on yet">Log a shot and this becomes your dial-in coach.</Empty>
           )}
@@ -121,8 +134,12 @@ export default function Dashboard() {
               </Link>
             ) : null}
           </div>
-          {activeCoffeeShots.length >= 2 ? (
+          {loadingShots ? (
+            <p className="faint small">Loading…</p>
+          ) : activeCoffeeShots.length >= 2 ? (
             <DialInChart shots={activeCoffeeShots} />
+          ) : shots.error ? (
+            unavailable
           ) : (
             <Empty title="Two shots and a story appears">
               Shot time over successive pulls, coloured by how each one tasted.
@@ -131,14 +148,23 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="card" style={{ marginTop: 16 }}>
+      <div className="grid grid-4 dash-stats">
+        <Stat label="Shots logged" value={stats.data?.total ?? '—'} note={stats.data ? `${stats.data.goodShots} rated 4★ or better` : undefined} />
+        <Stat label="Average time" value={fmt(stats.data?.avgTimeS)} unit={stats.data?.avgTimeS != null ? 's' : undefined} />
+        <Stat label="Average ratio" value={stats.data?.avgRatio ? `1:${fmt(stats.data.avgRatio)}` : '—'} />
+        <Stat label="Days brewing" value={stats.data?.activeDaysLast30 ?? '—'} note="in the last 30" />
+      </div>
+
+      <div className="card">
         <div className="card-head">
           <h2>Recent shots</h2>
           <Link className="small dim" to="/shots">
             All shots →
           </Link>
         </div>
-        {shots.data?.length ? (
+        {loadingShots ? (
+          <p className="faint small">Loading…</p>
+        ) : shots.data?.length ? (
           <table className="table">
             <thead>
               <tr>
@@ -156,8 +182,12 @@ export default function Dashboard() {
                   <td data-label="When" className="dim">{relativeDate(s.brewedAt)}</td>
                   <td data-label="Coffee">{s.coffeeName ?? <span className="faint">—</span>}</td>
                   <td data-label="Grind" className="num dim">
-                    {s.grindSetting ?? '—'}
-                    {s.grindMicrons ? <span className="faint"> · {s.grindMicrons}µm</span> : null}
+                    {/* One wrapper, so the phone layout's space-between keeps the
+                        setting and its micron value together. */}
+                    <span>
+                      {s.grindSetting ?? '—'}
+                      {s.grindMicrons ? <span className="faint"> · {s.grindMicrons}µm</span> : null}
+                    </span>
                   </td>
                   <td data-label="Dose → Yield" className="num">
                     {fmt(s.doseG)} → {fmt(s.yieldG)}
@@ -170,6 +200,8 @@ export default function Dashboard() {
               ))}
             </tbody>
           </table>
+        ) : shots.error ? (
+          unavailable
         ) : (
           <Empty title="No shots yet" />
         )}
@@ -195,9 +227,7 @@ export default function Dashboard() {
         <Modal title="Shot logged" onClose={() => setJustSaved(null)}>
           <div className="stack">
             <Banner kind="good">{justSaved.suggestion.headline}</Banner>
-            <p className="dim small" style={{ margin: 0 }}>
-              {justSaved.suggestion.reason}
-            </p>
+            <p className="coach-reason">{justSaved.suggestion.reason}</p>
             <button className="btn" onClick={() => setJustSaved(null)}>
               Got it
             </button>

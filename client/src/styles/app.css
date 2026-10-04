@@ -375,7 +375,10 @@ input[type='range'] { width: 100%; accent-color: var(--crema); }
 }
 .table td { padding: 10px; border-top: 1px solid var(--border); vertical-align: middle; }
 .table tbody tr:hover { background: var(--surface-2); }
-.table .num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.table .num { white-space: nowrap; }
+/* Values are measured, so mono; the column header above them is a label and
+   stays in the label face like every other header. */
+.table td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
 .list-item {
   display: block; background: var(--surface); border: 1px solid var(--border);
@@ -443,6 +446,23 @@ button.list-item { width: 100%; text-align: left; font: inherit; color: inherit;
 .phase-head .checkbox { margin: 0; }
 .phase-head .btn { margin-left: auto; }
 
+/* ── Dashboard ─────────────────────────────────────────────────────────────── */
+
+/* The coach row leads: the next change is the reason to open the app at the
+   machine, so it sits above the running totals. */
+.dash-error { margin-bottom: 16px; }
+.dash-coach { margin-bottom: 16px; }
+.dash-stats { margin-bottom: 16px; }
+
+/* The answer outranks its own card title. */
+.coach-headline {
+  margin: 0;
+  font-size: 1.55rem; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em;
+  color: var(--crema);
+}
+.coach-reason { margin: 6px 0 0; font-size: 0.9rem; color: var(--text-dim); max-width: 62ch; }
+.modal .coach-reason { margin: 0; }
+
 /* ── Phone ─────────────────────────────────────────────────────────────────── */
 
 /* Nothing below 720px was styled at all. At 375px the main column is 339px, a
@@ -469,6 +489,8 @@ button.list-item { width: 100%; text-align: left; font: inherit; color: inherit;
   .grid { gap: 12px; }
 
   .stat { padding: 12px; }
+  .dash-coach, .dash-stats, .dash-error { margin-bottom: 12px; }
+  .coach-headline { font-size: 1.35rem; }
   .stat-value { font-size: 1.4rem; }
 
   .segmented { display: flex; width: 100%; }
@@ -493,6 +515,7 @@ button.list-item { width: 100%; text-align: left; font: inherit; color: inherit;
   }
   .table td::before {
     content: attr(data-label);
+    font-family: var(--sans);
     font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--text-faint); flex: none;
   }
