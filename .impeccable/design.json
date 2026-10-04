@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-03T15:25:05.949Z",
+  "generatedAt": "2026-10-04T22:46:08.000Z",
   "title": "Design System: Crema",
   "extensions": {
     "colorMeta": {
@@ -552,7 +552,7 @@
     "typographyMeta": {
       "wordmark": {
         "displayName": "Wordmark",
-        "purpose": "The lowercase crema lockup only. 1.72rem sidebar, 1.25rem top bar, 3.1rem auth."
+        "purpose": "The lowercase crema lockup only. 1.72rem sidebar, 1.25rem top bar, 3.1rem auth; on the landing 1.5rem top bar and clamp(3rem, 7vw, 4.6rem) at the close."
       },
       "headline": {
         "displayName": "Headline",
@@ -577,6 +577,38 @@
       "reading": {
         "displayName": "Reading",
         "purpose": "Every measured value: stat readings, table numbers, number inputs, chart labels. Tabular."
+      },
+      "landing-display": {
+        "displayName": "Landing Display",
+        "purpose": "Landing tier only: the public hero headline. Fluid, balanced, capped near 13em."
+      },
+      "landing-section": {
+        "displayName": "Landing Section",
+        "purpose": "Landing tier only: stage section headings on the public landing."
+      },
+      "landing-coach": {
+        "displayName": "Landing Coach",
+        "purpose": "Landing tier only: the coach demo's answer headline, in its tint's hue."
+      },
+      "landing-close": {
+        "displayName": "Landing Close",
+        "purpose": "Landing tier only: the closing line under the large lockup."
+      },
+      "landing-lead": {
+        "displayName": "Landing Lead",
+        "purpose": "Landing tier only: the hero sub-line, Text Dim, 54ch."
+      },
+      "landing-section-lead": {
+        "displayName": "Section Lead",
+        "purpose": "Landing tier only: the lead paragraph opening each stage section, Text Dim, 64ch."
+      },
+      "landing-button": {
+        "displayName": "Large Button",
+        "purpose": "Landing tier only: the Create account / Sign in pair (11px x 20px)."
+      },
+      "landing-reading": {
+        "displayName": "Landing Reading",
+        "purpose": "Landing tier only: the one oversized demo reading; unit at 0.4em."
       }
     },
     "shadows": [
@@ -745,6 +777,11 @@
       {
         "name": "The One Wordmark Rule",
         "body": "Space Grotesk is only for the `crema` lockup. Headings stay in Inter.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Tiers Rule",
+        "body": "The landing tier belongs to public marketing surfaces only. An app page that needs a bigger heading is wrong about its hierarchy, not short of a size.",
         "section": "typography"
       },
       {

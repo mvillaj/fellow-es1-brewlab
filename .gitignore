@@ -25,5 +25,14 @@ TODO.md
 .github/agents/impeccable-*.agent.md
 .github/hooks/impeccable.json
 .impeccable/config.local.json
+# Its working files: review screenshots, decision-page logs, caches, build state.
+# Surface briefs (*/.impeccable/surfaces/) stay tracked: they are the per-page
+# design contract later sessions reload.
+**/.impeccable/review/
+**/.impeccable/questions/
+**/.impeccable/live/
+**/.impeccable/build/
+**/.impeccable/mocks/
+**/.impeccable/hook.cache.json
 # Per-user Claude Code settings.
 .claude/settings.local.json

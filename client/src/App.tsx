@@ -4,6 +4,7 @@ import { useAuth } from './lib/auth';
 import { useMachines } from './lib/machines';
 import { useTheme, type ThemePref } from './lib/theme';
 import AuthPage from './pages/Auth';
+import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Shots from './pages/Shots';
 import Coffees from './pages/Coffees';
@@ -120,7 +121,16 @@ export default function App() {
     );
   }
 
-  if (!user) return <AuthPage />;
+  if (!user) {
+    return (
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/sign-in" element={<AuthPage mode="login" />} />
+        <Route path="/sign-up" element={<AuthPage mode="signup" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    );
+  }
 
   return (
     <Shell>

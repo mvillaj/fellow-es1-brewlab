@@ -21,7 +21,7 @@ export function Field({
 export function Stars({ value }: { value: number | null }) {
   if (value == null) return <span className="faint small">unrated</span>;
   return (
-    <span className="stars" title={`${value} of 5`}>
+    <span className="stars" title={`${value} of 5`} role="img" aria-label={`${value} of 5 stars`}>
       {[1, 2, 3, 4, 5].map((n) => (
         <span key={n} className={n <= value ? '' : 'off'}>
           ★

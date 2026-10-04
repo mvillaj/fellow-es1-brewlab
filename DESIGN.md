@@ -74,6 +74,46 @@ typography:
     fontSize: "1.7rem"
     fontWeight: 400
     fontFeature: "tnum"
+  landing-display:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(2.5rem, 5.6vw, 4.75rem)"
+    fontWeight: 600
+    lineHeight: 1.02
+    letterSpacing: "-0.035em"
+  landing-section:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1.75rem, 3.2vw, 2.6rem)"
+    fontWeight: 600
+    lineHeight: 1.08
+    letterSpacing: "-0.028em"
+  landing-coach:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1.4rem, 2.6vw, 1.9rem)"
+    fontWeight: 600
+    lineHeight: 1.15
+    letterSpacing: "-0.02em"
+  landing-close:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1.15rem, 2vw, 1.4rem)"
+    fontWeight: 400
+  landing-lead:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "clamp(1rem, 1.25vw, 1.12rem)"
+    fontWeight: 400
+  landing-section-lead:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "1.04rem"
+    fontWeight: 400
+  landing-button:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "0.98rem"
+    fontWeight: 500
+  landing-reading:
+    fontFamily: "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "clamp(2.4rem, 5vw, 3.4rem)"
+    fontWeight: 400
+    lineHeight: 1
+    fontFeature: "tnum"
 rounded:
   pip: "6px"
   sm: "8px"
@@ -214,10 +254,23 @@ A roasted-bean palette: brown-black or cream ground, steamed-milk or ink text, a
 - **Label** (Inter 500, 0.66–0.78rem, 0.1–0.14em tracking, uppercase): stat labels, table headers, nav group labels, the brand sub-line. Field labels use 0.78rem at 0.04em in sentence case.
 - **Reading** (JetBrains Mono 400, 1.7rem → 1.4rem, tabular): stat values, with the unit at 0.9rem in Text Faint. The same face sets table numbers, number inputs and chart labels (9px, or 17px on phones in the 720-unit viewBox).
 
+### Landing Tier (public marketing surfaces only)
+The public landing at `/` is a Persuade surface and carries its own scale above the app's ramp. Same faces, same weights; only the sizes grow, and they are fluid. App pages keep the hierarchy above and never use this tier.
+- **Landing Display** (Inter 600, fluid 2.5rem → 4.75rem, 1.02, −0.035em, balanced, capped near 13em): the hero headline, the one h1.
+- **Landing Section** (Inter 600, fluid 1.75rem → 2.6rem, 1.08, −0.028em, balanced): each stage section's heading.
+- **Landing Lead** (Inter 400, fluid 1rem → 1.12rem, Text Dim, 54ch): the hero sub-line. **Section Lead** (1.04rem, Text Dim, 64ch) opens each section.
+- **Landing Close** (Inter 400, fluid 1.15rem → 1.4rem, Text Dim): the closing line under the large lockup.
+- **Landing Coach** (Inter 600, fluid 1.4rem → 1.9rem, 1.15, −0.02em): the coach demo's answer headline, in its tint's hue.
+- **Landing Reading** (JetBrains Mono 400, fluid 2.4rem → 3.4rem, line-height 1, unit at 0.4em): the one oversized demo reading.
+- **Large Button** (Inter at 0.98rem, 11px × 20px): the Create account / Sign in pair, hero and close only.
+- **Lockup sizes:** 1.5rem in the landing top bar (1.25rem at ≤600px) and fluid 3rem → 4.6rem at the close.
+
 ### Named Rules
 **The Mono Means Measured Rule.** Every measured quantity is set in JetBrains Mono with tabular numerals, and its unit sits beside it in Text Faint at a smaller size. Prose is never set in mono.
 
 **The One Wordmark Rule.** Space Grotesk is only for the `crema` lockup. Headings stay in Inter.
+
+**The Two Tiers Rule.** The landing tier belongs to public marketing surfaces only. An app page that needs a bigger heading is wrong about its hierarchy, not short of a size.
 
 ## Layout
 
@@ -287,6 +340,11 @@ A row of six Crema Amber bars (heights 28 / 62 / 100 / 97 / 72 / 45%) traces a s
 
 ### Profile & Shot Charts (Signature)
 Hand-rolled SVG with no chart library. Pressure is drawn as a 2.2px Crema Amber line over an amber gradient area; flow as a dashed Cool Water line; stage bands use pre-infusion = Cool Water, infusion = Crema Amber and ramp-down = Espresso Rust at per-theme band opacity. Shot-time charts plot rating-colored dots ringed in Surface over a tinted Good Sage target band. Gridlines are Border, axes Border Strong, and labels mono in Text Faint.
+
+### Landing Pull & Stage Mark (Signature, landing only)
+The landing is one shot, told with the profile-chart grammar above.
+- **The pull (hero):** a full-bleed pressure profile under the hero copy, never behind it. The profile shows first as a dashed Border Strong ghost, then a 3px Crema Amber line draws over it with a faint 1px playhead and an amber dot. A mono readout panel (Counter Raised, Border Strong, 8px corners) tracks the playhead in bar, s and ml/s max, the last labelled as the stage's flow limit, never as measured flow. Stage bands use the chart stage colors at band opacity and the last band runs on to the viewport edge; the frame rules run full-bleed while the line stops a gutter short so the final reading stays on screen. Stage labels in the plot link to their sections. With reduced motion the finished curve shows at once.
+- **The stage mark:** each section carries a mini shot curve (dashed rest line) with only its own stage lit in that stage's color over an area at chart-area opacity; the closing section lights the whole shot in amber. On desktop it sits sticky in a 220px gutter beside the section, with the stage name and a mono time span below it. At ≤860px it becomes a bare 160px slice above the heading with no text label, so it never reads as an eyebrow.
 
 ## Do's and Don'ts
 
