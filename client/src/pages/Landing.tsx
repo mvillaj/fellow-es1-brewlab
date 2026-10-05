@@ -450,7 +450,7 @@ function CoachDemo() {
   const [time, setTime] = useState(21);
   const [taste, setTaste] = useState(-2);
   const s = suggestNextShot({ doseG: 18, yieldG: 36, shotTimeS: time, tasteBalance: taste });
-  const tone = s.direction === 'hold' ? 'good' : 'crema';
+  const tone = s.direction === 'hold' ? 'good' : 'accent';
 
   return (
     <div className="demo coach">
@@ -501,7 +501,7 @@ function CoachDemo() {
       <div className={`coach-answer ${tone}`} aria-live="polite">
         <div className="coach-headline">{s.headline.replace(' — ', ': ')}</div>
         <p>{s.reason}</p>
-        <span className={`tag ${s.confidence === 'high' ? 'good' : s.confidence === 'medium' ? 'crema' : ''}`}>
+        <span className={`tag ${s.confidence === 'high' ? 'good' : s.confidence === 'medium' ? 'accent' : ''}`}>
           {s.confidence} confidence
         </span>
       </div>

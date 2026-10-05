@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { RotateCcw } from 'lucide-react';
+import ShotGlass from '../components/ShotGlass';
 import type { BrewProfileRecord, Coffee, Grinder, Shot } from '@brewlab/shared';
 import { api, useApi } from '../lib/api';
 import { Empty, Modal, Stars } from '../components/ui';
@@ -55,6 +57,7 @@ export default function Shots() {
           <table className="table">
             <thead>
               <tr>
+                <th aria-label="Glass" />
                 <th>When</th>
                 <th>Coffee</th>
                 <th>Grinder</th>
@@ -69,6 +72,9 @@ export default function Shots() {
             <tbody>
               {shots.data.map((s) => (
                 <tr key={s.id} onClick={() => setExpanded(expanded === s.id ? null : s.id)} style={{ cursor: 'pointer' }}>
+                  <td className="glass-cell">
+                    <ShotGlass yieldG={s.yieldG} taste={s.tasteBalance} width={26} />
+                  </td>
                   <td data-label="When" className="dim">{relativeDate(s.brewedAt)}</td>
                   <td data-label="Coffee">{s.coffeeName ?? <span className="faint">—</span>}</td>
                   <td data-label="Grinder" className="dim">{s.grinderName ?? <span className="faint">—</span>}</td>
@@ -93,8 +99,9 @@ export default function Shots() {
                         setLogging(true);
                       }}
                       title="Log another with these numbers"
+                      aria-label="Log another with these numbers"
                     >
-                      ↻
+                      <RotateCcw aria-hidden="true" />
                     </button>
                   </td>
                 </tr>
@@ -150,7 +157,7 @@ export default function Shots() {
                 {s.flavourNotes.length ? (
                   <div className="row-wrap">
                     {s.flavourNotes.map((n) => (
-                      <span key={n} className="tag crema">
+                      <span key={n} className="tag accent">
                         {n}
                       </span>
                     ))}

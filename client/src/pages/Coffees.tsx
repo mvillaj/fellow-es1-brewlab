@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import type { Coffee } from '@brewlab/shared';
 import { api, useApi } from '../lib/api';
@@ -39,8 +40,8 @@ export default function Coffees() {
                   <button className="btn btn-ghost btn-sm" onClick={() => setEditing(c)}>
                     Edit
                   </button>
-                  <button className="btn btn-ghost btn-sm" onClick={() => remove(c)}>
-                    ✕
+                  <button className="btn btn-ghost btn-icon" onClick={() => remove(c)} aria-label={`Delete ${c.name}`} title="Delete">
+                    <Trash2 aria-hidden="true" />
                   </button>
                 </div>
               }

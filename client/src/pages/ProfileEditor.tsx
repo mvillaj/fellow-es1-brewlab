@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   ES1_LIMITS,
@@ -480,8 +481,9 @@ export default function ProfileEditor() {
                       onClick={() => removeInfusion(i)}
                       disabled={shot.infusions.length <= 1}
                       title={shot.infusions.length <= 1 ? 'A shot needs at least one infusion' : 'Remove'}
+                      aria-label="Remove infusion step"
                     >
-                      ✕
+                      <X aria-hidden="true" />
                     </button>
                   </div>
                 </div>

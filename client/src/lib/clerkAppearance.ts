@@ -75,14 +75,14 @@ function buildAppearance() {
   };
 }
 
-/** Rebuilds when the resolved theme flips, including on the OS changing under "auto". */
+/** Rebuilds when the resolved theme or finish changes, including on the OS changing under "auto". */
 export function useClerkAppearance() {
-  const { resolved } = useTheme();
+  const { resolved, finish } = useTheme();
   const [appearance, setAppearance] = useState(buildAppearance);
 
   useEffect(() => {
     setAppearance(buildAppearance());
-  }, [resolved]);
+  }, [resolved, finish]);
 
   return appearance;
 }

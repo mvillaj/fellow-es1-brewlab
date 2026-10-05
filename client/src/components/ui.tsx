@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { Star, X } from 'lucide-react';
 
 export function Field({
   label,
@@ -23,9 +24,7 @@ export function Stars({ value }: { value: number | null }) {
   return (
     <span className="stars" title={`${value} of 5`} role="img" aria-label={`${value} of 5 stars`}>
       {[1, 2, 3, 4, 5].map((n) => (
-        <span key={n} className={n <= value ? '' : 'off'}>
-          ★
-        </span>
+        <Star key={n} className={n <= value ? '' : 'off'} aria-hidden="true" />
       ))}
     </span>
   );
@@ -47,8 +46,9 @@ export function RatingInput({
           className={value != null && n <= value ? 'on' : ''}
           onClick={() => onChange(value === n ? null : n)}
           aria-label={`${n} stars`}
+          aria-pressed={value != null && n <= value}
         >
-          ★
+          <Star aria-hidden="true" />
         </button>
       ))}
     </div>
@@ -87,11 +87,11 @@ export function Modal({
 
   return (
     <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className={`modal${wide ? ' wide' : ''}`}>
-        <div className="spread" style={{ marginBottom: 16 }}>
+      <div className={`modal${wide ? ' wide' : ''}`} role="dialog" aria-modal="true" aria-label={title}>
+        <div className="spread" style={{ marginBottom: 18 }}>
           <h2>{title}</h2>
-          <button className="btn btn-ghost btn-sm" onClick={onClose} aria-label="Close">
-            ✕
+          <button className="btn btn-ghost btn-icon" onClick={onClose} aria-label="Close">
+            <X aria-hidden="true" />
           </button>
         </div>
         {children}

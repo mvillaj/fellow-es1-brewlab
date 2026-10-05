@@ -1,367 +1,368 @@
 ---
 name: Crema
-description: A warm, quiet bench logbook for the Fellow ES1, in dark and light.
+description: A warm, friendly espresso app whose one "press me" colour is Crema orange, or your ES1's finish if you pick it.
 colors:
-  crema-amber: "#e0a458"
-  crema-amber-dim: "#a97a3f"
-  crema-amber-hover: "#eab066"
-  espresso-rust: "#c4703f"
-  on-accent: "#241606"
-  roast-black: "#100e0c"
-  counter-raised: "#17140f"
-  surface: "#1d1915"
-  surface-2: "#241f1a"
-  border: "#322b24"
-  border-strong: "#453b31"
-  steamed-milk: "#f3ece2"
-  text-dim: "#b3a596"
-  text-faint: "#7d7266"
-  good-sage: "#7fae72"
-  warn-honey: "#d9a441"
-  bad-cherry: "#d4674f"
-  cool-water: "#6f9dc4"
-  light-crema-amber: "#9c6416"
-  light-crema-amber-hover: "#855314"
-  light-espresso-rust: "#a2542a"
-  light-on-accent: "#fffaf2"
-  light-paper: "#f7f3ec"
-  light-surface: "#fffdfa"
-  light-surface-2: "#f0e9de"
-  light-border: "#e2d8c9"
-  light-border-strong: "#c8b9a4"
-  light-ink: "#241c14"
-  light-text-dim: "#665949"
-  light-text-faint: "#907f6c"
-  light-good-sage: "#46733a"
-  light-warn-honey: "#97690f"
-  light-bad-cherry: "#a83f28"
-  light-cool-water: "#3a6a91"
+  body-crema: "#d9622b"
+  on-body-espresso: "#2a1408"
+  link-burnt: "#a8410f"
+  chart-pressure: "#a5612c"
+  action-walnut: "#7b4a2b"
+  on-action-cream: "#fff8ef"
+  body-sesame: "#ebdfc8"
+  on-body-roast: "#3a2616"
+  body-cherry: "#c4302b"
+  body-marine: "#2c5a9a"
+  body-woodland: "#3d6a4b"
+  body-chocolate: "#6a4635"
+  body-black: "#1f1c1b"
+  ground-sesame: "#f4f2ee"
+  ground-counter: "#f7f3ee"
+  surface: "#fffdfa"
+  surface-2: "#f3ede5"
+  field: "#faf6f1"
+  border: "#ebe3d9"
+  border-strong: "#d8cbbb"
+  text: "#2b211c"
+  text-dim: "#685a4f"
+  text-faint: "#8f8175"
+  ground-dark: "#151211"
+  surface-dark: "#211c1a"
+  surface-2-dark: "#2c2623"
+  text-dark: "#f6efe8"
+  good: "#3f7a3a"
+  warn: "#946510"
+  bad: "#b03c2a"
+  cool: "#33689a"
+  star: "#e3a21a"
+  espresso-liquid: "#3a2215"
+  crema-sour: "#ecdba6"
+  crema-sourish: "#ddb977"
+  crema-balanced: "#c4874a"
+  crema-bitterish: "#8f552d"
+  crema-bitter: "#5a341d"
+  crema-unknown: "#cdb9a2"
+  stage-pre: "#5b8fc0"
+  stage-infusion: "#c4874a"
+  stage-ramp: "#8f552d"
 typography:
-  wordmark:
-    fontFamily: "Space Grotesk, Inter, -apple-system, sans-serif"
-    fontSize: "1.72rem"
-    fontWeight: 700
-    lineHeight: 1
-    letterSpacing: "0"
+  display:
+    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontSize: "clamp(1.9rem, 3.2vw, 2.55rem)"
+    fontWeight: 800
+    lineHeight: 1.02
+    letterSpacing: "-0.035em"
+    fontVariation: "'opsz' 72"
   headline:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "2rem"
-    fontWeight: 600
-    lineHeight: 1.15
-    letterSpacing: "-0.022em"
+    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontSize: "2.15rem"
+    fontWeight: 700
+    lineHeight: 1.08
+    letterSpacing: "-0.03em"
+    fontVariation: "'opsz' 48"
   title:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.4rem"
+    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontSize: "1.3rem"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "-0.02em"
+    fontVariation: "'opsz' 24"
+  title-sm:
+    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontSize: "1.05rem"
     fontWeight: 600
-    letterSpacing: "-0.015em"
-  subtitle:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.1rem"
-    fontWeight: 600
+    lineHeight: 1.3
     letterSpacing: "-0.01em"
+    fontVariation: "'opsz' 14"
   body:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontFamily: "Figtree, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
     fontSize: "15px"
     fontWeight: 400
     lineHeight: 1.55
   label:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "0.72rem"
-    fontWeight: 500
-    letterSpacing: "0.1em"
-  reading:
-    fontFamily: "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
-    fontSize: "1.7rem"
+    fontFamily: "Figtree, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+    fontSize: "0.86rem"
+    fontWeight: 600
+  figure:
+    fontFamily: "Red Hat Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "1.6rem"
     fontWeight: 400
-    fontFeature: "tnum"
-  landing-display:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(2.5rem, 5.6vw, 4.75rem)"
-    fontWeight: 600
-    lineHeight: 1.02
-    letterSpacing: "-0.035em"
-  landing-section:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1.75rem, 3.2vw, 2.6rem)"
-    fontWeight: 600
-    lineHeight: 1.08
-    letterSpacing: "-0.028em"
-  landing-coach:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1.4rem, 2.6vw, 1.9rem)"
-    fontWeight: 600
-    lineHeight: 1.15
     letterSpacing: "-0.02em"
-  landing-close:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1.15rem, 2vw, 1.4rem)"
-    fontWeight: 400
-  landing-lead:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "clamp(1rem, 1.25vw, 1.12rem)"
-    fontWeight: 400
-  landing-section-lead:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "1.04rem"
-    fontWeight: 400
-  landing-button:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    fontSize: "0.98rem"
-    fontWeight: 500
-  landing-reading:
-    fontFamily: "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
-    fontSize: "clamp(2.4rem, 5vw, 3.4rem)"
-    fontWeight: 400
-    lineHeight: 1
     fontFeature: "tnum"
+  figure-sm:
+    fontFamily: "Red Hat Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "0.88rem"
+    fontWeight: 400
+    fontFeature: "tnum"
+  wordmark:
+    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontSize: "1.7rem"
+    fontWeight: 800
+    lineHeight: 1
+    letterSpacing: "-0.035em"
+    fontVariation: "'opsz' 48"
 rounded:
-  pip: "6px"
-  sm: "8px"
-  md: "12px"
-  modal: "16px"
-  pill: "99px"
-spacing:
-  xs: "8px"
   sm: "12px"
+  md: "14px"
+  card: "20px"
+  hero: "24px"
+  pill: "999px"
+spacing:
+  xs: "6px"
+  sm: "10px"
   md: "16px"
-  lg: "18px"
-  xl: "26px"
-  page-x: "40px"
-  control-h: "2.55rem"
+  gap: "18px"
+  card: "22px"
+  hero: "26px"
+  section: "28px"
 components:
-  button:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.steamed-milk}"
-    rounded: "{rounded.sm}"
-    padding: "8px 14px"
-  button-hover:
-    backgroundColor: "#2c251e"
   button-primary:
-    backgroundColor: "{colors.crema-amber}"
-    textColor: "{colors.on-accent}"
-    rounded: "{rounded.sm}"
-    padding: "8px 14px"
-  button-primary-hover:
-    backgroundColor: "{colors.crema-amber-hover}"
-  button-ghost:
-    backgroundColor: "transparent"
-    textColor: "{colors.text-dim}"
-    rounded: "{rounded.sm}"
-    padding: "8px 14px"
-  button-danger:
+    backgroundColor: "{colors.action-walnut}"
+    textColor: "{colors.on-action-cream}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+    padding: "8px 18px"
+    height: "40px"
+  button-primary-lg:
+    backgroundColor: "{colors.action-walnut}"
+    textColor: "{colors.on-action-cream}"
+    rounded: "{rounded.pill}"
+    padding: "12px 24px"
+    height: "50px"
+  button-secondary:
     backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.bad-cherry}"
-    rounded: "{rounded.sm}"
-    padding: "8px 14px"
-  input:
-    backgroundColor: "{colors.counter-raised}"
-    textColor: "{colors.steamed-milk}"
-    rounded: "{rounded.sm}"
-    padding: "8px 10px"
-    height: "{spacing.control-h}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.pill}"
+    padding: "8px 18px"
+    height: "40px"
+  button-ghost:
+    textColor: "{colors.text-dim}"
+    rounded: "{rounded.pill}"
+    padding: "8px 18px"
+  button-coach:
+    backgroundColor: "{colors.on-body-espresso}"
+    textColor: "{colors.body-crema}"
+    rounded: "{rounded.pill}"
+    padding: "12px 24px"
+    height: "50px"
   card:
     backgroundColor: "{colors.surface}"
-    rounded: "{rounded.md}"
-    padding: "18px"
-  stat:
-    backgroundColor: "{colors.surface}"
-    rounded: "{rounded.md}"
-    padding: "14px 16px"
+    rounded: "{rounded.card}"
+    padding: "{spacing.card}"
+  coach-card:
+    backgroundColor: "{colors.body-crema}"
+    textColor: "{colors.on-body-espresso}"
+    typography: "{typography.display}"
+    rounded: "{rounded.hero}"
+    padding: "26px 26px 24px"
+  input:
+    backgroundColor: "{colors.field}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.sm}"
+    padding: "9px 12px"
+    height: "2.75rem"
   tag:
     backgroundColor: "{colors.surface-2}"
     textColor: "{colors.text-dim}"
     rounded: "{rounded.pill}"
-    padding: "2px 8px"
-  nav-link:
+    padding: "3px 10px"
+  nav-item:
     textColor: "{colors.text-dim}"
     rounded: "{rounded.sm}"
-    padding: "8px 10px"
-  nav-link-active:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.steamed-milk}"
-  segmented:
-    backgroundColor: "{colors.counter-raised}"
-    rounded: "{rounded.sm}"
-    padding: "3px"
+    padding: "7px 12px"
+    height: "38px"
+  tab-log-disc:
+    backgroundColor: "{colors.action-walnut}"
+    textColor: "{colors.on-action-cream}"
+    rounded: "{rounded.pill}"
+    size: "58px"
 ---
 
 # Design System: Crema
 
 ## Overview
 
-**Creative North Star: "The Bench Logbook"**
+**Creative North Star: "Matches Your Machine"**
 
-Crema looks like a barista's working notebook left open on the counter: warm, dark, and quiet. Every surface is a coffee-brown tone, whether it's the near-black of a roasted bean or, in light mode, the cream of unbleached paper. Nothing on the page decorates. Numbers are set in tabular mono because they are the record, and the single amber accent marks the one thing that matters on the screen: the action to take, the page you're on, the pressure line of a shot.
+Crema is a warm, friendly consumer app for the espresso bench: soft cards on a lightly wood-cast ground, plain barista language, and one bright colour that means "press me". By default that colour is Crema orange, the house finish, so the app stands on its own whatever machine you own. Anyone who wants it to match their ES1 can pick a finish instead (Sesame, Cherry Red, Marine Blue, Woodland, Malted Chocolate, Black), and the action colour, the one filled surface, and a faint cast in the page ground all follow it. Everything else (ink, status hues, the shot glass) stays put.
 
-Density is that of a working tool rather than a showcase. Flat bordered panels sit in a sidebar shell, and the numbers inside them carry the page. Personality lives in a few small details tied to the product: the shot-profile bar row ruled above the wordmark, and the same bars "pulling" as the loading indicator. Components are soft and warm: gently rounded corners, tinted rather than saturated status colors, pill tags. Even the precise parts never feel clinical.
+The signature is the shot glass. Every shot is drawn as a demitasse on one fixed 48 g scale, so glasses compare honestly side by side, and the crema band's colour is how the shot tasted: pale for sour, hazel for balanced, dark for bitter. The glass recurs in the coach card, the dial-in strip, recent-shot rows, empty states and the brand mark.
 
-Both themes are first-class. Light is not dark inverted by formula; it is the same coffee character re-tuned so the amber stays legible on cream. Crema is not a generic SaaS dashboard (no blue/purple gradients, glassy cards or meaningless hero stats), and it does not borrow Fellow's own visual language.
+Density is calm and generous: 20px card radii, pill buttons, 15px body, one instruction per screen set large in Bricolage. Light and dark are both first-class; light is the base. This world replaces the retired brown-on-brown "Bench Logbook". Colourway names describe the machine only; Crema carries no Fellow marks or UI.
 
 **Key Characteristics:**
-- Warm coffee neutrals in both themes; never cool grey.
-- One amber accent, kept for action and current state.
-- Tabular mono for every reading, unit and setting.
-- Flat tonal layers with 1px borders; the only shadow belongs to modals.
-- Soft, rounded, tinted components.
-- The shot-profile bar is the recurring brand signature.
+- The selected finish's body colour is the action colour and fills exactly one surface (the coach card).
+- The ground takes a faint cast of the machine; cards sit on it with soft offset shadows (light) or a hairline border (dark).
+- Bricolage Grotesque headings, Figtree UI, Red Hat Mono for figures only.
+- Every shot is a demitasse: height is yield on a fixed scale, crema colour is taste.
+- Tamp-feel press on every button: a small give and settle, never a bounce.
+- Drawn Lucide line icons throughout.
 
 ## Colors
 
-A roasted-bean palette: brown-black or cream ground, steamed-milk or ink text, a single crema-amber accent, and muted earthy status hues. All values are CSS custom properties in `client/src/styles/app.css`. Dark is the `:root` default, light overrides under `:root[data-theme='light']`, and every rule below the token blocks is shared.
+A warm neutral ground and ink, one finish-driven action colour, and a fixed set of coffee and status hues that never change with the finish.
 
 ### Primary
-- **Crema Amber** (`crema-amber`; `light-crema-amber` in light): the primary button fill, the active nav rail, the brand bars, the pressure line and area in profile charts, star ratings, the range-slider thumb and the focus ring. In light mode it darkens to a mid-tone and takes light text (`light-on-accent`), and its hover darkens instead of lightening.
-- **Crema Amber Dim** (`crema-amber-dim`): the border color of a focused input. It is quieter than the full accent, so focus reads without shouting.
+- **Finish Body** (`--body`; default **Crema orange**, a burnt orange, `body-crema` with `on-body-espresso`, `#df6a31` in dark): the finish colour. Fills only the coach card, with `--on-body` text. Per theme and finish it is set in `app.css`; the machine bodies are `body-sesame`, `body-cherry`, `body-marine`, `body-woodland`, `body-chocolate`, `body-black` (dark-theme variants are slightly adjusted per finish).
+- **Action** (`--action`; default **Crema orange**, the same as its body (`#e3703a` in dark), with espresso-dark `on-body-espresso` text at 4.8:1; darker than about `#cc5a26`, neither dark nor white labels pass): fills primary buttons, the raised phone Log disc, focus outlines, active nav icons, sliders, checkboxes, the caret and the latest-shot marker. It equals the body except where the body cannot carry a label on its ground: Sesame in light uses walnut (`action-walnut` on `on-action-cream`); Sesame in dark uses the sesame body itself (`#e6d7bb` on `#2b1d12`); Black in dark uses an off-white button (`#f1ebe4` on `#1a1614`). Dark variants of Cherry, Marine, Woodland and Chocolate lift the action a step brighter than the body.
+- **Derived action tints** (all `color-mix in oklab`): hover = 86% action into text; soft = 12% action into surface (active nav pill, highlighted tag); line = 34% action into surface (tag ring, list-item hover border, selection); focus ring = 26% action over transparent (4px input halo).
 
 ### Secondary
-- **Espresso Rust** (`espresso-rust`): the ramp-down stage in pressure-profile charts. It works as the darker partner to amber and never appears as a UI control color.
+- **Crema scale** (`crema-sour`, `crema-sourish`, `crema-balanced`, `crema-bitterish`, `crema-bitter`, `crema-unknown`): taste, drawn as the glass's crema band. Independent of the finish. In dark the two bitter steps lift (`#a8693c`, `#84512e`) so they stay apart from the liquid and the card.
+- **Espresso Liquid** (`espresso-liquid`): the body of every glass, same in both themes.
+- **Brew stages** (`stage-pre`, `stage-infusion`, `stage-ramp`): fixed profile-chart stage colours, lifted in dark (`#7eaad6`, `#d49a5c`, `#a86a3e`).
+- **Chart Pressure** (`chart-pressure`, `#e2a766` in dark): the pressure line, its area gradient and its axis label in profile charts. Brew data, so it ignores the finish.
 
 ### Tertiary
-- **Cool Water** (`cool-water`): the pre-infusion stage, the dashed flow line in profile charts, and `cool` tags. It is the one cool hue in the system and stands for water and flow.
+- **Status hues** (`good`, `warn`, `bad`, `cool`, `star`): success, caution, error, informational/flow, and rating stars. Each has a paired tint background and border per theme; dark uses lighter hues (`#86bb78`, `#dcaa4c`, `#e47a64`, `#7eaad6`, `#e8b24a`). Independent of the finish.
 
 ### Neutral
-- **Roast Black** (`roast-black` / `light-paper`): the page background.
-- **Counter Raised** (`counter-raised`): the sidebar, input wells and segmented-control tracks; one step up from the page.
-- **Surface / Surface 2** (`surface`, `surface-2`): cards and stat tiles, then the layer inside them (default buttons, the active nav item, hovered table rows).
-- **Border / Border Strong** (`border`, `border-strong`): card outlines and dividers, then control outlines and unlit rating stars.
-- **Steamed Milk** (`steamed-milk` / `light-ink`): primary text.
-- **Text Dim / Text Faint** (`text-dim`, `text-faint`): secondary copy and field labels, then uppercase labels, units, hints and chart axes.
-
-### Status
-- **Good Sage**, **Warn Honey** and **Bad Cherry** (`good-sage`, `warn-honey`, `bad-cherry`): shot-quality coloring (rating ≥4, ≥3, below), the target-time band, banners and tags. On surfaces they always appear as a tinted pair (`--tint-*-bg` / `--tint-*-border`, `--banner-*`) and never as a solid fill.
+- **Counter Ground** (`ground-counter`): the warm base ground in light. The rendered page background is `--bg` = 7% of the body mixed into it (11% in dark over `ground-dark`), so a red ES1 warms the page and a blue one cools it.
+- **Sesame Ground** (`ground-sesame`): the exception. Sesame is pale enough that a sesame cast would melt into the coach card, so Sesame in light gets this near-neutral warm white instead of the mix.
+- **Surface** (`surface`, `surface-2`, `field`): cards, inset layers and secondary buttons, and form fields. Dark: `surface-dark`, `surface-2-dark`, `#1a1615`.
+- **Lines** (`border`, `border-strong`): hairlines and dividers; strong for inputs and the picker. Dark `#322b27` / `#4a403a`.
+- **Ink** (`text`, `text-dim`, `text-faint`): warm near-black, secondary and tertiary. Dark: `text-dark`, `#c2b4a8`, `#8f8277`.
 
 ### Named Rules
-**The One Amber Rule.** Crema Amber marks action or current state: the primary button, the active nav item, the line being read. If two things on a screen are amber and only one is actionable, one of them is wrong.
+**The Matches Your Machine Rule.** The action colour is the finish's body, adjusted only where contrast forces it. A new finish is four values per theme (`--body`, `--on-body`, `--action`, `--on-action`); every tint derives from them. Never hand-pick a tint.
 
-**The Tinted Status Rule.** Status colors appear as text on a tinted background with a matching tinted border, never as saturated fills. It keeps a warning warm rather than alarming.
+**The One Machine Surface Rule.** Only the coach card is filled with `--body`. Everything else is neutral surface; the action colour appears on presses and small indicators, not as panels.
 
-**The Per-Theme Alpha Rule.** Chart tints have separate opacities per theme (`--chart-band-opacity`, `--chart-target-opacity`, `--chart-area-opacity`), because a tint that lightens on dark has to darken on cream. Never hardcode a color or alpha at the point of use; add a token and give it both theme values.
+**The Fixed Coffee Rule.** Status hues, the crema scale, the liquid and the brew stages never follow the finish. Taste and health must read the same on every machine.
+
+**The House Finish Rule.** Crema orange is the default and is listed first in the picker, set apart from the machine colourways by a divider. Orange text on light grounds fails contrast, so links in Crema light use `link-burnt`; orange stays on fills, icons and indicators.
+
+**The Off-White Exception Rule.** Where the action resolves to off-white or pale sesame on a dark ground (Black dark, Sesame dark), small indicators that would use the action colour (links, active nav and tab icons, latest-shot marker) use `--text` instead.
 
 ## Typography
 
-**Display Font:** Space Grotesk 700, reserved for the lowercase `crema` wordmark.
-**Body Font:** Inter (400/500/600, falling back to the system UI stack).
-**Label/Mono Font:** JetBrains Mono (400/500), with `font-variant-numeric: tabular-nums`.
+**Display Font:** Bricolage Grotesque (optical size 12 to 96, weights 500 to 800), with Figtree fallback
+**Body Font:** Figtree (400 to 700), with the system sans stack
+**Label/Mono Font:** Red Hat Mono (400 to 600), with ui-monospace
 
-**Character:** Inter carries the interface without drawing attention, and JetBrains Mono carries the data. The split is literal: if it's a measured value (grams, seconds, bar, °C, microns, a grind setting), it's mono. Space Grotesk appears once, in the brand.
+**Character:** Bricolage's optical sizes give headings a friendly, slightly quirky voice at large sizes and clean shapes at small ones; Figtree keeps the UI round and plain. Red Hat Mono was chosen for readings because it stays legible at small sizes without reading as a typewriter.
 
 ### Hierarchy
-- **Wordmark** (Space Grotesk 700, 1.72rem sidebar / 1.25rem top bar / 3.1rem auth, line-height 1, lowercase): the brand lockup only. It is set larger than the headings because an all-x-height word reads small.
-- **Headline** (Inter 600, 2rem → 1.6rem on phones, 1.15, −0.022em): the page title in `.page-head`, followed by a dim sub-line capped at 62ch.
-- **Title** (Inter 600, 1.4rem → 1.2rem, −0.015em): section headings.
-- **Subtitle** (Inter 600, 1.1rem, −0.01em): card and empty-state headings.
-- **Body** (Inter 400, 15px, 1.55): everything else. Inputs use 0.92rem, raised to 16px on phones so iOS doesn't zoom on focus.
-- **Label** (Inter 500, 0.66–0.78rem, 0.1–0.14em tracking, uppercase): stat labels, table headers, nav group labels, the brand sub-line. Field labels use 0.78rem at 0.04em in sentence case.
-- **Reading** (JetBrains Mono 400, 1.7rem → 1.4rem, tabular): stat values, with the unit at 0.9rem in Text Faint. The same face sets table numbers, number inputs and chart labels (9px, or 17px on phones in the 720-unit viewBox).
-
-### Landing Tier (public marketing surfaces only)
-The public landing at `/` is a Persuade surface and carries its own scale above the app's ramp. Same faces, same weights; only the sizes grow, and they are fluid. App pages keep the hierarchy above and never use this tier.
-- **Landing Display** (Inter 600, fluid 2.5rem → 4.75rem, 1.02, −0.035em, balanced, capped near 13em): the hero headline, the one h1.
-- **Landing Section** (Inter 600, fluid 1.75rem → 2.6rem, 1.08, −0.028em, balanced): each stage section's heading.
-- **Landing Lead** (Inter 400, fluid 1rem → 1.12rem, Text Dim, 54ch): the hero sub-line. **Section Lead** (1.04rem, Text Dim, 64ch) opens each section.
-- **Landing Close** (Inter 400, fluid 1.15rem → 1.4rem, Text Dim): the closing line under the large lockup.
-- **Landing Coach** (Inter 600, fluid 1.4rem → 1.9rem, 1.15, −0.02em): the coach demo's answer headline, in its tint's hue.
-- **Landing Reading** (JetBrains Mono 400, fluid 2.4rem → 3.4rem, line-height 1, unit at 0.4em): the one oversized demo reading.
-- **Large Button** (Inter at 0.98rem, 11px × 20px): the Create account / Sign in pair, hero and close only.
-- **Lockup sizes:** 1.5rem in the landing top bar (1.25rem at ≤600px) and fluid 3rem → 4.6rem at the close.
+- **Display** (800, clamp(1.9rem, 3.2vw, 2.55rem), 1.02, opsz 72): the coach's one barista instruction ("Grind 2 steps finer"). 1.75rem on phones.
+- **Headline** (700, 2.15rem, 1.08, opsz 48): page titles (h1). 1.75rem on phones.
+- **Title** (700, 1.3rem, 1.2, opsz 24): card and section heads (h2). 1.18rem on phones.
+- **Title small** (600, 1.05rem, 1.3, opsz 14): h3, empty-state heads.
+- **Body** (400, 15px, 1.55): all UI prose. Page intros cap at 62ch, coach reasons at 46ch, changelog at 72ch.
+- **Label** (600, 0.76 to 0.88rem): field labels, nav group labels, stat labels, table heads. Sentence case, no tracking, no uppercase.
+- **Figure** (Red Hat Mono 400 to 500, tabular numerals): stat values (1.6rem), dial-in times (0.88rem), table numbers, number inputs, summary totals, chart labels, signed deltas.
+- **Wordmark** (Bricolage 800, lowercase "crema", -0.035em, opsz 48).
 
 ### Named Rules
-**The Mono Means Measured Rule.** Every measured quantity is set in JetBrains Mono with tabular numerals, and its unit sits beside it in Text Faint at a smaller size. Prose is never set in mono.
+**The Figures-Only Mono Rule.** Red Hat Mono sets numbers and only numbers. Units and words beside a figure ("g", "s", "Leaning sour") are Figtree. A signed delta is a mono figure (with a true minus, `−`) followed by its unit in prose.
 
-**The One Wordmark Rule.** Space Grotesk is only for the `crema` lockup. Headings stay in Inter.
+**The Optical Size Rule.** Every Bricolage use sets `font-variation-settings: 'opsz'` to match its size (14, 24, 48, 72). Do not let headings default to one optical size.
 
-**The Two Tiers Rule.** The landing tier belongs to public marketing surfaces only. An app page that needs a bigger heading is wrong about its hierarchy, not short of a size.
+**The Barista Voice Rule.** Headlines are instructions you could say across the counter: "Grind 2 steps finer", "Let it run to 1:2.4", "Keep this grind". Confidence is said in words ("Fairly sure"), never as a percentage.
 
 ## Layout
 
-A sidebar shell: a 232px sticky sidebar (Counter Raised, 1px right border) next to a main column capped at 1180px with 32px/40px/80px padding. Below 860px the sidebar becomes a sticky top bar, with brand and account on one line and the links on a horizontally scrolling strip beneath. The active marker turns from a left rail into a bottom rule.
+Desktop is a two-column grid: a 248px sticky sidebar and a main column (padding 36px 44px 88px, max 1180px). The sidebar shares the page ground; it is navigation, not a panel, and its nav scrolls independently on short windows while brand and footer stay put.
 
-Content sits in auto-fit grids, `grid-2` / `grid-3` / `grid-4` with 300 / 230 / 165px minimums and a 16px gap. At 600px and below, `grid-2` and `grid-3` collapse to one column, `grid-4` holds two columns so stat tiles don't eat the fold, and tables turn into one labelled card per row (each `td` shows its own `data-label`).
+The Dashboard top row is a 1.15fr / 1fr grid (coach card, dial-in strip) at an 18px gap, collapsing to one column under 1020px; below it a quiet one-line summary, then recent shots. Card grids use auto-fit with minimums of 300, 240 and 165px.
 
-Spacing follows a loose 4px-based rhythm: 8 / 12 / 16 px for stacks and rows, 18px card padding (14px on phones), and 26px between the page header and content. Touch targets are keyed to `pointer: coarse`, not viewport width, so buttons, nav links, segmented buttons and rating stars all reach at least 44px on any touch device, touch laptops included.
+At 860px and below the sidebar is replaced by a slim sticky top bar (brand, blurred translucent ground) and a fixed five-slot bottom tab bar with the Log shot disc raised in the centre; "More" opens a bottom sheet holding every destination plus theme and finish. At 600px and below, main padding drops to 14px, cards to 16px padding and 18px radius, grids go single column (stat grids two up), tables become one labelled block per row, and inputs use 16px text to stop iOS zoom.
+
+Spacing rhythm runs 6 / 10 / 16 / 18 / 22 / 26 / 28px: 6px inside tight groups, 16px stacks, 18px grid gaps, 22px card padding, 26px hero padding, 28px under page heads. Touch devices (`pointer: coarse`) raise buttons to 46px, small buttons to 40px, icon buttons to 44px and nav rows to 48px.
+
+### Named Rules
+**The One Press Rule.** One primary press per viewport. The header's "Log a shot" button disappears when the coach card is showing (the coach carries the press), and on phones the header button is hidden entirely because the tab bar carries Log shot.
 
 ## Elevation & Depth
 
-Flat, with tonal layering. Depth comes from stepping up through Roast Black → Counter Raised → Surface → Surface 2, each separated by a 1px warm border. Cards, stat tiles and list items carry no shadow. The single shadow token belongs to the modal, which also sits over a warm scrim with a 3px backdrop blur.
+A hybrid that changes by theme. In light, cards, stats and list items lift off the ground with a soft, warm, two-part offset shadow. In dark, those shadows are removed and a 1px `--border` hairline separates the layers, with a clear tonal step from ground to surface to surface-2. Floating layers (popover, modal, sheet, tab-log disc) use a stronger pop shadow in both themes, and in dark the popover and modal also take a `border-strong` outline. Scrims are warm-tinted.
 
 ### Shadow Vocabulary
-- **Modal lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.7)`; light mode `0 1px 2px rgba(60,44,26,0.08), 0 8px 24px -12px rgba(60,44,26,0.28)`): dialogs only. The light version is tinted brown, not black.
+- **Card** (`box-shadow: 0 1px 2px rgba(60, 40, 25, 0.05), 0 10px 28px -16px rgba(60, 40, 25, 0.18)`): resting cards, stats, list items in light. `none` in dark.
+- **Pop** (`box-shadow: 0 2px 6px rgba(60, 40, 25, 0.08), 0 24px 48px -20px rgba(60, 40, 25, 0.32)`; dark `0 2px 6px rgba(0,0,0,0.4), 0 24px 48px -20px rgba(0,0,0,0.7)`): settings popover, modals, bottom sheet, the raised Log disc.
+- **Tab bar** (`--shadow-bar`: `0 -8px 24px -18px rgba(40, 28, 20, 0.3)`, dark `rgba(0,0,0,0.6)`): the phone tab bar's soft upward lift.
+- **Chip** (`--shadow-chip`: `0 1px 3px rgba(40, 28, 20, 0.12)`, none in dark): the selected segment of a segmented control.
 
 ### Named Rules
-**The Flat-By-Default Rule.** Surfaces separate by tone and border, not by shadow. Hover deepens the tone and strengthens the border; it never lifts.
+**The Soft-Light, Lined-Dark Rule.** Light cards carry the card shadow and a transparent border; dark cards carry no shadow and a visible `--border`. Never ship a shadowed card in dark or a bordered one in light.
+
+**The No Hard Offset Rule.** Shadows are diffuse and negatively spread. No solid, zero-blur offset shadows.
 
 ## Shapes
 
-Soft and warm. Corners are gently rounded throughout: 8px (`sm`) for controls, nav items and banners; 12px (`md`) for cards, stat tiles and list items; 16px for modals (14px on phones); a full pill for tags; 6px for buttons inside the segmented track. Borders are always 1px. The brand bars are near-square with a hint of rounding (0.09em) and sit flush to a shared baseline, which is also the shape language of the profile charts.
+Generous and soft. Cards and list items round at 20px (18px on phones); the coach card, modals and the bottom sheet's top corners at 24px; stats, the settings popover at 14px; inputs, nav rows, banners and table-row hovers at 12px. Every button, tag, segmented control and the tab-log disc is a full pill or circle. The finish picker is a row of 24px circles split diagonally into body and wood. The demitasse silhouette (tapered cup, rounded base, loop handle) is the one recurring drawn shape and also forms the brand mark.
 
 ## Components
 
 ### Buttons
-Soft, warm and quiet, never loud.
-- **Shape:** gently rounded (8px), 1px border, Inter 500 at 0.9rem, a 7px icon gap, nowrap.
-- **Default:** Surface 2 fill with Border Strong outline; on hover the fill deepens one tone and the border warms.
-- **Primary:** Crema Amber fill and border, `on-accent` text at weight 600. Hover moves to `crema-amber-hover`, lighter in dark mode and darker in light. One per view.
-- **Ghost:** transparent with Text Dim; on hover it takes on Surface 2 and full text color. Used for secondary actions in headers and rows.
-- **Danger:** Bad Cherry text with a tinted cherry border, and a tinted cherry fill on hover. Never a solid red.
-- **Small:** 5px × 10px at 0.82rem. Disabled buttons drop to 45% opacity with a not-allowed cursor.
-- **Working state:** a busy button shows four `currentColor` bars pulling in sequence plus a mono elapsed-seconds clock. With reduced motion the bars hold still and the clock alone shows progress.
+Tactile and friendly: pills that give under the thumb.
+- **Shape:** full pill (999px); 40px tall by default, 32px small, 50px large, 36px circular icon button.
+- **Primary:** action colour with on-action text, Figtree 600 at 0.92rem, padding 8px 18px. Hover darkens toward ink (86% action).
+- **Press:** `transform: scale(0.95) translateY(1px)`, 80ms in, settling back over 220ms on the ease-out-quint curve (`cubic-bezier(0.22, 1, 0.36, 1)`). Transform only, no layout shift, no overshoot. Disabled under reduced motion.
+- **Secondary:** surface-2 fill with ink; hover mixes 16% ink in.
+- **Ghost:** transparent with dim ink; hover surface-2 and full ink.
+- **Danger:** transparent, bad-hue text, bad tint border; hover bad tint fill.
+- **Coach inversion:** inside the coach card the primary inverts to `--on-body` fill with `--body` text, because the card itself is the action colour; ghosts there use on-body dim.
+- **Focus:** 2px action outline, 2px offset.
 
-### Chips (Tags)
-- **Style:** a pill (99px), 0.74rem, 2px × 8px, Surface 2 with a Border outline and Text Dim.
-- **Variants:** `crema`, `good`, `bad` and `cool`, each its hue's text on that hue's tint pair. They label confidence (measured / community / estimated), origin and status.
+### Chips
+- **Style:** pill tags, 0.78rem 600, padding 3px 10px, surface-2 with dim ink.
+- **State:** the highlighted tag (`.tag.accent`) uses action-soft fill with a 1px action-line inset ring and full ink; status tags use the status hue on its tint.
 
 ### Cards / Containers
-- **Corner Style:** 12px.
-- **Background:** Surface, with a 1px Border.
-- **Shadow Strategy:** none (see Elevation).
-- **Internal Padding:** 18px (14px on phones), or 14px for `.tight`. The card head is a baseline-aligned spread with a 14px bottom margin.
-- **List item:** the same panel as a link or button (15px × 17px). On hover it takes Border Strong and Surface 2.
+- **Corner Style:** 20px (18px phone).
+- **Background:** surface.
+- **Shadow Strategy:** card shadow in light, border in dark (see Elevation).
+- **Border:** transparent in light, `--border` in dark.
+- **Internal Padding:** 22px (16px phone); tight variant 16px.
+- **List items:** same skin at 18px 20px padding; hover tints the border action-line and press scales to 0.985.
 
 ### Inputs / Fields
-- **Style:** a Counter Raised well, a Border Strong outline and 8px corners, 8px × 10px padding, and a fixed `--control-h` height (2.55rem, or 2.7rem on phones) that other elements align to.
-- **Focus:** the border turns Crema Amber Dim, with a soft 3px amber halo (`--focus-ring`). The default outline is removed.
-- **Numbers:** number inputs and `.numeric` fields use JetBrains Mono, tabular.
-- **Labels and hints:** a dim 0.78rem label above the field and a faint 0.75rem hint below it. The hints carry the inferred machine limits.
-- **Selects** draw their own two-triangle chevron in Text Faint. **Range and checkbox** controls use the amber `accent-color`.
+- **Style:** field fill, 1px border-strong, 12px radius, 9px 12px padding, 2.75rem tall (2.9rem on phones). Number inputs set in Red Hat Mono.
+- **Focus:** border turns action, plus a 4px focus-ring halo.
+- **Selects:** custom drawn chevron; sliders and checkboxes use `accent-color` action.
+- **Segmented control:** pill track in surface-2; the selected segment is surface with a faint shadow in light, border-strong fill in dark.
 
 ### Navigation
-- **Style:** a sidebar list of 0.92rem Text Dim links with a glyph column, grouped under uppercase 0.66rem labels.
-- **Hover:** Surface background and full text color.
-- **Active:** Surface 2 background with a 2px inset Crema Amber rail on the left. In the mobile top-bar strip the rail becomes a 2px bottom rule.
+- **Desktop sidebar:** on the page ground. Rows are Figtree 500 at 0.95rem in dim ink with 19px Lucide icons, 12px radius; hover surface-2. Active row is an action-soft pill with full ink at 600 and the icon in the action colour. Group labels are 0.76rem 600 faint, sentence case.
+- **Account row:** name, then a Palette icon button opening a 272px popover (Theme: segmented light/dark/auto; Colour: Crema orange, a divider, then the six machine finishes, with the current name below), and a sign-out icon button.
+- **Phone:** sticky blurred top bar with the brand; fixed bottom tab bar of five slots (0.72rem 600 labels, 22px icons, active icon in action), with Log shot as a raised 58px action disc ringed 5px in surface. "More" opens a bottom sheet (24px top radius, grip, full nav and settings inline).
 
-### Segmented Control
-A Counter Raised track with a 3px inset and 6px buttons in Text Dim. The selected button takes Surface 2 and full text color. On phones it stretches to full width with equal segments. The theme toggle uses it.
+### Shot Glass (signature)
+A demitasse drawn in SVG (viewBox 60 by 62). Liquid height is yield on a fixed 48 g scale shared by every glass; a pull over 48 g stops at the rim and gets a small overflow chevron instead of a taller glass. The crema band (20% of the liquid, 3.2 to 9 units) takes the crema scale colour for the recorded taste, neutral crema-unknown when untasted. Balanced shots show three soft tiger-stripe flecks. The glass back and stroke follow the theme; the liquid and crema do not. When the coach shows a new shot, its glass pours once (scaleY from 0.15 over 0.9s, ease-out): the page's one authored moment.
 
-### Stat Tile
-A Surface panel with an uppercase faint label, a large mono reading with its unit in Text Faint, and an optional dim note. It shows a number and the context it needs, never a decorative hero metric.
+### Coach Card
+The one machine-coloured surface: `--body` fill, `--on-body` ink, 24px radius, 26px padding. The last shot's glass sits left; the barista instruction in display type, the reason in on-body dim (46ch), then mono figures for the shot. An on-body hairline separates the actions row: the inverted primary, an optional ghost, and the confidence in words at the end. On phones the glass tucks into the top-right corner, the primary goes full width and the ghost hides.
 
-### Brand Lockup (Signature)
-A row of six Crema Amber bars (heights 28 / 62 / 100 / 97 / 72 / 45%) traces a shot's ramp, hold and decline above the lowercase `crema` wordmark. The bars are flex children of a shrink-wrapped box, so the row always measures exactly as wide as the word. The same bar motif drives the working indicator.
+### Dial-in Strip
+This coffee's shots as a row of glasses, oldest left, on the shared scale. Each column shows its time in mono (good hue when on target), a signed delta in faint Figtree with mono figures, and reserves a 6px dot so glasses share a baseline; the latest shot's dot is the action colour. A legend of crema swatches closes the card.
 
-### Profile & Shot Charts (Signature)
-Hand-rolled SVG with no chart library. Pressure is drawn as a 2.2px Crema Amber line over an amber gradient area; flow as a dashed Cool Water line; stage bands use pre-infusion = Cool Water, infusion = Crema Amber and ramp-down = Espresso Rust at per-theme band opacity. Shot-time charts plot rating-colored dots ringed in Surface over a tinted Good Sage target band. Gridlines are Border, axes Border Strong, and labels mono in Text Faint.
+### Brand Lockup
+A solid demitasse in current ink with a fixed balanced-hazel crema band (never the finish colour, which would vanish on Black), beside lowercase "crema" in the wordmark style.
 
-### Landing Pull & Stage Mark (Signature, landing only)
-The landing is one shot, told with the profile-chart grammar above.
-- **The pull (hero):** a full-bleed pressure profile under the hero copy, never behind it. The profile shows first as a dashed Border Strong ghost, then a 3px Crema Amber line draws over it with a faint 1px playhead and an amber dot. A mono readout panel (Counter Raised, Border Strong, 8px corners) tracks the playhead in bar, s and ml/s max, the last labelled as the stage's flow limit, never as measured flow. Stage bands use the chart stage colors at band opacity and the last band runs on to the viewport edge; the frame rules run full-bleed while the line stops a gutter short so the final reading stays on screen. Stage labels in the plot link to their sections. With reduced motion the finished curve shows at once.
-- **The stage mark:** each section carries a mini shot curve (dashed rest line) with only its own stage lit in that stage's color over an area at chart-area opacity; the closing section lights the whole shot in amber. On desktop it sits sticky in a 220px gutter beside the section, with the stage name and a mono time span below it. At ≤860px it becomes a bare 160px slice above the heading with no text label, so it never reads as an eyebrow.
+### Working Indicator
+Four 3px bars pulsing in currentColor like a shot being pulled, with an optional mono elapsed clock; static under reduced motion.
+
+### Landing page (pending)
+The signed-out landing page (`Landing.tsx`, `landing.css`) has not had its own pass in this world. It only inherits new values through compatibility aliases (`--crema` maps to `--action`, `--crema-dim` to `--action-line`, `--espresso` to `--stage-ramp`, `--on-accent`, `--accent-hover`, `--tint-accent-*`, `--banner-*`, `--shadow`). These aliases exist for compatibility only; new code reads the current token names.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** define every new color as a token in both the dark `:root` block and the `[data-theme='light']` block, then use it through `var(--…)`.
-- **Do** set every measured value in JetBrains Mono with `tabular-nums`, with its unit beside it in Text Faint.
-- **Do** keep Crema Amber for the one primary action and current state on a screen.
-- **Do** show status as a tint pair (hue text, tinted background, tinted border), as tags and banners already do.
-- **Do** separate surfaces by tone and a 1px border, and hold cards to 12px corners and controls to 8px.
-- **Do** key touch sizing to `@media (pointer: coarse)` and keep inputs at 16px on phones.
-- **Do** honor `prefers-reduced-motion` by freezing motion into a static, still-readable state rather than hiding it.
+- **Do** derive every action tint from `--action` with `color-mix(in oklab, ...)`; a new finish adds only `--body`, `--on-body`, `--action`, `--on-action` per theme.
+- **Do** keep the coach card the only `--body`-filled surface, and invert its primary button to on-body / body.
+- **Do** draw every shot as the shared Shot Glass on the fixed 48 g scale, with crema colour from the taste.
+- **Do** set figures in Red Hat Mono with tabular numerals and their units and words in Figtree.
+- **Do** give every button the tamp-feel press (`scale(0.95) translateY(1px)`, ease-out-quint) and remove it under reduced motion.
+- **Do** keep one primary press per viewport: hide the header Log button when the coach shows, and let the tab bar carry Log shot on phones.
+- **Do** use soft card shadows in light and a hairline border in dark.
+- **Do** use drawn Lucide line icons at 17 to 22px.
+- **Do** write headlines as barista instructions and confidence in words.
 
 ### Don't:
-- **Don't** make it look like a generic SaaS dashboard: no blue/purple gradients, glassy or blurred cards, or hero stats that don't mean anything.
-- **Don't** borrow Fellow's visual language, logos or product imagery. Crema is independent.
-- **Don't** use cool greys. Every neutral in the palette is warm.
-- **Don't** add shadows to cards or lift elements on hover; the one shadow belongs to modals.
-- **Don't** use Space Grotesk anywhere but the wordmark.
-- **Don't** fill a surface with a saturated status color.
-- **Don't** hardcode a hex or opacity at the point of use, in CSS or in SVG.
+- **Don't** tie status hues, the crema scale, the espresso liquid or brew-stage colours to the finish.
+- **Don't** use a pale or off-white action colour for small indicators on dark grounds; use `--text` there (Black dark, Sesame dark).
+- **Don't** cast the Sesame light ground with the body; it stays `ground-sesame`.
+- **Don't** add bounce or overshoot to press or entrance motion.
+- **Don't** put units or words in mono, or set headings without a matching optical size.
+- **Don't** use Fellow logos, marks or UI; finish names describe the colourway only.
+- **Don't** add new reads of the legacy aliases (`--crema`, `--espresso`, `--on-accent`, `--tint-accent-*`, `--banner-*`).
+- **Don't** return to the retired brown-on-brown palette with a single amber accent.

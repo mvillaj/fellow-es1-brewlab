@@ -16,6 +16,7 @@ import { Banner, Empty, Modal, Stars, Stat, Working, useElapsed } from '../compo
 import { DialInChart } from '../components/charts';
 import ShotForm from '../components/ShotForm';
 import { daysOffRoast, fmt, relativeDate } from '../lib/format';
+import { baristaLine } from '../lib/coach';
 
 export default function CoffeeDetail() {
   const { id } = useParams<{ id: string }>();
@@ -109,7 +110,7 @@ export default function CoffeeDetail() {
         {c.process ? <span className="tag cool">{c.process}</span> : null}
         {c.varietal ? <span className="tag">{c.varietal}</span> : null}
         {c.altitudeMasl ? <span className="tag mono">{c.altitudeMasl} masl</span> : null}
-        {off != null ? <span className="tag crema">{off} days off roast</span> : null}
+        {off != null ? <span className="tag accent">{off} days off roast</span> : null}
         {c.tastingNotes.map((n) => (
           <span key={n} className="tag">
             {n}
@@ -149,7 +150,7 @@ export default function CoffeeDetail() {
           <div className="card-head">
             <h2>Next pull</h2>
           </div>
-          <div style={{ fontSize: '1.1rem', color: 'var(--crema)' }}>{suggestion.headline}</div>
+          <h3 className="next-pull">{baristaLine(suggestion)}</h3>
           <p className="dim small" style={{ margin: '6px 0 0' }}>
             {suggestion.reason}
           </p>
