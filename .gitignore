@@ -36,3 +36,8 @@ TODO.md
 **/.impeccable/hook.cache.json
 # Per-user Claude Code settings.
 .claude/settings.local.json
+# Playwright: saved sign-in session (a live Clerk session token) and run output.
+e2e/.auth/
+e2e/.no-anthropic/
+test-results/
+playwright-report/
