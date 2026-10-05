@@ -14,14 +14,15 @@
     "dev:client": "pnpm --filter @brewlab/client dev",
     "build": "pnpm --filter @brewlab/client build",
     "typecheck": "tsc -p packages/shared && tsc -p server && tsc -p client",
-    "test": "pnpm test:shared && pnpm test:server",
+    "test": "pnpm test:shared && pnpm test:server && pnpm test:client",
     "seed": "pnpm --filter @brewlab/server seed",
     "probe": "node scripts/fellow-probe.mjs",
     "reset": "rm -f server/data/brewlab.db server/data/brewlab.db-wal server/data/brewlab.db-shm && pnpm seed",
     "discover": "node scripts/fellow-discover.mjs",
     "har": "node scripts/fellow-har.mjs",
     "test:shared": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test \"packages/shared/src/*.test.ts\"",
-    "test:server": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test \"server/src/**/*.test.ts\""
+    "test:server": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test \"server/src/**/*.test.ts\"",
+    "test:client": "pnpm --filter @brewlab/client test"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
