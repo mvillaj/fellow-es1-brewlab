@@ -44,9 +44,18 @@ show you on day one, and there is no password to sign in as them.
 ```bash
 pnpm test         # shared + server (node:test) and client (Vitest)
 pnpm --filter @brewlab/client test:watch   # client tests in watch mode
+pnpm test:e2e     # Playwright browser tests (see below)
 pnpm typecheck    # tsc across all three packages
 pnpm reset        # wipe the database and re-seed
 ```
+
+End-to-end tests run the real app in Chromium against a throwaway database
+(`server/data/e2e.db`, recreated each run) on ports 4310/5310, so they never touch
+a `pnpm dev` you have open. They sign in through your Clerk keys from `.env`, which
+must be a **development** instance (`sk_test_`): the first run creates a test user,
+`e2e+clerk_test@example.com`. AI features stay disabled during the run. Run
+`pnpm exec playwright install chromium` once before the first run. In CI the
+same suite runs as the `e2e` job, and deploy waits on it.
 
 ---
 

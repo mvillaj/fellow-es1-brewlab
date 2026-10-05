@@ -22,9 +22,13 @@
     "har": "node scripts/fellow-har.mjs",
     "test:shared": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test \"packages/shared/src/*.test.ts\"",
     "test:server": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test \"server/src/**/*.test.ts\"",
-    "test:client": "pnpm --filter @brewlab/client test"
+    "test:client": "pnpm --filter @brewlab/client test",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@clerk/backend": "^3.22.0",
+    "@clerk/testing": "^2.2.42",
+    "@playwright/test": "^1.63.0",
     "concurrently": "^9.1.2",
     "typescript": "^5.7.3"
   }

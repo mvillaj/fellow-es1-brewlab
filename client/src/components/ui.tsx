@@ -1,6 +1,15 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { cloneElement, isValidElement, useEffect, useId, useState, type ReactNode } from 'react';
 import { Star, X } from 'lucide-react';
 
+const LABELABLE = new Set(['input', 'select', 'textarea']);
+
+/**
+ * A labelled form row. A single native control child is tied to the label with
+ * `htmlFor`/`id` (and to the hint with `aria-describedby`), so screen readers
+ * announce it and `getByLabel` finds it. Anything else — a rating widget, a list
+ * of rows — can't be the target of a `<label>`, so the row becomes a group
+ * named by the label instead.
+ */
 export function Field({
   label,
   hint,
@@ -10,11 +19,36 @@ export function Field({
   hint?: ReactNode;
   children: ReactNode;
 }) {
+  const uid = useId();
+  const labelId = `${uid}-label`;
+  const hintId = hint ? `${uid}-hint` : undefined;
+
+  const control =
+    isValidElement<{ id?: string; 'aria-describedby'?: string }>(children) &&
+    typeof children.type === 'string' &&
+    LABELABLE.has(children.type)
+      ? children
+      : null;
+
+  if (control) {
+    const controlId = control.props.id ?? `${uid}-control`;
+    const describedBy = [control.props['aria-describedby'], hintId].filter(Boolean).join(' ') || undefined;
+    return (
+      <div className="field">
+        <label id={labelId} htmlFor={controlId}>
+          {label}
+        </label>
+        {cloneElement(control, { id: controlId, 'aria-describedby': describedBy })}
+        {hint ? <span className="hint" id={hintId}>{hint}</span> : null}
+      </div>
+    );
+  }
+
   return (
-    <div className="field">
-      <label>{label}</label>
+    <div className="field" role="group" aria-labelledby={labelId} aria-describedby={hintId}>
+      <label id={labelId}>{label}</label>
       {children}
-      {hint ? <span className="hint">{hint}</span> : null}
+      {hint ? <span className="hint" id={hintId}>{hint}</span> : null}
     </div>
   );
 }

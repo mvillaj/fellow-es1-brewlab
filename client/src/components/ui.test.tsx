@@ -1,7 +1,40 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { Modal, RatingInput, Stars, Working } from './ui';
+import { Field, Modal, RatingInput, Stars, Working } from './ui';
+
+describe('Field', () => {
+  it('ties the label to its input', () => {
+    render(
+      <Field label="Coffee name" hint="As printed on the bag.">
+        <input />
+      </Field>,
+    );
+    const input = screen.getByLabelText('Coffee name');
+    expect(input.tagName).toBe('INPUT');
+    expect(input).toHaveAccessibleDescription('As printed on the bag.');
+  });
+
+  it('keeps an id the input already has', () => {
+    render(
+      <Field label="Roaster">
+        <input id="roaster" />
+      </Field>,
+    );
+    expect(screen.getByLabelText('Roaster')).toHaveAttribute('id', 'roaster');
+  });
+
+  it('names a composite child as a group', () => {
+    render(
+      <Field label="Rating">
+        <div>
+          <button type="button">1 star</button>
+        </div>
+      </Field>,
+    );
+    expect(screen.getByRole('group', { name: 'Rating' })).toBeInTheDocument();
+  });
+});
 
 describe('Stars', () => {
   it('labels the rating for screen readers', () => {
