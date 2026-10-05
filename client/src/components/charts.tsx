@@ -3,9 +3,9 @@ import type { Shot } from '@brewlab/shared';
 import { relativeDate } from '../lib/format';
 
 const STAGE_COLOUR: Record<Es1Stage['kind'], string> = {
-  preinfusion: 'var(--cool)',
-  infusion: 'var(--crema)',
-  rampdown: 'var(--espresso)',
+  preinfusion: 'var(--stage-pre)',
+  infusion: 'var(--stage-infusion)',
+  rampdown: 'var(--stage-ramp)',
 };
 
 export { STAGE_COLOUR };
@@ -44,8 +44,8 @@ export function ProfileCurve({ profile, height = 220 }: { profile: Es1Profile; h
     <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pressure profile">
       <defs>
         <linearGradient id="crema-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="var(--crema)" stopOpacity="var(--chart-area-opacity)" />
-          <stop offset="100%" stopColor="var(--crema)" stopOpacity="0.02" />
+          <stop offset="0%" stopColor="var(--chart-pressure)" stopOpacity="var(--chart-area-opacity)" />
+          <stop offset="100%" stopColor="var(--chart-pressure)" stopOpacity="0.02" />
         </linearGradient>
       </defs>
 
@@ -76,7 +76,7 @@ export function ProfileCurve({ profile, height = 220 }: { profile: Es1Profile; h
 
       <path d={area} fill="url(#crema-fill)" />
       <path d={flowLine} fill="none" stroke="var(--cool)" strokeWidth="1.4" strokeDasharray="4 3" opacity="0.75" />
-      <path d={line} fill="none" stroke="var(--crema)" strokeWidth="2.2" strokeLinejoin="round" />
+      <path d={line} fill="none" stroke="var(--chart-pressure)" strokeWidth="2.2" strokeLinejoin="round" />
 
       <line className="axis" x1={pad.left} y1={H - pad.bottom} x2={W - pad.right} y2={H - pad.bottom} />
       {[0, 0.25, 0.5, 0.75, 1].map((f) => (
@@ -85,7 +85,7 @@ export function ProfileCurve({ profile, height = 220 }: { profile: Es1Profile; h
         </text>
       ))}
 
-      <text x={W - pad.right + 6} y={y(maxBar) + 4} fill="var(--crema)">
+      <text x={W - pad.right + 6} y={y(maxBar) + 4} fill="var(--chart-pressure)">
         bar
       </text>
       <text x={W - pad.right + 6} y={yFlow(maxFlow) + 16} fill="var(--cool)">
@@ -160,7 +160,7 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
 }
 
 /** A tiny inline bar for a value inside a known range. */
-export function Meter({ value, min, max, colour = 'var(--crema)' }: { value: number; min: number; max: number; colour?: string }) {
+export function Meter({ value, min, max, colour = 'var(--action)' }: { value: number; min: number; max: number; colour?: string }) {
   const pct = Math.max(0, Math.min(1, (value - min) / (max - min))) * 100;
   return (
     <div style={{ height: 5, background: 'var(--surface-2)', borderRadius: 3, overflow: 'hidden' }}>

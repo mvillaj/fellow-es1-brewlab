@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Trash2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { STOCK_PROFILES, totalDurationS, yieldG, type BrewProfileRecord } from '@brewlab/shared';
 import { api, useApi } from '../lib/api';
@@ -9,7 +10,7 @@ import { tempF } from '../lib/format';
 const ORIGIN_TAG: Partial<Record<BrewProfileRecord['origin'], { cls: string; label: string }>> = {
   factory: { cls: '', label: "from Fellow's own" },
   drop: { cls: 'cool', label: 'from a Drop' },
-  custom: { cls: 'crema', label: 'on your machine' },
+  custom: { cls: 'accent', label: 'on your machine' },
 };
 
 const SYNC_TAG: Record<BrewProfileRecord['syncState'], { cls: string; label: string }> = {
@@ -68,8 +69,8 @@ export default function Profiles() {
                   </Link>
                   {p.description ? <div className="small dim">{p.description}</div> : null}
                 </div>
-                <button className="btn btn-ghost btn-sm" onClick={() => remove(p)}>
-                  ✕
+                <button className="btn btn-ghost btn-icon" onClick={() => remove(p)} aria-label={`Delete ${p.name}`} title="Delete">
+                  <Trash2 aria-hidden="true" />
                 </button>
               </div>
 

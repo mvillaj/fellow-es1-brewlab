@@ -1,140 +1,246 @@
-/* ── Crema: a dark, warm, coffee-coloured system ───────────────────────────── */
+/* ── Crema: a warm, friendly app that matches your machine ──────────────────
+   Three layers of tokens:
+   1. Theme (light / dark): ground, cards, ink, status hues. Light is the base
+      :root block; dark overrides it under [data-theme='dark'].
+   2. Finish: the ES1 colourway. It sets only --body/--on-body (the machine's
+      colour, used as the one filled surface) and --action/--on-action (the one
+      "press me" colour), per theme. Everything else derives from those.
+   3. Derived: tints, rings and the ground's faint machine cast, mixed from the
+      finish with color-mix so a new finish is four lines per theme, not forty. */
 
 :root {
-  --bg: #100e0c;
-  --bg-raised: #17140f;
-  --surface: #1d1915;
-  --surface-2: #241f1a;
-  --border: #322b24;
-  --border-strong: #453b31;
-
-  --text: #f3ece2;
-  --text-dim: #b3a596;
-  --text-faint: #7d7266;
-
-  --crema: #e0a458;
-  --crema-dim: #a97a3f;
-  --espresso: #c4703f;
-  --good: #7fae72;
-  --warn: #d9a441;
-  --bad: #d4674f;
-  --cool: #6f9dc4;
-
-  /* Colours that used to be hardcoded at their point of use. Every one of these
-     had to invert or re-tune for light, which is why they are tokens now. */
-  --on-accent: #241606;
-  --accent-hover: #eab066;
-  --btn-hover-bg: #2c251e;
-  --btn-hover-border: #57493c;
-  --danger-border: #4a2c25;
-  --danger-hover-bg: #35211c;
-  --danger-hover-border: #6b3a30;
-  --scrim: rgba(6, 5, 4, 0.72);
-  --focus-ring: rgba(224, 164, 88, 0.13);
-
-  --tint-accent-bg: #2a2013;
-  --tint-accent-border: #4a3720;
-  --tint-good-bg: #1b2618;
-  --tint-good-border: #2f4429;
-  --tint-bad-bg: #2a1a16;
-  --tint-bad-border: #4a2c25;
-  --tint-cool-bg: #16202a;
-  --tint-cool-border: #2a3c4a;
-
-  --banner-bad-bg: #2a1a16;
-  --banner-bad-border: #5a3129;
-  --banner-bad-text: #f0b3a5;
-  --banner-good-bg: #1b2618;
-  --banner-good-border: #35492e;
-  --banner-good-text: #bcd8b2;
-  --banner-info-bg: #241d13;
-  --banner-info-border: #3a3122;
-  --banner-info-text: #e2cba3;
-
-  /* Tints lighten against dark and must darken against light, so the alphas are
-     per-theme, not just the hues. */
-  --chart-band-opacity: 0.06;
-  --chart-target-opacity: 0.09;
-  --chart-area-opacity: 0.34;
-
-  /* Height of a text input: 0.92rem x 1.55 line-height + 16px padding + 2px
-     border. The infusion step marker uses it too, so the number lines up with
-     the fields beside it rather than floating 3px high. */
-  --control-h: 2.55rem;
-
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
-
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-
-/* Light. Same warm coffee character, inverted. Only the tokens change — every
-   rule below the :root block is shared, which is the point of the swap. */
-:root[data-theme='light'] {
-  --bg: #f7f3ec;
-  --bg-raised: #fffdfa;
+  /* Theme: light. A morning counter, so light is the base. */
+  --ground: #f7f3ee;
   --surface: #fffdfa;
-  --surface-2: #f0e9de;
-  --border: #e2d8c9;
-  --border-strong: #c8b9a4;
+  --surface-2: #f3ede5;
+  --field: #faf6f1;
+  --border: #ebe3d9;
+  --border-strong: #d8cbbb;
 
-  --text: #241c14;
-  --text-dim: #665949;
-  --text-faint: #907f6c;
+  --text: #2b211c;
+  --text-dim: #685a4f;
+  --text-faint: #8f8175;
 
-  --crema: #9c6416;
-  --crema-dim: #b98a3f;
-  --espresso: #a2542a;
-  --good: #46733a;
-  --warn: #97690f;
-  --bad: #a83f28;
-  --cool: #3a6a91;
+  --good: #3f7a3a;
+  --warn: #946510;
+  --bad: #b03c2a;
+  --cool: #33689a;
+  --star: #e3a21a;
 
-  --shadow: 0 1px 2px rgba(60, 44, 26, 0.08), 0 8px 24px -12px rgba(60, 44, 26, 0.28);
+  --tint-good-bg: #e9f2e5;
+  --tint-good-border: #c6dcbd;
+  --tint-bad-bg: #fbe8e3;
+  --tint-bad-border: #f0c6bb;
+  --tint-cool-bg: #e5eef7;
+  --tint-cool-border: #c0d4e8;
+  --tint-warn-bg: #f8efd9;
+  --tint-warn-border: #e8d4a4;
 
-  /* Amber is mid-tone, so the accent takes light text here rather than dark, and
-     hover darkens instead of lightening. */
-  --on-accent: #fffaf2;
-  --accent-hover: #855314;
-  --btn-hover-bg: #ece3d6;
-  --btn-hover-border: #b8a68e;
-  --danger-border: #e0c0b6;
-  --danger-hover-bg: #f7e4de;
-  --danger-hover-border: #c98d7b;
-  --scrim: rgba(60, 44, 26, 0.38);
-  --focus-ring: rgba(156, 100, 22, 0.18);
+  --shadow-card: 0 1px 2px rgba(60, 40, 25, 0.05), 0 10px 28px -16px rgba(60, 40, 25, 0.18);
+  --shadow-pop: 0 2px 6px rgba(60, 40, 25, 0.08), 0 24px 48px -20px rgba(60, 40, 25, 0.32);
+  --scrim: rgba(43, 33, 28, 0.36);
+  --shadow-bar: 0 -8px 24px -18px rgba(40, 28, 20, 0.3);
+  --shadow-chip: 0 1px 3px rgba(40, 28, 20, 0.12);
 
-  --tint-accent-bg: #f7eddc;
-  --tint-accent-border: #e4d0ac;
-  --tint-good-bg: #eaf1e6;
-  --tint-good-border: #c3d8ba;
-  --tint-bad-bg: #fbe9e4;
-  --tint-bad-border: #ecc4b9;
-  --tint-cool-bg: #e7eff6;
-  --tint-cool-border: #bed3e3;
+  /* The shot glass. The liquid is drawn, not themed, so only the glass itself
+     and the empty space inside it change between light and dark. */
+  --espresso-liquid: #3a2215;
+  --crema-sour: #ecdba6;
+  --crema-sourish: #ddb977;
+  --crema-balanced: #c4874a;
+  --crema-bitterish: #8f552d;
+  --crema-bitter: #5a341d;
+  --crema-unknown: #cdb9a2;
+  --glass-stroke: rgba(43, 33, 28, 0.34);
+  --glass-fill: rgba(255, 255, 255, 0.55);
 
-  --banner-bad-bg: #fbe9e4;
-  --banner-bad-border: #e9bcae;
-  --banner-bad-text: #8a3220;
-  --banner-good-bg: #eaf1e6;
-  --banner-good-border: #bfd6b5;
-  --banner-good-text: #35592b;
-  --banner-info-bg: #f7eddc;
-  --banner-info-border: #e2cba3;
-  --banner-info-text: #6f4a10;
+  /* Profile-chart stages: fixed brew colours, independent of the finish. */
+  --stage-pre: #5b8fc0;
+  --stage-infusion: #c4874a;
+  --stage-ramp: #8f552d;
 
+  /* The pressure line is brew data, so like the stages it ignores the finish. */
+  --chart-pressure: #a5612c;
   --chart-band-opacity: 0.1;
   --chart-target-opacity: 0.14;
-  --chart-area-opacity: 0.2;
+  --chart-area-opacity: 0.22;
+
+  --control-h: 2.75rem;
+  --radius: 20px;
+  --radius-md: 14px;
+  --radius-sm: 12px;
+
+  --sans: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --display: 'Bricolage Grotesque', 'Figtree', -apple-system, sans-serif;
+  --mono: 'Red Hat Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* "Auto" is resolved to a concrete data-theme in JS before first paint, so the
-   attribute is always one of light/dark and there is no second copy of the
-   palette to keep in sync. This just tells the UA to match its own chrome —
-   scrollbars, form controls, caret. */
+/* Theme: dark. Warm charcoal rather than brown, with a clear step between the
+   ground, cards and the layer inside them so panels read without borders. */
+:root[data-theme='dark'] {
+  --ground: #151211;
+  --surface: #211c1a;
+  --surface-2: #2c2623;
+  --field: #1a1615;
+  --border: #322b27;
+  --border-strong: #4a403a;
+
+  --text: #f6efe8;
+  --text-dim: #c2b4a8;
+  --text-faint: #8f8277;
+
+  --good: #86bb78;
+  --warn: #dcaa4c;
+  --bad: #e47a64;
+  --cool: #7eaad6;
+  --star: #e8b24a;
+
+  --tint-good-bg: #1d2a1b;
+  --tint-good-border: #304a2c;
+  --tint-bad-bg: #2f1c18;
+  --tint-bad-border: #55302a;
+  --tint-cool-bg: #18222d;
+  --tint-cool-border: #2b3f52;
+  --tint-warn-bg: #2b2414;
+  --tint-warn-border: #4b3d1e;
+
+  --shadow-card: none;
+  --shadow-pop: 0 2px 6px rgba(0, 0, 0, 0.4), 0 24px 48px -20px rgba(0, 0, 0, 0.7);
+  --scrim: rgba(8, 6, 5, 0.66);
+  --shadow-bar: 0 -8px 24px -18px rgba(0, 0, 0, 0.6);
+  --shadow-chip: none;
+
+  --glass-stroke: rgba(246, 239, 232, 0.36);
+  --glass-fill: rgba(255, 255, 255, 0.04);
+  /* The bitter end lifts in dark so it stays apart from the liquid and the card. */
+  --crema-bitterish: #a8693c;
+  --crema-bitter: #84512e;
+
+  --stage-pre: #7eaad6;
+  --stage-infusion: #d49a5c;
+  --stage-ramp: #a86a3e;
+
+  --chart-pressure: #e2a766;
+  --chart-band-opacity: 0.07;
+  --chart-target-opacity: 0.1;
+  --chart-area-opacity: 0.3;
+}
+
+/* ── Finishes ───────────────────────────────────────────────────────────────
+   --body fills the one coloured surface (the coach). --action fills buttons,
+   and differs from --body only where the body is too pale or too dark to carry
+   a label on this ground (Sesame in light, Black in dark). */
+
+/* Crema orange: the house finish and the default. A burnt orange, kept just
+   light enough to carry espresso-dark text (4.8:1); any darker and neither
+   dark nor white labels pass until it turns to rust. */
+:root, :root[data-finish='crema'] {
+  --body: #d9622b; --on-body: #2a1408;
+  --action: #d9622b; --on-action: #2a1408;
+}
+:root[data-theme='dark'], :root[data-theme='dark'][data-finish='crema'] {
+  --body: #df6a31; --on-body: #2a1408;
+  --action: #e3703a; --on-action: #2a1408;
+}
+/* Orange text on white fails contrast, so links take a burnt orange in light. */
+:root:not([data-theme='dark'])[data-finish='crema'] a.link { color: #a8410f; }
+
+:root[data-finish='sesame-walnut'] {
+  --body: #ebdfc8; --on-body: #3a2616;
+  --action: #7b4a2b; --on-action: #fff8ef;
+}
+/* Sesame is pale enough that a sesame-cast ground would melt into the coach
+   card, so its light ground stays a near-neutral warm white instead. */
+:root:not([data-theme='dark'])[data-finish='sesame-walnut'] { --bg: #f4f2ee; }
+:root[data-theme='dark'][data-finish='sesame-walnut'] {
+  --body: #e6d7bb; --on-body: #2b1d12;
+  --action: #e6d7bb; --on-action: #2b1d12;
+}
+
+:root[data-finish='cherry-walnut'] {
+  --body: #c4302b; --on-body: #fff6f2;
+  --action: #c4302b; --on-action: #fff6f2;
+}
+:root[data-theme='dark'][data-finish='cherry-walnut'] {
+  --body: #b93530; --on-body: #fff6f2;
+  --action: #d23e36; --on-action: #fff6f2;
+}
+
+:root[data-finish='marine-walnut'] {
+  --body: #2c5a9a; --on-body: #f3f7fd;
+  --action: #2c5a9a; --on-action: #f3f7fd;
+}
+:root[data-theme='dark'][data-finish='marine-walnut'] {
+  --body: #2f5c9c; --on-body: #f3f7fd;
+  --action: #3d6db5; --on-action: #f3f7fd;
+}
+
+:root[data-finish='woodland-walnut'] {
+  --body: #3d6a4b; --on-body: #f2f8f2;
+  --action: #3d6a4b; --on-action: #f2f8f2;
+}
+:root[data-theme='dark'][data-finish='woodland-walnut'] {
+  --body: #3a6447; --on-body: #f2f8f2;
+  --action: #487a57; --on-action: #f2f8f2;
+}
+
+:root[data-finish='chocolate-maple'] {
+  --body: #6a4635; --on-body: #fbf3ea;
+  --action: #6a4635; --on-action: #fbf3ea;
+}
+:root[data-theme='dark'][data-finish='chocolate-maple'] {
+  --body: #6e4a39; --on-body: #fbf3ea;
+  --action: #8a5d47; --on-action: #fbf3ea;
+}
+
+:root[data-finish='black'] {
+  --body: #1f1c1b; --on-body: #f6efe8;
+  --action: #1f1c1b; --on-action: #f6efe8;
+}
+:root[data-theme='dark'][data-finish='black'] {
+  --body: #0b0a0a; --on-body: #f6efe8;
+  --action: #f1ebe4; --on-action: #1a1614;
+}
+
+/* ── Derived ──────────────────────────────────────────────────────────────── */
+
+:root[data-theme='dark'] { --bg: color-mix(in oklab, var(--body) 11%, var(--ground)); }
+:root {
+  /* The ground takes a faint cast of the machine, so a red ES1 warms the page
+     and a blue one cools it, without ever reading as a coloured background. */
+  --bg: color-mix(in oklab, var(--body) 7%, var(--ground));
+  --bg-raised: var(--surface);
+
+  --action-hover: color-mix(in oklab, var(--action) 86%, var(--text));
+  --action-soft: color-mix(in oklab, var(--action) 12%, var(--surface));
+  --action-line: color-mix(in oklab, var(--action) 34%, var(--surface));
+  --focus-ring: color-mix(in oklab, var(--action) 26%, transparent);
+  --on-body-dim: color-mix(in oklab, var(--on-body) 74%, var(--body));
+  --on-body-line: color-mix(in oklab, var(--on-body) 18%, var(--body));
+
+  /* Old names, still read by the landing page, charts and inline styles. */
+  --crema: var(--action);
+  --crema-dim: var(--action-line);
+  --espresso: var(--stage-ramp);
+  --on-accent: var(--on-action);
+  --accent-hover: var(--action-hover);
+  --tint-accent-bg: var(--action-soft);
+  --tint-accent-border: var(--action-line);
+  --banner-bad-bg: var(--tint-bad-bg);
+  --banner-bad-border: var(--tint-bad-border);
+  --banner-bad-text: var(--bad);
+  --banner-good-bg: var(--tint-good-bg);
+  --banner-good-border: var(--tint-good-border);
+  --banner-good-text: var(--good);
+  --banner-info-bg: var(--surface-2);
+  --banner-info-border: var(--border-strong);
+  --banner-info-text: var(--text);
+  --shadow: var(--shadow-pop);
+}
+
 :root[data-theme='light'] { color-scheme: light; }
 :root[data-theme='dark'] { color-scheme: dark; }
 
@@ -150,22 +256,30 @@ body {
   font-size: 15px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  caret-color: var(--action);
 }
 
-a { color: inherit; text-decoration: none; }
+::selection { background: var(--action-line); color: var(--text); }
+:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+* { scrollbar-color: var(--border-strong) transparent; }
 
-h1, h2, h3 { font-family: var(--sans); font-weight: 600; margin: 0; }
-h1 { font-size: 2rem; line-height: 1.15; letter-spacing: -0.022em; }
-h2 { font-size: 1.4rem; letter-spacing: -0.015em; }
-h3 { font-size: 1.1rem; letter-spacing: -0.01em; }
+a { color: inherit; text-decoration: none; }
+a.link { color: var(--action); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+:root[data-theme='dark'][data-finish='sesame-walnut'] a.link,
+:root[data-theme='dark'][data-finish='black'] a.link { color: var(--text); }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 700; margin: 0; text-wrap: balance; }
+h1 { font-size: 2.15rem; line-height: 1.08; letter-spacing: -0.03em; font-variation-settings: 'opsz' 48; }
+h2 { font-size: 1.3rem; line-height: 1.2; letter-spacing: -0.02em; font-variation-settings: 'opsz' 24; }
+h3 { font-size: 1.05rem; line-height: 1.3; letter-spacing: -0.01em; font-weight: 600; font-variation-settings: 'opsz' 14; }
 
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .dim { color: var(--text-dim); }
 .faint { color: var(--text-faint); }
-.small { font-size: 0.83rem; }
+.small { font-size: 0.85rem; }
 .center { text-align: center; }
 .row { display: flex; align-items: center; gap: 12px; }
-.row-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.row-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .spread { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .stack { display: flex; flex-direction: column; gap: 16px; }
 .stack-sm { display: flex; flex-direction: column; gap: 8px; }
@@ -173,111 +287,158 @@ h3 { font-size: 1.1rem; letter-spacing: -0.01em; }
 
 /* ── Shell ─────────────────────────────────────────────────────────────────── */
 
-.shell { display: grid; grid-template-columns: 232px 1fr; min-height: 100%; }
+.shell { display: grid; grid-template-columns: 248px 1fr; min-height: 100%; }
 
+/* The sidebar shares the page's ground: it is navigation, not a panel. The
+   active pill carries the machine's colour. */
 .sidebar {
-  background: var(--bg-raised);
-  border-right: 1px solid var(--border);
-  padding: 22px 14px;
+  padding: 22px 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 18px;
   position: sticky;
   top: 0;
   height: 100vh;
 }
 
-.brand { padding: 0 8px; }
-.brand-lockup { display: inline-block; font-size: 1.72rem; }
-/* Lowercase: c, r, e, m and a are every one an x-height letter, so the word
-   presents a single flat top edge for the bar row to sit on. x-height is
-   shorter than cap-height, which is why this is set larger than the headings. */
+.brand { padding: 0 10px; }
+
+.brand-lockup { display: inline-flex; align-items: center; gap: 0.32em; font-size: 1.7rem; color: var(--text); }
+.brand-glass { width: 0.86em; height: 0.86em; flex: none; }
 .brand-name {
-  font-family: var(--display); font-weight: 700; font-size: 1em;
-  line-height: 1; text-transform: lowercase; letter-spacing: 0; margin: 0;
+  font-family: var(--display); font-weight: 800; font-size: 1em;
+  line-height: 1; letter-spacing: -0.035em; margin: 0;
+  font-variation-settings: 'opsz' 48;
 }
-/* Flex children with no intrinsic width, so the row measures exactly as wide
-   as the word below it — whatever the font renders. */
-.brand-bars { display: flex; align-items: flex-end; gap: 0.13em; height: 0.5em; margin-bottom: 0.24em; }
-.brand-bars i { flex: 1; background: var(--crema); border-radius: 0.09em; }
-.brand-sub { margin-top: 7px; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+.brand-sub { margin-top: 4px; font-size: 0.78rem; color: var(--text-faint); }
 
-.nav { display: flex; flex-direction: column; gap: 2px; }
-.nav-label {
-  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--text-faint); padding: 14px 10px 6px;
+/* The sidebar is a fixed 100vh, so on a short window the nav is what gives:
+   it scrolls on its own while the brand and footer stay put. */
+.nav {
+  display: flex; flex-direction: column; gap: 2px;
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  margin: 0 -6px; padding: 0 6px;
 }
+.nav-label { font-size: 0.76rem; font-weight: 600; color: var(--text-faint); padding: 12px 12px 4px; }
+.nav-group:first-child .nav-label { padding-top: 0; }
 .nav a {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 10px; border-radius: var(--radius-sm);
-  color: var(--text-dim); font-size: 0.92rem;
-  transition: background 0.12s, color 0.12s;
+  display: flex; align-items: center; gap: 12px;
+  min-height: 38px; padding: 7px 12px; border-radius: var(--radius-sm);
+  color: var(--text-dim); font-size: 0.95rem; font-weight: 500;
+  transition: background 0.15s, color 0.15s;
 }
-.nav a:hover { background: var(--surface); color: var(--text); }
-.nav a.active { background: var(--surface-2); color: var(--text); box-shadow: inset 2px 0 0 var(--crema); }
-.nav-icon { width: 18px; text-align: center; opacity: 0.9; }
+.nav a:hover { background: var(--surface-2); color: var(--text); }
+.nav a.active { background: var(--action-soft); color: var(--text); font-weight: 600; }
+.nav a.active .nav-icon { color: var(--action); }
+:root[data-theme='dark'][data-finish='black'] .nav a.active .nav-icon { color: var(--text); }
+.nav-icon { width: 19px; height: 19px; flex: none; }
 
-.sidebar-foot { margin-top: auto; border-top: 1px solid var(--border); padding-top: 14px; }
+.sidebar-foot {
+  margin-top: auto; flex-shrink: 0;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 12px 4px 0 10px; border-top: 1px solid var(--border);
+}
+.account { display: flex; align-items: center; gap: 6px; position: relative; }
+.account-name + .btn { margin-left: 4px; }
+.account-name { flex: 1; }
+.settings-pop {
+  position: absolute; left: -6px; width: 272px; bottom: calc(100% + 10px); z-index: 30;
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--surface); border-radius: var(--radius-md); padding: 14px;
+  box-shadow: var(--shadow-pop); animation: modal-in 0.22s var(--ease-out);
+}
+:root[data-theme='dark'] .settings-pop { border: 1px solid var(--border-strong); }
+.settings-pop h3 { font-size: 0.85rem; font-family: var(--sans); color: var(--text-dim); }
+.sheet .settings-inline { display: flex; flex-direction: column; gap: 12px; }
+.account-name { font-size: 0.88rem; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-.main { padding: 32px 40px 80px; max-width: 1180px; width: 100%; min-width: 0; }
-.page-head { margin-bottom: 26px; }
-.page-head p { color: var(--text-dim); margin: 6px 0 0; max-width: 62ch; }
+.main { padding: 36px 44px 88px; max-width: 1180px; width: 100%; min-width: 0; }
+.page-head { margin-bottom: 28px; }
+.page-head p { color: var(--text-dim); margin: 8px 0 0; max-width: 62ch; font-size: 1rem; }
 
-/* Below the shell breakpoint the sidebar becomes a sticky top bar: brand and
-   account on one line, the links on a scrollable strip beneath. The section
-   wrappers go `display: contents` so the links become direct flex children of
-   .nav — without that, a row-direction .nav lays out the *groups* side by side
-   and the links still stack inside them. */
+/* Phone and tablet: a slim top bar carries the brand, and navigation moves to
+   a bottom tab bar within thumb reach, with Log shot raised in the centre. */
+.topbar, .tabbar { display: none; }
+
 @media (max-width: 860px) {
-  /* minmax(0,…) rather than 1fr: a grid item defaults to min-width:auto, so the
-     column would otherwise be floored at the nav's min-content width and the
-     strip's overflow-x would never engage. */
   .shell { grid-template-columns: minmax(0, 1fr); }
-  .sidebar {
+  .sidebar { display: none; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
     position: sticky; top: 0; z-index: 40;
-    height: auto; padding: 10px 0 0; min-width: 0;
-    flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px;
-    border-right: none; border-bottom: 1px solid var(--border);
+    padding: 12px 18px; background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--border);
   }
+  .topbar .brand-lockup { font-size: 1.3rem; }
 
-  .brand { order: 1; flex: 1 1 auto; min-width: 0; padding: 0 14px; }
-  .brand-lockup { font-size: 1.25rem; }
-  .brand-sub { display: none; }
-
-  /* Out of the column's `margin-top: auto` and onto the brand line, so signing
-     out is reachable at all — it used to be display:none here. */
-  .sidebar-foot {
-    order: 2; margin-top: 0; padding: 0 14px 0 0;
-    border-top: none; display: flex; align-items: center; gap: 10px;
+  .tabbar {
+    display: grid; grid-template-columns: repeat(5, 1fr); align-items: end;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    background: var(--surface); border-top: 1px solid var(--border);
+    box-shadow: var(--shadow-bar);
   }
-  .sidebar-foot .small { padding: 0 !important; }
-
-  .nav {
-    order: 3; flex-basis: 100%; min-width: 0;
-    flex-direction: row; gap: 4px;
-    overflow-x: auto; padding: 0 14px 8px;
-    scrollbar-width: none;
+  .tab {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    min-height: 52px; padding: 6px 2px; border-radius: var(--radius-sm);
+    font: inherit; font-size: 0.72rem; font-weight: 600; color: var(--text-faint);
+    background: none; border: none; cursor: pointer;
   }
-  .nav::-webkit-scrollbar { display: none; }
-  .nav > div { display: contents; }
-  .nav a { white-space: nowrap; }
-  /* A left rail reads as wrong in a horizontal strip. */
-  .nav a.active { box-shadow: inset 0 -2px 0 var(--crema); }
-  .nav-label { display: none; }
+  .tab svg { width: 22px; height: 22px; }
+  .tab.active { color: var(--text); }
+  .tab.active svg { color: var(--action); }
+  :root[data-theme='dark'][data-finish='black'] .tab.active svg { color: var(--text); }
+  .tab-log { align-self: center; justify-self: center; }
+  .tab-log span.tab-log-disc {
+    display: grid; place-items: center; width: 58px; height: 58px; margin-top: -26px;
+    border-radius: 50%; background: var(--action); color: var(--on-action);
+    box-shadow: 0 0 0 5px var(--surface), var(--shadow-pop);
+    transition: transform 0.2s var(--spring);
+  }
+  .tab-log:active span.tab-log-disc { transform: scale(0.92) translateY(1px); }
+  .tab-log svg { width: 26px; height: 26px; color: var(--on-action) !important; }
 
-  .main { padding: 22px 18px 60px; }
+  .main { padding: 24px 18px calc(110px + env(safe-area-inset-bottom)); }
+  /* The tab bar's raised button is Log shot on phones; a second one in the
+     header only pushes the coach down. */
+  .page-head .head-log { display: none; }
 }
+
+/* "More" on phones: a bottom sheet with every destination and the settings. */
+.sheet-overlay {
+  position: fixed; inset: 0; z-index: 60; background: var(--scrim);
+  display: flex; align-items: flex-end;
+  animation: fade-in 0.2s var(--ease-out);
+}
+.sheet {
+  width: 100%; max-height: 86vh; overflow-y: auto;
+  background: var(--surface); border-radius: 24px 24px 0 0;
+  padding: 10px 18px calc(22px + env(safe-area-inset-bottom));
+  box-shadow: var(--shadow-pop);
+  animation: sheet-up 0.32s var(--ease-out);
+}
+.sheet-grip { width: 40px; height: 5px; border-radius: 3px; background: var(--border-strong); margin: 0 auto 14px; }
+.sheet .nav { overflow: visible; flex: none; }
+.sheet .sidebar-foot { padding: 16px 4px 0; margin-top: 16px; }
+@keyframes sheet-up { from { transform: translateY(40%); opacity: 0.4; } to { transform: none; opacity: 1; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* ── Surfaces ──────────────────────────────────────────────────────────────── */
 
 .card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   border-radius: var(--radius);
-  padding: 18px;
+  padding: 22px;
+  box-shadow: var(--shadow-card);
 }
-.card.tight { padding: 14px; }
-.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+:root[data-theme='dark'] .card { border-color: var(--border); }
+.card.tight { padding: 16px; }
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.card-head a { font-size: 0.88rem; font-weight: 600; color: var(--text-dim); }
+.card-head a:hover { color: var(--text); }
 
 /* Changelog: a single reading column, not a card grid — entries are prose. */
 .changelog { display: flex; flex-direction: column; gap: 16px; max-width: 72ch; }
@@ -285,146 +446,174 @@ h3 { font-size: 1.1rem; letter-spacing: -0.01em; }
 .changelog-changes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .changelog-changes li { display: grid; grid-template-columns: 5.5rem 1fr; align-items: baseline; gap: 10px; }
 .changelog-changes .tag { justify-self: start; }
-.changelog-body { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text-dim); line-height: 1.6; }
+.changelog-body { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text-dim); line-height: 1.65; }
 .changelog-body p { margin: 0 0 0.9em; white-space: pre-line; }
 .changelog-body p:last-child { margin-bottom: 0; }
 .changelog-change-input select { flex: 0 0 auto; width: auto; }
 .changelog-change-input input { flex: 1; min-width: 0; }
 
-.grid { display: grid; gap: 16px; }
+.grid { display: grid; gap: 18px; }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.grid-3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .grid-4 { grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
 
-.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
-.stat-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
-.stat-value { font-family: var(--mono); font-size: 1.7rem; font-variant-numeric: tabular-nums; margin-top: 4px; }
-.stat-value .unit { font-size: 0.9rem; color: var(--text-faint); margin-left: 3px; }
-.stat-note { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+.stat { background: var(--surface); border-radius: var(--radius-md); padding: 16px 18px; box-shadow: var(--shadow-card); }
+:root[data-theme='dark'] .stat { border: 1px solid var(--border); }
+.stat-label { font-size: 0.82rem; font-weight: 600; color: var(--text-dim); }
+.stat-value { font-family: var(--mono); font-size: 1.6rem; font-variant-numeric: tabular-nums; margin-top: 4px; letter-spacing: -0.02em; }
+.stat-value .unit { font-family: var(--sans); font-size: 0.85rem; color: var(--text-faint); margin-left: 3px; }
+.stat-note { font-size: 0.8rem; color: var(--text-faint); margin-top: 2px; }
 
 /* ── Controls ──────────────────────────────────────────────────────────────── */
 
+/* Tamp-feel press: every button gives a little under the thumb and springs
+   back, like seating a tamp. Transform only, so it never shifts layout. */
 .btn {
-  font: inherit; font-size: 0.9rem; font-weight: 500;
-  padding: 8px 14px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text);
-  cursor: pointer; transition: background 0.12s, border-color 0.12s, opacity 0.12s;
-  display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+  font: inherit; font-size: 0.92rem; font-weight: 600;
+  min-height: 40px; padding: 8px 18px; border-radius: 999px;
+  border: 1px solid transparent; background: var(--surface-2); color: var(--text);
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, opacity 0.15s, transform 0.22s var(--spring);
 }
-.btn:hover { background: var(--btn-hover-bg); border-color: var(--btn-hover-border); }
+.btn svg { width: 17px; height: 17px; flex: none; }
+.btn:hover { background: color-mix(in oklab, var(--surface-2) 84%, var(--text)); }
+.btn:active:not(:disabled) { transform: scale(0.95) translateY(1px); transition-duration: 0.08s; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-primary { background: var(--crema); border-color: var(--crema); color: var(--on-accent); font-weight: 600; }
-.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-.btn-ghost { background: transparent; border-color: transparent; color: var(--text-dim); }
+.btn-primary { background: var(--action); color: var(--on-action); }
+.btn-primary:hover { background: var(--action-hover); }
+.btn-ghost { background: transparent; color: var(--text-dim); }
 .btn-ghost:hover { background: var(--surface-2); color: var(--text); }
-.btn-danger { color: var(--bad); border-color: var(--danger-border); }
-.btn-danger:hover { background: var(--danger-hover-bg); border-color: var(--danger-hover-border); }
-.btn-sm { padding: 5px 10px; font-size: 0.82rem; }
+.btn-danger { background: transparent; color: var(--bad); border-color: var(--tint-bad-border); }
+.btn-danger:hover { background: var(--tint-bad-bg); }
+.btn-sm { min-height: 32px; padding: 5px 13px; font-size: 0.84rem; }
+.btn-lg { min-height: 50px; padding: 12px 24px; font-size: 1rem; }
+.btn-icon { width: 36px; min-height: 36px; padding: 0; }
 
-.field { display: flex; flex-direction: column; gap: 5px; }
-.field > label { font-size: 0.78rem; letter-spacing: 0.04em; color: var(--text-dim); }
-.field .hint { font-size: 0.75rem; color: var(--text-faint); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > label { font-size: 0.86rem; font-weight: 600; color: var(--text-dim); }
+.field .hint { font-size: 0.8rem; color: var(--text-faint); }
 
 input:not([type='checkbox']):not([type='radio']):not([type='range']),
 select,
 textarea {
-  font: inherit; font-size: 0.92rem;
-  background: var(--bg-raised); color: var(--text);
+  font: inherit; font-size: 0.95rem;
+  background: var(--field); color: var(--text);
   border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
-  padding: 8px 10px; width: 100%;
+  padding: 9px 12px; width: 100%;
   min-height: var(--control-h);
-  transition: border-color 0.12s, box-shadow 0.12s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
+input::placeholder, textarea::placeholder { color: var(--text-faint); }
 input:focus, select:focus, textarea:focus {
-  outline: none; border-color: var(--crema-dim);
-  box-shadow: 0 0 0 3px var(--focus-ring);
+  outline: none; border-color: var(--action);
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 input[type='number'], .numeric { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
-select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-faint) 50%), linear-gradient(135deg, var(--text-faint) 50%, transparent 50%); background-position: right 14px center, right 9px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 30px; }
+textarea { resize: vertical; min-height: 76px; line-height: 1.5; }
+select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-faint) 50%), linear-gradient(135deg, var(--text-faint) 50%, transparent 50%); background-position: right 16px center, right 11px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 34px; }
 
-input[type='range'] { width: 100%; accent-color: var(--crema); }
+input[type='range'] { width: 100%; accent-color: var(--action); }
 
-.checkbox { display: flex; align-items: center; gap: 9px; cursor: pointer; font-size: 0.9rem; }
-.checkbox input { width: auto; accent-color: var(--crema); }
+.checkbox { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.92rem; }
+.checkbox input { width: 18px; height: 18px; accent-color: var(--action); }
 
-.segmented { display: inline-flex; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 3px; gap: 3px; }
+.segmented { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 4px; gap: 2px; }
 .segmented button {
-  font: inherit; font-size: 0.84rem; padding: 5px 12px; border: none; border-radius: 6px;
+  font: inherit; font-size: 0.86rem; font-weight: 600; padding: 6px 14px; border: none; border-radius: 999px;
   background: transparent; color: var(--text-dim); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 }
-.segmented button.on { background: var(--surface-2); color: var(--text); }
+.segmented button svg { width: 16px; height: 16px; }
+.segmented button:hover { color: var(--text); }
+.segmented button.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-chip); }
+:root[data-theme='dark'] .segmented button.on { background: var(--border-strong); }
 
 /* ── Bits ──────────────────────────────────────────────────────────────────── */
 
 .tag {
   display: inline-flex; align-items: center; gap: 5px;
-  font-size: 0.74rem; padding: 2px 8px; border-radius: 99px;
-  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim);
+  font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+  background: var(--surface-2); color: var(--text-dim);
 }
-.tag.crema { color: var(--crema); border-color: var(--tint-accent-border); background: var(--tint-accent-bg); }
-.tag.good { color: var(--good); border-color: var(--tint-good-border); background: var(--tint-good-bg); }
-.tag.bad { color: var(--bad); border-color: var(--tint-bad-border); background: var(--tint-bad-bg); }
-.tag.cool { color: var(--cool); border-color: var(--tint-cool-border); background: var(--tint-cool-bg); }
+.tag.accent { color: var(--text); background: var(--action-soft); box-shadow: inset 0 0 0 1px var(--action-line); }
+.tag.good { color: var(--good); background: var(--tint-good-bg); }
+.tag.bad { color: var(--bad); background: var(--tint-bad-bg); }
+.tag.cool { color: var(--cool); background: var(--tint-cool-bg); }
+.tag.mono { font-weight: 500; }
 
-.divider { height: 1px; background: var(--border); margin: 18px 0; }
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
 
-.empty { text-align: center; padding: 48px 20px; color: var(--text-faint); }
-.empty h3 { color: var(--text-dim); margin-bottom: 6px; }
+.empty { text-align: center; padding: 44px 20px; color: var(--text-faint); }
+.empty h3 { color: var(--text); margin-bottom: 6px; font-size: 1.1rem; }
+.empty .small { max-width: 36ch; margin: 0 auto; }
+.empty-glass { width: 56px; height: 64px; margin: 0 auto 14px; display: block; }
 
 .banner {
-  border-radius: var(--radius-sm); padding: 10px 13px; font-size: 0.87rem;
+  border-radius: var(--radius-sm); padding: 12px 16px; font-size: 0.9rem; font-weight: 500;
   border: 1px solid var(--border-strong); background: var(--surface-2);
 }
 .banner.bad { border-color: var(--banner-bad-border); background: var(--banner-bad-bg); color: var(--banner-bad-text); }
 .banner.good { border-color: var(--banner-good-border); background: var(--banner-good-bg); color: var(--banner-good-text); }
 .banner.info { border-color: var(--banner-info-border); background: var(--banner-info-bg); color: var(--banner-info-text); }
 
-.table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
 .table th {
-  text-align: left; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--text-faint); padding: 0 10px 8px; white-space: nowrap;
+  text-align: left; font-weight: 600; font-size: 0.8rem;
+  color: var(--text-faint); padding: 0 12px 10px; white-space: nowrap;
 }
-.table td { padding: 10px; border-top: 1px solid var(--border); vertical-align: middle; }
+.table td { padding: 12px; border-top: 1px solid var(--border); vertical-align: middle; }
+.table tbody tr { transition: background 0.12s; }
 .table tbody tr:hover { background: var(--surface-2); }
+.table tbody tr:hover td:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.table tbody tr:hover td:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
 .table .num { white-space: nowrap; }
-/* Values are measured, so mono; the column header above them is a label and
-   stays in the label face like every other header. */
-.table td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.table td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 0.88rem; }
+.table td.glass-cell { width: 40px; padding-right: 0; }
 
 .list-item {
-  display: block; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 15px 17px; transition: border-color 0.12s, background 0.12s;
+  display: block; background: var(--surface); border: 1px solid transparent;
+  border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-card);
+  transition: border-color 0.15s, transform 0.22s var(--spring), box-shadow 0.15s;
 }
-a.list-item:hover, button.list-item:hover { border-color: var(--border-strong); background: var(--surface-2); }
+:root[data-theme='dark'] .list-item { border-color: var(--border); }
+a.list-item:hover, button.list-item:hover { border-color: var(--action-line); }
+a.list-item:active, button.list-item:active { transform: scale(0.985); }
 button.list-item { width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer; }
 
-.stars { color: var(--crema); letter-spacing: 1px; font-size: 0.9rem; }
+.stars { display: inline-flex; gap: 1px; color: var(--star); vertical-align: middle; }
+.stars svg { width: 15px; height: 15px; fill: currentColor; stroke: none; }
 .stars .off { color: var(--border-strong); }
 
-.rating-input { display: inline-flex; gap: 2px; }
+.rating-input { display: inline-flex; gap: 4px; }
 .rating-input button {
-  background: none; border: none; cursor: pointer; font-size: 1.15rem; padding: 0 2px;
-  color: var(--border-strong); transition: color 0.1s;
+  background: none; border: none; cursor: pointer; padding: 2px; color: var(--border-strong);
+  transition: color 0.12s, transform 0.22s var(--spring);
 }
-.rating-input button.on { color: var(--crema); }
+.rating-input button svg { width: 26px; height: 26px; fill: currentColor; stroke: none; display: block; }
+.rating-input button:active { transform: scale(0.85); }
+.rating-input button.on { color: var(--star); }
 
 /* Modal */
 .overlay {
-  position: fixed; inset: 0; background: var(--scrim); backdrop-filter: blur(3px);
-  display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; z-index: 50;
+  position: fixed; inset: 0; background: var(--scrim);
+  display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px; overflow-y: auto; z-index: 50;
+  animation: fade-in 0.18s var(--ease-out);
 }
 .modal {
-  background: var(--surface); border: 1px solid var(--border-strong); border-radius: 16px;
-  box-shadow: var(--shadow); width: 100%; max-width: 620px; padding: 22px;
+  background: var(--surface); border-radius: 24px;
+  box-shadow: var(--shadow-pop); width: 100%; max-width: 620px; padding: 26px;
+  animation: modal-in 0.28s var(--ease-out);
 }
+:root[data-theme='dark'] .modal { border: 1px solid var(--border-strong); }
 .modal.wide { max-width: 900px; }
+@keyframes modal-in { from { transform: translateY(10px) scale(0.985); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* Auth */
 .auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
 .auth-card { width: 100%; max-width: 400px; }
 .auth-hero { text-align: center; margin-bottom: 24px; }
-.auth-hero .brand-lockup { font-size: 3.1rem; margin-bottom: 4px; }
+.auth-hero .brand-lockup { font-size: 3rem; margin-bottom: 6px; }
 
 /* Charts */
 .chart { width: 100%; display: block; overflow: visible; }
@@ -432,24 +621,21 @@ button.list-item { width: 100%; text-align: left; font: inherit; color: inherit;
 .chart .grid-line { stroke: var(--border); stroke-width: 1; }
 .chart .axis { stroke: var(--border-strong); stroke-width: 1; }
 
-/* One infusion step. The action column is `auto` rather than a fixed width: the
-   old grid reserved 30px for a group of three buttons, so they spilled out of the
-   card — and got worse once touch padding widened them. Sized by content, it
-   cannot overflow whatever the buttons end up being. */
+/* One infusion step. Sized by content so the action buttons cannot overflow. */
 .infusion-row {
   display: grid;
-  grid-template-columns: 26px minmax(0, 1fr) minmax(0, 1fr) auto;
+  grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) auto;
   gap: 10px;
   align-items: end;
 }
 .infusion-row .handle {
-  width: 26px; height: var(--control-h); border-radius: var(--radius-sm);
+  width: 28px; height: var(--control-h); border-radius: var(--radius-sm);
   display: grid; place-items: center;
-  font-size: 0.72rem; font-family: var(--mono); color: var(--on-accent);
+  font-size: 0.75rem; font-family: var(--mono); color: var(--on-action);
 }
 .infusion-actions { display: flex; gap: 4px; align-items: center; }
 
-.phase { border-top: 1px solid var(--border); padding-top: 16px; }
+.phase { border-top: 1px solid var(--border); padding-top: 18px; }
 .phase:first-child { border-top: none; padding-top: 0; }
 .phase-head {
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
@@ -458,168 +644,215 @@ button.list-item { width: 100%; text-align: left; font: inherit; color: inherit;
 .phase-head .checkbox { margin: 0; }
 .phase-head .btn { margin-left: auto; }
 
+/* ── The shot glass (signature) ─────────────────────────────────────────────
+   Liquid height is yield on one fixed scale everywhere, so glasses compare
+   honestly; the crema band's colour is the taste. */
+.shot-glass { display: block; overflow: visible; }
+.shot-glass .glass-back { fill: var(--glass-fill); }
+.shot-glass .glass-rim { fill: none; stroke: var(--glass-stroke); stroke-width: 1.5; }
+.shot-glass .liquid { fill: var(--espresso-liquid); }
+.shot-glass .handle { fill: none; stroke: var(--glass-stroke); stroke-width: 1.5; }
+.shot-glass .fleck { fill: rgba(255, 255, 255, 0.28); }
+.shot-glass .crema-edge { fill: rgba(255, 255, 255, 0.35); }
+.shot-glass .over { fill: none; stroke: var(--text-faint); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.shot-glass .shine { stroke: rgba(255, 255, 255, 0.5); stroke-width: 1.5; stroke-linecap: round; fill: none; }
+:root[data-theme='dark'] .shot-glass .shine { stroke: rgba(255, 255, 255, 0.14); }
+
 /* ── Dashboard ─────────────────────────────────────────────────────────────── */
 
-/* The coach row leads: the next change is the reason to open the app at the
-   machine, so it sits above the running totals. */
-.dash-error { margin-bottom: 16px; }
-.dash-coach { margin-bottom: 16px; }
-.dash-stats { margin-bottom: 16px; }
-
-/* The answer outranks its own card title. */
-.coach-headline {
-  margin: 0;
-  font-size: 1.55rem; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em;
-  color: var(--crema);
+.dash-error { margin-bottom: 18px; }
+.dash-top {
+  display: grid; gap: 18px; margin-bottom: 18px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
 }
-.coach-reason { margin: 6px 0 0; font-size: 0.9rem; color: var(--text-dim); max-width: 62ch; }
-.modal .coach-reason { margin: 0; }
+
+/* The coach: the one surface filled with the machine's colour. It is the
+   answer to "why open the app at the bench", so it carries the page. */
+.coach {
+  background: var(--body); color: var(--on-body);
+  border-radius: 24px; padding: 26px 26px 24px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 24px; align-items: center;
+  position: relative; overflow: hidden;
+}
+.coach-glass { grid-row: span 2; align-self: end; }
+.coach-headline {
+  margin: 0; font-family: var(--display); font-weight: 800;
+  font-size: clamp(1.9rem, 3.2vw, 2.55rem); line-height: 1.02; letter-spacing: -0.035em;
+  font-variation-settings: 'opsz' 72; text-wrap: balance;
+}
+.coach-reason { margin: 10px 0 0; font-size: 0.98rem; line-height: 1.5; color: var(--on-body-dim); max-width: 46ch; }
+.coach-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 16px; font-size: 0.85rem; color: var(--on-body-dim); }
+.coach-meta .mono { color: var(--on-body); }
+.coach-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--on-body-line); }
+.coach .btn-primary { background: var(--on-body); color: var(--body); }
+.coach .btn-primary:hover { background: color-mix(in oklab, var(--on-body) 88%, var(--body)); }
+.coach .btn-ghost { color: var(--on-body-dim); }
+.coach .btn-ghost:hover { background: var(--on-body-line); color: var(--on-body); }
+.coach .confidence { font-size: 0.82rem; font-weight: 600; color: var(--on-body-dim); margin-left: auto; }
+.coach.is-empty { grid-template-columns: auto minmax(0, 1fr); }
+.modal .coach-reason { margin: 0; color: var(--text-dim); }
+.next-pull { font-family: var(--display); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; font-variation-settings: 'opsz' 48; }
+
+/* Dial-in: this coffee's shots as a row of glasses on one scale, oldest left.
+   Each carries its time and what changed since the pull before. */
+.dialin-strip {
+  display: flex; align-items: flex-end; gap: 6px;
+  overflow-x: auto; padding: 4px 2px 2px; margin: 0 -2px;
+  scrollbar-width: thin;
+}
+.dialin-shot { flex: 1 1 0; min-width: 44px; max-width: 86px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.dialin-shot .shot-glass { width: min(44px, 100%); height: auto; }
+.dialin-time { font-family: var(--mono); font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+.dialin-time.on-target { color: var(--good); font-weight: 500; }
+.dialin-delta { font-size: 0.74rem; line-height: 1.25; color: var(--text-faint); min-height: 2.5em; }
+.dialin-shot.latest .dialin-time { font-weight: 600; }
+/* Every column reserves the marker's space, so the glasses share a baseline. */
+.dialin-shot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+.dialin-shot.latest::after { background: var(--action); }
+:root[data-theme='dark'][data-finish='black'] .dialin-shot.latest::after { background: var(--text); }
+.dialin-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-faint); }
+.dialin-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; box-shadow: 0 0 0 1px var(--border-strong); }
+
+/* The totals, demoted to one quiet line: context, not a hero. */
+.dash-summary {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 28px;
+  margin: 0 4px 22px; font-size: 0.92rem; color: var(--text-dim);
+}
+.dash-summary b { font-family: var(--mono); font-weight: 500; color: var(--text); font-size: 1.05rem; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.dash-summary b small { font-family: var(--sans); font-size: 0.8em; color: var(--text-faint); font-weight: 400; margin-left: 2px; }
+
+@media (max-width: 1020px) {
+  .dash-top { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* ── Phone ─────────────────────────────────────────────────────────────────── */
 
-/* Nothing below 720px was styled at all. At 375px the main column is 339px, a
-   card 303px and a modal 299px — every number here is measured against those. */
 @media (max-width: 600px) {
-  .main { padding: 18px 14px 56px; }
-  .card { padding: 14px; }
-  .card.tight { padding: 12px; }
+  .main { padding-left: 14px; padding-right: 14px; padding-top: 20px; }
+  .card { padding: 16px; border-radius: 18px; }
+  .card.tight { padding: 13px; }
 
-  h1 { font-size: 1.6rem; }
-  h2 { font-size: 1.2rem; }
-  .page-head { margin-bottom: 18px; }
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.18rem; }
+  .page-head { margin-bottom: 20px; }
 
-  /* Both hold nowrap buttons and neither wrapped, so a page header put an h1 and
-     a primary button on one unbreakable line. */
   .row, .spread { flex-wrap: wrap; }
   .spread { align-items: flex-start; }
 
-  /* The 300px floor exceeds the 299px available inside a modal, which pushed a
-     horizontal scrollbar onto the whole page. */
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  /* Four stat tiles stacked is ~410px of dead space above the fold. */
   .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .grid { gap: 12px; }
 
-  .stat { padding: 12px; }
-  .dash-coach, .dash-stats, .dash-error { margin-bottom: 12px; }
-  .coach-headline { font-size: 1.35rem; }
-  .stat-value { font-size: 1.4rem; }
+  .stat { padding: 13px; }
+  .stat-value { font-size: 1.35rem; }
+
+  /* At phone width the glass tucks into the top corner so the instruction
+     gets the full card width instead of a narrow column beside it. */
+  .coach { padding: 20px 18px 18px; border-radius: 20px; grid-template-columns: minmax(0, 1fr); }
+  .coach-glass { position: absolute; top: 16px; right: 14px; width: 58px; height: auto; }
+  .coach > div:not(.coach-actions) { padding-right: 64px; }
+  .coach-headline { font-size: 1.75rem; }
+  .coach-actions .btn-ghost { display: none; }
+  .dialin-strip { gap: 4px; }
+  .dialin-shot { min-width: 38px; }
+  .coach-reason { font-size: 0.92rem; }
+  .coach-actions .btn-primary { flex: 1; }
+  .dash-summary { gap: 4px 18px; font-size: 0.86rem; }
 
   .segmented { display: flex; width: 100%; }
   .segmented button { flex: 1; }
 
-  .modal { padding: 16px; border-radius: 14px; }
-  .overlay { padding: 16px 10px; }
+  .modal { padding: 18px; border-radius: 20px; }
+  .overlay { padding: 14px 8px; }
 
-  /* Tables become one card per row. Nine nowrap columns in a 303px card was a
-     ~2.5x horizontal scroll; the header goes away and each cell carries its own
-     label instead. */
+  /* Tables become one card per row; each cell carries its own label. */
   .table thead { display: none; }
   .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
-  .table tr {
-    border-top: 1px solid var(--border);
-    padding: 10px 0 12px;
-  }
+  .table tr { border-top: 1px solid var(--border); padding: 12px 0 14px; }
+  .table tbody tr:first-child { border-top: none; }
   .table tbody tr:hover { background: transparent; }
-  .table td {
-    border: none; padding: 2px 0;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }
+  .table td { border: none; padding: 2px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .table td::before {
     content: attr(data-label);
-    font-family: var(--sans);
-    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    font-family: var(--sans); font-size: 0.8rem; font-weight: 600;
     color: var(--text-faint); flex: none;
   }
-  /* The lead cell reads as the row's title rather than a labelled field. */
-  .table td[data-label='When'] { font-size: 0.95rem; padding-bottom: 6px; }
+  .table td[data-label='When'] { font-size: 0.98rem; padding-bottom: 6px; }
+  .table td.glass-cell { display: none; }
 
-  /* A 720-unit viewBox in a 275px card renders 9px labels at under 4px. */
   .chart text { font-size: 17px; }
 }
 
-/* Touch targets. Every control was under the 44px minimum: .btn 40, .nav a 39,
-   .segmented button 31, .btn-sm ~30x32, .rating-input button 22x22. Keyed to
-   the pointer rather than the viewport so a touch laptop gets them too. */
+/* Touch targets: at least 44px on any touch device, touch laptops included. */
 @media (pointer: coarse) {
-  .btn { padding: 11px 16px; }
-  .btn-sm { padding: 9px 12px; }
-  .nav a { padding: 11px 12px; }
-  .segmented button { padding: 9px 14px; }
-  .rating-input { gap: 6px; }
-  .rating-input button { font-size: 1.5rem; padding: 4px 6px; }
+  .btn { min-height: 46px; padding: 11px 20px; }
+  .btn-sm { min-height: 40px; padding: 8px 14px; }
+  .btn-icon { width: 44px; min-height: 44px; }
+  .nav a { min-height: 48px; }
+  .segmented button { padding: 10px 14px; }
+  .rating-input { gap: 8px; }
+  .rating-input button svg { width: 32px; height: 32px; }
 }
 
 /* Anything under 16px makes iOS Safari zoom the page on focus. */
 @media (max-width: 600px) {
-  /* 16px x 1.55 + 16 padding + 2 border = 42.8px. Kept in step with the bump. */
-  :root { --control-h: 2.7rem; }
-
+  :root { --control-h: 2.9rem; }
   input:not([type='checkbox']):not([type='radio']):not([type='range']),
   select,
-  textarea {
-    font-size: 16px;
-  }
-}
-
-/* The stage grid carries its own labels on phones; on wider screens the column
-   header row above it already says what each field is. */
-
-@media (max-width: 600px) {
+  textarea { font-size: 16px; }
   .table td:not([data-label]) { justify-content: flex-end; padding-top: 8px; }
   .table td:not([data-label])::before { display: none; }
+  .infusion-row { grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr); }
+  .infusion-actions { grid-column: 1 / -1; justify-content: flex-end; }
 }
 
+/* ── Settings: theme and finish ────────────────────────────────────────────── */
 
-.theme-toggle { margin-bottom: 10px; }
-.theme-toggle button { font-size: 0.8rem; line-height: 1; }
-@media (max-width: 860px) {
-  /* In the top bar the footer is a row, so the toggle sits inline with sign-out. */
-  .theme-toggle { margin-bottom: 0; }
+.theme-toggle { display: flex; width: 100%; }
+.theme-toggle button { flex: 1; }
+
+.finish-picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.finish-picker button {
+  width: 24px; height: 24px; padding: 0; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(135deg, var(--swatch-body) 52%, var(--swatch-wood) 52%);
+  transition: transform 0.22s var(--spring), box-shadow 0.15s;
 }
+.finish-picker button:hover { transform: scale(1.08); }
+.finish-picker button:active { transform: scale(0.92); }
+.finish-picker button.on { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text); }
+.finish-name { font-size: 0.8rem; color: var(--text-faint); }
+/* The house colour stands apart from the machine colourways. */
+.finish-sep { width: 1px; align-self: stretch; margin: 2px 3px; background: var(--border-strong); }
 
 /* ── Working indicator ─────────────────────────────────────────────────────── */
 
-/* The same bars as the brand mark, pulled through a shot. scaleY rather than
-   height so the browser can composite it, and currentColor so one rule works on
-   a ghost button, a primary button, and both themes. */
+/* Four bars pulled through a shot. scaleY so the browser can composite it, and
+   currentColor so one rule works on any button in either theme. */
 .working { display: inline-flex; align-items: center; gap: 8px; }
-
 .working-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 0.8em; }
 .working-bars i {
-  width: 3px;
-  height: 100%;
-  border-radius: 1px;
-  background: currentColor;
-  transform: scaleY(0.28);
-  transform-origin: bottom;
+  width: 3px; height: 100%; border-radius: 1px; background: currentColor;
+  transform: scaleY(0.28); transform-origin: bottom;
   animation: pulling 1.05s ease-in-out infinite;
 }
 .working-bars i:nth-child(2) { animation-delay: 0.13s; }
 .working-bars i:nth-child(3) { animation-delay: 0.26s; }
 .working-bars i:nth-child(4) { animation-delay: 0.39s; }
-
 @keyframes pulling {
   0%, 100% { transform: scaleY(0.28); opacity: 0.55; }
   50% { transform: scaleY(1); opacity: 1; }
 }
+.working-clock { font-family: var(--mono); font-size: 0.78em; font-variant-numeric: tabular-nums; opacity: 0.7; }
 
-.working-clock {
-  font-family: var(--mono);
-  font-size: 0.78em;
-  font-variant-numeric: tabular-nums;
-  opacity: 0.7;
-}
+/* The glass fills once when the coach shows a new shot: the page's one
+   authored moment. */
+.coach-glass .liquid-group { transform-box: fill-box; transform-origin: bottom; animation: pour 0.9s var(--ease-out) both; }
+@keyframes pour { from { transform: scaleY(0.15); } to { transform: none; } }
 
-/* Motion is the whole point here, so with it off the bars stay as a static
-   ready-state mark rather than disappearing and leaving a button that looks idle
-   while it works. The elapsed seconds carry the "still going" signal instead. */
 @media (prefers-reduced-motion: reduce) {
   .working-bars i { animation: none; transform: scaleY(0.62); opacity: 0.6; }
-}
-
-@media (max-width: 600px) {
-  .infusion-row { grid-template-columns: 26px minmax(0, 1fr) minmax(0, 1fr); }
-  .infusion-row .handle { grid-row: span 1; }
-  .infusion-actions { grid-column: 1 / -1; justify-content: flex-end; }
+  .coach-glass .liquid-group, .modal, .overlay, .sheet, .sheet-overlay { animation: none; }
+  .btn:active:not(:disabled), .tab-log:active span.tab-log-disc, .finish-picker button:hover,
+  .finish-picker button:active, a.list-item:active, button.list-item:active, .rating-input button:active { transform: none; }
 }

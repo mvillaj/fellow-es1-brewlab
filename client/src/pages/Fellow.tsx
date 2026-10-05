@@ -16,7 +16,7 @@ interface RemoteProfile {
 const ORIGIN_TAG: Record<ProfileOrigin, { cls: string; label: string }> = {
   factory: { cls: '', label: "Fellow's own" },
   drop: { cls: 'cool', label: 'Drop' },
-  custom: { cls: 'crema', label: 'Yours' },
+  custom: { cls: 'accent', label: 'Yours' },
   local: { cls: '', label: 'local' },
 };
 

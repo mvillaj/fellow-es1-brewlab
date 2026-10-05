@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { X } from 'lucide-react';
 import { changeKinds, type ChangeKind, type ChangelogEntry, type ChangelogEntryInput } from '@brewlab/shared';
 import { api, useApi } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { Banner, Empty, Field, Modal } from '../components/ui';
 
 const KIND_LABEL: Record<ChangeKind, string> = { new: 'New', improved: 'Improved', fixed: 'Fixed' };
-const KIND_TAG: Record<ChangeKind, string> = { new: 'crema', improved: 'cool', fixed: 'good' };
+const KIND_TAG: Record<ChangeKind, string> = { new: 'accent', improved: 'cool', fixed: 'good' };
 
 /** Filed under a calendar date, so format it as one — no timezone shift. */
 function longDate(ymd: string) {
@@ -189,7 +190,7 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
                 aria-label="Remove change"
                 onClick={() => setForm((f) => ({ ...f, changes: f.changes.filter((_, j) => j !== i) }))}
               >
-                ✕
+                <X aria-hidden="true" />
               </button>
             </div>
           ))}

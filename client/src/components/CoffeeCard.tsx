@@ -27,7 +27,7 @@ export default function CoffeeCard({ coffee, action }: { coffee: Coffee; action?
         {off != null ? (
           <span className={`tag ${off > 30 ? 'bad' : off < 5 ? '' : 'good'}`}>{off}d off roast</span>
         ) : null}
-        {coffee.isPublic ? <span className="tag crema">shared</span> : null}
+        {coffee.isPublic ? <span className="tag accent">shared</span> : null}
       </div>
 
       {coffee.tastingNotes.length ? (

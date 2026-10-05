@@ -64,7 +64,7 @@ export default function Grinders() {
                     </div>
                   </div>
                   {g.isDefault ? (
-                    <span className="tag crema">default</span>
+                    <span className="tag accent">default</span>
                   ) : (
                     <button className="btn btn-ghost btn-sm" onClick={() => makeDefault(g)}>
                       Make default
@@ -199,7 +199,7 @@ function Converter({ grinders }: { grinders: Grinder[] }) {
               {result.setting}
             </span>
             <span className="dim">{to.scale.unitLabel} on the {to.name}</span>
-            <span className="tag crema mono">≈ {result.microns} µm</span>
+            <span className="tag accent mono">≈ {result.microns} µm</span>
             <span className="tag">{grindBucket(result.microns)}</span>
             <span className={`tag ${result.confidence === 'measured' ? 'good' : result.confidence === 'estimated' ? 'bad' : ''}`}>
               {result.confidence}

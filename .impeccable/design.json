@@ -1,381 +1,188 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-04T22:46:08.000Z",
+  "generatedAt": "2026-10-05T00:00:47Z",
   "title": "Design System: Crema",
   "extensions": {
     "colorMeta": {
-      "crema-amber": {
+      "action-walnut": {
         "role": "primary",
-        "displayName": "Crema Amber",
-        "theme": "dark",
-        "canonical": "#e0a458",
+        "displayName": "Walnut Action",
+        "canonical": "#7b4a2b",
         "tonalRamp": [
-          "oklch(15.0% 0.117 70.9)",
-          "oklch(25.0% 0.117 70.9)",
-          "oklch(35.0% 0.117 70.9)",
-          "oklch(45.0% 0.117 70.9)",
-          "oklch(55.0% 0.117 70.9)",
-          "oklch(65.0% 0.117 70.9)",
-          "oklch(80.0% 0.117 70.9)",
-          "oklch(95.0% 0.117 70.9)"
-        ]
+          "oklch(15.0% 0.080 51.8)",
+          "oklch(25.0% 0.080 51.8)",
+          "oklch(35.0% 0.080 51.8)",
+          "oklch(45.0% 0.080 51.8)",
+          "oklch(55.0% 0.080 51.8)",
+          "oklch(65.0% 0.080 51.8)",
+          "oklch(80.0% 0.080 51.8)",
+          "oklch(95.0% 0.080 51.8)"
+        ],
+        "purpose": "Default action colour (Sesame + Walnut, light theme)."
       },
-      "crema-amber-dim": {
+      "on-action-cream": {
         "role": "primary",
-        "displayName": "Crema Amber Dim",
-        "theme": "dark",
-        "canonical": "#a97a3f",
+        "displayName": "Cream On Action",
+        "canonical": "#fff8ef",
         "tonalRamp": [
-          "oklch(15.0% 0.096 70.6)",
-          "oklch(25.0% 0.096 70.6)",
-          "oklch(35.0% 0.096 70.6)",
-          "oklch(45.0% 0.096 70.6)",
-          "oklch(55.0% 0.096 70.6)",
-          "oklch(65.0% 0.096 70.6)",
-          "oklch(80.0% 0.096 70.6)",
-          "oklch(95.0% 0.096 70.6)"
-        ]
+          "oklch(15.0% 0.014 74.4)",
+          "oklch(25.0% 0.014 74.4)",
+          "oklch(35.0% 0.014 74.4)",
+          "oklch(45.0% 0.014 74.4)",
+          "oklch(55.0% 0.014 74.4)",
+          "oklch(65.0% 0.014 74.4)",
+          "oklch(80.0% 0.014 74.4)",
+          "oklch(95.0% 0.014 74.4)"
+        ],
+        "purpose": "Label colour on the default action."
       },
-      "crema-amber-hover": {
+      "body-sesame": {
         "role": "primary",
-        "displayName": "Crema Amber Hover",
-        "theme": "dark",
-        "canonical": "#eab066",
+        "displayName": "Sesame Body",
+        "canonical": "#ebdfc8",
         "tonalRamp": [
-          "oklch(15.0% 0.114 71.7)",
-          "oklch(25.0% 0.114 71.7)",
-          "oklch(35.0% 0.114 71.7)",
-          "oklch(45.0% 0.114 71.7)",
-          "oklch(55.0% 0.114 71.7)",
-          "oklch(65.0% 0.114 71.7)",
-          "oklch(80.0% 0.114 71.7)",
-          "oklch(95.0% 0.114 71.7)"
-        ]
+          "oklch(15.0% 0.033 83.7)",
+          "oklch(25.0% 0.033 83.7)",
+          "oklch(35.0% 0.033 83.7)",
+          "oklch(45.0% 0.033 83.7)",
+          "oklch(55.0% 0.033 83.7)",
+          "oklch(65.0% 0.033 83.7)",
+          "oklch(80.0% 0.033 83.7)",
+          "oklch(95.0% 0.033 83.7)"
+        ],
+        "purpose": "Default finish body; fills the coach card."
       },
-      "espresso-rust": {
-        "role": "secondary",
-        "displayName": "Espresso Rust",
-        "theme": "dark",
-        "canonical": "#c4703f",
+      "on-body-roast": {
+        "role": "primary",
+        "displayName": "Roast On Body",
+        "canonical": "#3a2616",
         "tonalRamp": [
-          "oklch(15.0% 0.124 49.3)",
-          "oklch(25.0% 0.124 49.3)",
-          "oklch(35.0% 0.124 49.3)",
-          "oklch(45.0% 0.124 49.3)",
-          "oklch(55.0% 0.124 49.3)",
-          "oklch(65.0% 0.124 49.3)",
-          "oklch(80.0% 0.124 49.3)",
-          "oklch(95.0% 0.124 49.3)"
-        ]
+          "oklch(15.0% 0.040 58.9)",
+          "oklch(25.0% 0.040 58.9)",
+          "oklch(35.0% 0.040 58.9)",
+          "oklch(45.0% 0.040 58.9)",
+          "oklch(55.0% 0.040 58.9)",
+          "oklch(65.0% 0.040 58.9)",
+          "oklch(80.0% 0.040 58.9)",
+          "oklch(95.0% 0.040 58.9)"
+        ],
+        "purpose": "Ink on the Sesame coach card; the coach button fill."
       },
-      "on-accent": {
+      "body-cherry": {
+        "role": "primary",
+        "displayName": "Cherry Red Body",
+        "canonical": "#c4302b",
+        "tonalRamp": [
+          "oklch(15.0% 0.186 27.4)",
+          "oklch(25.0% 0.186 27.4)",
+          "oklch(35.0% 0.186 27.4)",
+          "oklch(45.0% 0.186 27.4)",
+          "oklch(55.0% 0.186 27.4)",
+          "oklch(65.0% 0.186 27.4)",
+          "oklch(80.0% 0.186 27.4)",
+          "oklch(95.0% 0.186 27.4)"
+        ],
+        "purpose": "Cherry Red + Walnut finish body and action (light)."
+      },
+      "body-marine": {
+        "role": "primary",
+        "displayName": "Marine Blue Body",
+        "canonical": "#2c5a9a",
+        "tonalRamp": [
+          "oklch(15.0% 0.116 257.2)",
+          "oklch(25.0% 0.116 257.2)",
+          "oklch(35.0% 0.116 257.2)",
+          "oklch(45.0% 0.116 257.2)",
+          "oklch(55.0% 0.116 257.2)",
+          "oklch(65.0% 0.116 257.2)",
+          "oklch(80.0% 0.116 257.2)",
+          "oklch(95.0% 0.116 257.2)"
+        ],
+        "purpose": "Marine Blue + Walnut finish body and action (light)."
+      },
+      "body-woodland": {
+        "role": "primary",
+        "displayName": "Woodland Body",
+        "canonical": "#3d6a4b",
+        "tonalRamp": [
+          "oklch(15.0% 0.071 153.0)",
+          "oklch(25.0% 0.071 153.0)",
+          "oklch(35.0% 0.071 153.0)",
+          "oklch(45.0% 0.071 153.0)",
+          "oklch(55.0% 0.071 153.0)",
+          "oklch(65.0% 0.071 153.0)",
+          "oklch(80.0% 0.071 153.0)",
+          "oklch(95.0% 0.071 153.0)"
+        ],
+        "purpose": "Woodland + Walnut finish body and action (light)."
+      },
+      "body-chocolate": {
+        "role": "primary",
+        "displayName": "Malted Chocolate Body",
+        "canonical": "#6a4635",
+        "tonalRamp": [
+          "oklch(15.0% 0.057 46.1)",
+          "oklch(25.0% 0.057 46.1)",
+          "oklch(35.0% 0.057 46.1)",
+          "oklch(45.0% 0.057 46.1)",
+          "oklch(55.0% 0.057 46.1)",
+          "oklch(65.0% 0.057 46.1)",
+          "oklch(80.0% 0.057 46.1)",
+          "oklch(95.0% 0.057 46.1)"
+        ],
+        "purpose": "Malted Chocolate + Maple finish body and action (light)."
+      },
+      "body-black": {
+        "role": "primary",
+        "displayName": "Black Body",
+        "canonical": "#1f1c1b",
+        "tonalRamp": [
+          "oklch(15.0% 0.005 39.4)",
+          "oklch(25.0% 0.005 39.4)",
+          "oklch(35.0% 0.005 39.4)",
+          "oklch(45.0% 0.005 39.4)",
+          "oklch(55.0% 0.005 39.4)",
+          "oklch(65.0% 0.005 39.4)",
+          "oklch(80.0% 0.005 39.4)",
+          "oklch(95.0% 0.005 39.4)"
+        ],
+        "purpose": "Black finish body and action (light); dark uses an off-white action."
+      },
+      "ground-sesame": {
         "role": "neutral",
-        "displayName": "On Accent",
-        "theme": "dark",
-        "canonical": "#241606",
+        "displayName": "Sesame Ground",
+        "canonical": "#f4f2ee",
         "tonalRamp": [
-          "oklch(15.0% 0.036 68.5)",
-          "oklch(25.0% 0.036 68.5)",
-          "oklch(35.0% 0.036 68.5)",
-          "oklch(45.0% 0.036 68.5)",
-          "oklch(55.0% 0.036 68.5)",
-          "oklch(65.0% 0.036 68.5)",
-          "oklch(80.0% 0.036 68.5)",
-          "oklch(95.0% 0.036 68.5)"
-        ]
+          "oklch(15.0% 0.006 84.6)",
+          "oklch(25.0% 0.006 84.6)",
+          "oklch(35.0% 0.006 84.6)",
+          "oklch(45.0% 0.006 84.6)",
+          "oklch(55.0% 0.006 84.6)",
+          "oklch(65.0% 0.006 84.6)",
+          "oklch(80.0% 0.006 84.6)",
+          "oklch(95.0% 0.006 84.6)"
+        ],
+        "purpose": "Near-neutral light ground used only for Sesame."
       },
-      "roast-black": {
+      "ground-counter": {
         "role": "neutral",
-        "displayName": "Roast Black",
-        "theme": "dark",
-        "canonical": "#100e0c",
+        "displayName": "Counter Ground",
+        "canonical": "#f7f3ee",
         "tonalRamp": [
-          "oklch(15.0% 0.005 67.4)",
-          "oklch(25.0% 0.005 67.4)",
-          "oklch(35.0% 0.005 67.4)",
-          "oklch(45.0% 0.005 67.4)",
-          "oklch(55.0% 0.005 67.4)",
-          "oklch(65.0% 0.005 67.4)",
-          "oklch(80.0% 0.005 67.4)",
-          "oklch(95.0% 0.005 67.4)"
-        ]
-      },
-      "counter-raised": {
-        "role": "neutral",
-        "displayName": "Counter Raised",
-        "theme": "dark",
-        "canonical": "#17140f",
-        "tonalRamp": [
-          "oklch(15.0% 0.011 80.5)",
-          "oklch(25.0% 0.011 80.5)",
-          "oklch(35.0% 0.011 80.5)",
-          "oklch(45.0% 0.011 80.5)",
-          "oklch(55.0% 0.011 80.5)",
-          "oklch(65.0% 0.011 80.5)",
-          "oklch(80.0% 0.011 80.5)",
-          "oklch(95.0% 0.011 80.5)"
-        ]
+          "oklch(15.0% 0.008 73.7)",
+          "oklch(25.0% 0.008 73.7)",
+          "oklch(35.0% 0.008 73.7)",
+          "oklch(45.0% 0.008 73.7)",
+          "oklch(55.0% 0.008 73.7)",
+          "oklch(65.0% 0.008 73.7)",
+          "oklch(80.0% 0.008 73.7)",
+          "oklch(95.0% 0.008 73.7)"
+        ],
+        "purpose": "Light base ground; other finishes cast 7% of the body into it."
       },
       "surface": {
         "role": "neutral",
         "displayName": "Surface",
-        "theme": "dark",
-        "canonical": "#1d1915",
-        "tonalRamp": [
-          "oklch(15.0% 0.010 67.3)",
-          "oklch(25.0% 0.010 67.3)",
-          "oklch(35.0% 0.010 67.3)",
-          "oklch(45.0% 0.010 67.3)",
-          "oklch(55.0% 0.010 67.3)",
-          "oklch(65.0% 0.010 67.3)",
-          "oklch(80.0% 0.010 67.3)",
-          "oklch(95.0% 0.010 67.3)"
-        ]
-      },
-      "surface-2": {
-        "role": "neutral",
-        "displayName": "Surface 2",
-        "theme": "dark",
-        "canonical": "#241f1a",
-        "tonalRamp": [
-          "oklch(15.0% 0.012 67.2)",
-          "oklch(25.0% 0.012 67.2)",
-          "oklch(35.0% 0.012 67.2)",
-          "oklch(45.0% 0.012 67.2)",
-          "oklch(55.0% 0.012 67.2)",
-          "oklch(65.0% 0.012 67.2)",
-          "oklch(80.0% 0.012 67.2)",
-          "oklch(95.0% 0.012 67.2)"
-        ]
-      },
-      "border": {
-        "role": "neutral",
-        "displayName": "Border",
-        "theme": "dark",
-        "canonical": "#322b24",
-        "tonalRamp": [
-          "oklch(15.0% 0.016 67.1)",
-          "oklch(25.0% 0.016 67.1)",
-          "oklch(35.0% 0.016 67.1)",
-          "oklch(45.0% 0.016 67.1)",
-          "oklch(55.0% 0.016 67.1)",
-          "oklch(65.0% 0.016 67.1)",
-          "oklch(80.0% 0.016 67.1)",
-          "oklch(95.0% 0.016 67.1)"
-        ]
-      },
-      "border-strong": {
-        "role": "neutral",
-        "displayName": "Border Strong",
-        "theme": "dark",
-        "canonical": "#453b31",
-        "tonalRamp": [
-          "oklch(15.0% 0.022 67.0)",
-          "oklch(25.0% 0.022 67.0)",
-          "oklch(35.0% 0.022 67.0)",
-          "oklch(45.0% 0.022 67.0)",
-          "oklch(55.0% 0.022 67.0)",
-          "oklch(65.0% 0.022 67.0)",
-          "oklch(80.0% 0.022 67.0)",
-          "oklch(95.0% 0.022 67.0)"
-        ]
-      },
-      "steamed-milk": {
-        "role": "neutral",
-        "displayName": "Steamed Milk",
-        "theme": "dark",
-        "canonical": "#f3ece2",
-        "tonalRamp": [
-          "oklch(15.0% 0.015 77.1)",
-          "oklch(25.0% 0.015 77.1)",
-          "oklch(35.0% 0.015 77.1)",
-          "oklch(45.0% 0.015 77.1)",
-          "oklch(55.0% 0.015 77.1)",
-          "oklch(65.0% 0.015 77.1)",
-          "oklch(80.0% 0.015 77.1)",
-          "oklch(95.0% 0.015 77.1)"
-        ]
-      },
-      "text-dim": {
-        "role": "neutral",
-        "displayName": "Text Dim",
-        "theme": "dark",
-        "canonical": "#b3a596",
-        "tonalRamp": [
-          "oklch(15.0% 0.027 69.3)",
-          "oklch(25.0% 0.027 69.3)",
-          "oklch(35.0% 0.027 69.3)",
-          "oklch(45.0% 0.027 69.3)",
-          "oklch(55.0% 0.027 69.3)",
-          "oklch(65.0% 0.027 69.3)",
-          "oklch(80.0% 0.027 69.3)",
-          "oklch(95.0% 0.027 69.3)"
-        ]
-      },
-      "text-faint": {
-        "role": "neutral",
-        "displayName": "Text Faint",
-        "theme": "dark",
-        "canonical": "#7d7266",
-        "tonalRamp": [
-          "oklch(15.0% 0.023 69.8)",
-          "oklch(25.0% 0.023 69.8)",
-          "oklch(35.0% 0.023 69.8)",
-          "oklch(45.0% 0.023 69.8)",
-          "oklch(55.0% 0.023 69.8)",
-          "oklch(65.0% 0.023 69.8)",
-          "oklch(80.0% 0.023 69.8)",
-          "oklch(95.0% 0.023 69.8)"
-        ]
-      },
-      "good-sage": {
-        "role": "status",
-        "displayName": "Good Sage",
-        "theme": "dark",
-        "canonical": "#7fae72",
-        "tonalRamp": [
-          "oklch(15.0% 0.099 139.0)",
-          "oklch(25.0% 0.099 139.0)",
-          "oklch(35.0% 0.099 139.0)",
-          "oklch(45.0% 0.099 139.0)",
-          "oklch(55.0% 0.099 139.0)",
-          "oklch(65.0% 0.099 139.0)",
-          "oklch(80.0% 0.099 139.0)",
-          "oklch(95.0% 0.099 139.0)"
-        ]
-      },
-      "warn-honey": {
-        "role": "status",
-        "displayName": "Warn Honey",
-        "theme": "dark",
-        "canonical": "#d9a441",
-        "tonalRamp": [
-          "oklch(15.0% 0.130 79.8)",
-          "oklch(25.0% 0.130 79.8)",
-          "oklch(35.0% 0.130 79.8)",
-          "oklch(45.0% 0.130 79.8)",
-          "oklch(55.0% 0.130 79.8)",
-          "oklch(65.0% 0.130 79.8)",
-          "oklch(80.0% 0.130 79.8)",
-          "oklch(95.0% 0.130 79.8)"
-        ]
-      },
-      "bad-cherry": {
-        "role": "status",
-        "displayName": "Bad Cherry",
-        "theme": "dark",
-        "canonical": "#d4674f",
-        "tonalRamp": [
-          "oklch(15.0% 0.143 33.7)",
-          "oklch(25.0% 0.143 33.7)",
-          "oklch(35.0% 0.143 33.7)",
-          "oklch(45.0% 0.143 33.7)",
-          "oklch(55.0% 0.143 33.7)",
-          "oklch(65.0% 0.143 33.7)",
-          "oklch(80.0% 0.143 33.7)",
-          "oklch(95.0% 0.143 33.7)"
-        ]
-      },
-      "cool-water": {
-        "role": "tertiary",
-        "displayName": "Cool Water",
-        "theme": "dark",
-        "canonical": "#6f9dc4",
-        "tonalRamp": [
-          "oklch(15.0% 0.076 244.8)",
-          "oklch(25.0% 0.076 244.8)",
-          "oklch(35.0% 0.076 244.8)",
-          "oklch(45.0% 0.076 244.8)",
-          "oklch(55.0% 0.076 244.8)",
-          "oklch(65.0% 0.076 244.8)",
-          "oklch(80.0% 0.076 244.8)",
-          "oklch(95.0% 0.076 244.8)"
-        ]
-      },
-      "light-crema-amber": {
-        "role": "primary",
-        "displayName": "Light Crema Amber",
-        "theme": "light",
-        "canonical": "#9c6416",
-        "tonalRamp": [
-          "oklch(15.0% 0.112 68.8)",
-          "oklch(25.0% 0.112 68.8)",
-          "oklch(35.0% 0.112 68.8)",
-          "oklch(45.0% 0.112 68.8)",
-          "oklch(55.0% 0.112 68.8)",
-          "oklch(65.0% 0.112 68.8)",
-          "oklch(80.0% 0.112 68.8)",
-          "oklch(95.0% 0.112 68.8)"
-        ]
-      },
-      "light-crema-amber-hover": {
-        "role": "primary",
-        "displayName": "Light Crema Amber Hover",
-        "theme": "light",
-        "canonical": "#855314",
-        "tonalRamp": [
-          "oklch(15.0% 0.099 66.5)",
-          "oklch(25.0% 0.099 66.5)",
-          "oklch(35.0% 0.099 66.5)",
-          "oklch(45.0% 0.099 66.5)",
-          "oklch(55.0% 0.099 66.5)",
-          "oklch(65.0% 0.099 66.5)",
-          "oklch(80.0% 0.099 66.5)",
-          "oklch(95.0% 0.099 66.5)"
-        ]
-      },
-      "light-espresso-rust": {
-        "role": "secondary",
-        "displayName": "Light Espresso Rust",
-        "theme": "light",
-        "canonical": "#a2542a",
-        "tonalRamp": [
-          "oklch(15.0% 0.117 46.9)",
-          "oklch(25.0% 0.117 46.9)",
-          "oklch(35.0% 0.117 46.9)",
-          "oklch(45.0% 0.117 46.9)",
-          "oklch(55.0% 0.117 46.9)",
-          "oklch(65.0% 0.117 46.9)",
-          "oklch(80.0% 0.117 46.9)",
-          "oklch(95.0% 0.117 46.9)"
-        ]
-      },
-      "light-on-accent": {
-        "role": "neutral",
-        "displayName": "Light On Accent",
-        "theme": "light",
-        "canonical": "#fffaf2",
-        "tonalRamp": [
-          "oklch(15.0% 0.012 79.8)",
-          "oklch(25.0% 0.012 79.8)",
-          "oklch(35.0% 0.012 79.8)",
-          "oklch(45.0% 0.012 79.8)",
-          "oklch(55.0% 0.012 79.8)",
-          "oklch(65.0% 0.012 79.8)",
-          "oklch(80.0% 0.012 79.8)",
-          "oklch(95.0% 0.012 79.8)"
-        ]
-      },
-      "light-paper": {
-        "role": "neutral",
-        "displayName": "Light Paper",
-        "theme": "light",
-        "canonical": "#f7f3ec",
-        "tonalRamp": [
-          "oklch(15.0% 0.010 81.8)",
-          "oklch(25.0% 0.010 81.8)",
-          "oklch(35.0% 0.010 81.8)",
-          "oklch(45.0% 0.010 81.8)",
-          "oklch(55.0% 0.010 81.8)",
-          "oklch(65.0% 0.010 81.8)",
-          "oklch(80.0% 0.010 81.8)",
-          "oklch(95.0% 0.010 81.8)"
-        ]
-      },
-      "light-surface": {
-        "role": "neutral",
-        "displayName": "Light Surface",
-        "theme": "light",
         "canonical": "#fffdfa",
         "tonalRamp": [
           "oklch(15.0% 0.005 78.3)",
@@ -388,425 +195,871 @@
           "oklch(95.0% 0.005 78.3)"
         ]
       },
-      "light-surface-2": {
+      "surface-2": {
         "role": "neutral",
-        "displayName": "Light Surface 2",
-        "theme": "light",
-        "canonical": "#f0e9de",
+        "displayName": "Surface 2",
+        "canonical": "#f3ede5",
         "tonalRamp": [
-          "oklch(15.0% 0.017 79.3)",
-          "oklch(25.0% 0.017 79.3)",
-          "oklch(35.0% 0.017 79.3)",
-          "oklch(45.0% 0.017 79.3)",
-          "oklch(55.0% 0.017 79.3)",
-          "oklch(65.0% 0.017 79.3)",
-          "oklch(80.0% 0.017 79.3)",
-          "oklch(95.0% 0.017 79.3)"
+          "oklch(15.0% 0.012 75.4)",
+          "oklch(25.0% 0.012 75.4)",
+          "oklch(35.0% 0.012 75.4)",
+          "oklch(45.0% 0.012 75.4)",
+          "oklch(55.0% 0.012 75.4)",
+          "oklch(65.0% 0.012 75.4)",
+          "oklch(80.0% 0.012 75.4)",
+          "oklch(95.0% 0.012 75.4)"
         ]
       },
-      "light-border": {
+      "field": {
         "role": "neutral",
-        "displayName": "Light Border",
-        "theme": "light",
-        "canonical": "#e2d8c9",
+        "displayName": "Field",
+        "canonical": "#faf6f1",
         "tonalRamp": [
-          "oklch(15.0% 0.023 78.2)",
-          "oklch(25.0% 0.023 78.2)",
-          "oklch(35.0% 0.023 78.2)",
-          "oklch(45.0% 0.023 78.2)",
-          "oklch(55.0% 0.023 78.2)",
-          "oklch(65.0% 0.023 78.2)",
-          "oklch(80.0% 0.023 78.2)",
-          "oklch(95.0% 0.023 78.2)"
+          "oklch(15.0% 0.008 73.7)",
+          "oklch(25.0% 0.008 73.7)",
+          "oklch(35.0% 0.008 73.7)",
+          "oklch(45.0% 0.008 73.7)",
+          "oklch(55.0% 0.008 73.7)",
+          "oklch(65.0% 0.008 73.7)",
+          "oklch(80.0% 0.008 73.7)",
+          "oklch(95.0% 0.008 73.7)"
         ]
       },
-      "light-border-strong": {
+      "border": {
         "role": "neutral",
-        "displayName": "Light Border Strong",
-        "theme": "light",
-        "canonical": "#c8b9a4",
+        "displayName": "Border",
+        "canonical": "#ebe3d9",
         "tonalRamp": [
-          "oklch(15.0% 0.034 76.4)",
-          "oklch(25.0% 0.034 76.4)",
-          "oklch(35.0% 0.034 76.4)",
-          "oklch(45.0% 0.034 76.4)",
-          "oklch(55.0% 0.034 76.4)",
-          "oklch(65.0% 0.034 76.4)",
-          "oklch(80.0% 0.034 76.4)",
-          "oklch(95.0% 0.034 76.4)"
+          "oklch(15.0% 0.016 73.7)",
+          "oklch(25.0% 0.016 73.7)",
+          "oklch(35.0% 0.016 73.7)",
+          "oklch(45.0% 0.016 73.7)",
+          "oklch(55.0% 0.016 73.7)",
+          "oklch(65.0% 0.016 73.7)",
+          "oklch(80.0% 0.016 73.7)",
+          "oklch(95.0% 0.016 73.7)"
         ]
       },
-      "light-ink": {
+      "border-strong": {
         "role": "neutral",
-        "displayName": "Light Ink",
-        "theme": "light",
-        "canonical": "#241c14",
+        "displayName": "Border Strong",
+        "canonical": "#d8cbbb",
         "tonalRamp": [
-          "oklch(15.0% 0.019 66.6)",
-          "oklch(25.0% 0.019 66.6)",
-          "oklch(35.0% 0.019 66.6)",
-          "oklch(45.0% 0.019 66.6)",
-          "oklch(55.0% 0.019 66.6)",
-          "oklch(65.0% 0.019 66.6)",
-          "oklch(80.0% 0.019 66.6)",
-          "oklch(95.0% 0.019 66.6)"
+          "oklch(15.0% 0.026 73.1)",
+          "oklch(25.0% 0.026 73.1)",
+          "oklch(35.0% 0.026 73.1)",
+          "oklch(45.0% 0.026 73.1)",
+          "oklch(55.0% 0.026 73.1)",
+          "oklch(65.0% 0.026 73.1)",
+          "oklch(80.0% 0.026 73.1)",
+          "oklch(95.0% 0.026 73.1)"
         ]
       },
-      "light-text-dim": {
+      "text": {
         "role": "neutral",
-        "displayName": "Light Text Dim",
-        "theme": "light",
-        "canonical": "#665949",
+        "displayName": "Text",
+        "canonical": "#2b211c",
         "tonalRamp": [
-          "oklch(15.0% 0.030 72.8)",
-          "oklch(25.0% 0.030 72.8)",
-          "oklch(35.0% 0.030 72.8)",
-          "oklch(45.0% 0.030 72.8)",
-          "oklch(55.0% 0.030 72.8)",
-          "oklch(65.0% 0.030 72.8)",
-          "oklch(80.0% 0.030 72.8)",
-          "oklch(95.0% 0.030 72.8)"
+          "oklch(15.0% 0.018 48.0)",
+          "oklch(25.0% 0.018 48.0)",
+          "oklch(35.0% 0.018 48.0)",
+          "oklch(45.0% 0.018 48.0)",
+          "oklch(55.0% 0.018 48.0)",
+          "oklch(65.0% 0.018 48.0)",
+          "oklch(80.0% 0.018 48.0)",
+          "oklch(95.0% 0.018 48.0)"
         ]
       },
-      "light-text-faint": {
+      "text-dim": {
         "role": "neutral",
-        "displayName": "Light Text Faint",
-        "theme": "light",
-        "canonical": "#907f6c",
+        "displayName": "Text Dim",
+        "canonical": "#685a4f",
         "tonalRamp": [
-          "oklch(15.0% 0.035 70.2)",
-          "oklch(25.0% 0.035 70.2)",
-          "oklch(35.0% 0.035 70.2)",
-          "oklch(45.0% 0.035 70.2)",
-          "oklch(55.0% 0.035 70.2)",
-          "oklch(65.0% 0.035 70.2)",
-          "oklch(80.0% 0.035 70.2)",
-          "oklch(95.0% 0.035 70.2)"
+          "oklch(15.0% 0.025 60.3)",
+          "oklch(25.0% 0.025 60.3)",
+          "oklch(35.0% 0.025 60.3)",
+          "oklch(45.0% 0.025 60.3)",
+          "oklch(55.0% 0.025 60.3)",
+          "oklch(65.0% 0.025 60.3)",
+          "oklch(80.0% 0.025 60.3)",
+          "oklch(95.0% 0.025 60.3)"
         ]
       },
-      "light-good-sage": {
-        "role": "status",
-        "displayName": "Light Good Sage",
-        "theme": "light",
-        "canonical": "#46733a",
+      "text-faint": {
+        "role": "neutral",
+        "displayName": "Text Faint",
+        "canonical": "#8f8175",
         "tonalRamp": [
-          "oklch(15.0% 0.099 139.3)",
-          "oklch(25.0% 0.099 139.3)",
-          "oklch(35.0% 0.099 139.3)",
-          "oklch(45.0% 0.099 139.3)",
-          "oklch(55.0% 0.099 139.3)",
-          "oklch(65.0% 0.099 139.3)",
-          "oklch(80.0% 0.099 139.3)",
-          "oklch(95.0% 0.099 139.3)"
+          "oklch(15.0% 0.025 63.0)",
+          "oklch(25.0% 0.025 63.0)",
+          "oklch(35.0% 0.025 63.0)",
+          "oklch(45.0% 0.025 63.0)",
+          "oklch(55.0% 0.025 63.0)",
+          "oklch(65.0% 0.025 63.0)",
+          "oklch(80.0% 0.025 63.0)",
+          "oklch(95.0% 0.025 63.0)"
         ]
       },
-      "light-warn-honey": {
-        "role": "status",
-        "displayName": "Light Warn Honey",
-        "theme": "light",
-        "canonical": "#97690f",
+      "ground-dark": {
+        "role": "neutral",
+        "displayName": "Charcoal Ground",
+        "canonical": "#151211",
         "tonalRamp": [
-          "oklch(15.0% 0.111 77.1)",
-          "oklch(25.0% 0.111 77.1)",
-          "oklch(35.0% 0.111 77.1)",
-          "oklch(45.0% 0.111 77.1)",
-          "oklch(55.0% 0.111 77.1)",
-          "oklch(65.0% 0.111 77.1)",
-          "oklch(80.0% 0.111 77.1)",
-          "oklch(95.0% 0.111 77.1)"
-        ]
+          "oklch(15.0% 0.005 39.4)",
+          "oklch(25.0% 0.005 39.4)",
+          "oklch(35.0% 0.005 39.4)",
+          "oklch(45.0% 0.005 39.4)",
+          "oklch(55.0% 0.005 39.4)",
+          "oklch(65.0% 0.005 39.4)",
+          "oklch(80.0% 0.005 39.4)",
+          "oklch(95.0% 0.005 39.4)"
+        ],
+        "theme": "dark",
+        "purpose": "Dark base ground; finishes cast 11% of the body into it."
       },
-      "light-bad-cherry": {
-        "role": "status",
-        "displayName": "Light Bad Cherry",
-        "theme": "light",
-        "canonical": "#a83f28",
+      "surface-dark": {
+        "role": "neutral",
+        "displayName": "Surface Dark",
+        "canonical": "#211c1a",
         "tonalRamp": [
-          "oklch(15.0% 0.143 33.9)",
-          "oklch(25.0% 0.143 33.9)",
-          "oklch(35.0% 0.143 33.9)",
-          "oklch(45.0% 0.143 33.9)",
-          "oklch(55.0% 0.143 33.9)",
-          "oklch(65.0% 0.143 33.9)",
-          "oklch(80.0% 0.143 33.9)",
-          "oklch(95.0% 0.143 33.9)"
-        ]
+          "oklch(15.0% 0.009 43.1)",
+          "oklch(25.0% 0.009 43.1)",
+          "oklch(35.0% 0.009 43.1)",
+          "oklch(45.0% 0.009 43.1)",
+          "oklch(55.0% 0.009 43.1)",
+          "oklch(65.0% 0.009 43.1)",
+          "oklch(80.0% 0.009 43.1)",
+          "oklch(95.0% 0.009 43.1)"
+        ],
+        "theme": "dark"
       },
-      "light-cool-water": {
+      "surface-2-dark": {
+        "role": "neutral",
+        "displayName": "Surface 2 Dark",
+        "canonical": "#2c2623",
+        "tonalRamp": [
+          "oklch(15.0% 0.011 48.3)",
+          "oklch(25.0% 0.011 48.3)",
+          "oklch(35.0% 0.011 48.3)",
+          "oklch(45.0% 0.011 48.3)",
+          "oklch(55.0% 0.011 48.3)",
+          "oklch(65.0% 0.011 48.3)",
+          "oklch(80.0% 0.011 48.3)",
+          "oklch(95.0% 0.011 48.3)"
+        ],
+        "theme": "dark"
+      },
+      "text-dark": {
+        "role": "neutral",
+        "displayName": "Text Dark",
+        "canonical": "#f6efe8",
+        "tonalRamp": [
+          "oklch(15.0% 0.012 67.7)",
+          "oklch(25.0% 0.012 67.7)",
+          "oklch(35.0% 0.012 67.7)",
+          "oklch(45.0% 0.012 67.7)",
+          "oklch(55.0% 0.012 67.7)",
+          "oklch(65.0% 0.012 67.7)",
+          "oklch(80.0% 0.012 67.7)",
+          "oklch(95.0% 0.012 67.7)"
+        ],
+        "theme": "dark"
+      },
+      "good": {
         "role": "tertiary",
-        "displayName": "Light Cool Water",
-        "theme": "light",
-        "canonical": "#3a6a91",
+        "displayName": "Good",
+        "canonical": "#3f7a3a",
         "tonalRamp": [
-          "oklch(15.0% 0.081 244.9)",
-          "oklch(25.0% 0.081 244.9)",
-          "oklch(35.0% 0.081 244.9)",
-          "oklch(45.0% 0.081 244.9)",
-          "oklch(55.0% 0.081 244.9)",
-          "oklch(65.0% 0.081 244.9)",
-          "oklch(80.0% 0.081 244.9)",
-          "oklch(95.0% 0.081 244.9)"
+          "oklch(15.0% 0.114 142.2)",
+          "oklch(25.0% 0.114 142.2)",
+          "oklch(35.0% 0.114 142.2)",
+          "oklch(45.0% 0.114 142.2)",
+          "oklch(55.0% 0.114 142.2)",
+          "oklch(65.0% 0.114 142.2)",
+          "oklch(80.0% 0.114 142.2)",
+          "oklch(95.0% 0.114 142.2)"
         ]
+      },
+      "warn": {
+        "role": "tertiary",
+        "displayName": "Warn",
+        "canonical": "#946510",
+        "tonalRamp": [
+          "oklch(15.0% 0.109 75.3)",
+          "oklch(25.0% 0.109 75.3)",
+          "oklch(35.0% 0.109 75.3)",
+          "oklch(45.0% 0.109 75.3)",
+          "oklch(55.0% 0.109 75.3)",
+          "oklch(65.0% 0.109 75.3)",
+          "oklch(80.0% 0.109 75.3)",
+          "oklch(95.0% 0.109 75.3)"
+        ]
+      },
+      "bad": {
+        "role": "tertiary",
+        "displayName": "Bad",
+        "canonical": "#b03c2a",
+        "tonalRamp": [
+          "oklch(15.0% 0.155 31.5)",
+          "oklch(25.0% 0.155 31.5)",
+          "oklch(35.0% 0.155 31.5)",
+          "oklch(45.0% 0.155 31.5)",
+          "oklch(55.0% 0.155 31.5)",
+          "oklch(65.0% 0.155 31.5)",
+          "oklch(80.0% 0.155 31.5)",
+          "oklch(95.0% 0.155 31.5)"
+        ]
+      },
+      "cool": {
+        "role": "tertiary",
+        "displayName": "Cool",
+        "canonical": "#33689a",
+        "tonalRamp": [
+          "oklch(15.0% 0.098 249.2)",
+          "oklch(25.0% 0.098 249.2)",
+          "oklch(35.0% 0.098 249.2)",
+          "oklch(45.0% 0.098 249.2)",
+          "oklch(55.0% 0.098 249.2)",
+          "oklch(65.0% 0.098 249.2)",
+          "oklch(80.0% 0.098 249.2)",
+          "oklch(95.0% 0.098 249.2)"
+        ]
+      },
+      "star": {
+        "role": "tertiary",
+        "displayName": "Star",
+        "canonical": "#e3a21a",
+        "tonalRamp": [
+          "oklch(15.0% 0.152 78.6)",
+          "oklch(25.0% 0.152 78.6)",
+          "oklch(35.0% 0.152 78.6)",
+          "oklch(45.0% 0.152 78.6)",
+          "oklch(55.0% 0.152 78.6)",
+          "oklch(65.0% 0.152 78.6)",
+          "oklch(80.0% 0.152 78.6)",
+          "oklch(95.0% 0.152 78.6)"
+        ]
+      },
+      "espresso-liquid": {
+        "role": "secondary",
+        "displayName": "Espresso Liquid",
+        "canonical": "#3a2215",
+        "tonalRamp": [
+          "oklch(15.0% 0.043 48.8)",
+          "oklch(25.0% 0.043 48.8)",
+          "oklch(35.0% 0.043 48.8)",
+          "oklch(45.0% 0.043 48.8)",
+          "oklch(55.0% 0.043 48.8)",
+          "oklch(65.0% 0.043 48.8)",
+          "oklch(80.0% 0.043 48.8)",
+          "oklch(95.0% 0.043 48.8)"
+        ]
+      },
+      "crema-sour": {
+        "role": "secondary",
+        "displayName": "Crema Sour",
+        "canonical": "#ecdba6",
+        "tonalRamp": [
+          "oklch(15.0% 0.071 92.4)",
+          "oklch(25.0% 0.071 92.4)",
+          "oklch(35.0% 0.071 92.4)",
+          "oklch(45.0% 0.071 92.4)",
+          "oklch(55.0% 0.071 92.4)",
+          "oklch(65.0% 0.071 92.4)",
+          "oklch(80.0% 0.071 92.4)",
+          "oklch(95.0% 0.071 92.4)"
+        ]
+      },
+      "crema-sourish": {
+        "role": "secondary",
+        "displayName": "Crema Sourish",
+        "canonical": "#ddb977",
+        "tonalRamp": [
+          "oklch(15.0% 0.094 81.9)",
+          "oklch(25.0% 0.094 81.9)",
+          "oklch(35.0% 0.094 81.9)",
+          "oklch(45.0% 0.094 81.9)",
+          "oklch(55.0% 0.094 81.9)",
+          "oklch(65.0% 0.094 81.9)",
+          "oklch(80.0% 0.094 81.9)",
+          "oklch(95.0% 0.094 81.9)"
+        ]
+      },
+      "crema-balanced": {
+        "role": "secondary",
+        "displayName": "Hazel Crema",
+        "canonical": "#c4874a",
+        "tonalRamp": [
+          "oklch(15.0% 0.108 64.1)",
+          "oklch(25.0% 0.108 64.1)",
+          "oklch(35.0% 0.108 64.1)",
+          "oklch(45.0% 0.108 64.1)",
+          "oklch(55.0% 0.108 64.1)",
+          "oklch(65.0% 0.108 64.1)",
+          "oklch(80.0% 0.108 64.1)",
+          "oklch(95.0% 0.108 64.1)"
+        ],
+        "purpose": "Balanced taste; also the brand mark crema."
+      },
+      "crema-bitterish": {
+        "role": "secondary",
+        "displayName": "Crema Bitterish",
+        "canonical": "#8f552d",
+        "tonalRamp": [
+          "oklch(15.0% 0.094 53.4)",
+          "oklch(25.0% 0.094 53.4)",
+          "oklch(35.0% 0.094 53.4)",
+          "oklch(45.0% 0.094 53.4)",
+          "oklch(55.0% 0.094 53.4)",
+          "oklch(65.0% 0.094 53.4)",
+          "oklch(80.0% 0.094 53.4)",
+          "oklch(95.0% 0.094 53.4)"
+        ]
+      },
+      "crema-bitter": {
+        "role": "secondary",
+        "displayName": "Crema Bitter",
+        "canonical": "#5a341d",
+        "tonalRamp": [
+          "oklch(15.0% 0.065 50.7)",
+          "oklch(25.0% 0.065 50.7)",
+          "oklch(35.0% 0.065 50.7)",
+          "oklch(45.0% 0.065 50.7)",
+          "oklch(55.0% 0.065 50.7)",
+          "oklch(65.0% 0.065 50.7)",
+          "oklch(80.0% 0.065 50.7)",
+          "oklch(95.0% 0.065 50.7)"
+        ]
+      },
+      "crema-unknown": {
+        "role": "secondary",
+        "displayName": "Crema Unknown",
+        "canonical": "#cdb9a2",
+        "tonalRamp": [
+          "oklch(15.0% 0.039 71.1)",
+          "oklch(25.0% 0.039 71.1)",
+          "oklch(35.0% 0.039 71.1)",
+          "oklch(45.0% 0.039 71.1)",
+          "oklch(55.0% 0.039 71.1)",
+          "oklch(65.0% 0.039 71.1)",
+          "oklch(80.0% 0.039 71.1)",
+          "oklch(95.0% 0.039 71.1)"
+        ]
+      },
+      "stage-pre": {
+        "role": "secondary",
+        "displayName": "Stage Pre",
+        "canonical": "#5b8fc0",
+        "tonalRamp": [
+          "oklch(15.0% 0.093 248.1)",
+          "oklch(25.0% 0.093 248.1)",
+          "oklch(35.0% 0.093 248.1)",
+          "oklch(45.0% 0.093 248.1)",
+          "oklch(55.0% 0.093 248.1)",
+          "oklch(65.0% 0.093 248.1)",
+          "oklch(80.0% 0.093 248.1)",
+          "oklch(95.0% 0.093 248.1)"
+        ]
+      },
+      "stage-infusion": {
+        "role": "secondary",
+        "displayName": "Stage Infusion",
+        "canonical": "#c4874a",
+        "tonalRamp": [
+          "oklch(15.0% 0.108 64.1)",
+          "oklch(25.0% 0.108 64.1)",
+          "oklch(35.0% 0.108 64.1)",
+          "oklch(45.0% 0.108 64.1)",
+          "oklch(55.0% 0.108 64.1)",
+          "oklch(65.0% 0.108 64.1)",
+          "oklch(80.0% 0.108 64.1)",
+          "oklch(95.0% 0.108 64.1)"
+        ]
+      },
+      "stage-ramp": {
+        "role": "secondary",
+        "displayName": "Stage Ramp",
+        "canonical": "#8f552d",
+        "tonalRamp": [
+          "oklch(15.0% 0.094 53.4)",
+          "oklch(25.0% 0.094 53.4)",
+          "oklch(35.0% 0.094 53.4)",
+          "oklch(45.0% 0.094 53.4)",
+          "oklch(55.0% 0.094 53.4)",
+          "oklch(65.0% 0.094 53.4)",
+          "oklch(80.0% 0.094 53.4)",
+          "oklch(95.0% 0.094 53.4)"
+        ]
+      },
+      "chart-pressure": {
+        "role": "Profile-chart pressure line, area and label; ignores the finish",
+        "dark": "#e2a766"
+      },
+      "body-crema": {
+        "role": "House finish body and action (default)",
+        "dark": "#df6a31"
       }
     },
     "typographyMeta": {
-      "wordmark": {
-        "displayName": "Wordmark",
-        "purpose": "The lowercase crema lockup only. 1.72rem sidebar, 1.25rem top bar, 3.1rem auth; on the landing 1.5rem top bar and clamp(3rem, 7vw, 4.6rem) at the close."
+      "display": {
+        "displayName": "Display",
+        "purpose": "The coach card barista instruction only."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Page title in .page-head; 1.6rem on phones."
+        "purpose": "Page titles (h1)."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Section headings; 1.2rem on phones."
+        "purpose": "Card and section heads (h2)."
       },
-      "subtitle": {
-        "displayName": "Subtitle",
-        "purpose": "Card and empty-state headings."
+      "title-sm": {
+        "displayName": "Title Small",
+        "purpose": "h3 and empty-state heads."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "All interface copy. Inputs 0.92rem, 16px on phones."
+        "purpose": "All UI prose."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Uppercase stat labels, table headers, nav group labels (0.66–0.78rem, 0.1–0.14em)."
+        "purpose": "Field, nav-group, stat and table labels; sentence case."
       },
-      "reading": {
-        "displayName": "Reading",
-        "purpose": "Every measured value: stat readings, table numbers, number inputs, chart labels. Tabular."
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Stat values; numbers only, units in Figtree."
       },
-      "landing-display": {
-        "displayName": "Landing Display",
-        "purpose": "Landing tier only: the public hero headline. Fluid, balanced, capped near 13em."
+      "figure-sm": {
+        "displayName": "Figure Small",
+        "purpose": "Dial-in times, table numbers, deltas, inputs."
       },
-      "landing-section": {
-        "displayName": "Landing Section",
-        "purpose": "Landing tier only: stage section headings on the public landing."
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "Lowercase \"crema\" in the brand lockup."
+      }
+    },
+    "finishes": [
+      {
+        "value": "crema",
+        "label": "Crema orange",
+        "default": true,
+        "house": true,
+        "light": {
+          "body": "#d9622b",
+          "onBody": "#2a1408",
+          "action": "#d9622b",
+          "onAction": "#2a1408",
+          "link": "#a8410f"
+        },
+        "dark": {
+          "body": "#df6a31",
+          "onBody": "#2a1408",
+          "action": "#e3703a",
+          "onAction": "#2a1408"
+        }
       },
-      "landing-coach": {
-        "displayName": "Landing Coach",
-        "purpose": "Landing tier only: the coach demo's answer headline, in its tint's hue."
+      {
+        "value": "sesame-walnut",
+        "label": "Sesame + Walnut",
+        "light": {
+          "body": "#ebdfc8",
+          "onBody": "#3a2616",
+          "action": "#7b4a2b",
+          "onAction": "#fff8ef",
+          "bg": "#f4f2ee"
+        },
+        "dark": {
+          "body": "#e6d7bb",
+          "onBody": "#2b1d12",
+          "action": "#e6d7bb",
+          "onAction": "#2b1d12",
+          "bgApprox": "#282420"
+        }
       },
-      "landing-close": {
-        "displayName": "Landing Close",
-        "purpose": "Landing tier only: the closing line under the large lockup."
+      {
+        "value": "cherry-walnut",
+        "label": "Cherry Red + Walnut",
+        "light": {
+          "body": "#c4302b",
+          "onBody": "#fff6f2",
+          "action": "#c4302b",
+          "onAction": "#fff6f2",
+          "bgApprox": "#f6e6e0"
+        },
+        "dark": {
+          "body": "#b93530",
+          "onBody": "#fff6f2",
+          "action": "#d23e36",
+          "onAction": "#fff6f2"
+        }
       },
-      "landing-lead": {
-        "displayName": "Landing Lead",
-        "purpose": "Landing tier only: the hero sub-line, Text Dim, 54ch."
+      {
+        "value": "marine-walnut",
+        "label": "Marine Blue + Walnut",
+        "light": {
+          "body": "#2c5a9a",
+          "onBody": "#f3f7fd",
+          "action": "#2c5a9a",
+          "onAction": "#f3f7fd",
+          "bgApprox": "#e8e8e9"
+        },
+        "dark": {
+          "body": "#2f5c9c",
+          "onBody": "#f3f7fd",
+          "action": "#3d6db5",
+          "onAction": "#f3f7fd"
+        }
       },
-      "landing-section-lead": {
-        "displayName": "Section Lead",
-        "purpose": "Landing tier only: the lead paragraph opening each stage section, Text Dim, 64ch."
+      {
+        "value": "woodland-walnut",
+        "label": "Woodland + Walnut",
+        "light": {
+          "body": "#3d6a4b",
+          "onBody": "#f2f8f2",
+          "action": "#3d6a4b",
+          "onAction": "#f2f8f2",
+          "bgApprox": "#e9e9e2"
+        },
+        "dark": {
+          "body": "#3a6447",
+          "onBody": "#f2f8f2",
+          "action": "#487a57",
+          "onAction": "#f2f8f2"
+        }
       },
-      "landing-button": {
-        "displayName": "Large Button",
-        "purpose": "Landing tier only: the Create account / Sign in pair (11px x 20px)."
+      {
+        "value": "chocolate-maple",
+        "label": "Malted Chocolate + Maple",
+        "light": {
+          "body": "#6a4635",
+          "onBody": "#fbf3ea",
+          "action": "#6a4635",
+          "onAction": "#fbf3ea",
+          "bgApprox": "#ede6e0"
+        },
+        "dark": {
+          "body": "#6e4a39",
+          "onBody": "#fbf3ea",
+          "action": "#8a5d47",
+          "onAction": "#fbf3ea"
+        }
       },
-      "landing-reading": {
-        "displayName": "Landing Reading",
-        "purpose": "Landing tier only: the one oversized demo reading; unit at 0.4em."
+      {
+        "value": "black",
+        "label": "Black",
+        "light": {
+          "body": "#1f1c1b",
+          "onBody": "#f6efe8",
+          "action": "#1f1c1b",
+          "onAction": "#f6efe8",
+          "bgApprox": "#e6e2dd"
+        },
+        "dark": {
+          "body": "#0b0a0a",
+          "onBody": "#f6efe8",
+          "action": "#f1ebe4",
+          "onAction": "#1a1614",
+          "indicatorsUse": "--text"
+        }
+      }
+    ],
+    "derived": [
+      {
+        "name": "--bg",
+        "value": "color-mix(in oklab, var(--body) 7%, var(--ground))",
+        "purpose": "Page ground with a faint machine cast (light). Dark uses 11%. Sesame light overrides with #f4f2ee."
+      },
+      {
+        "name": "--action-hover",
+        "value": "color-mix(in oklab, var(--action) 86%, var(--text))",
+        "purpose": "Primary button hover."
+      },
+      {
+        "name": "--action-soft",
+        "value": "color-mix(in oklab, var(--action) 12%, var(--surface))",
+        "purpose": "Active nav pill, highlighted tag fill."
+      },
+      {
+        "name": "--action-line",
+        "value": "color-mix(in oklab, var(--action) 34%, var(--surface))",
+        "purpose": "Tag ring, list-item hover border, text selection."
+      },
+      {
+        "name": "--focus-ring",
+        "value": "color-mix(in oklab, var(--action) 26%, transparent)",
+        "purpose": "4px input focus halo."
+      },
+      {
+        "name": "--on-body-dim",
+        "value": "color-mix(in oklab, var(--on-body) 74%, var(--body))",
+        "purpose": "Secondary ink on the coach card."
+      },
+      {
+        "name": "--on-body-line",
+        "value": "color-mix(in oklab, var(--on-body) 18%, var(--body))",
+        "purpose": "Hairline and ghost hover on the coach card."
+      }
+    ],
+    "legacyAliases": {
+      "note": "Compatibility only, read by the not-yet-redesigned landing page, charts.tsx and one inline style. Do not add new reads.",
+      "map": {
+        "--crema": "--action",
+        "--crema-dim": "--action-line",
+        "--espresso": "--stage-ramp",
+        "--on-accent": "--on-action",
+        "--accent-hover": "--action-hover",
+        "--tint-accent-bg": "--action-soft",
+        "--tint-accent-border": "--action-line",
+        "--banner-*": "status tints / surface-2",
+        "--shadow": "--shadow-pop"
       }
     },
     "shadows": [
       {
-        "name": "modal-lift",
-        "value": "0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.7)",
-        "purpose": "Modals only (dark)."
+        "name": "shadow-card",
+        "value": "0 1px 2px rgba(60, 40, 25, 0.05), 0 10px 28px -16px rgba(60, 40, 25, 0.18)",
+        "purpose": "Resting cards, stats, list items in light. none in dark (border instead)."
       },
       {
-        "name": "modal-lift-light",
-        "value": "0 1px 2px rgba(60,44,26,0.08), 0 8px 24px -12px rgba(60,44,26,0.28)",
-        "purpose": "Modals only (light), brown-tinted."
+        "name": "shadow-pop",
+        "value": "0 2px 6px rgba(60, 40, 25, 0.08), 0 24px 48px -20px rgba(60, 40, 25, 0.32)",
+        "purpose": "Popover, modal, sheet, tab-log disc (light)."
+      },
+      {
+        "name": "shadow-pop-dark",
+        "value": "0 2px 6px rgba(0, 0, 0, 0.4), 0 24px 48px -20px rgba(0, 0, 0, 0.7)",
+        "purpose": "Floating layers in dark."
+      },
+      {
+        "name": "shadow-bar",
+        "value": "0 -8px 24px -18px rgba(40, 28, 20, 0.3)",
+        "purpose": "Phone tab bar upward lift (token --shadow-bar; dark uses rgba(0,0,0,0.6))."
       },
       {
         "name": "focus-ring",
-        "value": "0 0 0 3px var(--focus-ring)",
-        "purpose": "Input focus halo with border shifted to --crema-dim."
+        "value": "0 0 0 4px color-mix(in oklab, var(--action) 26%, transparent)",
+        "purpose": "Input focus halo."
       },
       {
-        "name": "nav-active-rail",
-        "value": "inset 2px 0 0 var(--crema)",
-        "purpose": "Active sidebar link; inset 0 -2px 0 in the mobile strip."
+        "name": "shadow-chip",
+        "value": "0 1px 3px rgba(40, 28, 20, 0.12)",
+        "purpose": "Selected segment of a segmented control (token --shadow-chip; none in dark)."
       }
     ],
     "motion": [
       {
-        "name": "state-fast",
-        "value": "0.12s",
-        "purpose": "Background, border, color and opacity transitions on buttons, nav, inputs, list items."
+        "name": "ease-out-quint (--spring)",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Press settle (0.22s), list-item and picker transforms, tab-log disc. No overshoot."
+      },
+      {
+        "name": "ease-out-expo (--ease-out)",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entrances: modal 0.28s, popover 0.22s, sheet 0.32s, scrim fade 0.18-0.2s, glass pour 0.9s."
+      },
+      {
+        "name": "press",
+        "value": "transform: scale(0.95) translateY(1px); 0.08s in",
+        "purpose": "Tamp-feel button press; list items scale(0.985); removed under reduced motion."
+      },
+      {
+        "name": "pour",
+        "value": "scaleY(0.15) to none, 0.9s ease-out-expo, origin bottom",
+        "purpose": "Coach glass fills once per new shot."
       },
       {
         "name": "pulling",
-        "value": "1.05s ease-in-out infinite, 0.13s stagger",
-        "purpose": "Working-indicator bars scaling in sequence; static at scaleY(0.62) under reduced motion."
+        "value": "scaleY 0.28 to 1, 1.05s ease-in-out infinite, 0.13s stagger",
+        "purpose": "Four-bar working indicator."
+      },
+      {
+        "name": "state",
+        "value": "0.15s",
+        "purpose": "Colour, border and background transitions."
       }
     ],
     "breakpoints": [
       {
-        "name": "phone",
-        "value": "600px"
+        "name": "stack-dashboard",
+        "value": "1020px"
       },
       {
-        "name": "shell",
-        "value": "860px"
+        "name": "phone-shell",
+        "value": "860px",
+        "purpose": "Sidebar becomes top bar + bottom tab bar."
+      },
+      {
+        "name": "phone",
+        "value": "600px",
+        "purpose": "Tighter padding, single-column grids, tables as blocks, 16px inputs."
       },
       {
         "name": "touch",
-        "value": "(pointer: coarse)"
+        "value": "(pointer: coarse)",
+        "purpose": "44px+ targets."
       }
     ]
   },
   "components": [
     {
-      "name": "Default Button",
-      "kind": "button",
-      "refersTo": "button",
-      "description": "Everyday action: Surface 2 fill, strong border.",
-      "html": "<button class=\"ds-btn\">Log shot</button>",
-      "css": ".ds-btn{font:inherit;font-family:var(--sans);font-size:.9rem;font-weight:500;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text);cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:background .12s,border-color .12s}.ds-btn:hover{background:var(--btn-hover-bg);border-color:var(--btn-hover-border)}.ds-btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--focus-ring);border-color:var(--crema-dim)}"
-    },
-    {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one amber action per view.",
-      "html": "<button class=\"ds-btn-primary\">Save shot</button>",
-      "css": ".ds-btn-primary{font:inherit;font-family:var(--sans);font-size:.9rem;font-weight:600;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--crema);background:var(--crema);color:var(--on-accent);cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:background .12s,border-color .12s}.ds-btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}.ds-btn-primary:focus-visible{outline:none;box-shadow:0 0 0 3px var(--focus-ring)}"
+      "description": "The one press per viewport, in the finish action colour, with the tamp-feel press.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>Log a shot</button>",
+      "css": ".ds-btn-primary { font-family: var(--sans, 'Figtree', sans-serif); font-size: 0.92rem; font-weight: 600; min-height: 40px; padding: 8px 18px; border-radius: 999px; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: background 0.15s, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1); background: var(--action, #7b4a2b); color: var(--on-action, #fff8ef); } .ds-btn-primary:hover { background: var(--action-hover, #6f4429); } .ds-btn-primary:active { transform: scale(0.95) translateY(1px); transition-duration: 0.08s; } .ds-btn-primary:focus-visible { outline: 2px solid var(--action, #7b4a2b); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Neutral pill for everything that is not the one press.",
+      "html": "<button class=\"ds-btn-secondary\">Edit shot</button>",
+      "css": ".ds-btn-secondary { font-family: var(--sans, 'Figtree', sans-serif); font-size: 0.92rem; font-weight: 600; min-height: 40px; padding: 8px 18px; border-radius: 999px; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: background 0.15s, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1); background: var(--surface-2, #f3ede5); color: var(--text, #2b211c); } .ds-btn-secondary:hover { background: color-mix(in oklab, var(--surface-2, #f3ede5) 84%, var(--text, #2b211c)); } .ds-btn-secondary:active { transform: scale(0.95) translateY(1px); transition-duration: 0.08s; } .ds-btn-secondary:focus-visible { outline: 2px solid var(--action, #7b4a2b); outline-offset: 2px; }"
     },
     {
       "name": "Ghost Button",
       "kind": "button",
       "refersTo": "button-ghost",
-      "description": "Secondary actions in headers and rows.",
-      "html": "<button class=\"ds-btn-ghost\">Cancel</button>",
-      "css": ".ds-btn-ghost{font:inherit;font-family:var(--sans);font-size:.9rem;font-weight:500;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid transparent;background:transparent;color:var(--text-dim);cursor:pointer;transition:background .12s,color .12s}.ds-btn-ghost:hover{background:var(--surface-2);color:var(--text)}.ds-btn-ghost:focus-visible{outline:none;box-shadow:0 0 0 3px var(--focus-ring)}"
+      "description": "Quiet text pill for tertiary actions.",
+      "html": "<button class=\"ds-btn-ghost\">Not now</button>",
+      "css": ".ds-btn-ghost { font-family: var(--sans, 'Figtree', sans-serif); font-size: 0.92rem; font-weight: 600; min-height: 40px; padding: 8px 18px; border-radius: 999px; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: background 0.15s, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1); background: transparent; color: var(--text-dim, #685a4f); } .ds-btn-ghost:hover { background: var(--surface-2, #f3ede5); color: var(--text, #2b211c); } .ds-btn-ghost:active { transform: scale(0.95) translateY(1px); transition-duration: 0.08s; } .ds-btn-ghost:focus-visible { outline: 2px solid var(--action, #7b4a2b); outline-offset: 2px; }"
     },
     {
-      "name": "Danger Button",
-      "kind": "button",
-      "refersTo": "button-danger",
-      "description": "Destructive action; tinted, never solid red.",
-      "html": "<button class=\"ds-btn-danger\">Delete shot</button>",
-      "css": ".ds-btn-danger{font:inherit;font-family:var(--sans);font-size:.9rem;font-weight:500;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--danger-border);background:var(--surface-2);color:var(--bad);cursor:pointer;transition:background .12s,border-color .12s}.ds-btn-danger:hover{background:var(--danger-hover-bg);border-color:var(--danger-hover-border)}.ds-btn-danger:focus-visible{outline:none;box-shadow:0 0 0 3px var(--focus-ring)}"
-    },
-    {
-      "name": "Number Field",
+      "name": "Text Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "Labelled mono numeric input with a limit hint.",
-      "html": "<div class=\"ds-field\"><label>Dose (g)</label><input class=\"ds-input\" type=\"number\" value=\"18.0\"><span class=\"ds-hint\">Inferred range 14–22 g</span></div>",
-      "css": ".ds-field{display:flex;flex-direction:column;gap:5px;font-family:var(--sans);max-width:220px}.ds-field label{font-size:.78rem;letter-spacing:.04em;color:var(--text-dim)}.ds-hint{font-size:.75rem;color:var(--text-faint)}.ds-input{font:inherit;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.92rem;background:var(--bg-raised);color:var(--text);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:8px 10px;min-height:var(--control-h);transition:border-color .12s,box-shadow .12s}.ds-input:focus{outline:none;border-color:var(--crema-dim);box-shadow:0 0 0 3px var(--focus-ring)}"
+      "description": "Field fill, strong hairline, action border and 4px halo on focus.",
+      "html": "<label class=\"ds-field\"><span>Dose (g)</span><input class=\"ds-input\" type=\"text\" value=\"18.0\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: var(--sans, 'Figtree', sans-serif); } .ds-field span { font-size: 0.86rem; font-weight: 600; color: var(--text-dim, #685a4f); } .ds-input { font-family: var(--mono, 'Red Hat Mono', monospace); font-variant-numeric: tabular-nums; font-size: 0.95rem; background: var(--field, #faf6f1); color: var(--text, #2b211c); border: 1px solid var(--border-strong, #d8cbbb); border-radius: 12px; padding: 9px 12px; min-height: 2.75rem; transition: border-color 0.15s, box-shadow 0.15s; } .ds-input:focus { outline: none; border-color: var(--action, #7b4a2b); box-shadow: 0 0 0 4px color-mix(in oklab, var(--action, #7b4a2b) 26%, transparent); }"
     },
     {
-      "name": "Sidebar Nav",
+      "name": "Sidebar Navigation",
       "kind": "nav",
-      "refersTo": "nav-link",
-      "description": "Grouped sidebar links with the amber active rail.",
-      "html": "<nav class=\"ds-nav\"><div class=\"ds-nav-label\">Brew</div><a class=\"ds-nav-link on\" href=\"#\"><span class=\"ds-nav-icon\">◎</span>Dashboard</a><a class=\"ds-nav-link\" href=\"#\"><span class=\"ds-nav-icon\">⏱</span>Shot log</a><a class=\"ds-nav-link\" href=\"#\"><span class=\"ds-nav-icon\">◠</span>Profiles</a></nav>",
-      "css": ".ds-nav{display:flex;flex-direction:column;gap:2px;width:204px;padding:8px;background:var(--bg-raised);font-family:var(--sans)}.ds-nav-label{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);padding:14px 10px 6px}.ds-nav-link{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-sm);color:var(--text-dim);font-size:.92rem;text-decoration:none;transition:background .12s,color .12s}.ds-nav-link:hover{background:var(--surface);color:var(--text)}.ds-nav-link.on{background:var(--surface-2);color:var(--text);box-shadow:inset 2px 0 0 var(--crema)}.ds-nav-link:focus-visible{outline:none;box-shadow:0 0 0 3px var(--focus-ring)}.ds-nav-icon{width:18px;text-align:center;opacity:.9}"
+      "refersTo": "nav-item",
+      "description": "Nav on the page ground; active row is an action-soft pill with the icon in the action colour.",
+      "html": "<nav class=\"ds-nav\"><a class=\"on\" href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z\"/></svg>Dashboard</a><a href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12h18\"/><path d=\"M3 6h18\"/><path d=\"M3 18h18\"/></svg>Shots</a><a href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"/></svg>Coffees</a></nav>",
+      "css": ".ds-nav { display: flex; flex-direction: column; gap: 2px; width: 220px; font-family: var(--sans, 'Figtree', sans-serif); } .ds-nav a { display: flex; align-items: center; gap: 12px; min-height: 38px; padding: 7px 12px; border-radius: 12px; color: var(--text-dim, #685a4f); font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: background 0.15s, color 0.15s; } .ds-nav a svg { width: 19px; height: 19px; flex: none; } .ds-nav a:hover { background: var(--surface-2, #f3ede5); color: var(--text, #2b211c); } .ds-nav a.on { background: var(--action-soft, #efe6df); color: var(--text, #2b211c); font-weight: 600; } .ds-nav a.on svg { color: var(--action, #7b4a2b); } .ds-nav a:focus-visible { outline: 2px solid var(--action, #7b4a2b); outline-offset: 2px; }"
     },
     {
-      "name": "Confidence Tags",
+      "name": "Tag",
       "kind": "chip",
       "refersTo": "tag",
-      "description": "Pill tags in tinted pairs: measured, community, estimated.",
-      "html": "<div class=\"ds-tags\"><span class=\"ds-tag good\">measured</span><span class=\"ds-tag crema\">community</span><span class=\"ds-tag\">estimated</span><span class=\"ds-tag cool\">pre-infusion</span><span class=\"ds-tag bad\">rejected</span></div>",
-      "css": ".ds-tags{display:flex;gap:6px;flex-wrap:wrap;font-family:var(--sans)}.ds-tag{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;padding:2px 8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-dim)}.ds-tag.crema{color:var(--crema);border-color:var(--tint-accent-border);background:var(--tint-accent-bg)}.ds-tag.good{color:var(--good);border-color:var(--tint-good-border);background:var(--tint-good-bg)}.ds-tag.bad{color:var(--bad);border-color:var(--tint-bad-border);background:var(--tint-bad-bg)}.ds-tag.cool{color:var(--cool);border-color:var(--tint-cool-border);background:var(--tint-cool-bg)}"
+      "description": "Pill tags: neutral, highlighted (action-soft with ring), and status.",
+      "html": "<span class=\"ds-tag\">Washed</span> <span class=\"ds-tag ds-tag-hi\">Dialling in</span> <span class=\"ds-tag ds-tag-good\">Balanced</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; font-family: var(--sans, 'Figtree', sans-serif); font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface-2, #f3ede5); color: var(--text-dim, #685a4f); } .ds-tag-hi { color: var(--text, #2b211c); background: var(--action-soft, #efe6df); box-shadow: inset 0 0 0 1px var(--action-line, #d2bdb0); } .ds-tag-good { color: var(--good, #3f7a3a); background: var(--tint-good-bg, #e9f2e5); }"
     },
     {
-      "name": "Stat Tile",
+      "name": "Card",
       "kind": "card",
-      "refersTo": "stat",
-      "description": "Flat panel with an uppercase label and a mono reading.",
-      "html": "<div class=\"ds-stat\"><div class=\"ds-stat-label\">Avg shot time</div><div class=\"ds-stat-value\">28.4<span class=\"ds-unit\">s</span></div><div class=\"ds-stat-note\">last 7 shots</div></div>",
-      "css": ".ds-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;font-family:var(--sans);color:var(--text);width:200px}.ds-stat-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}.ds-stat-value{font-family:var(--mono);font-size:1.7rem;font-variant-numeric:tabular-nums;margin-top:4px}.ds-unit{font-size:.9rem;color:var(--text-faint);margin-left:3px}.ds-stat-note{font-size:.78rem;color:var(--text-dim);margin-top:2px}"
+      "refersTo": "card",
+      "description": "Surface card: soft offset shadow in light, hairline border in dark.",
+      "html": "<div class=\"ds-card\"><h3>Recent shots</h3><p><span class=\"ds-fig\">36.2</span> g in <span class=\"ds-fig\">28</span> s</p></div>",
+      "css": ".ds-card { background: var(--surface, #fffdfa); border: 1px solid transparent; border-radius: 20px; padding: 22px; box-shadow: 0 1px 2px rgba(60, 40, 25, 0.05), 0 10px 28px -16px rgba(60, 40, 25, 0.18); font-family: var(--sans, 'Figtree', sans-serif); color: var(--text, #2b211c); max-width: 320px; } .ds-card h3 { margin: 0 0 8px; font-family: var(--display, 'Bricolage Grotesque', sans-serif); font-size: 1.05rem; font-weight: 600; font-variation-settings: 'opsz' 14; } .ds-card p { margin: 0; color: var(--text-dim, #685a4f); } .ds-fig { font-family: var(--mono, 'Red Hat Mono', monospace); font-variant-numeric: tabular-nums; color: var(--text, #2b211c); }"
     },
     {
-      "name": "Brand Lockup",
+      "name": "Coach Card",
       "kind": "custom",
-      "refersTo": "brand-lockup",
-      "description": "Six amber shot-profile bars ruled exactly as wide as the lowercase wordmark.",
-      "html": "<div class=\"ds-lockup\"><div class=\"ds-bars\"><i style=\"height:28%\"></i><i style=\"height:62%\"></i><i style=\"height:100%\"></i><i style=\"height:97%\"></i><i style=\"height:72%\"></i><i style=\"height:45%\"></i></div><div class=\"ds-word\">crema</div></div>",
-      "css": ".ds-lockup{display:inline-block;font-size:2.4rem;color:var(--text)}.ds-bars{display:flex;align-items:flex-end;gap:.13em;height:.5em;margin-bottom:.24em}.ds-bars i{flex:1;background:var(--crema);border-radius:.09em}.ds-word{font-family:var(--display);font-weight:700;font-size:1em;line-height:1;text-transform:lowercase}"
+      "refersTo": "coach-card",
+      "description": "The one machine-coloured surface: last shot glass, one barista instruction, inverted primary.",
+      "html": "<section class=\"ds-coach\"><svg class=\"ds-glass\" viewBox=\"0 0 60 62\" width=\"56\" height=\"58\"><defs><clipPath id=\"dsg\"><path d=\"M9.5 8 H42.5 L40.2 52 Q39.9 57 35 57 H17 Q12.1 57 11.8 52 Z\"/></clipPath></defs><path class=\"h\" d=\"M43 18 C53 17 54.5 22 54.5 28.5 C54.5 36 50 40.5 41.4 40.5\"/><path class=\"b\" d=\"M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z\"/><g clip-path=\"url(#dsg)\"><rect class=\"l\" x=\"0\" y=\"20.3\" width=\"60\" height=\"38.7\"/><rect x=\"0\" y=\"20.3\" width=\"60\" height=\"7.7\" fill=\"var(--crema-balanced, #c4874a)\"/><rect class=\"e\" x=\"0\" y=\"20.3\" width=\"60\" height=\"1.2\"/><ellipse class=\"f\" cx=\"18\" cy=\"23.8\" rx=\"4\" ry=\"1.7\"/><ellipse class=\"f\" cx=\"30\" cy=\"24.9\" rx=\"5.5\" ry=\"1.4\"/><ellipse class=\"f\" cx=\"39\" cy=\"23.4\" rx=\"3\" ry=\"1.5\"/></g><path class=\"r\" d=\"M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z\"/><path class=\"s\" d=\"M14 13 L15.4 46\"/></svg><div><h2>Grind 2 steps finer</h2><p>It ran fast and tasted sour, so give the water more to push through.</p></div><div class=\"ds-coach-actions\"><button class=\"ds-coach-btn\">Log next shot</button><span>Fairly sure</span></div></section>",
+      "css": ".ds-glass .h,.ds-glass .r{fill:none;stroke:var(--glass-stroke, rgba(43,33,28,0.34));stroke-width:1.5}.ds-glass .b{fill:var(--glass-fill, rgba(255,255,255,0.55))}.ds-glass .l{fill:var(--espresso-liquid, #3a2215)}.ds-glass .e{fill:rgba(255,255,255,0.35)}.ds-glass .f{fill:rgba(255,255,255,0.28)}.ds-glass .s{stroke:rgba(255,255,255,0.5);stroke-width:1.5;stroke-linecap:round;fill:none} .ds-coach { background: var(--body, #ebdfc8); color: var(--on-body, #3a2616); border-radius: 24px; padding: 26px 26px 24px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 24px; align-items: center; max-width: 560px; font-family: var(--sans, 'Figtree', sans-serif); } .ds-coach h2 { margin: 0; font-family: var(--display, 'Bricolage Grotesque', sans-serif); font-weight: 800; font-size: 2.3rem; line-height: 1.02; letter-spacing: -0.035em; font-variation-settings: 'opsz' 72; } .ds-coach p { margin: 10px 0 0; font-size: 0.98rem; line-height: 1.5; color: color-mix(in oklab, var(--on-body, #3a2616) 74%, var(--body, #ebdfc8)); } .ds-coach-actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid color-mix(in oklab, var(--on-body, #3a2616) 18%, var(--body, #ebdfc8)); } .ds-coach-actions span { margin-left: auto; font-size: 0.82rem; font-weight: 600; color: color-mix(in oklab, var(--on-body, #3a2616) 74%, var(--body, #ebdfc8)); } .ds-coach-btn { font-family: var(--sans, 'Figtree', sans-serif); font-size: 0.92rem; font-weight: 600; min-height: 40px; padding: 8px 18px; border-radius: 999px; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: background 0.15s, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1); min-height: 50px; padding: 12px 24px; font-size: 1rem; background: var(--on-body, #3a2616); color: var(--body, #ebdfc8); } .ds-coach-btn:hover { background: color-mix(in oklab, var(--on-body, #3a2616) 88%, var(--body, #ebdfc8)); } .ds-coach-btn:active { transform: scale(0.95) translateY(1px); transition-duration: 0.08s; }"
     },
     {
-      "name": "Working Button",
+      "name": "Shot Glass",
       "kind": "custom",
-      "refersTo": "working",
-      "description": "Busy state: the brand bars pulling, plus an elapsed clock.",
-      "html": "<button class=\"ds-btn-primary ds-working\"><span class=\"ds-wbars\"><i></i><i></i><i></i><i></i></span>Reading bag<span class=\"ds-clock\">4s</span></button>",
-      "css": ".ds-btn-primary{font:inherit;font-family:var(--sans);font-size:.9rem;font-weight:600;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--crema);background:var(--crema);color:var(--on-accent);display:inline-flex;align-items:center;gap:8px}.ds-wbars{display:inline-flex;align-items:flex-end;gap:2px;height:.8em}.ds-wbars i{width:3px;height:100%;border-radius:1px;background:currentColor;transform:scaleY(.28);transform-origin:bottom;animation:ds-pull 1.05s ease-in-out infinite}.ds-wbars i:nth-child(2){animation-delay:.13s}.ds-wbars i:nth-child(3){animation-delay:.26s}.ds-wbars i:nth-child(4){animation-delay:.39s}@keyframes ds-pull{0%,100%{transform:scaleY(.28);opacity:.55}50%{transform:scaleY(1);opacity:1}}.ds-clock{font-family:var(--mono);font-size:.78em;font-variant-numeric:tabular-nums;opacity:.7}@media (prefers-reduced-motion:reduce){.ds-wbars i{animation:none;transform:scaleY(.62);opacity:.6}}"
+      "description": "Signature demitasse: liquid height is yield on a fixed 48 g scale, crema colour is taste; flecks when balanced.",
+      "html": "<div class=\"ds-glass-row\"><svg class=\"ds-glass\" viewBox=\"0 0 60 62\" width=\"56\" height=\"58\"><defs><clipPath id=\"dsg\"><path d=\"M9.5 8 H42.5 L40.2 52 Q39.9 57 35 57 H17 Q12.1 57 11.8 52 Z\"/></clipPath></defs><path class=\"h\" d=\"M43 18 C53 17 54.5 22 54.5 28.5 C54.5 36 50 40.5 41.4 40.5\"/><path class=\"b\" d=\"M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z\"/><g clip-path=\"url(#dsg)\"><rect class=\"l\" x=\"0\" y=\"20.3\" width=\"60\" height=\"38.7\"/><rect x=\"0\" y=\"20.3\" width=\"60\" height=\"7.7\" fill=\"var(--crema-balanced, #c4874a)\"/><rect class=\"e\" x=\"0\" y=\"20.3\" width=\"60\" height=\"1.2\"/><ellipse class=\"f\" cx=\"18\" cy=\"23.8\" rx=\"4\" ry=\"1.7\"/><ellipse class=\"f\" cx=\"30\" cy=\"24.9\" rx=\"5.5\" ry=\"1.4\"/><ellipse class=\"f\" cx=\"39\" cy=\"23.4\" rx=\"3\" ry=\"1.5\"/></g><path class=\"r\" d=\"M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z\"/><path class=\"s\" d=\"M14 13 L15.4 46\"/></svg></div>",
+      "css": ".ds-glass .h,.ds-glass .r{fill:none;stroke:var(--glass-stroke, rgba(43,33,28,0.34));stroke-width:1.5}.ds-glass .b{fill:var(--glass-fill, rgba(255,255,255,0.55))}.ds-glass .l{fill:var(--espresso-liquid, #3a2215)}.ds-glass .e{fill:rgba(255,255,255,0.35)}.ds-glass .f{fill:rgba(255,255,255,0.28)}.ds-glass .s{stroke:rgba(255,255,255,0.5);stroke-width:1.5;stroke-linecap:round;fill:none} .ds-glass-row { display: flex; gap: 12px; align-items: flex-end; }"
     }
   ],
   "narrative": {
-    "northStar": "The Bench Logbook",
-    "overview": "Crema looks like a barista's working notebook left open on the counter: warm, dark, and quiet. Every surface is a coffee-brown tone, whether it's the near-black of a roasted bean or, in light mode, the cream of unbleached paper. Nothing on the page decorates. Numbers are set in tabular mono because they are the record, and the single amber accent marks the one thing that matters on the screen: the action to take, the page you're on, the pressure line of a shot.\n\nDensity is that of a working tool rather than a showcase. Flat bordered panels sit in a sidebar shell, and the numbers inside them carry the page. Personality lives in a few small details tied to the product: the shot-profile bar row ruled above the wordmark, and the same bars \"pulling\" as the loading indicator. Components are soft and warm: gently rounded corners, tinted rather than saturated status colors, pill tags. Even the precise parts never feel clinical.\n\nBoth themes are first-class. Light is not dark inverted by formula; it is the same coffee character re-tuned so the amber stays legible on cream. Crema is not a generic SaaS dashboard (no blue/purple gradients, glassy cards or meaningless hero stats), and it does not borrow Fellow's own visual language.",
+    "northStar": "Matches Your Machine",
+    "overview": "Crema is a warm, friendly consumer app for the espresso bench: soft cards on a lightly wood-cast ground, plain barista language, and one bright colour that means \"press me\". That colour is the body of the owner's ES1. Pick a finish (Sesame, Cherry Red, Marine Blue, Woodland, Malted Chocolate, Black) and the action colour, the one filled surface, and a faint cast in the page ground all follow it. Everything else (ink, status hues, the shot glass) stays put.\n\nThe signature is the shot glass. Every shot is drawn as a demitasse on one fixed 48 g scale, so glasses compare honestly side by side, and the crema band's colour is how the shot tasted: pale for sour, hazel for balanced, dark for bitter. The glass recurs in the coach card, the dial-in strip, recent-shot rows, empty states and the brand mark.\n\nDensity is calm and generous: 20px card radii, pill buttons, 15px body, one instruction per screen set large in Bricolage. Light and dark are both first-class; light is the base. This world replaces the retired brown-on-brown \"Bench Logbook\". Colourway names describe the machine only; Crema carries no Fellow marks or UI.",
     "keyCharacteristics": [
-      "Warm coffee neutrals in both themes; never cool grey.",
-      "One amber accent, kept for action and current state.",
-      "Tabular mono for every reading, unit and setting.",
-      "Flat tonal layers with 1px borders; the only shadow belongs to modals.",
-      "Soft, rounded, tinted components.",
-      "The shot-profile bar is the recurring brand signature."
+      "The selected finish's body colour is the action colour and fills exactly one surface (the coach card).",
+      "The ground takes a faint cast of the machine; cards sit on it with soft offset shadows (light) or a hairline border (dark).",
+      "Bricolage Grotesque headings, Figtree UI, Red Hat Mono for figures only.",
+      "Every shot is a demitasse: height is yield on a fixed scale, crema colour is taste.",
+      "Tamp-feel press on every button: a small give and settle, never a bounce.",
+      "Drawn Lucide line icons throughout."
     ],
     "rules": [
       {
-        "name": "The One Amber Rule",
-        "body": "Crema Amber marks action or current state: the primary button, the active nav item, the line being read. If two things on a screen are amber and only one is actionable, one of them is wrong.",
+        "name": "The House Finish Rule",
+        "body": "Crema orange is the default and is listed first in the picker, set apart from the machine colourways by a divider. Orange text on light grounds fails contrast, so links in Crema light use link-burnt; orange stays on fills, icons and indicators."
+      },
+      {
+        "name": "The Matches Your Machine Rule",
+        "body": "The action colour is the finish's body, adjusted only where contrast forces it. A new finish is four values per theme (`--body`, `--on-body`, `--action`, `--on-action`); every tint derives from them. Never hand-pick a tint.",
         "section": "colors"
       },
       {
-        "name": "The Tinted Status Rule",
-        "body": "Status colors appear as text on a tinted background with a matching tinted border, never as saturated fills. It keeps a warning warm rather than alarming.",
+        "name": "The One Machine Surface Rule",
+        "body": "Only the coach card is filled with `--body`. Everything else is neutral surface; the action colour appears on presses and small indicators, not as panels.",
         "section": "colors"
       },
       {
-        "name": "The Per-Theme Alpha Rule",
-        "body": "Chart tints have separate opacities per theme (`--chart-band-opacity`, `--chart-target-opacity`, `--chart-area-opacity`), because a tint that lightens on dark has to darken on cream. Never hardcode a color or alpha at the point of use; add a token and give it both theme values.",
+        "name": "The Fixed Coffee Rule",
+        "body": "Status hues, the crema scale, the liquid and the brew stages never follow the finish. Taste and health must read the same on every machine.",
         "section": "colors"
       },
       {
-        "name": "The Mono Means Measured Rule",
-        "body": "Every measured quantity is set in JetBrains Mono with tabular numerals, and its unit sits beside it in Text Faint at a smaller size. Prose is never set in mono.",
+        "name": "The Off-White Exception Rule",
+        "body": "Where the action resolves to off-white or pale sesame on a dark ground (Black dark, Sesame dark), small indicators that would use the action colour (links, active nav and tab icons, latest-shot marker) use `--text` instead.",
+        "section": "colors"
+      },
+      {
+        "name": "The Figures-Only Mono Rule",
+        "body": "Red Hat Mono sets numbers and only numbers. Units and words beside a figure (\"g\", \"s\", \"Leaning sour\") are Figtree. A signed delta is a mono figure (with a true minus, `−`) followed by its unit in prose.",
         "section": "typography"
       },
       {
-        "name": "The One Wordmark Rule",
-        "body": "Space Grotesk is only for the `crema` lockup. Headings stay in Inter.",
+        "name": "The Optical Size Rule",
+        "body": "Every Bricolage use sets `font-variation-settings: 'opsz'` to match its size (14, 24, 48, 72). Do not let headings default to one optical size.",
         "section": "typography"
       },
       {
-        "name": "The Two Tiers Rule",
-        "body": "The landing tier belongs to public marketing surfaces only. An app page that needs a bigger heading is wrong about its hierarchy, not short of a size.",
+        "name": "The Barista Voice Rule",
+        "body": "Headlines are instructions you could say across the counter: \"Grind 2 steps finer\", \"Let it run to 1:2.4\", \"Keep this grind\". Confidence is said in words (\"Fairly sure\"), never as a percentage.",
         "section": "typography"
       },
       {
-        "name": "The Flat-By-Default Rule",
-        "body": "Surfaces separate by tone and border, not by shadow. Hover deepens the tone and strengthens the border; it never lifts.",
+        "name": "The One Press Rule",
+        "body": "One primary press per viewport. The header's \"Log a shot\" button disappears when the coach card is showing (the coach carries the press), and on phones the header button is hidden entirely because the tab bar carries Log shot.",
+        "section": "layout"
+      },
+      {
+        "name": "The Soft-Light, Lined-Dark Rule",
+        "body": "Light cards carry the card shadow and a transparent border; dark cards carry no shadow and a visible `--border`. Never ship a shadowed card in dark or a bordered one in light.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Hard Offset Rule",
+        "body": "Shadows are diffuse and negatively spread. No solid, zero-blur offset shadows.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "**Do** define every new color as a token in both the dark `:root` block and the `[data-theme='light']` block, then use it through `var(--…)`.",
-      "**Do** set every measured value in JetBrains Mono with `tabular-nums`, with its unit beside it in Text Faint.",
-      "**Do** keep Crema Amber for the one primary action and current state on a screen.",
-      "**Do** show status as a tint pair (hue text, tinted background, tinted border), as tags and banners already do.",
-      "**Do** separate surfaces by tone and a 1px border, and hold cards to 12px corners and controls to 8px.",
-      "**Do** key touch sizing to `@media (pointer: coarse)` and keep inputs at 16px on phones.",
-      "**Do** honor `prefers-reduced-motion` by freezing motion into a static, still-readable state rather than hiding it."
+      "Do derive every action tint from `--action` with `color-mix(in oklab, ...)`; a new finish adds only `--body`, `--on-body`, `--action`, `--on-action` per theme.",
+      "Do keep the coach card the only `--body`-filled surface, and invert its primary button to on-body / body.",
+      "Do draw every shot as the shared Shot Glass on the fixed 48 g scale, with crema colour from the taste.",
+      "Do set figures in Red Hat Mono with tabular numerals and their units and words in Figtree.",
+      "Do give every button the tamp-feel press (`scale(0.95) translateY(1px)`, ease-out-quint) and remove it under reduced motion.",
+      "Do keep one primary press per viewport: hide the header Log button when the coach shows, and let the tab bar carry Log shot on phones.",
+      "Do use soft card shadows in light and a hairline border in dark.",
+      "Do use drawn Lucide line icons at 17 to 22px.",
+      "Do write headlines as barista instructions and confidence in words."
     ],
     "donts": [
-      "**Don't** make it look like a generic SaaS dashboard: no blue/purple gradients, glassy or blurred cards, or hero stats that don't mean anything.",
-      "**Don't** borrow Fellow's visual language, logos or product imagery. Crema is independent.",
-      "**Don't** use cool greys. Every neutral in the palette is warm.",
-      "**Don't** add shadows to cards or lift elements on hover; the one shadow belongs to modals.",
-      "**Don't** use Space Grotesk anywhere but the wordmark.",
-      "**Don't** fill a surface with a saturated status color.",
-      "**Don't** hardcode a hex or opacity at the point of use, in CSS or in SVG."
+      "Don't tie status hues, the crema scale, the espresso liquid or brew-stage colours to the finish.",
+      "Don't use a pale or off-white action colour for small indicators on dark grounds; use `--text` there (Black dark, Sesame dark).",
+      "Don't cast the Sesame light ground with the body; it stays `ground-sesame`.",
+      "Don't add bounce or overshoot to press or entrance motion.",
+      "Don't put units or words in mono, or set headings without a matching optical size.",
+      "Don't use Fellow logos, marks or UI; finish names describe the colourway only.",
+      "Don't add new reads of the legacy aliases (`--crema`, `--espresso`, `--on-accent`, `--tint-accent-*`, `--banner-*`).",
+      "Don't return to the retired brown-on-brown palette with a single amber accent."
     ]
   }
 }

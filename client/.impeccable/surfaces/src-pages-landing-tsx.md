@@ -1,8 +1,8 @@
 ---
 version: 1
-slug: "client-src-pages-landing-tsx"
-primary_target: "client/src/pages/Landing.tsx"
-related_targets: ["client/src/App.tsx"]
+slug: "src-pages-landing-tsx"
+primary_target: "src/pages/Landing.tsx"
+related_targets: ["src/App.tsx"]
 ---
 
 # Landing (public "/")
