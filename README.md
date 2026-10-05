@@ -42,7 +42,8 @@ demo brewers, not accounts: they exist so the Explore page has public profiles t
 show you on day one, and there is no password to sign in as them.
 
 ```bash
-pnpm test         # pure-logic tests, no test runner to install
+pnpm test         # shared + server (node:test) and client (Vitest)
+pnpm --filter @brewlab/client test:watch   # client tests in watch mode
 pnpm typecheck    # tsc across all three packages
 pnpm reset        # wipe the database and re-seed
 ```
