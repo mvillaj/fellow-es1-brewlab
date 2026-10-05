@@ -14,8 +14,8 @@ test('add a coffee, land on its page, and find it on the shelf', async ({ page }
   await page.getByRole('button', { name: 'Add coffee' }).click();
 
   const dialog = page.getByRole('dialog', { name: 'Add coffee' });
-  await dialog.getByPlaceholder('Guji Uraga').fill(name);
-  await dialog.getByPlaceholder('Onyx Coffee Lab').fill('E2E Roasters');
+  await dialog.getByLabel('Coffee name').fill(name);
+  await dialog.getByLabel('Roaster').fill('E2E Roasters');
   await dialog.getByRole('button', { name: 'Add coffee' }).click();
 
   // Saving opens the new coffee's own page.
