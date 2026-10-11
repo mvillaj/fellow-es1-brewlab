@@ -23,10 +23,10 @@ const PORT = Number(process.env.PORT ?? 4000);
 const HOST = process.env.HOST ?? '0.0.0.0';
 const app = express();
 
-// Fly terminates TLS and forwards, so the real client address arrives in
-// X-Forwarded-For. Without this every request appears to come from the proxy and
-// the rate limiters bucket the whole world together — one user's traffic would
-// lock out everybody. `1` trusts exactly one hop, not an attacker-supplied chain.
+// Fly terminates TLS and forwards, so req.ip comes from X-Forwarded-For. `1`
+// trusts exactly one hop, not an attacker-supplied chain. The rate limiters key
+// on Fly-Client-IP instead (see clientAddress in lib/limits), because that one
+// hop is a CDN edge whenever the domain is proxied through one.
 app.set('trust proxy', 1);
 
 // An allowlist, not a reflection. In production the SPA is served from this same
@@ -56,8 +56,10 @@ app.get('/api/health', (_req, res) => {
 });
 
 // After /api/health so a flood cannot make the liveness probe fail, which would
-// turn a traffic problem into a machine the platform believes is dead.
-app.use(globalLimiter);
+// turn a traffic problem into a machine the platform believes is dead. Scoped
+// to /api: a single page load fetches a handful of hashed static assets, and
+// counting those against the same budget burned it for no protection.
+app.use('/api', globalLimiter);
 
 // Reads the session JWT off the Authorization header and attaches the Clerk auth
 // object. Must run before any router, including the ones behind optionalAuth.
