@@ -1,18 +1,38 @@
 import { ipKeyGenerator, rateLimit } from 'express-rate-limit';
 import type { Request } from 'express';
 import type { AuthedRequest } from './auth';
+import { isCloudflareEdge } from './cloudflare.ts';
 
 /**
  * Limiters mounted inside the routers run after requireAuth, so they can key on
  * the user. The app-wide one runs before it and falls back to the address.
  *
- * ipKeyGenerator rather than req.ip directly: it normalises IPv6 to a /64
+ * ipKeyGenerator rather than req.ip directly: it normalises IPv6 to a /56
  * prefix, so a single client cannot walk through addresses in its own subnet to
  * get a fresh bucket each time.
  */
-function keyByUserOrIp(req: Request): string {
+export function keyByUserOrIp(req: Request): string {
   const userId = (req as AuthedRequest).userId;
-  return userId ? `user:${userId}` : ipKeyGenerator(req.ip ?? '');
+  return userId ? `user:${userId}` : ipKeyGenerator(clientAddress(req));
+}
+
+/**
+ * req.ip was the wrong source: it reads the last X-Forwarded-For hop, which
+ * behind Cloudflare is an edge address shared by every visitor, so one flood
+ * locked everybody out.
+ *
+ * Fly's proxy sets Fly-Client-IP on every request, overwriting anything the
+ * client sent, and machines are only reachable through that proxy — so it is
+ * the address that actually connected. When that is a Cloudflare edge, the
+ * visitor is in CF-Connecting-IP. That header is only believed when the
+ * connection came from Cloudflare: anyone can send it straight to fly.dev.
+ * Falls back to req.ip off Fly (local dev).
+ */
+export function clientAddress(req: Request): string {
+  const connected = req.get('fly-client-ip')?.trim();
+  if (!connected) return req.ip ?? '';
+  const visitor = req.get('cf-connecting-ip')?.trim();
+  return visitor && isCloudflareEdge(connected) ? visitor : connected;
 }
 
 const message = (error: string) => ({ error });
