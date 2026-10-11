@@ -170,9 +170,25 @@ breaks the build in both places at once — which is the point.
 | `VITE_CLERK_PUBLISHABLE_KEY` | *(unset)* | **Required.** Same value; Vite only exposes `VITE_`-prefixed vars to the bundle |
 | `CLERK_SECRET_KEY` | *(unset)* | **Required.** Server only — never let this reach the client |
 | `ANTHROPIC_API_KEY` | *(unset)* | Enables the two model-backed features; without it they show disabled |
+| `ANTHROPIC_FEDERATION_RULE_ID`, `ANTHROPIC_ORGANIZATION_ID`, `ANTHROPIC_SERVICE_ACCOUNT_ID` | *(unset)* | On Fly, enable the model features with workload identity federation instead of a key (see below) |
 
 These are read from a gitignored `.env` at the repo root if you make one — see
 `.env.example` — or from the environment. The server reloads it on restart.
+
+#### Model credentials on Fly without a key
+
+In production the server can authenticate to the Claude API with Fly's OIDC
+identity instead of a stored `ANTHROPIC_API_KEY`. In the Claude Console, under
+**Settings → Workload identity → Connect workload → Custom OIDC**, register:
+
+- issuer `https://oidc.fly.io/<fly-org-slug>` (JWKS discovery)
+- a rule matching subject prefix `<fly-org-slug>:es1-brew-lab:*` and audience
+  `https://api.anthropic.com` (`FEDERATION_AUDIENCE` in `server/src/lib/fly-oidc.ts`)
+
+Put the rule, organization and service account IDs in `fly.toml`'s `[env]` as
+the three `ANTHROPIC_*` variables above, then `fly secrets unset ANTHROPIC_API_KEY`
+— a set key always wins over federation. The server mints a fresh Fly token from
+`/.fly/api` for every exchange, since Anthropic accepts each token only once.
 | `FELLOW_API_HOST` | AWS endpoint | Override for a proxy |
 
 ---
