@@ -3,12 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crema — ES1 Brew Lab</title>
+    <title>Mousetail — ES1 Brew Lab</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&family=Red+Hat+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Fraunces is the wordmark's face only, subset to its letters (ı is the
+         dotless i that carries the drop). -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@144,700,100,1&text=mousetal%C4%B1&display=swap"
       rel="stylesheet"
     />
     <!-- Resolve the theme before the stylesheet paints, so a light-mode reload
@@ -17,16 +23,19 @@
     <script>
       (function () {
         try {
+          // No saved choice means light; only an explicit "auto" follows the OS.
           var p = localStorage.getItem('brewlab.theme');
-          if (p !== 'light' && p !== 'dark') {
+          if (p === 'auto') {
             p = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          } else if (p !== 'dark') {
+            p = 'light';
           }
           document.documentElement.dataset.theme = p;
           var f = localStorage.getItem('brewlab.finish');
           var known = ['crema', 'sesame-walnut', 'cherry-walnut', 'marine-walnut', 'woodland-walnut', 'chocolate-maple', 'black'];
           document.documentElement.dataset.finish = known.indexOf(f) >= 0 ? f : 'crema';
         } catch (e) {
-          document.documentElement.dataset.theme = 'dark';
+          document.documentElement.dataset.theme = 'light';
           document.documentElement.dataset.finish = 'crema';
         }
       })();

@@ -17,7 +17,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
     <div className="auth-wrap">
       <div className="auth-card">
         <div className="auth-hero">
-          <Link to="/" aria-label="Crema home">
+          <Link to="/" aria-label="Mousetail home">
             <BrandLockup heading />
           </Link>
           <p className="dim small" style={{ marginTop: 6 }}>

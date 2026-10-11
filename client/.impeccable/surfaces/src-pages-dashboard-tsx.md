@@ -9,7 +9,7 @@ related_targets: ["src/App.tsx","src/styles/app.css","src/components/ui.tsx"]
 
 Scope: the signed-in app shell and every page it frames, led by the Dashboard. Mode: Operate.
 
-Audience: the owner at the bench (phone, wet hands), on a propped tablet, and at a desk. Job: log a shot and act on the one next change. Constraints: dark and light both first-class; ES1 finishes are the colour system; Crema stays independent of Fellow (colourway names only, no Fellow marks or UI).
+Audience: the owner at the bench (phone, wet hands), on a propped tablet, and at a desk. Job: log a shot and act on the one next change. Constraints: dark and light both first-class; ES1 finishes are the colour system; Mousetail stays independent of Fellow (colourway names only, no Fellow marks or UI).
 
 ## Direction contract
 

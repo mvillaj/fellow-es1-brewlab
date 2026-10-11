@@ -1,6 +1,7 @@
 import { ES1_LIMITS, pressureCurve, totalDurationS, type Es1Profile, type Es1Stage } from '@brewlab/shared';
 import type { Shot } from '@brewlab/shared';
 import { relativeDate } from '../lib/format';
+import { smoothPressurePaths } from '../lib/curve';
 
 const STAGE_COLOUR: Record<Es1Stage['kind'], string> = {
   preinfusion: 'var(--stage-pre)',
@@ -14,8 +15,17 @@ export { STAGE_COLOUR };
  * The shot as the machine will run it: pressure against time, with each phase
  * shaded in its own colour and the flow ceiling drawn as a dashed overlay.
  */
-export function ProfileCurve({ profile, height = 220 }: { profile: Es1Profile; height?: number }) {
-  const W = 720;
+export function ProfileCurve({
+  profile,
+  height = 220,
+  width = 720,
+}: {
+  profile: Es1Profile;
+  height?: number;
+  /** Narrower boxes render the same 9-unit labels larger, for charts drawn small. */
+  width?: number;
+}) {
+  const W = width;
   const H = height;
   const pad = { top: 14, right: 46, bottom: 26, left: 34 };
   const total = Math.max(1, totalDurationS(profile));
@@ -26,9 +36,10 @@ export function ProfileCurve({ profile, height = 220 }: { profile: Es1Profile; h
   const y = (bar: number) => H - pad.bottom - (bar / maxBar) * (H - pad.top - pad.bottom);
   const yFlow = (f: number) => H - pad.bottom - (f / maxFlow) * (H - pad.top - pad.bottom);
 
+  // Pressure is drawn eased, as the pump runs it; the flow ceiling stays a step,
+  // because a limit is exactly what the profile says.
+  const { line, area } = smoothPressurePaths(profile, x, y);
   const points = pressureCurve(profile, 0.25);
-  const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${x(p.t).toFixed(1)},${y(p.bar).toFixed(1)}`).join(' ');
-  const area = `${line} L${x(total).toFixed(1)},${y(0)} L${x(0).toFixed(1)},${y(0)} Z`;
   const flowLine = points
     .map((p, i) => `${i === 0 ? 'M' : 'L'}${x(p.t).toFixed(1)},${yFlow(p.flow).toFixed(1)}`)
     .join(' ');
@@ -52,9 +63,12 @@ export function ProfileCurve({ profile, height = 220 }: { profile: Es1Profile; h
       {[0, 3, 6, 9].map((bar) => (
         <g key={bar}>
           <line className="grid-line" x1={pad.left} y1={y(bar)} x2={W - pad.right} y2={y(bar)} />
-          <text x={pad.left - 7} y={y(bar) + 3} textAnchor="end">
-            {bar}
-          </text>
+          {/* The time axis's 0s already marks the origin. */}
+          {bar ? (
+            <text x={pad.left - 7} y={y(bar) + 3} textAnchor="end">
+              {bar}
+            </text>
+          ) : null}
         </g>
       ))}
 
@@ -88,7 +102,7 @@ export function ProfileCurve({ profile, height = 220 }: { profile: Es1Profile; h
       <text x={W - pad.right + 6} y={y(maxBar) + 4} fill="var(--chart-pressure)">
         bar
       </text>
-      <text x={W - pad.right + 6} y={yFlow(maxFlow) + 16} fill="var(--cool)">
+      <text x={W - pad.right + 6} y={yFlow(maxFlow) + 4} dy="1.3em" fill="var(--cool)">
         ml/s
       </text>
     </svg>

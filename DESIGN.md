@@ -1,5 +1,5 @@
 ---
-name: Crema
+name: Mousetail
 description: A warm, friendly espresso app whose one "press me" colour is Crema orange, or your ES1's finish if you pick it.
 colors:
   body-crema: "#d9622b"
@@ -94,12 +94,26 @@ typography:
     fontWeight: 400
     fontFeature: "tnum"
   wordmark:
-    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontFamily: "Fraunces, Georgia, serif"
     fontSize: "1.7rem"
+    fontWeight: 700
+    lineHeight: 1
+    letterSpacing: "-0.025em"
+    fontVariation: "'opsz' 144, 'SOFT' 100, 'WONK' 1"
+  landing-hero:
+    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontSize: "clamp(2.5rem, 5.8vw, 4.6rem)"
     fontWeight: 800
     lineHeight: 1
+    letterSpacing: "-0.04em"
+    fontVariation: "'opsz' 96"
+  landing-section:
+    fontFamily: "Bricolage Grotesque, Figtree, -apple-system, sans-serif"
+    fontSize: "clamp(1.9rem, 3.4vw, 2.75rem)"
+    fontWeight: 800
+    lineHeight: 1.04
     letterSpacing: "-0.035em"
-    fontVariation: "'opsz' 48"
+    fontVariation: "'opsz' 72"
 rounded:
   sm: "12px"
   md: "14px"
@@ -177,17 +191,17 @@ components:
     size: "58px"
 ---
 
-# Design System: Crema
+# Design System: Mousetail
 
 ## Overview
 
 **Creative North Star: "Matches Your Machine"**
 
-Crema is a warm, friendly consumer app for the espresso bench: soft cards on a lightly wood-cast ground, plain barista language, and one bright colour that means "press me". By default that colour is Crema orange, the house finish, so the app stands on its own whatever machine you own. Anyone who wants it to match their ES1 can pick a finish instead (Sesame, Cherry Red, Marine Blue, Woodland, Malted Chocolate, Black), and the action colour, the one filled surface, and a faint cast in the page ground all follow it. Everything else (ink, status hues, the shot glass) stays put.
+Mousetail is a warm, friendly consumer app for the espresso bench: soft cards on a lightly wood-cast ground, plain barista language, and one bright colour that means "press me". By default that colour is Crema orange, the house finish, so the app stands on its own whatever machine you own. Anyone who wants it to match their ES1 can pick a finish instead (Sesame, Cherry Red, Marine Blue, Woodland, Malted Chocolate, Black), and the action colour, the one filled surface, and a faint cast in the page ground all follow it. Everything else (ink, status hues, the shot glass) stays put.
 
 The signature is the shot glass. Every shot is drawn as a demitasse on one fixed 48 g scale, so glasses compare honestly side by side, and the crema band's colour is how the shot tasted: pale for sour, hazel for balanced, dark for bitter. The glass recurs in the coach card, the dial-in strip, recent-shot rows, empty states and the brand mark.
 
-Density is calm and generous: 20px card radii, pill buttons, 15px body, one instruction per screen set large in Bricolage. Light and dark are both first-class; light is the base. This world replaces the retired brown-on-brown "Bench Logbook". Colourway names describe the machine only; Crema carries no Fellow marks or UI.
+Density is calm and generous: 20px card radii, pill buttons, 15px body, one instruction per screen set large in Bricolage. Light and dark are both first-class; light is the base. A first visit with no saved choice opens in light, on the landing and in the app alike; "Auto" follows the OS only once someone picks it. This world replaces the retired brown-on-brown "Bench Logbook". Colourway names describe the machine only; Mousetail carries no Fellow marks or UI.
 
 **Key Characteristics:**
 - The selected finish's body colour is the action colour and fills exactly one surface (the coach card).
@@ -249,12 +263,14 @@ A warm neutral ground and ink, one finish-driven action colour, and a fixed set 
 - **Body** (400, 15px, 1.55): all UI prose. Page intros cap at 62ch, coach reasons at 46ch, changelog at 72ch.
 - **Label** (600, 0.76 to 0.88rem): field labels, nav group labels, stat labels, table heads. Sentence case, no tracking, no uppercase.
 - **Figure** (Red Hat Mono 400 to 500, tabular numerals): stat values (1.6rem), dial-in times (0.88rem), table numbers, number inputs, summary totals, chart labels, signed deltas.
-- **Wordmark** (Bricolage 800, lowercase "crema", -0.035em, opsz 48).
+- **Wordmark** (Fraunces 700, lowercase "mousetail", -0.025em, opsz 144, SOFT 100, WONK 1). The only use of Fraunces, loaded as a subset of the word's letters; never use it for headings or UI. The i is dotless, with a drop in the action colour for its dot; the plain word is kept for screen readers.
+- **Landing hero** (800, clamp(2.5rem, 5.8vw, 4.6rem), 1, -0.04em, opsz 96): the public landing's h1 only.
+- **Landing section** (800, clamp(1.9rem, 3.4vw, 2.75rem), 1.04, -0.035em, opsz 72): the landing's section h2s.
 
 ### Named Rules
 **The Figures-Only Mono Rule.** Red Hat Mono sets numbers and only numbers. Units and words beside a figure ("g", "s", "Leaning sour") are Figtree. A signed delta is a mono figure (with a true minus, `−`) followed by its unit in prose.
 
-**The Optical Size Rule.** Every Bricolage use sets `font-variation-settings: 'opsz'` to match its size (14, 24, 48, 72). Do not let headings default to one optical size.
+**The Optical Size Rule.** Every Bricolage use sets `font-variation-settings: 'opsz'` to match its size (14, 24, 48, 72, and 96 for the landing hero). Do not let headings default to one optical size.
 
 **The Barista Voice Rule.** Headlines are instructions you could say across the counter: "Grind 2 steps finer", "Let it run to 1:2.4", "Keep this grind". Confidence is said in words ("Fairly sure"), never as a percentage.
 
@@ -323,7 +339,7 @@ Tactile and friendly: pills that give under the thumb.
 
 ### Navigation
 - **Desktop sidebar:** on the page ground. Rows are Figtree 500 at 0.95rem in dim ink with 19px Lucide icons, 12px radius; hover surface-2. Active row is an action-soft pill with full ink at 600 and the icon in the action colour. Group labels are 0.76rem 600 faint, sentence case.
-- **Account row:** name, then a Palette icon button opening a 272px popover (Theme: segmented light/dark/auto; Colour: Crema orange, a divider, then the six machine finishes, with the current name below), and a sign-out icon button.
+- **Account row:** name, then a Palette icon button opening a 272px popover (Theme: segmented light/dark/auto, where no saved choice resolves to light and auto tracks the OS live once chosen; Colour: Crema orange, a divider, then the six machine finishes, with the current name below), and a sign-out icon button.
 - **Phone:** sticky blurred top bar with the brand; fixed bottom tab bar of five slots (0.72rem 600 labels, 22px icons, active icon in action), with Log shot as a raised 58px action disc ringed 5px in surface. "More" opens a bottom sheet (24px top radius, grip, full nav and settings inline).
 
 ### Shot Glass (signature)
@@ -336,13 +352,25 @@ The one machine-coloured surface: `--body` fill, `--on-body` ink, 24px radius, 2
 This coffee's shots as a row of glasses, oldest left, on the shared scale. Each column shows its time in mono (good hue when on target), a signed delta in faint Figtree with mono figures, and reserves a 6px dot so glasses share a baseline; the latest shot's dot is the action colour. A legend of crema swatches closes the card.
 
 ### Brand Lockup
-A solid demitasse in current ink with a fixed balanced-hazel crema band (never the finish colour, which would vanish on Black), beside lowercase "crema" in the wordmark style.
+A solid demitasse in current ink with a fixed balanced-hazel crema band (never the finish colour, which would vanish on Black), with a thin wavy stream (the "mouse tail" of a good pull) running into it in the action colour, beside lowercase "mousetail" in the soft-serif wordmark style, whose i is dotted with a drop of the same colour as the stream. The favicon is the same mark on a Crema orange tile: espresso glass, sesame crema, cream stream.
 
 ### Working Indicator
 Four 3px bars pulsing in currentColor like a shot being pulled, with an optional mono elapsed clock; static under reduced motion.
 
-### Landing page (pending)
-The signed-out landing page (`Landing.tsx`, `landing.css`) has not had its own pass in this world. It only inherits new values through compatibility aliases (`--crema` maps to `--action`, `--crema-dim` to `--action-line`, `--espresso` to `--stage-ramp`, `--on-accent`, `--accent-hover`, `--tint-accent-*`, `--banner-*`, `--shadow`). These aliases exist for compatibility only; new code reads the current token names.
+### Profile Chart
+Brew data drawn as the pump runs it. Pressure is a `chart-pressure` line over a gradient area, drawn eased: each stage edge, and the start from 0 bar, is a smootherstep blend between the neighbouring stages' lines, so it never overshoots either one (a 9 bar stage still peaks at 9 bar). A blend reaches at most 1.8s either side of an edge (2.4s from 0 bar) and stays inside both stages. The flow ceiling stays a step, because it is a limit and reads exactly as the profile states it. Stage bands sit behind in the fixed stage colours at `--chart-area-opacity`. Every pressure curve, in the app and on the landing, comes from the one shared easer (`lib/curve.ts`); never draw a profile as straight lines with vertical steps.
+
+### Landing
+The public front page is one shot pulled across the page in the app's own world: the same ground, cards, pills, glasses and coach as the dashboard, on the same tokens, so both themes and every finish apply unchanged. Its only new values are layout (`--measure` 1240px, `--gutter` clamp(16px, 4vw, 48px)) and a larger display scale: the hero h1 is Landing hero type capped at 12.5em, the section h2s are Landing section type, and the hero sub is Figtree at clamp(1.02rem, 1.3vw, 1.15rem) in dim ink, 54ch.
+- **Hero pull:** a full-bleed profile plot (clamp(240px, 34vh, 420px), 300px on phones) with stage bands running to the viewport edge over a `border-strong` baseline. The eased profile shows first as a dashed ghost, then draws over it in `chart-pressure` (3px) behind a 1px playhead, with a stage-coloured dot ringed in `--bg` riding the curve. The shot ends a gutter short of the edge and its tail fades out across the gutter. The 35s shot plays in about 5s (140ms per machine second) after a short beat; reduced motion shows the finished curve and full glass at once. "Pull it again" (small secondary pill) sits in the caption below with the profile's dose, yield and temperature in mono.
+- **Readout card:** floats over the plot, following the playhead and clamped so it never hangs off either end. Surface fill, 14px radius and the pop shadow (plus a `border-strong` outline in dark), like the popover. It holds a Shot Glass that fills to the shot's 36 g as it pours (liquid scaleY from the bottom, paced by cumulative pressure) beside live mono figures (bar, s, and the stage's flow limit labelled "ml/s max") and the current stage with its colour dot; at the end it reads "36 g out, balanced". On phones the glass drops to 32px and the flow figure hides.
+- **Stage labels:** hung below the baseline at each band's start (the last right-aligned to the edge), 0.86rem 600 with a stage-colour dot and the band's seconds in faint mono beneath. Each links to its section; hover gives a surface pill and an underline.
+- **Gutter curve slices:** each story section is a 200px gutter beside the body, and the gutter carries a sticky (top 32px) 220 by 72 copy of the same eased curve: dashed at rest, with only that section's stage lit in its stage colour and area, labelled with its name and seconds. At 860px and below the section becomes one column: the h2 and lead come first, then the slice (150px, 120px on phones) beside its label, leading the demos.
+- **Closing glass:** the last section's gutter swaps the slice for the 36 g Shot Glass at 84px (56px at 860px and below), labelled "End of shot", "36 g out": the shot has poured. The close below centres a large lockup (clamp(3.2rem, 8vw, 5rem)), one Bricolage 700 line in dim ink (opsz 24), and the CTAs again.
+- **Reuse:** the demos are the dashboard's own components on sample inputs: the Coach Card (inverted primary, beside a "Your last shot" input card), the Dial-in Strip, cards, tags and a three-column table (kept a plain table on phones rather than the app's stacked rows), plus the Profile Chart. CTAs are Create account (large primary) and Sign in (large secondary; a ghost pill in the top bar).
+
+### Compatibility aliases
+`app.css` still defines the legacy aliases (`--crema`, `--crema-dim`, `--espresso`, `--on-accent`, `--accent-hover`, `--tint-accent-*`, `--banner-*`, `--shadow`). The landing and charts no longer read any of them; the only remaining reads are the `.banner` rules, which use `--banner-*`. New code reads the current token names.
 
 ## Do's and Don'ts
 
@@ -356,6 +384,7 @@ The signed-out landing page (`Landing.tsx`, `landing.css`) has not had its own p
 - **Do** use soft card shadows in light and a hairline border in dark.
 - **Do** use drawn Lucide line icons at 17 to 22px.
 - **Do** write headlines as barista instructions and confidence in words.
+- **Do** draw pressure eased through the shared smootherstep easer (never overshooting a stage) and keep the flow ceiling a step.
 
 ### Don't:
 - **Don't** tie status hues, the crema scale, the espresso liquid or brew-stage colours to the finish.

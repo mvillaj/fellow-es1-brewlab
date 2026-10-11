@@ -35,7 +35,7 @@ export default function Changelog() {
       <div className="page-head spread">
         <div>
           <h1>Changelog</h1>
-          <p>What changed in Crema, and the thinking behind it.</p>
+          <p>What changed in Mousetail, and the thinking behind it.</p>
         </div>
         {user?.isAdmin ? (
           <button className="btn btn-primary" onClick={() => setEditing('new')}>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-05T00:00:47Z",
-  "title": "Design System: Crema",
+  "generatedAt": "2026-10-11T00:00:00Z",
+  "title": "Design System: Mousetail",
   "extensions": {
     "colorMeta": {
       "action-walnut": {
@@ -635,7 +635,15 @@
       },
       "wordmark": {
         "displayName": "Wordmark",
-        "purpose": "Lowercase \"crema\" in the brand lockup."
+        "purpose": "Lowercase \"mousetail\" in the brand lockup, in Fraunces (soft, wonky, opsz 144); the only use of that face. The i is dotless under a drop in the action colour."
+      },
+      "landing-hero": {
+        "displayName": "Landing Hero",
+        "purpose": "The public landing's h1 only; opsz 96."
+      },
+      "landing-section": {
+        "displayName": "Landing Section",
+        "purpose": "The landing's section h2s; opsz 72."
       }
     },
     "finishes": [
@@ -801,7 +809,7 @@
       }
     ],
     "legacyAliases": {
-      "note": "Compatibility only, read by the not-yet-redesigned landing page, charts.tsx and one inline style. Do not add new reads.",
+      "note": "Compatibility only. The landing and charts no longer read any alias; the only remaining reads are the .banner rules in app.css (--banner-*). Do not add new reads.",
       "map": {
         "--crema": "--action",
         "--crema-dim": "--action-line",
@@ -871,6 +879,11 @@
         "name": "pulling",
         "value": "scaleY 0.28 to 1, 1.05s ease-in-out infinite, 0.13s stagger",
         "purpose": "Four-bar working indicator."
+      },
+      {
+        "name": "pull",
+        "value": "140ms per machine second (35s shot in ~5s), linear rAF after a 650ms beat (150ms on replay)",
+        "purpose": "Landing hero: curve draws behind a playhead while the readout glass fills to 36 g; reduced motion paints the finished state."
       },
       {
         "name": "state",
@@ -975,7 +988,7 @@
   ],
   "narrative": {
     "northStar": "Matches Your Machine",
-    "overview": "Crema is a warm, friendly consumer app for the espresso bench: soft cards on a lightly wood-cast ground, plain barista language, and one bright colour that means \"press me\". That colour is the body of the owner's ES1. Pick a finish (Sesame, Cherry Red, Marine Blue, Woodland, Malted Chocolate, Black) and the action colour, the one filled surface, and a faint cast in the page ground all follow it. Everything else (ink, status hues, the shot glass) stays put.\n\nThe signature is the shot glass. Every shot is drawn as a demitasse on one fixed 48 g scale, so glasses compare honestly side by side, and the crema band's colour is how the shot tasted: pale for sour, hazel for balanced, dark for bitter. The glass recurs in the coach card, the dial-in strip, recent-shot rows, empty states and the brand mark.\n\nDensity is calm and generous: 20px card radii, pill buttons, 15px body, one instruction per screen set large in Bricolage. Light and dark are both first-class; light is the base. This world replaces the retired brown-on-brown \"Bench Logbook\". Colourway names describe the machine only; Crema carries no Fellow marks or UI.",
+    "overview": "Mousetail is a warm, friendly consumer app for the espresso bench: soft cards on a lightly wood-cast ground, plain barista language, and one bright colour that means \"press me\". That colour is the body of the owner's ES1. Pick a finish (Sesame, Cherry Red, Marine Blue, Woodland, Malted Chocolate, Black) and the action colour, the one filled surface, and a faint cast in the page ground all follow it. Everything else (ink, status hues, the shot glass) stays put.\n\nThe signature is the shot glass. Every shot is drawn as a demitasse on one fixed 48 g scale, so glasses compare honestly side by side, and the crema band's colour is how the shot tasted: pale for sour, hazel for balanced, dark for bitter. The glass recurs in the coach card, the dial-in strip, recent-shot rows, empty states and the brand mark.\n\nDensity is calm and generous: 20px card radii, pill buttons, 15px body, one instruction per screen set large in Bricolage. Light and dark are both first-class; light is the base. A first visit with no saved choice opens in light, on the landing and in the app alike; \"Auto\" follows the OS only once someone picks it. This world replaces the retired brown-on-brown \"Bench Logbook\". Colourway names describe the machine only; Mousetail carries no Fellow marks or UI.",
     "keyCharacteristics": [
       "The selected finish's body colour is the action colour and fills exactly one surface (the coach card).",
       "The ground takes a faint cast of the machine; cards sit on it with soft offset shadows (light) or a hairline border (dark).",
@@ -1016,7 +1029,7 @@
       },
       {
         "name": "The Optical Size Rule",
-        "body": "Every Bricolage use sets `font-variation-settings: 'opsz'` to match its size (14, 24, 48, 72). Do not let headings default to one optical size.",
+        "body": "Every Bricolage use sets `font-variation-settings: 'opsz'` to match its size (14, 24, 48, 72, and 96 for the landing hero). Do not let headings default to one optical size.",
         "section": "typography"
       },
       {
@@ -1049,7 +1062,8 @@
       "Do keep one primary press per viewport: hide the header Log button when the coach shows, and let the tab bar carry Log shot on phones.",
       "Do use soft card shadows in light and a hairline border in dark.",
       "Do use drawn Lucide line icons at 17 to 22px.",
-      "Do write headlines as barista instructions and confidence in words."
+      "Do write headlines as barista instructions and confidence in words.",
+      "Do draw pressure eased through the shared smootherstep easer (never overshooting a stage) and keep the flow ceiling a step."
     ],
     "donts": [
       "Don't tie status hues, the crema scale, the espresso liquid or brew-stage colours to the finish.",

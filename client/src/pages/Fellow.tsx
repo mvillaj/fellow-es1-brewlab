@@ -95,7 +95,7 @@ export default function Fellow() {
           used for the sign-in call and is never stored; the access token it returns is.
         </p>
         <p className="small faint">
-          Crema is an independent project, not affiliated with, endorsed by or supported by Fellow. It talks to
+          Mousetail is an independent project, not affiliated with, endorsed by or supported by Fellow. It talks to
           Fellow's private API, which can change or stop working without notice.
         </p>
       </div>

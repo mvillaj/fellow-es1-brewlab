@@ -7,10 +7,10 @@ const FINISH_KEY = 'brewlab.finish';
 
 /**
  * A finish is the colour system: its body becomes the one "press me" colour and
- * tints the ground. Crema's own orange is the house finish and the default, so
+ * tints the ground. Mousetail's own orange (Crema orange) is the house finish and the default, so
  * the app stands on its own without anyone owning a particular machine; the rest
  * follow the ES1's body + wood colourways for people who want the app to match
- * theirs. Names describe the colourway only; Crema is not affiliated with Fellow.
+ * theirs. Names describe the colourway only; Mousetail is not affiliated with Fellow.
  * It is a separate axis from light/dark, so the stylesheet keys on data-finish
  * and data-theme together. `body` and `wood` here only paint the picker swatch.
  */
@@ -41,9 +41,14 @@ export function systemTheme(): 'light' | 'dark' {
   return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
 }
 
+/**
+ * Someone who has never picked gets light, the base theme, rather than whatever
+ * their OS says: the landing and the app open the same way for everyone until
+ * they choose. Choosing "auto" still follows the system from then on.
+ */
 export function storedPref(): ThemePref {
   const raw = localStorage.getItem(KEY);
-  return raw === 'light' || raw === 'dark' || raw === 'auto' ? raw : 'auto';
+  return raw === 'light' || raw === 'dark' || raw === 'auto' ? raw : 'light';
 }
 
 /** The attribute is always concrete, so the stylesheet needs one palette per theme. */

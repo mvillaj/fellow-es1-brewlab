@@ -139,7 +139,7 @@ export const toChangelogEntry = (r: Row): ChangelogEntry => ({
   publishedOn: r.published_on,
   changes: jsonCol<ChangelogEntry['changes']>(r.changes, []),
   body: r.body ?? '',
-  authorName: r.author_name ?? 'Crema',
+  authorName: r.author_name ?? 'Mousetail',
   createdAt: r.created_at,
   updatedAt: r.updated_at,
 });

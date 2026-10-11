@@ -1,4 +1,4 @@
-/* ── Crema: a warm, friendly app that matches your machine ──────────────────
+/* ── Mousetail: a warm, friendly app that matches your machine ──────────────────
    Three layers of tokens:
    1. Theme (light / dark): ground, cards, ink, status hues. Light is the base
       :root block; dark overrides it under [data-theme='dark'].
@@ -304,11 +304,24 @@ h3 { font-size: 1.05rem; line-height: 1.3; letter-spacing: -0.01em; font-weight:
 .brand { padding: 0 10px; }
 
 .brand-lockup { display: inline-flex; align-items: center; gap: 0.32em; font-size: 1.7rem; color: var(--text); }
-.brand-glass { width: 0.86em; height: 0.86em; flex: none; }
+.brand-glass { width: 0.92em; height: 1.1em; flex: none; }
+/* The wordmark is the one place Fraunces appears: soft and wonky at full
+   optical size, so it reads as a logo next to the Bricolage headings. Its i is
+   a dotless glyph with the stream's drop in the action colour standing in. */
 .brand-name {
-  font-family: var(--display); font-weight: 800; font-size: 1em;
-  line-height: 1; letter-spacing: -0.035em; margin: 0;
-  font-variation-settings: 'opsz' 48;
+  font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 1em;
+  line-height: 1; letter-spacing: -0.025em; margin: 0; white-space: nowrap;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;
+}
+.brand-i { position: relative; display: inline-block; }
+.brand-i::after {
+  content: ''; position: absolute; left: 50%; top: -0.02em;
+  width: 0.15em; height: 0.2em; transform: translateX(-50%);
+  background: var(--action); border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 .brand-sub { margin-top: 4px; font-size: 0.78rem; color: var(--text-faint); }
 

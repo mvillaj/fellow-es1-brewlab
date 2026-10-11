@@ -17,3 +17,23 @@ test('sign in opens the Clerk form', async ({ page }) => {
   await expect(page).toHaveURL(/\/sign-in/);
   await expect(page.getByLabel(/email/i)).toBeVisible();
 });
+
+test('first-time visitors get light, even when the system prefers dark', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+});
+
+test('a saved dark choice survives a reload', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('brewlab.theme', 'dark'));
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
+test('the hero pull links each stage to its section', async ({ page }) => {
+  await page.goto('/');
+  const stages = page.getByRole('navigation', { name: 'What Mousetail does' });
+  await stages.getByRole('link', { name: /Infusion/ }).click();
+  await expect(page).toHaveURL(/#coach$/);
+  await expect(page.getByRole('heading', { name: 'One change at a time.', exact: true })).toBeInViewport();
+});
