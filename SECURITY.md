@@ -6,7 +6,7 @@ credentials, so security reports are taken seriously.
 ## Reporting a vulnerability
 
 Please report it privately through
-[GitHub's private vulnerability reporting](https://github.com/mvillaj/fellow-es1-brewlab/security/advisories/new)
+[GitHub's private vulnerability reporting](https://github.com/mvillaj/mousetail-web/security/advisories/new)
 rather than in a public issue. I'll acknowledge it within a week and keep you
 posted while it's fixed. Credit in the release notes is yours if you want it.
 

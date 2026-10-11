@@ -1,7 +1,7 @@
 # Mousetail — ES1 Brew Lab
 
-[![CI](https://github.com/mvillaj/fellow-es1-brewlab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mvillaj/fellow-es1-brewlab/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/mvillaj/fellow-es1-brewlab/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/mvillaj/fellow-es1-brewlab/actions/workflows/codeql.yml)
+[![CI](https://github.com/mvillaj/mousetail-web/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mvillaj/mousetail-web/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/mvillaj/mousetail-web/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/mvillaj/mousetail-web/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An espresso logbook and profile studio for the **Fellow Espresso Series 1**.
