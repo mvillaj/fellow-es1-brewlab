@@ -35,10 +35,11 @@ export default tseslint.config(
     },
   },
   {
-    // SQLite rows come back untyped, and the routes and seed read them as any.
-    // Typing the row layer is its own change; until then the rule stays off here.
+    // SQLite rows come back untyped, and the routes and seed still read them as
+    // any. A warning here, not an error, until the row layer is typed; the lint
+    // script's --max-warnings caps the count so it can only go down.
     files: ['server/src/**'],
-    rules: { '@typescript-eslint/no-explicit-any': 'off' },
+    rules: { '@typescript-eslint/no-explicit-any': 'warn' },
   },
   {
     rules: {

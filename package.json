@@ -14,7 +14,7 @@
     "dev:client": "pnpm --filter @brewlab/client dev",
     "build": "pnpm --filter @brewlab/client build",
     "typecheck": "tsc -p packages/shared && tsc -p server && tsc -p client",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 48",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm test:shared && pnpm test:server && pnpm test:client",
