@@ -1,8 +1,10 @@
 name: CI
 
+# Pushes to main deploy; every other branch is checked through its pull request.
+# Running on pushes to all branches as well ran each PR's jobs twice.
 on:
   push:
-    branches: ['**']
+    branches: [main]
   pull_request:
 
 concurrency:
@@ -84,6 +86,8 @@ jobs:
             echo "Missing repository secrets:$missing"
             echo "Use the pk_test_/sk_test_ keys of a Clerk development instance."
             echo "Add them under Settings -> Secrets and variables -> Actions."
+            echo "Dependabot PRs cannot read Actions secrets: add the same two under"
+            echo "Settings -> Secrets and variables -> Dependabot."
             exit 1
           fi
 
