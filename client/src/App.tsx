@@ -46,7 +46,7 @@ interface NavLinkDef {
   show: boolean;
 }
 
-function navFor(caps: MachineCapabilities) {
+export function navFor(caps: MachineCapabilities) {
   const groups: { section: string; links: NavLinkDef[] }[] = [
     { section: 'Brewing', links: [
       { to: '/', label: 'Dashboard', icon: LayoutGrid, end: true, show: true },
@@ -254,7 +254,7 @@ function TabBar({ onMore }: { onMore: () => void }) {
 /** Destinations the tab bar already carries, so the sheet doesn't repeat them. */
 const IN_TAB_BAR = new Set(['/', '/shots', '/coffees']);
 
-function MoreSheet({ groups, onClose }: { groups: ReturnType<typeof navFor>; onClose: () => void }) {
+export function MoreSheet({ groups, onClose }: { groups: ReturnType<typeof navFor>; onClose: () => void }) {
   const location = useLocation();
   const rest = groups
     .map((g) => ({ ...g, links: g.links.filter((l) => !IN_TAB_BAR.has(l.to)) }))
@@ -269,8 +269,10 @@ function MoreSheet({ groups, onClose }: { groups: ReturnType<typeof navFor>; onC
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
+  // Close on click, not mousedown: iOS Safari doesn't fire mouse events for a
+  // tap on a plain div, but React gives onClick targets the hook Safari needs.
   return (
-    <div className="sheet-overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="sheet-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="sheet" role="dialog" aria-modal="true" aria-label="More">
         <div className="sheet-grip" aria-hidden="true" />
         <Nav groups={rest} />

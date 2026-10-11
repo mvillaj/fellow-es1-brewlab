@@ -1,6 +1,8 @@
 /* ── Landing: the public front page ────────────────────────────────────────────
-   One shot across the page. Everything here sits on the tokens in app.css, so
-   both themes come for free; the only new values are layout. */
+   One shot across the page, in the app's own world: the same ground, cards,
+   pills, glasses and coach as the dashboard. Everything sits on the tokens in
+   app.css, so both themes and every finish come for free; the only new values
+   here are layout and the hero's scale. */
 
 .landing {
   --gutter: clamp(16px, 4vw, 48px);
@@ -9,259 +11,288 @@
   overflow-x: clip;
 }
 
-.landing ::selection { background: var(--tint-accent-border); color: var(--text); }
-.landing a:focus-visible,
-.landing button:focus-visible,
-.landing select:focus-visible,
-.landing input:focus-visible {
-  outline: 2px solid var(--crema);
-  outline-offset: 2px;
-}
-
-.landing .btn-lg { padding: 11px 20px; font-size: 0.98rem; }
-
 .landing-bar {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   max-width: var(--measure); margin: 0 auto;
   padding: 20px var(--gutter) 0;
 }
-.landing-bar .brand-lockup { font-size: 1.5rem; }
+.landing-bar .brand-lockup { font-size: 1.6rem; }
 
 /* ── Hero ── */
 
-.landing .hero { padding-top: clamp(32px, 7vh, 80px); }
+.landing .hero { padding-top: clamp(32px, 6vh, 72px); }
 
 .landing .hero-copy {
   max-width: var(--measure); margin: 0 auto;
   padding: 0 var(--gutter);
 }
 .landing .hero-copy h1 {
-  font-size: clamp(2.5rem, 5.6vw, 4.75rem);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
-  max-width: 13em;
-  text-wrap: balance;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.8vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variation-settings: 'opsz' 96;
+  max-width: 12.5em;
 }
 .landing .hero-copy p {
   margin: 22px 0 0;
   max-width: 54ch;
-  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  font-size: clamp(1.02rem, 1.3vw, 1.15rem);
+  line-height: 1.55;
   color: var(--text-dim);
 }
 .landing-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 
 /* The pull: full-bleed, the profile first as a ghost, then the shot drawn over
-   it with a playhead and a live reading. */
-.landing .pull { margin: clamp(28px, 5vh, 56px) 0 0; }
+   it with a playhead, and a readout card whose glass fills as it pours. */
+.landing .pull { margin: clamp(28px, 4.5vh, 56px) 0 0; }
+.landing .pull-plot { margin-bottom: 48px; }
 
 .landing .pull-plot {
   position: relative;
-  height: clamp(220px, 36vh, 440px);
-  border-top: 1px solid var(--border);
+  height: clamp(240px, 34vh, 420px);
   border-bottom: 1px solid var(--border-strong);
 }
-/* The shot ends a gutter short of the edge, so the playhead's last reading and
-   dot stay on screen; the frame lines still run full-bleed. */
+/* The shot ends a gutter short of the edge, so the last reading and dot stay on
+   screen; the bands and baseline still run full-bleed. */
 .landing .pull-track { position: absolute; top: 0; bottom: 0; left: 0; right: var(--gutter); }
-.landing .pull-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.landing .pull-track > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
 
 .landing .pull-grid { stroke: var(--border); stroke-width: 1; }
 .landing .pull-ghost { fill: none; stroke: var(--border-strong); stroke-width: 1.5; stroke-dasharray: 3 5; }
-.landing .pull-line { fill: none; stroke: var(--crema); stroke-width: 3; stroke-linejoin: round; }
+.landing .pull-line { fill: none; stroke: var(--chart-pressure); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
 
 .landing .pull-axis {
-  position: absolute; left: 12px;
-  transform: translateY(-130%);
-  font-family: var(--mono); font-size: 0.72rem; color: var(--text-faint);
-  font-variant-numeric: tabular-nums;
+  position: absolute; left: var(--gutter);
+  transform: translateY(-135%);
+  font-size: 0.74rem; color: var(--text-faint);
 }
 
 .landing .pull-head {
   position: absolute; top: 0; bottom: 0; left: 0; width: 1px;
-  background: var(--text-faint); opacity: 0.6;
+  background: var(--border-strong);
   pointer-events: none;
-  transition: opacity 0.4s ease-out;
+  transition: opacity 0.4s var(--ease-out);
 }
 .landing .pull-plot.done .pull-head { opacity: 0; }
-.landing .pull-tail { opacity: 0; transition: opacity 0.5s ease-out; }
+.landing .pull-tail { opacity: 0; transition: opacity 0.5s var(--ease-out); }
 .landing .pull-plot.done .pull-tail { opacity: 1; }
 .landing .pull-dot {
   position: absolute; left: 0; top: 100%;
-  width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px;
-  border-radius: 50%; background: var(--crema);
-  box-shadow: 0 0 0 3px var(--bg);
+  width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--bg), var(--shadow-chip);
   pointer-events: none;
 }
 
 .landing .pull-readout {
-  position: absolute; top: 14px; left: 50%;
+  position: absolute; top: 12px; left: 50%;
   transform: translateX(-50%);
-  display: flex; align-items: baseline; gap: 14px;
-  padding: 7px 12px;
-  background: var(--bg-raised);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 16px 9px 10px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
   white-space: nowrap;
   pointer-events: none;
 }
-.landing .pull-reading { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1.15rem; color: var(--text); }
-.landing .pull-reading small, .landing .mono small { font-size: 0.72em; color: var(--text-faint); margin-left: 2px; }
-.landing .pull-stage { font-size: 0.78rem; font-weight: 500; min-width: 6.5em; }
+:root[data-theme='dark'] .landing .pull-readout { border: 1px solid var(--border-strong); }
+.landing .pull-glass .liquid-group { transform-box: fill-box; transform-origin: bottom; }
+.landing .pull-figures { display: flex; flex-direction: column; gap: 3px; }
+.landing .pull-readings { display: flex; align-items: baseline; gap: 14px; font-size: 0.78rem; color: var(--text-faint); }
+.landing .pull-reading .mono { font-size: 1.22rem; color: var(--text); letter-spacing: -0.02em; margin-right: 1px; }
+.landing .pull-stage { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-dim); }
+.landing .pull-stage .mono { font-weight: 500; color: var(--text); }
 
-.landing .pull-stages { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
-.landing .pull-stages a {
-  position: absolute; bottom: 12px;
-  padding: 0 12px;
-  font-size: 0.85rem; font-weight: 500; line-height: 1.3;
-  display: flex; flex-direction: column;
-  text-underline-offset: 3px;
+.landing .pull-stage i,
+.landing .pull-stage-name i,
+.landing .stage-mark-label i {
+  display: inline-block; flex: none;
+  width: 8px; height: 8px; border-radius: 50%;
 }
-.landing .pull-stages a:hover { text-decoration: underline; }
+
+.landing .pull-stages { position: absolute; left: 0; right: 0; top: 100%; height: 0; }
+.landing .pull-stages a {
+  position: absolute; top: 6px;
+  padding: 4px 12px;
+  display: flex; flex-direction: column; gap: 1px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem; font-weight: 600; line-height: 1.3;
+  transition: background 0.15s;
+}
+.landing .pull-stages a:hover { background: var(--surface); }
+.landing .pull-stages a:hover .pull-stage-name { text-decoration: underline; text-underline-offset: 3px; }
+.landing .pull-stages a:first-child { margin-left: calc(var(--gutter) - 12px); }
 .landing .pull-stages a.last { align-items: flex-end; text-align: right; white-space: nowrap; }
-.landing .pull-stages a .mono { font-size: 0.72rem; color: var(--text-faint); font-weight: 400; }
+.landing .pull-stage-name { display: inline-flex; align-items: center; gap: 7px; }
+.landing .pull-stage-time { font-size: 0.74rem; font-weight: 400; color: var(--text-faint); }
 
 .landing .pull-caption {
   max-width: var(--measure); margin: 0 auto;
-  padding: 12px var(--gutter) 0;
-  display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px;
-  font-size: 0.83rem; color: var(--text-faint);
+  padding: 0 var(--gutter);
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px;
+  font-size: 0.85rem; color: var(--text-dim);
 }
-.landing .pull-caption .btn { margin-left: -10px; }
+.landing .pull-caption .mono { color: var(--text); }
 
 /* ── Stages: each section carries its slice of the shot in the gutter ── */
 
 .landing .stage {
   max-width: var(--measure); margin: 0 auto;
-  padding: clamp(72px, 12vh, 128px) var(--gutter) 0;
+  padding: clamp(80px, 13vh, 136px) var(--gutter) 0;
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: 200px minmax(0, 1fr);
   gap: clamp(24px, 5vw, 72px);
   scroll-margin-top: 24px;
 }
-.landing .stage-mark { position: sticky; top: 32px; align-self: start; }
-.landing .stage-mark svg { width: 100%; height: auto; display: block; overflow: visible; }
+.landing .stage-mark { position: sticky; top: 32px; align-self: start; padding-top: 6px; }
+.landing .stage-mark-curve { width: 100%; height: auto; display: block; overflow: visible; }
 .landing .stage-mark-rest { fill: none; stroke: var(--border-strong); stroke-width: 1.5; stroke-dasharray: 2 4; }
-.landing .stage-mark-label { margin-top: 10px; font-weight: 600; display: flex; flex-direction: column; }
-.landing .stage-mark-label .mono { font-size: 0.75rem; font-weight: 400; color: var(--text-faint); }
+.landing .stage-mark-lit { fill: none; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
+.landing .stage-mark-label { margin-top: 12px; display: flex; flex-direction: column; gap: 2px; font-size: 0.92rem; font-weight: 600; }
+.landing .stage-mark-label > span:first-child { display: inline-flex; align-items: center; gap: 7px; }
+.landing .stage-mark-time { font-size: 0.78rem; font-weight: 400; color: var(--text-faint); }
+.landing .yield-mark .shot-glass { margin-left: -4px; }
 
-.landing .stage-body { max-width: 760px; }
+.landing .stage-body { max-width: 860px; min-width: 0; }
 .landing .stage-body h2 {
-  font-size: clamp(1.75rem, 3.2vw, 2.6rem);
-  line-height: 1.08;
-  letter-spacing: -0.028em;
-  text-wrap: balance;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-variation-settings: 'opsz' 72;
 }
 .landing .stage-body .lead { margin: 16px 0 28px; max-width: 64ch; color: var(--text-dim); font-size: 1.04rem; }
-.landing .stage-body .aside { margin: 14px 0 0; max-width: 64ch; font-size: 0.85rem; color: var(--text-faint); }
+.landing .stage-body .aside { margin: 16px 4px 0; max-width: 64ch; font-size: 0.88rem; color: var(--text-dim); }
 
-.landing .log-line {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px;
-  padding: 12px 16px; margin-bottom: 16px;
-  border: 1px solid var(--border); border-radius: var(--radius);
-  background: var(--bg-raised);
-  font-size: 0.9rem;
+.landing .stage-demos {
+  display: grid; gap: 18px; align-items: start;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
 }
+.landing .stage-demos .demo-controls { grid-template-columns: minmax(0, 1fr); }
+.landing .stage-demos .dialin-strip { gap: 10px; padding-top: 8px; }
+.landing .stage-demos .dialin-shot .shot-glass { width: min(52px, 100%); }
+.landing .stage-demos .dialin-legend { flex-direction: column; gap: 6px; }
 
 /* ── Demos: the app's own panels, running on sample inputs ── */
 
-.landing .demo {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-}
-.landing .demo-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.landing .card-head h3 { font-size: 1.12rem; font-weight: 700; font-variation-settings: 'opsz' 24; }
+
+.landing .demo-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 22px; }
+.landing .demo-controls.stacked { grid-template-columns: minmax(0, 1fr); }
 .landing .demo-value { color: var(--text); margin-left: 6px; }
+.landing .demo-value .mono { font-weight: 500; }
+.landing .range-ends { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-faint); }
 
-.landing .grind-controls, .landing .coach-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
-.landing .range-ends { display: flex; justify-content: space-between; font-size: 0.72rem; }
+.landing .grind-reading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 16px; margin: 24px 0 12px; }
+.landing .reading-xl { font-size: clamp(2.4rem, 5vw, 3.2rem); line-height: 1; color: var(--text); }
+.landing .reading-xl .mono { letter-spacing: -0.03em; }
+.landing .reading-xl small { font-size: 0.4em; color: var(--text-faint); margin-left: 4px; }
 
-.landing .grind-reading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 16px; margin: 22px 0 14px; }
-.landing .reading-xl { font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; color: var(--crema); }
-.landing .reading-xl small { font-size: 0.4em; }
-
-.landing .grind-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-.landing .grind-table th {
-  text-align: left; font-weight: 500; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-faint); padding: 0 0 8px;
+/* A plain table even on phones: three short columns fit, so it skips the app's
+   stacked-row layout. */
+.landing .grind-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.landing .grind-table th { text-align: left; font-weight: 600; font-size: 0.8rem; color: var(--text-faint); padding: 0 10px 10px; }
+.landing .grind-table td { padding: 11px 10px; border-top: 1px solid var(--border); vertical-align: middle; }
+.landing .grind-table th:first-child, .landing .grind-table td:first-child { padding-left: 0; }
+.landing .grind-table th:last-child, .landing .grind-table td:last-child { padding-right: 0; }
+.landing .grind-table td.setting { white-space: nowrap; }
+@media (max-width: 600px) {
+  .landing .grind-table { font-size: 0.86rem; }
+  .landing .grind-table th, .landing .grind-table td { padding-left: 6px; padding-right: 6px; }
 }
-.landing .grind-table td { padding: 9px 0; border-top: 1px solid var(--border); }
-.landing .grind-table td + td, .landing .grind-table th + th { padding-left: 12px; }
 
-.landing .coach-answer {
-  margin-top: 22px; padding: 18px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--tint-accent-border);
-  background: var(--tint-accent-bg);
+/* The coach demo is the dashboard's top row: what you did, then the one change. */
+.landing .coach-demo {
+  display: grid; gap: 18px;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: stretch;
 }
-.landing .coach-answer.good { border-color: var(--tint-good-border); background: var(--tint-good-bg); }
-.landing .coach-headline { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: var(--crema); }
-.landing .coach-answer.good .coach-headline { color: var(--good); }
-.landing .coach-answer p { margin: 8px 0 12px; color: var(--text-dim); max-width: 60ch; }
+.landing .coach-demo .coach { align-content: center; }
+.landing .coach .btn-primary svg { width: 16px; height: 16px; }
 
-.landing .profile-split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start; }
-.landing .profile-stages { list-style: none; margin: 14px 0 0; padding: 0; font-size: 0.88rem; }
+.landing .chart text { font-size: 11.5px; }
+.landing .profile-split { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.landing .profile-stages { list-style: none; margin: 14px 0 0; padding: 0; font-size: 0.9rem; }
 .landing .profile-stages li {
-  display: grid; grid-template-columns: 10px 1fr auto 6.5em; align-items: center; gap: 10px;
-  padding: 7px 0; border-top: 1px solid var(--border);
+  display: grid; grid-template-columns: 10px 1fr auto 7em; align-items: center; gap: 10px;
+  padding: 8px 0; border-top: 1px solid var(--border);
 }
-.landing .profile-stages li i { width: 10px; height: 10px; border-radius: 3px; }
-.landing .profile-stages li .mono { text-align: right; }
+.landing .profile-stages li i { width: 10px; height: 10px; border-radius: 50%; }
+.landing .profile-stages li > span:nth-child(n + 3) { text-align: right; color: var(--text-faint); }
+.landing .profile-stages li .mono { color: var(--text); }
 
 .landing .facts { list-style: none; margin: 0; padding: 0; }
 .landing .facts li { padding: 14px 0; border-top: 1px solid var(--border); color: var(--text-dim); }
 .landing .facts li:first-child { border-top: none; padding-top: 0; }
 .landing .facts strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
-
-/* ── Who, close, foot ── */
-
 .landing .facts .tag { vertical-align: 1px; }
 
+/* ── Close, foot ── */
+
 .landing .close {
-  max-width: var(--measure); margin: clamp(96px, 16vh, 168px) auto 0;
-  padding: clamp(56px, 9vh, 96px) var(--gutter);
-  border-top: 1px solid var(--border);
+  max-width: var(--measure); margin: clamp(104px, 16vh, 176px) auto 0;
+  padding: 0 var(--gutter) clamp(64px, 10vh, 104px);
   display: flex; flex-direction: column; align-items: center; text-align: center;
 }
-.landing .close .brand-lockup { font-size: clamp(3rem, 7vw, 4.6rem); }
-.landing .close p { margin: 18px 0 0; font-size: clamp(1.15rem, 2vw, 1.4rem); color: var(--text-dim); }
-.landing .close .landing-ctas { justify-content: center; margin-top: 24px; }
+.landing .close .brand-lockup { font-size: clamp(3.2rem, 8vw, 5rem); }
+.landing .close p {
+  margin: 14px 0 0;
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem); letter-spacing: -0.02em;
+  font-variation-settings: 'opsz' 24;
+  color: var(--text-dim);
+}
+.landing .close .landing-ctas { justify-content: center; margin-top: 26px; }
 
 .landing-foot {
   max-width: var(--measure); margin: 0 auto;
   padding: 24px var(--gutter) 40px;
   border-top: 1px solid var(--border);
-  font-size: 0.8rem; color: var(--text-faint);
+  font-size: 0.84rem; color: var(--text-dim);
 }
 
-/* ── Small screens ── */
+/* ── Smaller screens ── */
+
+@media (max-width: 1020px) {
+  .landing .coach-demo, .landing .stage-demos { grid-template-columns: minmax(0, 1fr); }
+  .landing .stage-demos .dialin-legend { flex-direction: row; }
+}
 
 @media (max-width: 860px) {
-  .landing .stage { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .landing .stage-mark { position: static; display: flex; align-items: center; gap: 14px; }
-  /* On one column the label would sit over the heading as an eyebrow; the lit
-     slice of the shot carries the stage on its own. */
-  .landing .stage-mark-label { display: none; }
-  .landing .stage-mark svg { width: 160px; }
+  .landing .stage { display: flex; flex-direction: column; gap: 0; }
+  .landing .stage-body { display: contents; }
+  .landing .stage-body > * { order: 2; }
+  .landing .stage-body > h2, .landing .stage-body > .lead { order: 0; }
+  .landing .stage-body > .lead { margin-bottom: 20px; }
+  .landing .stage-mark { order: 1; position: static; display: flex; align-items: center; gap: 14px; padding: 0; margin-bottom: 20px; }
+  .landing .stage-mark-curve { width: 150px; }
+  .landing .stage-mark-label { margin: 0; }
+  .landing .yield-mark .shot-glass { width: 56px; height: auto; }
+  /* The card is narrower here, so the chart's labels need a larger unit to stay legible. */
+  .landing .chart text { font-size: 14px; }
   .landing .profile-split { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 600px) {
-  .landing-bar .brand-lockup { font-size: 1.25rem; }
+  .landing-bar { padding-top: 14px; }
+  .landing-bar .brand-lockup { font-size: 1.35rem; }
   .landing .hero-copy p { margin-top: 16px; }
-  .landing-ctas .btn { flex: 1 1 auto; justify-content: center; }
-  .landing .pull-readout { gap: 10px; padding: 6px 10px; }
-  .landing .pull-reading { font-size: 1rem; }
-  .landing .pull-stage { display: none; }
-  .landing .pull-stages a { padding: 0 8px; font-size: 0.74rem; bottom: 8px; }
-  .landing .pull-stages a .mono { font-size: 0.66rem; }
-  .landing .grind-controls, .landing .coach-controls { grid-template-columns: minmax(0, 1fr); }
-  .landing .demo { padding: 16px; }
+  .landing-ctas .btn { flex: 1 1 auto; }
+  .landing .pull-plot { height: 300px; }
+  .landing .pull-readout { gap: 9px; padding: 7px 12px 7px 8px; }
+  .landing .pull-glass .shot-glass { width: 32px; height: auto; }
+  .landing .pull-readings { gap: 10px; }
+  .landing .pull-reading .mono { font-size: 1.02rem; }
+  .landing .pull-reading:nth-child(3) { display: none; }
+  .landing .pull-stages a { padding: 2px 8px; font-size: 0.76rem; }
+  .landing .pull-stages a:first-child { margin-left: calc(var(--gutter) - 8px); }
+  .landing .pull-stage-time { font-size: 0.68rem; }
+  .landing .demo-controls { grid-template-columns: minmax(0, 1fr); }
+  .landing .stage-mark-curve { width: 120px; }
+  .landing .profile-stages li { grid-template-columns: 10px 1fr auto 6em; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .landing { scroll-behavior: auto; }
-}
 @media (prefers-reduced-motion: no-preference) {
   html:has(.landing) { scroll-behavior: smooth; }
 }

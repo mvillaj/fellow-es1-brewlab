@@ -36,7 +36,7 @@ export default function Grinders() {
         <div>
           <h1>Grinders</h1>
           <p>
-            Every grinder speaks its own dialect. Crema translates settings into approximate microns so a shot
+            Every grinder speaks its own dialect. Mousetail translates settings into approximate microns so a shot
             ground on one is comparable to a shot ground on another.
           </p>
         </div>

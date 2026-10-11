@@ -1,4 +1,4 @@
-# Crema — ES1 Brew Lab
+# Mousetail — ES1 Brew Lab
 
 An espresso logbook and profile studio for the **Fellow Espresso Series 1**.
 
@@ -10,7 +10,7 @@ account.
 React SPA + a small Node API + SQLite. Runs locally for development, or as a
 single container with the API serving the built client — see Deploying below.
 
-> **Not affiliated with Fellow.** Crema is an independent hobby project. It is not
+> **Not affiliated with Fellow.** Mousetail is an independent hobby project. It is not
 > affiliated with, endorsed by or supported by Fellow Products, and it talks to
 > Fellow's private API, which can change or stop working without notice.
 
