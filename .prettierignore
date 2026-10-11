@@ -1,0 +1,11 @@
+pnpm-lock.yaml
+**/dist/
+playwright-report/
+test-results/
+.claude/
+.github/skills/
+.impeccable/
+**/.impeccable/
+server/data/
+# Prose is hand-wrapped; leave it alone.
+*.md

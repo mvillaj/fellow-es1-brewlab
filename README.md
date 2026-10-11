@@ -46,6 +46,8 @@ pnpm test         # shared + server (node:test) and client (Vitest)
 pnpm --filter @brewlab/client test:watch   # client tests in watch mode
 pnpm test:e2e     # Playwright browser tests (see below)
 pnpm typecheck    # tsc across all three packages
+pnpm lint         # ESLint
+pnpm format       # Prettier (CI runs format:check)
 pnpm reset        # wipe the database and re-seed
 ```
 
