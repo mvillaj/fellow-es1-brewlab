@@ -1,0 +1,26 @@
+version: 2
+updates:
+  # pnpm workspaces are covered by the npm ecosystem, which reads pnpm-lock.yaml.
+  # Minor and patch bumps arrive as one weekly PR so they are reviewed together,
+  # and majors come one at a time because each can break something.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: chore
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
+    commit-message:
+      prefix: ci
