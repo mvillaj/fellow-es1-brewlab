@@ -11,6 +11,7 @@ const local: PublicUser = {
   displayName: 'Ada Lovelace',
   createdAt: '2026-01-02T00:00:00.000Z',
   isAdmin: false,
+  onboardedAt: '2026-01-02T00:00:00.000Z',
 };
 
 const setUser = vi.fn();

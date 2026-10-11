@@ -13,11 +13,16 @@ machineRouter.get('/catalog', (_req, res) => {
 
 machineRouter.use(requireAuth);
 
-machineRouter.get('/', (req: AuthedRequest, res) => {
+/** Default machine first: the client reads capabilities off the head of this list. */
+export function machinesFor(userId: string) {
   const rows = db
     .prepare('SELECT * FROM machines WHERE user_id = ? ORDER BY is_default DESC, created_at ASC')
-    .all(req.userId!) as any[];
-  res.json(rows.map(toMachine));
+    .all(userId) as any[];
+  return rows.map(toMachine);
+}
+
+machineRouter.get('/', (req: AuthedRequest, res) => {
+  res.json(machinesFor(req.userId!));
 });
 
 machineRouter.post('/', (req: AuthedRequest, res) => {

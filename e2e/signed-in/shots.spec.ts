@@ -9,7 +9,7 @@ test("the grind setting is held to the default grinder's dial", async ({ page })
   await page.goto('/shots');
   await page.getByRole('button', { name: 'Log a shot' }).click();
 
-  // A new bench defaults to the Opus 2: a stepless 0-10 dial.
+  // Getting started put the Opus 2 on the bench: a stepless 0-10 dial.
   const grind = page.getByLabel(/Grind setting/);
   await grind.fill('12');
   await expect(page.getByText('Fellow Opus 2 goes from 0 to 10')).toBeVisible();

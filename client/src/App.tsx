@@ -12,13 +12,14 @@ import {
   LogOut,
   Menu,
   Palette,
+  Sprout,
   Plus,
   UserRound,
   Waves,
   X,
   type LucideIcon,
 } from 'lucide-react';
-import type { MachineCapabilities } from '@brewlab/shared';
+import { NO_MACHINE_CAPABILITIES, type MachineCapabilities } from '@brewlab/shared';
 import { useAuth } from './lib/auth';
 import { useMachines } from './lib/machines';
 import AuthPage from './pages/Auth';
@@ -35,6 +36,7 @@ import ProfileEditor from './pages/ProfileEditor';
 import Fellow from './pages/Fellow';
 import Changelog from './pages/Changelog';
 import Account from './pages/Account';
+import GettingStarted from './pages/GettingStarted';
 import BrandLockup from './components/BrandLockup';
 import { FinishPicker, ThemeToggle } from './components/Appearance';
 
@@ -66,6 +68,7 @@ export function navFor(caps: MachineCapabilities) {
       { to: '/fellow', label: 'Fellow account', icon: CloudCog, show: caps.cloud === 'fellow' },
     ]},
     { section: 'About', links: [
+      { to: '/getting-started', label: 'Getting started', icon: Sprout, show: true },
       { to: '/changelog', label: 'Changelog', icon: BookOpen, show: true },
     ]},
   ];
@@ -273,16 +276,85 @@ function Shell({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Most reloads finish inside this, and then nothing loading-shaped shows at all. */
+export const LOADING_DELAY_MS = 250;
+
+/**
+ * What shows while Clerk and the bench load. For the first moment, just the
+ * page's ground. After that, a signed-in user gets the shell's frame with soft
+ * bars where the nav and page will land, so the app fills in rather than a
+ * status message giving way to it. Before Clerk says who you are there is no
+ * telling the landing page from the app, so that stays plain ground.
+ *
+ * App keeps returning this same element across both waits, so the delay runs
+ * from page load, not from each step.
+ */
+export function Loading({ shell }: { shell: boolean }) {
+  const [late, setLate] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setLate(true), LOADING_DELAY_MS);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (!late || !shell) return <div className="boot" aria-busy="true" />;
+
+  // The smallest nav there is, so a richer bench only adds rows when it lands.
+  const groups = navFor(NO_MACHINE_CAPABILITIES);
+  return (
+    <div className="shell shell-loading" aria-busy="true">
+      <span className="sr-only" role="status">
+        Loading
+      </span>
+      <aside className="sidebar">
+        <div className="brand">
+          <BrandLockup />
+          <div className="brand-sub">ES1 Brew Lab</div>
+        </div>
+        <div className="nav" aria-hidden="true">
+          {groups.map((g) => (
+            <div className="nav-group" key={g.section}>
+              <span className="skel skel-label" />
+              {g.links.map((l) => (
+                <span className="skel skel-link" key={l.to} />
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="sidebar-foot" aria-hidden="true">
+          <span className="skel skel-account" />
+        </div>
+      </aside>
+
+      <header className="topbar">
+        <BrandLockup />
+      </header>
+
+      <main className="main" aria-hidden="true">
+        <div className="page-head">
+          <span className="skel skel-title" />
+          <span className="skel skel-line" />
+        </div>
+        <span className="skel skel-card" />
+      </main>
+
+      <div className="tabbar" aria-hidden="true">
+        {[0, 1, 2, 3, 4].map((i) => (
+          <span className="tab" key={i}>
+            <span className="skel skel-dot" />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
-  const { user, ready } = useAuth();
+  const { user, ready, signedIn } = useAuth();
   const { capabilities, ready: benchReady } = useMachines();
+  const { pathname } = useLocation();
 
   if (!ready || (user && !benchReady)) {
-    return (
-      <div className="auth-wrap">
-        <span className="faint">Warming up…</span>
-      </div>
-    );
+    return <Loading shell={signedIn} />;
   }
 
   if (!user) {
@@ -296,10 +368,16 @@ export default function App() {
     );
   }
 
+  // First run: nothing else until getting started is finished or skipped.
+  if (user.onboardedAt == null && pathname !== '/getting-started') {
+    return <Navigate to="/getting-started" replace />;
+  }
+
   return (
     <Shell>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/getting-started" element={<GettingStarted />} />
         <Route path="/shots" element={<Shots />} />
         <Route path="/coffees" element={<Coffees />} />
         <Route path="/coffees/:id" element={<CoffeeDetail />} />

@@ -6,3 +6,4 @@ export * from './types.ts';
 export * from './schemas.ts';
 export * from './temp.ts';
 export * from './ai.ts';
+export * from './recommendations.ts';

@@ -3,7 +3,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MachineProvider, useMachines } from './machines';
 
 let currentUser: { id: string } | null = null;
-vi.mock('./auth', () => ({ useAuth: () => ({ user: currentUser }) }));
+let initialMachines: unknown[] | null = null;
+vi.mock('./auth', () => ({ useAuth: () => ({ user: currentUser, initialMachines }) }));
 
 function Probe() {
   const { ready, capabilities } = useMachines();
@@ -25,6 +26,7 @@ const es1 = {
 afterEach(() => {
   vi.unstubAllGlobals();
   currentUser = null;
+  initialMachines = null;
 });
 
 describe('MachineProvider', () => {
@@ -53,5 +55,22 @@ describe('MachineProvider', () => {
     expect(screen.getByTestId('probe')).toHaveTextContent('loading');
     await act(async () => resolve!(new Response(JSON.stringify([es1]), { status: 200 })));
     expect(screen.getByTestId('probe')).toHaveTextContent('ready:fellow');
+  });
+
+  // /auth/me already carries the bench, so a page reload should not wait on a
+  // second request before the shell can draw.
+  it('starts from the bench /auth/me sent instead of fetching it again', () => {
+    const fetch = vi.fn();
+    vi.stubGlobal('fetch', fetch);
+    currentUser = { id: 'usr_1' };
+    initialMachines = [es1];
+
+    render(
+      <MachineProvider>
+        <Probe />
+      </MachineProvider>,
+    );
+    expect(screen.getByTestId('probe')).toHaveTextContent('ready:fellow');
+    expect(fetch).not.toHaveBeenCalled();
   });
 });

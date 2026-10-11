@@ -56,13 +56,14 @@ export default function Dashboard() {
   const [logging, setLogging] = useState(false);
   const [justSaved, setJustSaved] = useState<{ shot: Shot; suggestion: Suggestion } | null>(null);
 
-  // The phone tab bar's Log shot button lands here with { log: true }. Clear the
-  // state once read, so a reload or Back doesn't reopen the form.
+  // The phone tab bar's Log shot button lands here with { log: true }, and
+  // getting started with { saved } after logging a first shot. Clear the state
+  // once read, so a reload or Back doesn't reopen anything.
   useEffect(() => {
-    if ((location.state as { log?: boolean } | null)?.log) {
-      setLogging(true);
-      navigate(location.pathname, { replace: true, state: null });
-    }
+    const state = location.state as { log?: boolean; saved?: { shot: Shot; suggestion: Suggestion } } | null;
+    if (state?.log) setLogging(true);
+    if (state?.saved) setJustSaved(state.saved);
+    if (state?.log || state?.saved) navigate(location.pathname, { replace: true, state: null });
   }, [location.state, location.pathname, navigate]);
 
   const latest = shots.data?.[0] ?? null;
@@ -183,6 +184,9 @@ export default function Dashboard() {
               <h2 className="coach-headline">Pull your first shot</h2>
               <p className="coach-reason">
                 Log it here and the coach tells you the one thing to change next: grind, ratio, or nothing at all.
+              </p>
+              <p className="coach-reason">
+                New to espresso? <Link to="/getting-started">Start here</Link>.
               </p>
             </div>
             <div className="coach-actions">
