@@ -9,6 +9,16 @@ export interface PublicUser {
   createdAt: string;
   /** May write changelog entries. Set by BREWLAB_ADMIN_EMAILS on the server. */
   isAdmin: boolean;
+  /** When getting started was finished or skipped. Null sends the user there first. */
+  onboardedAt: string | null;
+}
+
+/**
+ * What `GET /auth/me` returns: the profile plus the bench. The client needs
+ * both before it can draw the shell, so they travel in one round trip.
+ */
+export interface Me extends PublicUser {
+  machines: Machine[];
 }
 
 export interface Grinder {

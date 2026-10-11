@@ -30,6 +30,13 @@ import { buildStages, splitStages } from './es1.ts';
 import { roundF } from './temp.ts';
 import { accountUpdateSchema, es1ProfileSchema, es1StageSchema, fellowOptInSchema } from './schemas.ts';
 import { flowRate, ratioOf, suggestNextShot } from './dialin.ts';
+import {
+  RECOMMENDATIONS_BY_ID,
+  RECOMMENDED_GRINDERS,
+  RECOMMENDED_MACHINES,
+  priceTier,
+  sortByPrice,
+} from './recommendations.ts';
 
 const g = (id: string) => specToUserGrinder(GRINDERS_BY_ID[id]);
 
@@ -429,4 +436,44 @@ test('account update trims names and needs a first name', () => {
   assert.equal(accountUpdateSchema.safeParse({ firstName: '   ', lastName: 'Lovelace' }).success, false);
   assert.equal(accountUpdateSchema.safeParse({ firstName: 'Ada' }).success, false);
   assert.equal(accountUpdateSchema.safeParse({ firstName: 'A'.repeat(257), lastName: '' }).success, false);
+});
+
+test('every recommendation maps onto a real spec, and grinders onto their own', () => {
+  for (const r of RECOMMENDED_MACHINES) {
+    assert.equal(r.kind, 'machine');
+    assert.ok(BUILT_IN_MACHINES.some((m) => m.id === r.builtInId), `${r.id}: no machine spec ${r.builtInId}`);
+  }
+  for (const r of RECOMMENDED_GRINDERS) {
+    assert.equal(r.kind, 'grinder');
+    assert.equal(r.builtInId, r.id, `${r.id} should point at its own grinder spec`);
+    assert.ok(GRINDERS_BY_ID[r.builtInId!], `${r.id}: no grinder spec`);
+  }
+});
+
+test('a machine only pairs with grinders the guide actually lists', () => {
+  for (const r of RECOMMENDED_MACHINES) {
+    for (const pid of r.pairsWith ?? []) {
+      assert.equal(RECOMMENDATIONS_BY_ID[pid]?.kind, 'grinder', `${r.id} pairs with unknown ${pid}`);
+    }
+  }
+});
+
+test('sortByPrice orders both ways, keeps ties stable, and leaves the input alone', () => {
+  const list = [
+    { id: 'b', priceUsd: 200 },
+    { id: 'a', priceUsd: 100 },
+    { id: 'c', priceUsd: 200 },
+  ];
+  assert.deepEqual(sortByPrice(list, 'asc').map((x) => x.id), ['a', 'b', 'c']);
+  assert.deepEqual(sortByPrice(list, 'desc').map((x) => x.id), ['b', 'c', 'a']);
+  assert.deepEqual(list.map((x) => x.id), ['b', 'a', 'c']);
+});
+
+test('price tiers use separate bands for machines and grinders', () => {
+  assert.equal(priceTier({ kind: 'machine', priceUsd: 450 }), '$');
+  assert.equal(priceTier({ kind: 'machine', priceUsd: 900 }), '$$');
+  assert.equal(priceTier({ kind: 'machine', priceUsd: 1500 }), '$$$');
+  assert.equal(priceTier({ kind: 'grinder', priceUsd: 100 }), '$');
+  assert.equal(priceTier({ kind: 'grinder', priceUsd: 200 }), '$$');
+  assert.equal(priceTier({ kind: 'grinder', priceUsd: 400 }), '$$$');
 });

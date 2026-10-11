@@ -38,8 +38,8 @@ for (const table of [
 function makeUser(email: string, displayName: string) {
   const uid = id('usr');
   db.prepare(
-    'INSERT INTO users (id, email, display_name, created_at) VALUES (?, ?, ?, ?)',
-  ).run(uid, email, displayName, nowIso());
+    'INSERT INTO users (id, email, display_name, created_at, onboarded_at) VALUES (?, ?, ?, ?, ?)',
+  ).run(uid, email, displayName, nowIso(), nowIso());
   return uid;
 }
 

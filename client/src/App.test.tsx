@@ -1,12 +1,28 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
-import { MoreSheet, navFor } from './App';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { MemoryRouter, useLocation } from 'react-router-dom';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import App, { LOADING_DELAY_MS, MoreSheet, navFor } from './App';
 import { ThemeProvider } from './lib/theme';
 
+let authUser: { displayName: string; onboardedAt: string | null } = {
+  displayName: 'Tester',
+  onboardedAt: '2026-10-01T00:00:00.000Z',
+};
+
+let authReady = true;
+let signedIn = true;
+
 vi.mock('./lib/auth', () => ({
-  useAuth: () => ({ user: { displayName: 'Tester' }, logout: vi.fn() }),
+  useAuth: () => ({ user: authReady ? authUser : null, ready: authReady, signedIn, logout: vi.fn() }),
 }));
+
+vi.mock('./lib/machines', () => ({
+  useMachines: () => ({ machines: [], capabilities: { profiling: 'none', cloud: null }, ready: true }),
+}));
+
+// The routing is under test here, not the pages.
+vi.mock('./pages/Dashboard', () => ({ default: () => <h1>Dashboard page</h1> }));
+vi.mock('./pages/GettingStarted', () => ({ default: () => <h1>Getting started page</h1> }));
 
 function renderSheet() {
   const onClose = vi.fn();
@@ -68,5 +84,86 @@ describe('navFor', () => {
   it('lists My account first in Settings, above the Fellow one', () => {
     const account = navFor({ profiling: 'pressure', cloud: 'fellow' }).find((g) => g.section === 'Settings');
     expect(account?.links.map((l) => l.to)).toEqual(['/account', '/fellow']);
+  });
+});
+
+describe('first-run redirect', () => {
+  function Where() {
+    return <output data-testid="where">{useLocation().pathname}</output>;
+  }
+
+  const renderAt = (path: string) =>
+    render(
+      <MemoryRouter initialEntries={[path]}>
+        <ThemeProvider>
+          <App />
+          <Where />
+        </ThemeProvider>
+      </MemoryRouter>,
+    );
+
+  it('sends a user who has not finished getting started there first', () => {
+    authUser = { displayName: 'New', onboardedAt: null };
+    renderAt('/shots');
+    expect(screen.getByTestId('where').textContent).toBe('/getting-started');
+    expect(screen.getByRole('heading', { name: 'Getting started page' })).toBeTruthy();
+  });
+
+  it('leaves an onboarded user where they asked to go', () => {
+    authUser = { displayName: 'Old', onboardedAt: '2026-10-01T00:00:00.000Z' };
+    renderAt('/');
+    expect(screen.getByTestId('where').textContent).toBe('/');
+    expect(screen.getByRole('heading', { name: 'Dashboard page' })).toBeTruthy();
+  });
+
+  it('keeps getting started reachable from the nav afterwards', () => {
+    const links = navFor({ profiling: 'none', cloud: null }).flatMap((g) => g.links.map((l) => l.to));
+    expect(links).toContain('/getting-started');
+  });
+});
+
+describe('loading', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    authReady = true;
+    signedIn = true;
+  });
+
+  const renderLoading = () =>
+    render(
+      <MemoryRouter>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </MemoryRouter>,
+    );
+
+  it('shows nothing loading-shaped for a load that finishes quickly', () => {
+    vi.useFakeTimers();
+    authReady = false;
+    const { container } = renderLoading();
+    expect(container.querySelector('.boot')).toBeTruthy();
+    expect(screen.queryByRole('status')).toBeNull();
+  });
+
+  it('fills in the shell for a signed-in user once the load runs long', () => {
+    vi.useFakeTimers();
+    authReady = false;
+    const { container } = renderLoading();
+    act(() => vi.advanceTimersByTime(LOADING_DELAY_MS));
+    expect(screen.getByRole('status')).toHaveTextContent('Loading');
+    expect(container.querySelector('.shell-loading .sidebar')).toBeTruthy();
+    expect(screen.queryByText(/warming up/i)).toBeNull();
+  });
+
+  // Before Clerk knows who this is, the visitor may be headed for the landing page.
+  it('keeps to the plain ground while it is not yet known who is signed in', () => {
+    vi.useFakeTimers();
+    authReady = false;
+    signedIn = false;
+    const { container } = renderLoading();
+    act(() => vi.advanceTimersByTime(LOADING_DELAY_MS * 4));
+    expect(container.querySelector('.boot')).toBeTruthy();
+    expect(container.querySelector('.shell-loading')).toBeNull();
   });
 });

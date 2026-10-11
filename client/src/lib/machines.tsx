@@ -28,7 +28,7 @@ interface MachineState {
 const Ctx = createContext<MachineState | null>(null);
 
 export function MachineProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, initialMachines } = useAuth();
   const userId = user?.id ?? null;
   const [machines, setMachines] = useState<Machine[]>([]);
   // Whose bench `machines` is: null for signed out, undefined before any load.
@@ -55,7 +55,17 @@ export function MachineProvider({ children }: { children: ReactNode }) {
     setLoadedFor(userId);
   }, [userId]);
 
+  // The first load for a user comes with /auth/me, so a reload of the page
+  // costs one round trip rather than two in a row. Later reloads (after adding
+  // a machine, say) go to /machines as before. Keyed on the user, not on
+  // initialMachines, so an account update that swaps the user object leaves
+  // the bench alone.
   useEffect(() => {
+    if (userId && initialMachines) {
+      setMachines(initialMachines);
+      setLoadedFor(userId);
+      return;
+    }
     void reload();
   }, [reload]);
 

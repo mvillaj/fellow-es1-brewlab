@@ -1,6 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
 import { clerkClient, getAuth } from '@clerk/express';
-import { BUILT_IN_GRINDERS, BUILT_IN_MACHINES, specToUserMachine } from '@brewlab/shared';
 import { db, id, nowIso } from './db';
 import { profileFromClerk } from './clerk-profile';
 
@@ -48,12 +47,11 @@ function findLocalUser(clerkSubject: string): UserRow | undefined {
 /**
  * There is no signup endpoint to hang the first-run setup off any more — Clerk
  * creates the account on its own hosted page and the first we hear of a user is
- * a request that already carries a valid session. So the bench gets built here,
- * on first sight, with the same defaults the old signup route used: an Opus 2
- * and an ES1, because a shelf with nothing on it is a dead end.
+ * a request that already carries a valid session. So the row gets created here,
+ * on first sight. The bench starts empty: getting started asks what the user
+ * owns and adds that, rather than assuming everyone has an ES1.
  */
 function insertUser(clerkSubject: string, email: string, displayName: string): UserRow {
-  const now = nowIso();
   const userId = id('usr');
   db.exec('BEGIN');
   try {
@@ -67,39 +65,7 @@ function insertUser(clerkSubject: string, email: string, displayName: string): U
 
     db.prepare(
       'INSERT INTO users (id, clerk_subject, email, display_name, created_at) VALUES (?, ?, ?, ?, ?)',
-    ).run(userId, clerkSubject, email, displayName, now);
-
-    const grinder = BUILT_IN_GRINDERS.find((g) => g.id === 'fellow-opus-2')!;
-    db.prepare(
-      `INSERT INTO grinders (id, user_id, built_in_id, name, burr_type, scale, calibration, is_default, notes, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
-    ).run(
-      id('grd'),
-      userId,
-      grinder.id,
-      `${grinder.brand} ${grinder.model}`,
-      grinder.burrType,
-      JSON.stringify(grinder.scale),
-      JSON.stringify(grinder.calibration),
-      grinder.notes ?? null,
-      now,
-    );
-
-    const spec = BUILT_IN_MACHINES.find((m) => m.id === 'fellow-es1')!;
-    const machine = specToUserMachine(spec);
-    db.prepare(
-      `INSERT INTO machines (id, user_id, built_in_id, name, capabilities, limits, is_default, notes, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)`,
-    ).run(
-      id('mch'),
-      userId,
-      spec.id,
-      machine.name,
-      JSON.stringify(machine.capabilities),
-      JSON.stringify(machine.limits),
-      spec.notes ?? null,
-      now,
-    );
+    ).run(userId, clerkSubject, email, displayName, nowIso());
 
     db.exec('COMMIT');
     return { id: userId, display_name: displayName };

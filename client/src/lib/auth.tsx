@@ -1,15 +1,24 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useAuth as useClerkAuth } from '@clerk/clerk-react';
-import type { PublicUser } from '@brewlab/shared';
+import type { Machine, Me, PublicUser } from '@brewlab/shared';
 import { api, setTokenGetter } from './api';
 
 interface AuthState {
   /** The local profile row, not the Clerk one — routes key off `users.id`. */
   user: PublicUser | null;
   ready: boolean;
+  /** Clerk has a session, whether or not `/auth/me` has answered yet. */
+  signedIn: boolean;
+  /**
+   * The bench as `/auth/me` returned it, so MachineProvider can start from it
+   * instead of asking again. Null until then, and after sign-out.
+   */
+  initialMachines: Machine[] | null;
   logout: () => void;
   /** Swap in the profile the server returned after an account change. */
   setUser: (user: PublicUser) => void;
+  /** Getting started is done or skipped; stop sending them there. */
+  markOnboarded: () => Promise<void>;
 }
 
 const Ctx = createContext<AuthState | null>(null);
@@ -22,6 +31,7 @@ const Ctx = createContext<AuthState | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { isLoaded, isSignedIn, getToken, signOut } = useClerkAuth();
   const [user, setUser] = useState<PublicUser | null>(null);
+  const [initialMachines, setInitialMachines] = useState<Machine[] | null>(null);
   const [ready, setReady] = useState(false);
 
   // Registered during render rather than in an effect on purpose: React runs
@@ -33,15 +43,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!isLoaded) return;
     if (!isSignedIn) {
       setUser(null);
+      setInitialMachines(null);
       setReady(true);
       return;
     }
 
     let cancelled = false;
     setReady(false);
-    api<PublicUser>('/auth/me')
-      .then((u) => {
-        if (!cancelled) setUser(u);
+    api<Me>('/auth/me')
+      .then(({ machines, ...u }) => {
+        if (cancelled) return;
+        setInitialMachines(machines);
+        setUser(u);
       })
       .catch(() => {
         if (!cancelled) setUser(null);
@@ -58,13 +71,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       user,
       ready,
+      signedIn: Boolean(isLoaded && isSignedIn),
+      initialMachines,
       logout: () => {
         setUser(null);
+        setInitialMachines(null);
         void signOut();
       },
       setUser,
+      markOnboarded: async () => {
+        setUser(await api<PublicUser>('/auth/me/onboarded', { method: 'POST' }));
+      },
     }),
-    [user, ready, signOut],
+    [user, ready, isLoaded, isSignedIn, initialMachines, signOut],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
