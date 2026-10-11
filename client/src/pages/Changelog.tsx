@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
-import { changeKinds, type ChangeKind, type ChangelogEntry, type ChangelogEntryInput } from '@brewlab/shared';
+import {
+  changeKinds,
+  type ChangeKind,
+  type ChangelogEntry,
+  type ChangelogEntryInput,
+} from '@brewlab/shared';
 import { api, useApi } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { Banner, Empty, Field, Modal } from '../components/ui';
@@ -11,7 +16,11 @@ const KIND_TAG: Record<ChangeKind, string> = { new: 'accent', improved: 'cool', 
 /** Filed under a calendar date, so format it as one — no timezone shift. */
 function longDate(ymd: string) {
   const [y, m, d] = ymd.split('-').map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
+  return new Date(y, m - 1, d).toLocaleDateString([], {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 }
 
 function today() {
@@ -103,7 +112,11 @@ export default function Changelog() {
       )}
 
       {editing ? (
-        <Modal title={editing === 'new' ? 'New entry' : 'Edit entry'} onClose={() => setEditing(null)} wide>
+        <Modal
+          title={editing === 'new' ? 'New entry' : 'Edit entry'}
+          onClose={() => setEditing(null)}
+          wide
+        >
           <EntryForm
             entry={editing === 'new' ? null : editing}
             onSaved={() => {
@@ -129,7 +142,10 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
   const [saving, setSaving] = useState(false);
 
   const setChange = (i: number, patch: Partial<ChangelogEntryInput['changes'][number]>) =>
-    setForm((f) => ({ ...f, changes: f.changes.map((c, j) => (j === i ? { ...c, ...patch } : c)) }));
+    setForm((f) => ({
+      ...f,
+      changes: f.changes.map((c, j) => (j === i ? { ...c, ...patch } : c)),
+    }));
 
   async function save() {
     setError(null);
@@ -153,7 +169,11 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
     <div className="stack">
       {error ? <Banner kind="bad">{error}</Banner> : null}
       <Field label="Title">
-        <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} autoFocus />
+        <input
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          autoFocus
+        />
       </Field>
       <div className="grid grid-2">
         <Field label="Date">
@@ -164,7 +184,10 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
           />
         </Field>
         <Field label="Version" hint="Optional, e.g. v0.4">
-          <input value={form.version ?? ''} onChange={(e) => setForm({ ...form, version: e.target.value })} />
+          <input
+            value={form.version ?? ''}
+            onChange={(e) => setForm({ ...form, version: e.target.value })}
+          />
         </Field>
       </div>
 
@@ -172,7 +195,10 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
         <div className="stack-sm">
           {form.changes.map((c, i) => (
             <div className="row changelog-change-input" key={i}>
-              <select value={c.kind} onChange={(e) => setChange(i, { kind: e.target.value as ChangeKind })}>
+              <select
+                value={c.kind}
+                onChange={(e) => setChange(i, { kind: e.target.value as ChangeKind })}
+              >
                 {changeKinds.map((k) => (
                   <option key={k} value={k}>
                     {KIND_LABEL[k]}
@@ -188,7 +214,9 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
                 type="button"
                 className="btn btn-ghost btn-sm"
                 aria-label="Remove change"
-                onClick={() => setForm((f) => ({ ...f, changes: f.changes.filter((_, j) => j !== i) }))}
+                onClick={() =>
+                  setForm((f) => ({ ...f, changes: f.changes.filter((_, j) => j !== i) }))
+                }
               >
                 <X aria-hidden="true" />
               </button>
@@ -198,7 +226,9 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
             <button
               type="button"
               className="btn btn-ghost btn-sm"
-              onClick={() => setForm((f) => ({ ...f, changes: [...f.changes, { kind: 'new', text: '' }] }))}
+              onClick={() =>
+                setForm((f) => ({ ...f, changes: [...f.changes, { kind: 'new', text: '' }] }))
+              }
             >
               Add change
             </button>
@@ -206,8 +236,15 @@ function EntryForm({ entry, onSaved }: { entry: ChangelogEntry | null; onSaved: 
         </div>
       </Field>
 
-      <Field label="Notes" hint="Dev notes, context, what's next. Leave a blank line between paragraphs.">
-        <textarea rows={8} value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} />
+      <Field
+        label="Notes"
+        hint="Dev notes, context, what's next. Leave a blank line between paragraphs."
+      >
+        <textarea
+          rows={8}
+          value={form.body}
+          onChange={(e) => setForm({ ...form, body: e.target.value })}
+        />
       </Field>
 
       <div className="row">

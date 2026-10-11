@@ -27,13 +27,19 @@ function run(gate: ReturnType<typeof fellowOptInGate>, userId?: string) {
 }
 
 test('an opted-in user goes through', () => {
-  const out = run(fellowOptInGate((id) => id === 'usr_in'), 'usr_in');
+  const out = run(
+    fellowOptInGate((id) => id === 'usr_in'),
+    'usr_in',
+  );
   assert.equal(out.passed, true);
   assert.equal(out.status, undefined);
 });
 
 test('a user who has not opted in is refused with 403', () => {
-  const out = run(fellowOptInGate(() => false), 'usr_out');
+  const out = run(
+    fellowOptInGate(() => false),
+    'usr_out',
+  );
   assert.equal(out.passed, false);
   assert.equal(out.status, 403);
   assert.deepEqual(out.body, { error: OPT_IN_REQUIRED });

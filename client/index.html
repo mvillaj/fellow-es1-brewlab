@@ -32,7 +32,15 @@
           }
           document.documentElement.dataset.theme = p;
           var f = localStorage.getItem('brewlab.finish');
-          var known = ['crema', 'sesame-walnut', 'cherry-walnut', 'marine-walnut', 'woodland-walnut', 'chocolate-maple', 'black'];
+          var known = [
+            'crema',
+            'sesame-walnut',
+            'cherry-walnut',
+            'marine-walnut',
+            'woodland-walnut',
+            'chocolate-maple',
+            'black',
+          ];
           document.documentElement.dataset.finish = known.indexOf(f) >= 0 ? f : 'crema';
         } catch (e) {
           document.documentElement.dataset.theme = 'light';

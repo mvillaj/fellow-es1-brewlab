@@ -14,7 +14,9 @@ const suggestion = (over: Partial<Suggestion>): Suggestion => ({
 describe('baristaLine', () => {
   it('pluralises grind steps', () => {
     expect(baristaLine(suggestion({ direction: 'finer', steps: 1 }))).toBe('Grind 1 step finer');
-    expect(baristaLine(suggestion({ direction: 'coarser', steps: 3 }))).toBe('Grind 3 steps coarser');
+    expect(baristaLine(suggestion({ direction: 'coarser', steps: 3 }))).toBe(
+      'Grind 3 steps coarser',
+    );
   });
 
   it('carries the ratio target over from the shared headline', () => {

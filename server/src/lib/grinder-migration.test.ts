@@ -13,7 +13,10 @@ import { runMigrations } from './migrate.ts';
  * a newly added grinder gets.
  */
 const here = dirname(fileURLToPath(import.meta.url));
-const MIGRATION = readFileSync(resolve(here, '../../migrations/006_grinder_recalibration.sql'), 'utf8');
+const MIGRATION = readFileSync(
+  resolve(here, '../../migrations/006_grinder_recalibration.sql'),
+  'utf8',
+);
 
 const OLD: Record<string, { scale: object; calibration: object; notes: string | null }> = {
   'fellow-opus-2': {
@@ -47,7 +50,9 @@ const OLD: Record<string, { scale: object; calibration: object; notes: string | 
 function bench() {
   const db = new DatabaseSync(':memory:');
   runMigrations(db);
-  db.prepare("INSERT INTO users (id, email, display_name, created_at) VALUES ('usr_1', 'e2e@example.com', 'E2E', '2026-10-11')").run();
+  db.prepare(
+    "INSERT INTO users (id, email, display_name, created_at) VALUES ('usr_1', 'e2e@example.com', 'E2E', '2026-10-11')",
+  ).run();
   return db;
 }
 
@@ -55,17 +60,27 @@ function addGrinder(db: DatabaseSync, gid: string, builtInId: string, row: (type
   db.prepare(
     `INSERT INTO grinders (id, user_id, built_in_id, name, scale, calibration, notes, created_at)
      VALUES (?, 'usr_1', ?, ?, ?, ?, ?, '2026-10-11')`,
-  ).run(gid, builtInId, builtInId, JSON.stringify(row.scale), JSON.stringify(row.calibration), row.notes);
+  ).run(
+    gid,
+    builtInId,
+    builtInId,
+    JSON.stringify(row.scale),
+    JSON.stringify(row.calibration),
+    row.notes,
+  );
 }
 
 function read(db: DatabaseSync, gid: string) {
-  const r = db.prepare('SELECT scale, calibration, notes FROM grinders WHERE id = ?').get(gid) as any;
+  const r = db
+    .prepare('SELECT scale, calibration, notes FROM grinders WHERE id = ?')
+    .get(gid) as any;
   return { scale: JSON.parse(r.scale), calibration: JSON.parse(r.calibration), notes: r.notes };
 }
 
 test('grinders on the old built-in values move to exactly the current spec', () => {
   const db = bench();
-  for (const [builtInId, row] of Object.entries(OLD)) addGrinder(db, `grd_${builtInId}`, builtInId, row);
+  for (const [builtInId, row] of Object.entries(OLD))
+    addGrinder(db, `grd_${builtInId}`, builtInId, row);
   db.exec(MIGRATION);
 
   for (const builtInId of Object.keys(OLD)) {
@@ -77,7 +92,7 @@ test('grinders on the old built-in values move to exactly the current spec', () 
   }
 });
 
-test('a recalibrated grinder and its owner\'s notes are left alone', () => {
+test("a recalibrated grinder and its owner's notes are left alone", () => {
   const db = bench();
   const mine = {
     ...OLD['fellow-opus-2'],
@@ -85,7 +100,10 @@ test('a recalibrated grinder and its owner\'s notes are left alone', () => {
     notes: 'Burrs swapped in September.',
   };
   addGrinder(db, 'grd_mine', 'fellow-opus-2', mine);
-  addGrinder(db, 'grd_noted', '1zpresso-j-ultra', { ...OLD['1zpresso-j-ultra'], notes: 'Travel grinder.' });
+  addGrinder(db, 'grd_noted', '1zpresso-j-ultra', {
+    ...OLD['1zpresso-j-ultra'],
+    notes: 'Travel grinder.',
+  });
   db.exec(MIGRATION);
 
   assert.deepEqual(read(db, 'grd_mine'), mine);
@@ -102,7 +120,9 @@ test('shots keep the setting and microns they were logged with', () => {
   ).run();
   db.exec(MIGRATION);
 
-  const shot = db.prepare('SELECT grind_setting, grind_microns FROM shots WHERE id = ?').get('sht_1') as any;
+  const shot = db
+    .prepare('SELECT grind_setting, grind_microns FROM shots WHERE id = ?')
+    .get('sht_1') as any;
   assert.equal(shot.grind_setting, 4);
   assert.equal(shot.grind_microns, 262);
 });

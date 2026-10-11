@@ -34,10 +34,20 @@ const STRIP_MAX = 8;
 /** What changed since the pull before: a signed figure in mono, its unit in prose. */
 function Delta({ shot, prev }: { shot: Shot; prev: Shot | undefined }) {
   if (!prev) return <>first</>;
-  const n = (d: number) => <span className="mono">{`${d > 0 ? '+' : '−'}${fmt(Math.abs(d))}`}</span>;
-  if (shot.grindSetting != null && prev.grindSetting != null && shot.grindSetting !== prev.grindSetting) {
+  const n = (d: number) => (
+    <span className="mono">{`${d > 0 ? '+' : '−'}${fmt(Math.abs(d))}`}</span>
+  );
+  if (
+    shot.grindSetting != null &&
+    prev.grindSetting != null &&
+    shot.grindSetting !== prev.grindSetting
+  ) {
     const d = shot.grindSetting - prev.grindSetting;
-    return <>{n(d)} step{Math.abs(d) === 1 ? '' : 's'}</>;
+    return (
+      <>
+        {n(d)} step{Math.abs(d) === 1 ? '' : 's'}
+      </>
+    );
   }
   if (shot.yieldG !== prev.yieldG) return <>{n(shot.yieldG - prev.yieldG)} g</>;
   if (shot.doseG !== prev.doseG) return <>{n(shot.doseG - prev.doseG)} g dose</>;
@@ -61,7 +71,10 @@ export default function Dashboard() {
   // getting started with { saved } after logging a first shot. Clear the state
   // once read, so a reload or Back doesn't reopen anything.
   useEffect(() => {
-    const state = location.state as { log?: boolean; saved?: { shot: Shot; suggestion: Suggestion } } | null;
+    const state = location.state as {
+      log?: boolean;
+      saved?: { shot: Shot; suggestion: Suggestion };
+    } | null;
     if (state?.log) setLogging(true);
     if (state?.saved) setJustSaved(state.saved);
     if (state?.log || state?.saved) navigate(location.pathname, { replace: true, state: null });
@@ -193,7 +206,8 @@ export default function Dashboard() {
                 <div>
                   <h2 className="coach-headline">Pull your first shot</h2>
                   <p className="coach-reason">
-                    Log it here and the coach tells you the one thing to change next: grind, ratio, or nothing at all.
+                    Log it here and the coach tells you the one thing to change next: grind, ratio,
+                    or nothing at all.
                   </p>
                   <p className="coach-reason">
                     New to espresso? <Link to="/getting-started">Start here</Link>.
@@ -211,9 +225,7 @@ export default function Dashboard() {
             <section className="card" aria-label="Dial-in progress">
               <div className="card-head">
                 <h2>{latest?.coffeeName ? `Dialing in ${latest.coffeeName}` : 'Dial-in'}</h2>
-                {latest?.coffeeId ? (
-                  <Link to={`/coffees/${latest.coffeeId}`}>Details</Link>
-                ) : null}
+                {latest?.coffeeId ? <Link to={`/coffees/${latest.coffeeId}`}>Details</Link> : null}
               </div>
               {loadingShots ? (
                 <p className="faint small">Loading…</p>
@@ -234,16 +246,29 @@ export default function Dashboard() {
                             width={44}
                             label={`${fmt(s.yieldG)} g, ${fmt(s.shotTimeS)} s, ${tasteLabel(s.tasteBalance).toLowerCase()}`}
                           />
-                          <span className={`dialin-time${onTarget ? ' on-target' : ''}`}>{fmt(s.shotTimeS)}s</span>
-                          <span className="dialin-delta"><Delta shot={s} prev={activeCoffeeShots[i - 1]} /></span>
+                          <span className={`dialin-time${onTarget ? ' on-target' : ''}`}>
+                            {fmt(s.shotTimeS)}s
+                          </span>
+                          <span className="dialin-delta">
+                            <Delta shot={s} prev={activeCoffeeShots[i - 1]} />
+                          </span>
                         </div>
                       );
                     })}
                   </div>
                   <div className="dialin-legend" aria-hidden="true">
-                    <span><i className="sour" />Sour</span>
-                    <span><i className="balanced" />Balanced</span>
-                    <span><i className="bitter" />Bitter</span>
+                    <span>
+                      <i className="sour" />
+                      Sour
+                    </span>
+                    <span>
+                      <i className="balanced" />
+                      Balanced
+                    </span>
+                    <span>
+                      <i className="bitter" />
+                      Bitter
+                    </span>
                     <span>Height is yield · green time is on target ({TARGET_S} ± 4 s)</span>
                   </div>
                 </>
@@ -259,11 +284,29 @@ export default function Dashboard() {
 
           {stats.data && stats.data.total > 0 ? (
             <p className="dash-summary">
-              <span><b>{stats.data.total}</b>shots logged</span>
-              <span><b>{stats.data.goodShots}</b>rated 4 stars or better</span>
-              {stats.data.avgTimeS != null ? <span><b>{fmt(stats.data.avgTimeS)}<small>s</small></b>average time</span> : null}
-              {stats.data.avgRatio ? <span><b>1:{fmt(stats.data.avgRatio)}</b>average ratio</span> : null}
-              <span><b>{stats.data.activeDaysLast30}</b>days brewing this month</span>
+              <span>
+                <b>{stats.data.total}</b>shots logged
+              </span>
+              <span>
+                <b>{stats.data.goodShots}</b>rated 4 stars or better
+              </span>
+              {stats.data.avgTimeS != null ? (
+                <span>
+                  <b>
+                    {fmt(stats.data.avgTimeS)}
+                    <small>s</small>
+                  </b>
+                  average time
+                </span>
+              ) : null}
+              {stats.data.avgRatio ? (
+                <span>
+                  <b>1:{fmt(stats.data.avgRatio)}</b>average ratio
+                </span>
+              ) : null}
+              <span>
+                <b>{stats.data.activeDaysLast30}</b>days brewing this month
+              </span>
             </p>
           ) : null}
 
@@ -295,18 +338,26 @@ export default function Dashboard() {
                       <td className="glass-cell">
                         <ShotGlass yieldG={s.yieldG} taste={s.tasteBalance} width={26} />
                       </td>
-                      <td data-label="When" className="dim">{relativeDate(s.brewedAt)}</td>
-                      <td data-label="Coffee">{s.coffeeName ?? <span className="faint">—</span>}</td>
+                      <td data-label="When" className="dim">
+                        {relativeDate(s.brewedAt)}
+                      </td>
+                      <td data-label="Coffee">
+                        {s.coffeeName ?? <span className="faint">—</span>}
+                      </td>
                       <td data-label="Grind" className="num dim">
                         <span>
                           {s.grindSetting ?? '—'}
-                          {s.grindMicrons ? <span className="faint"> · {s.grindMicrons}µm</span> : null}
+                          {s.grindMicrons ? (
+                            <span className="faint"> · {s.grindMicrons}µm</span>
+                          ) : null}
                         </span>
                       </td>
                       <td data-label="Dose → Yield" className="num">
                         {fmt(s.doseG)} → {fmt(s.yieldG)}
                       </td>
-                      <td data-label="Time" className="num">{fmt(s.shotTimeS)}s</td>
+                      <td data-label="Time" className="num">
+                        {fmt(s.shotTimeS)}s
+                      </td>
                       <td data-label="Rating">
                         <Stars value={s.rating} />
                       </td>

@@ -18,7 +18,8 @@ import { writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const BASE_URL = process.env.FELLOW_API_BASE ?? 'https://l8qtmnc692.execute-api.us-west-2.amazonaws.com/v1';
+const BASE_URL =
+  process.env.FELLOW_API_BASE ?? 'https://l8qtmnc692.execute-api.us-west-2.amazonaws.com/v1';
 const USER_AGENT = process.env.FELLOW_USER_AGENT ?? 'Fellow/5 CFNetwork/1568.300.101 Darwin/24.2.0';
 
 const email = process.argv[2] ?? process.env.FELLOW_EMAIL;
@@ -57,7 +58,9 @@ async function call(path, { method = 'GET' } = {}) {
 
 /** Describe a value the way a schema would: type, and the range we actually saw. */
 function describe(values) {
-  const types = new Set(values.map((v) => (v === null ? 'null' : Array.isArray(v) ? 'array' : typeof v)));
+  const types = new Set(
+    values.map((v) => (v === null ? 'null' : Array.isArray(v) ? 'array' : typeof v)),
+  );
   const nonNull = values.filter((v) => v !== null && v !== undefined);
   const type = [...types].join(' | ');
 
@@ -97,7 +100,8 @@ function classify(raw) {
     Number(/^1SSE/i.test(sku)) +
     Number(raw.deviceType === 'Solo') +
     Number(/espresso|series\s*1/i.test(name));
-  const brewer = Number(id.startsWith('FB_')) + Number(/^EBRWS/i.test(sku)) + Number(/aiden/i.test(name));
+  const brewer =
+    Number(id.startsWith('FB_')) + Number(/^EBRWS/i.test(sku)) + Number(/aiden/i.test(name));
   if (espresso >= 2) return 'espresso';
   if (brewer >= 2) return 'brewer';
   return 'unknown';
@@ -145,7 +149,11 @@ for (const raw of devices.body) {
   ]) {
     const res = await call(path);
     entry[label] = { status: res.status, body: res.body };
-    const count = Array.isArray(res.body) ? `${res.body.length} item(s)` : res.ok ? 'object' : 'failed';
+    const count = Array.isArray(res.body)
+      ? `${res.body.length} item(s)`
+      : res.ok
+        ? 'object'
+        : 'failed';
     console.log(dim(`      ${label.padEnd(10)} ${res.status}  ${count}`));
   }
 
@@ -186,14 +194,13 @@ async function routeMatrix(entry) {
   const rows = [];
   for (const [path, label] of candidates) {
     const res = await call(path);
-    const note =
-      res.ok
-        ? Array.isArray(res.body)
-          ? `${res.body.length} item(s)`
-          : 'object'
-        : typeof res.body?.message === 'string'
-          ? res.body.message
-          : String(res.body).slice(0, 60);
+    const note = res.ok
+      ? Array.isArray(res.body)
+        ? `${res.body.length} item(s)`
+        : 'object'
+      : typeof res.body?.message === 'string'
+        ? res.body.message
+        : String(res.body).slice(0, 60);
     const mark = res.ok ? amber('✓') : ' ';
     console.log(`  ${mark} ${String(res.status).padEnd(4)} ${label.padEnd(28)} ${dim(note)}`);
     rows.push({ path, label, status: res.status, body: res.body });
@@ -209,7 +216,9 @@ for (const entry of output.devices) {
 for (const entry of output.devices) {
   const profiles = Array.isArray(entry.profiles?.body) ? entry.profiles.body : [];
   if (!profiles.length) continue;
-  console.log(`\n${bold(`Inferred profile schema — ${entry.displayName}`)} ${dim(`(${entry.family})`)}`);
+  console.log(
+    `\n${bold(`Inferred profile schema — ${entry.displayName}`)} ${dim(`(${entry.family})`)}`,
+  );
   console.log(inferSchema(profiles).join('\n'));
   if (entry.family === 'espresso') {
     console.log(`\n${amber('↑ This is the schema to encode in packages/shared/src/es1.ts')}`);

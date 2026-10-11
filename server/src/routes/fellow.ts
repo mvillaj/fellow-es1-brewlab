@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { fellowConnectSchema, fellowOptInSchema, type FellowConnectionStatus } from '@brewlab/shared';
+import {
+  fellowConnectSchema,
+  fellowOptInSchema,
+  type FellowConnectionStatus,
+} from '@brewlab/shared';
 import { db, jsonCol, nowIso } from '../lib/db';
 import { requireAuth, type AuthedRequest } from '../lib/auth';
 import { decryptSecret, encryptSecret } from '../lib/crypto';
@@ -39,8 +43,7 @@ function loadConnection(userId: string) {
 
 function optedIn(userId: string): boolean {
   const row = db.prepare('SELECT fellow_opt_in_at FROM users WHERE id = ?').get(userId) as
-    | { fellow_opt_in_at: string | null }
-    | undefined;
+    { fellow_opt_in_at: string | null } | undefined;
   return Boolean(row?.fellow_opt_in_at);
 }
 
@@ -62,7 +65,13 @@ fellowRouter.get('/status', (req: AuthedRequest, res) => {
   }
   const conn = loadConnection(req.userId!);
   const status: FellowConnectionStatus = conn
-    ? { optedIn: true, connected: true, email: conn.row.email, devices: conn.devices, warning: WARNING }
+    ? {
+        optedIn: true,
+        connected: true,
+        email: conn.row.email,
+        devices: conn.devices,
+        warning: WARNING,
+      }
     : { optedIn: true, connected: false, devices: [], warning: WARNING };
   res.json(status);
 });
@@ -159,7 +168,10 @@ fellowRouter.get('/devices/:deviceId/profiles/parsed', async (req: AuthedRequest
     return;
   }
   try {
-    const raw = (await getFellowClient().listProfiles(conn.session, req.params.deviceId)) as Es1WireProfileRead[];
+    const raw = (await getFellowClient().listProfiles(
+      conn.session,
+      req.params.deviceId,
+    )) as Es1WireProfileRead[];
     res.json(
       raw
         .filter((w) => w && typeof w === 'object' && 'id' in w)
@@ -188,7 +200,10 @@ fellowRouter.post('/import/:deviceId/:remoteId', async (req: AuthedRequest, res)
   }
   let wire: Es1WireProfileRead | undefined;
   try {
-    const raw = (await getFellowClient().listProfiles(conn.session, req.params.deviceId)) as Es1WireProfileRead[];
+    const raw = (await getFellowClient().listProfiles(
+      conn.session,
+      req.params.deviceId,
+    )) as Es1WireProfileRead[];
     wire = raw.find((w) => w && String(w.id) === req.params.remoteId);
   } catch (err) {
     res.status(502).json({ error: (err as Error).message });
@@ -270,7 +285,13 @@ fellowRouter.post('/push/:profileId', async (req: AuthedRequest, res) => {
   // profile, leaving the original untouched.
   const updatable = row.origin === 'custom' && row.fellow_profile_id;
   const result = updatable
-    ? await client.updateProfile(conn.session, deviceId, row.fellow_profile_id, record.profile, preserved)
+    ? await client.updateProfile(
+        conn.session,
+        deviceId,
+        row.fellow_profile_id,
+        record.profile,
+        preserved,
+      )
     : await client.pushProfile(conn.session, deviceId, record.profile, preserved);
 
   if (result.ok) {
@@ -283,5 +304,7 @@ fellowRouter.post('/push/:profileId', async (req: AuthedRequest, res) => {
        WHERE id=?`,
     ).run(result.fellowProfileId ?? null, nowIso(), nextOrigin, deviceId, record.id);
   }
-  res.status(result.ok ? 200 : 502).json({ ...result, warnings: describePayloadLoss(record.profile) });
+  res
+    .status(result.ok ? 200 : 502)
+    .json({ ...result, warnings: describePayloadLoss(record.profile) });
 });

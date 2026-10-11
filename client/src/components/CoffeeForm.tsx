@@ -70,8 +70,10 @@ export default function CoffeeForm({
     }
   }
 
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm((f) => ({ ...f, [k]: e.target.value }));
+  const set =
+    (k: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      setForm((f) => ({ ...f, [k]: e.target.value }));
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -114,7 +116,7 @@ export default function CoffeeForm({
             label="Paste from the bag"
             hint={
               ai.enabled
-                ? 'Paste a link to the roaster\'s page, or the copy off the back of the bag. It fills the form in; you check it.'
+                ? "Paste a link to the roaster's page, or the copy off the back of the bag. It fills the form in; you check it."
                 : ai.reason
             }
           >
@@ -145,7 +147,9 @@ export default function CoffeeForm({
                     what the model knows.{' '}
                   </>
                 ) : null}
-                {read.notFound.length ? `Not stated: ${read.notFound.join(', ')}.` : 'Everything was on the page.'}
+                {read.notFound.length
+                  ? `Not stated: ${read.notFound.join(', ')}.`
+                  : 'Everything was on the page.'}
               </span>
             ) : null}
           </div>
@@ -157,7 +161,12 @@ export default function CoffeeForm({
           <input value={form.name} onChange={set('name')} required placeholder="Guji Uraga" />
         </Field>
         <Field label="Roaster">
-          <input value={form.roaster} onChange={set('roaster')} required placeholder="Onyx Coffee Lab" />
+          <input
+            value={form.roaster}
+            onChange={set('roaster')}
+            required
+            placeholder="Onyx Coffee Lab"
+          />
         </Field>
       </div>
 
@@ -204,7 +213,11 @@ export default function CoffeeForm({
 
       <div className="grid grid-2">
         <Field label="Roast date" hint="Used to show days off roast.">
-          <input type="date" value={form.roastDate ? form.roastDate.slice(0, 10) : ''} onChange={set('roastDate')} />
+          <input
+            type="date"
+            value={form.roastDate ? form.roastDate.slice(0, 10) : ''}
+            onChange={set('roastDate')}
+          />
         </Field>
         <Field label="Link">
           <input type="url" value={form.url} onChange={set('url')} placeholder="https://" />
@@ -212,11 +225,19 @@ export default function CoffeeForm({
       </div>
 
       <Field label="Tasting notes" hint="Comma separated.">
-        <input value={form.tastingNotes} onChange={set('tastingNotes')} placeholder="peach, jasmine, black tea" />
+        <input
+          value={form.tastingNotes}
+          onChange={set('tastingNotes')}
+          placeholder="peach, jasmine, black tea"
+        />
       </Field>
 
       <Field label="Notes">
-        <textarea value={form.notes} onChange={set('notes')} placeholder="How it behaves on the machine." />
+        <textarea
+          value={form.notes}
+          onChange={set('notes')}
+          placeholder="How it behaves on the machine."
+        />
       </Field>
 
       <label className="checkbox">

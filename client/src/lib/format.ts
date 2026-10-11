@@ -14,7 +14,8 @@ export const tempF = (c: number | null | undefined) => (c == null ? '—' : `${r
 export function relativeDate(iso: string): string {
   const then = new Date(iso);
   const days = Math.floor((Date.now() - then.getTime()) / 86400_000);
-  if (days === 0) return `Today, ${then.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+  if (days === 0)
+    return `Today, ${then.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
   if (days === 1) return 'Yesterday';
   if (days < 7) return `${days} days ago`;
   return then.toLocaleDateString([], { month: 'short', day: 'numeric' });
@@ -34,4 +35,11 @@ export const TASTE_LABELS: Record<number, string> = {
 };
 
 export const ROAST_LEVELS = ['light', 'medium-light', 'medium', 'medium-dark', 'dark'] as const;
-export const PROCESSES = ['washed', 'natural', 'honey', 'anaerobic', 'experimental', 'other'] as const;
+export const PROCESSES = [
+  'washed',
+  'natural',
+  'honey',
+  'anaerobic',
+  'experimental',
+  'other',
+] as const;

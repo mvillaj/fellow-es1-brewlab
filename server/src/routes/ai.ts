@@ -171,7 +171,7 @@ aiRouter.post('/extract-coffee', async (req: AuthedRequest, res) => {
         'putting the country in origin and the locality in region. List every field you ' +
         'filled this way in derived, so the user knows which came from the page and which ' +
         'came from you.\n\n' +
-        'Tasting notes should be the roaster\'s own short descriptors, lowercased, without ' +
+        "Tasting notes should be the roaster's own short descriptors, lowercased, without " +
         'commentary.',
       messages: [{ role: 'user', content: source }],
       output_config: { format: jsonSchemaOutputFormat(COFFEE_SCHEMA) },
@@ -261,7 +261,10 @@ aiRouter.post('/suggest-profile/:coffeeId', async (req: AuthedRequest, res) => {
         'softer wants cooler and shorter. In the rationale, say in two or three plain ' +
         'sentences what you chose and why, in terms a person dialling in would recognise.',
       messages: [
-        { role: 'user', content: `Design a starting profile for this coffee.\n\n${describeCoffee(coffee)}` },
+        {
+          role: 'user',
+          content: `Design a starting profile for this coffee.\n\n${describeCoffee(coffee)}`,
+        },
       ],
       output_config: { format: jsonSchemaOutputFormat(PROFILE_SCHEMA) },
     });

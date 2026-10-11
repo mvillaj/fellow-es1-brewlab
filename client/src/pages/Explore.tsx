@@ -42,8 +42,8 @@ export default function Explore() {
       <div className="page-head">
         <h1>Explore</h1>
         <p>
-          {canProfile ? 'Coffees and profiles' : 'Coffees'} other people have published. Clone anything onto
-          your own shelf.
+          {canProfile ? 'Coffees and profiles' : 'Coffees'} other people have published. Clone
+          anything onto your own shelf.
         </p>
       </div>
 
@@ -100,7 +100,9 @@ export default function Explore() {
             ))}
           </div>
         ) : (
-          <Empty title="Nothing published yet">Publish one of your own coffees to get this started.</Empty>
+          <Empty title="Nothing published yet">
+            Publish one of your own coffees to get this started.
+          </Empty>
         )
       ) : profiles.data?.length ? (
         <div className="grid grid-2">
@@ -127,11 +129,7 @@ export default function Explore() {
                 <span className="tag mono">{totalDurationS(p.profile)}s</span>
                 <span className="tag">{p.profile.stages.length} stages</span>
               </div>
-              {p.description ? (
-                <p className="small dim mb-0">
-                  {p.description}
-                </p>
-              ) : null}
+              {p.description ? <p className="small dim mb-0">{p.description}</p> : null}
             </div>
           ))}
         </div>

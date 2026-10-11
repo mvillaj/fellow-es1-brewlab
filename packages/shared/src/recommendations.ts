@@ -188,7 +188,10 @@ export function priceTier(r: Pick<Recommendation, 'kind' | 'priceUsd'>): PriceTi
 }
 
 /** A sorted copy. Ties keep their original order, so the list never shuffles. */
-export function sortByPrice<T extends { priceUsd: number }>(list: readonly T[], dir: 'asc' | 'desc'): T[] {
+export function sortByPrice<T extends { priceUsd: number }>(
+  list: readonly T[],
+  dir: 'asc' | 'desc',
+): T[] {
   const sign = dir === 'asc' ? 1 : -1;
   return list
     .map((item, i) => ({ item, i }))

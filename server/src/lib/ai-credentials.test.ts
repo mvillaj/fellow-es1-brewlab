@@ -56,10 +56,7 @@ test("an identity token in the environment is left to the SDK's own federation",
 
 test('federation needs all three IDs', () => {
   const { ANTHROPIC_SERVICE_ACCOUNT_ID: _, ...partial } = FEDERATION;
-  assert.equal(
-    credentialSource({ ...partial, ANTHROPIC_CONFIG_DIR: CONFIG_DIR }, onFly),
-    null,
-  );
+  assert.equal(credentialSource({ ...partial, ANTHROPIC_CONFIG_DIR: CONFIG_DIR }, onFly), null);
 });
 
 test('an `ant auth login` profile still counts', () => {

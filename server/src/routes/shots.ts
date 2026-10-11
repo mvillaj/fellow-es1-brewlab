@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { grindSettingError, settingToMicrons, shotInputSchema, suggestNextShot } from '@brewlab/shared';
+import {
+  grindSettingError,
+  settingToMicrons,
+  shotInputSchema,
+  suggestNextShot,
+} from '@brewlab/shared';
 import { bool, db, id, nowIso } from '../lib/db';
 import { requireAuth, type AuthedRequest } from '../lib/auth';
 import { toGrinder, toMachine, toShot } from '../lib/rows';
@@ -32,7 +37,9 @@ shotRouter.get('/', (req: AuthedRequest, res) => {
 });
 
 shotRouter.get('/:id', (req: AuthedRequest, res) => {
-  const row = db.prepare(`${SELECT} WHERE s.id = ? AND s.user_id = ?`).get(req.params.id, req.userId!) as any;
+  const row = db
+    .prepare(`${SELECT} WHERE s.id = ? AND s.user_id = ?`)
+    .get(req.params.id, req.userId!) as any;
   if (!row) {
     res.status(404).json({ error: 'Shot not found' });
     return;
@@ -52,9 +59,13 @@ shotRouter.post('/', (req: AuthedRequest, res) => {
   // assume the machine on the bench -- the same default the form shows.
   const machineRow = (
     s.machineId
-      ? db.prepare('SELECT * FROM machines WHERE id = ? AND user_id = ?').get(s.machineId, req.userId!)
+      ? db
+          .prepare('SELECT * FROM machines WHERE id = ? AND user_id = ?')
+          .get(s.machineId, req.userId!)
       : db
-          .prepare('SELECT * FROM machines WHERE user_id = ? ORDER BY is_default DESC, created_at ASC LIMIT 1')
+          .prepare(
+            'SELECT * FROM machines WHERE user_id = ? ORDER BY is_default DESC, created_at ASC LIMIT 1',
+          )
           .get(req.userId!)
   ) as any;
   const machine = machineRow ? toMachine(machineRow) : null;

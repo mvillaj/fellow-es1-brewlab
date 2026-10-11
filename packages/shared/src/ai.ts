@@ -95,7 +95,10 @@ export interface AiStatus {
  * caught by `es1ProfileSchema` and never reaches the editor -- is testable
  * without a model or an API key.
  */
-export function suggestionToProfile(s: ProfileSuggestion, stageId: (i: number) => string): Es1Profile {
+export function suggestionToProfile(
+  s: ProfileSuggestion,
+  stageId: (i: number) => string,
+): Es1Profile {
   return {
     id: 'suggested',
     name: s.name,

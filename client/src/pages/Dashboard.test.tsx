@@ -23,7 +23,14 @@ vi.mock('../lib/api', () => ({
 
 const loaded = {
   '/shots?limit=200': [],
-  '/shots/meta/stats': { total: 0, avgRating: null, avgTimeS: null, avgRatio: null, goodShots: 0, activeDaysLast30: 0 },
+  '/shots/meta/stats': {
+    total: 0,
+    avgRating: null,
+    avgTimeS: null,
+    avgRatio: null,
+    goodShots: 0,
+    activeDaysLast30: 0,
+  },
   '/coffees': [],
   '/grinders': [],
   '/profiles': [],

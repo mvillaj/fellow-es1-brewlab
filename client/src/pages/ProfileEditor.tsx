@@ -37,9 +37,11 @@ export default function ProfileEditor() {
   const navigate = useNavigate();
   // A suggested profile arrives in router state rather than the database, so it
   // is a real draft: close the tab and nothing was ever created.
-  const draft = (useLocation().state ?? null) as
-    | { draft: Es1Profile; rationale: string; coffeeName: string }
-    | null;
+  const draft = (useLocation().state ?? null) as {
+    draft: Es1Profile;
+    rationale: string;
+    coffeeName: string;
+  } | null;
   const isNew = !id;
 
   const record = useApi<BrewProfileRecord>(id ? `/profiles/${id}` : null, [id]);
@@ -48,7 +50,9 @@ export default function ProfileEditor() {
   const [profile, setProfile] = useState<Es1Profile>(draft?.draft ?? BLANK);
   const [isPublic, setIsPublic] = useState(false);
   const [description, setDescription] = useState(draft?.draft.description ?? '');
-  const [status, setStatus] = useState<{ kind: 'good' | 'bad' | 'info'; text: string } | null>(null);
+  const [status, setStatus] = useState<{ kind: 'good' | 'bad' | 'info'; text: string } | null>(
+    null,
+  );
   const [pushResult, setPushResult] = useState<{
     message: string;
     raw?: unknown;
@@ -99,7 +103,9 @@ export default function ProfileEditor() {
   function togglePreInfusion(on: boolean) {
     setShot({
       ...shot,
-      preInfusion: on ? { id: newId('pre'), durationS: 5, pressureBar: 3, flowLimitMlS: 4.5 } : null,
+      preInfusion: on
+        ? { id: newId('pre'), durationS: 5, pressureBar: 3, flowLimitMlS: 4.5 }
+        : null,
     });
   }
 
@@ -217,8 +223,8 @@ export default function ProfileEditor() {
           </Link>
           <h1>{isNew ? 'New profile' : profile.name}</h1>
           <p>
-            Optional pre-infusion, one or more flat infusion steps, an optional ramp down. A falling curve
-            is made of successive steps, not a slope — that is how the machine expresses it.
+            Optional pre-infusion, one or more flat infusion steps, an optional ramp down. A falling
+            curve is made of successive steps, not a slope — that is how the machine expresses it.
           </p>
         </div>
         <div className="row">
@@ -242,23 +248,25 @@ export default function ProfileEditor() {
       {draft ? (
         <Banner kind="info">
           <div className="mb-2">
-            <strong>Suggested for {draft.coffeeName}.</strong> {draft.rationale} Nothing is saved yet —
-            change whatever you disagree with, then hit Save.
+            <strong>Suggested for {draft.coffeeName}.</strong> {draft.rationale} Nothing is saved
+            yet — change whatever you disagree with, then hit Save.
           </div>
         </Banner>
       ) : null}
 
       {fellowOn && clonesOnPush ? (
         <Banner kind="info">
-          This came off your machine as one of Fellow's own profiles, so it is read-only up there. Editing it here
-          is fine — sending it back saves a separate copy in your custom folder and leaves the original alone.
+          This came off your machine as one of Fellow's own profiles, so it is read-only up there.
+          Editing it here is fine — sending it back saves a separate copy in your custom folder and
+          leaves the original alone.
         </Banner>
       ) : null}
 
       {fellowOn && !fellow.data?.connected ? (
         <div className="mb-4 mt-1">
           <Banner kind="info">
-            No Fellow account connected — <Link to="/fellow">connect one</Link> to send profiles to the machine.
+            No Fellow account connected — <Link to="/fellow">connect one</Link> to send profiles to
+            the machine.
           </Banner>
         </div>
       ) : null}
@@ -268,8 +276,11 @@ export default function ProfileEditor() {
         <div className="row-wrap small mt-3">
           {profile.stages.map((s, i) => (
             <span key={s.id} className="tag" style={{ borderColor: STAGE_COLOUR[s.kind] }}>
-              <span style={{ color: STAGE_COLOUR[s.kind] }}>●</span> {i + 1}. {s.label ?? s.kind} · {s.durationS}s ·{' '}
-              {s.pressureBar === s.endPressureBar ? `${s.pressureBar} bar` : `${s.pressureBar}→${s.endPressureBar} bar`}
+              <span style={{ color: STAGE_COLOUR[s.kind] }}>●</span> {i + 1}. {s.label ?? s.kind} ·{' '}
+              {s.durationS}s ·{' '}
+              {s.pressureBar === s.endPressureBar
+                ? `${s.pressureBar} bar`
+                : `${s.pressureBar}→${s.endPressureBar} bar`}
             </span>
           ))}
         </div>
@@ -282,10 +293,18 @@ export default function ProfileEditor() {
           </div>
           <div className="stack">
             <Field label="Name">
-              <input value={profile.name} onChange={(e) => patch({ name: e.target.value })} maxLength={50} />
+              <input
+                value={profile.name}
+                onChange={(e) => patch({ name: e.target.value })}
+                maxLength={50}
+              />
             </Field>
             <Field label="Description">
-              <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="When you reach for this one." />
+              <input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="When you reach for this one."
+              />
             </Field>
             <div className="grid grid-3">
               <Field label="Dose (g)">
@@ -320,7 +339,11 @@ export default function ProfileEditor() {
               </Field>
             </div>
             <label className="checkbox">
-              <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={isPublic}
+                onChange={(e) => setIsPublic(e.target.checked)}
+              />
               Publish to Explore so other people can clone it
             </label>
           </div>
@@ -360,7 +383,8 @@ export default function ProfileEditor() {
           {overLimit ? (
             <div className="mt-3">
               <Banner kind="bad">
-                {total}s is longer than the {ES1_LIMITS.totalDurationS.max}s the machine will accept.
+                {total}s is longer than the {ES1_LIMITS.totalDurationS.max}s the machine will
+                accept.
               </Banner>
             </div>
           ) : null}
@@ -484,7 +508,9 @@ export default function ProfileEditor() {
                       className="btn btn-ghost btn-sm"
                       onClick={() => removeInfusion(i)}
                       disabled={shot.infusions.length <= 1}
-                      title={shot.infusions.length <= 1 ? 'A shot needs at least one infusion' : 'Remove'}
+                      title={
+                        shot.infusions.length <= 1 ? 'A shot needs at least one infusion' : 'Remove'
+                      }
                       aria-label="Remove infusion step"
                     >
                       <X aria-hidden="true" />
@@ -542,7 +568,10 @@ export default function ProfileEditor() {
       </div>
 
       {pushResult ? (
-        <Modal title={pushResult.ok ? 'Sent' : 'Fellow said no'} onClose={() => setPushResult(null)}>
+        <Modal
+          title={pushResult.ok ? 'Sent' : 'Fellow said no'}
+          onClose={() => setPushResult(null)}
+        >
           <div className="stack">
             <Banner kind={pushResult.ok ? 'good' : 'bad'}>{pushResult.message}</Banner>
             {pushResult.warnings?.length ? (
@@ -557,7 +586,9 @@ export default function ProfileEditor() {
             ) : null}
             {pushResult.raw ? (
               <>
-                <div className="small dim">Raw response — this is how you learn the real schema.</div>
+                <div className="small dim">
+                  Raw response — this is how you learn the real schema.
+                </div>
                 <pre className="code-block mono small">
                   {JSON.stringify(pushResult.raw, null, 2)}
                 </pre>

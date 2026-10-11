@@ -14,6 +14,9 @@
     "dev:client": "pnpm --filter @brewlab/client dev",
     "build": "pnpm --filter @brewlab/client build",
     "typecheck": "tsc -p packages/shared && tsc -p server && tsc -p client",
+    "lint": "eslint . --max-warnings 48",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "pnpm test:shared && pnpm test:server && pnpm test:client",
     "seed": "pnpm --filter @brewlab/server seed",
     "probe": "node scripts/fellow-probe.mjs",
@@ -28,8 +31,15 @@
   "devDependencies": {
     "@clerk/backend": "^3.22.0",
     "@clerk/testing": "^2.2.42",
+    "@eslint/js": "^9.39.5",
     "@playwright/test": "^1.63.0",
     "concurrently": "^9.1.2",
-    "typescript": "^5.7.3"
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.71.1"
   }
 }

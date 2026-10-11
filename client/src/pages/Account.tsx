@@ -36,7 +36,8 @@ export default function Account() {
   const seen = useRef<number | undefined>(stamp);
   const checkedEmail = useRef(false);
   useEffect(() => {
-    const emailStale = !checkedEmail.current && clerkEmail !== undefined && clerkEmail !== user?.email;
+    const emailStale =
+      !checkedEmail.current && clerkEmail !== undefined && clerkEmail !== user?.email;
     checkedEmail.current = true;
     if (!emailStale && stamp === seen.current) return;
     seen.current = stamp;
@@ -52,7 +53,9 @@ export default function Account() {
 
   const manageSignIn = () => clerk.openUserProfile({ appearance });
 
-  const dirty = firstName.trim() !== (clerkUser?.firstName ?? '') || lastName.trim() !== (clerkUser?.lastName ?? '');
+  const dirty =
+    firstName.trim() !== (clerkUser?.firstName ?? '') ||
+    lastName.trim() !== (clerkUser?.lastName ?? '');
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -84,14 +87,17 @@ export default function Account() {
       <div className="page-head">
         <h1>My account</h1>
         <p>
-          Your Mousetail profile, sign-in and appearance. This is separate from any Fellow account you connect.
+          Your Mousetail profile, sign-in and appearance. This is separate from any Fellow account
+          you connect.
         </p>
       </div>
 
       <section className="card">
         <div className="card-head">
           <h2>Profile</h2>
-          {user ? <span className="small faint">Member since {memberSince(user.createdAt)}</span> : null}
+          {user ? (
+            <span className="small faint">Member since {memberSince(user.createdAt)}</span>
+          ) : null}
         </div>
         <form onSubmit={save} className="stack account-form">
           <div className="grid grid-2">
@@ -132,7 +138,11 @@ export default function Account() {
           {error ? <Banner kind="bad">{error}</Banner> : null}
           {saved ? <Banner kind="good">Saved.</Banner> : null}
           <div>
-            <button className="btn btn-primary" type="submit" disabled={busy || !dirty || !firstName.trim()}>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={busy || !dirty || !firstName.trim()}
+            >
               {busy ? 'Saving…' : 'Save changes'}
             </button>
           </div>
@@ -146,7 +156,8 @@ export default function Account() {
         <div className="account-rows">
           <div className="account-row">
             <p className="small dim">
-              Email addresses, password, connected Google or Apple accounts, and the devices you are signed in on.
+              Email addresses, password, connected Google or Apple accounts, and the devices you are
+              signed in on.
             </p>
             <button className="btn btn-sm" type="button" onClick={manageSignIn}>
               Manage sign-in

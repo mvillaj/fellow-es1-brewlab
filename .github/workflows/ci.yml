@@ -40,6 +40,10 @@ jobs:
 
       - run: pnpm typecheck
 
+      - run: pnpm lint
+
+      - run: pnpm format:check
+
       - run: pnpm test
 
       # The client build is the only step that needs the Clerk key, because Vite

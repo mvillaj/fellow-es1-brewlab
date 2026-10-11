@@ -2,7 +2,13 @@ import { Link } from 'react-router-dom';
 import type { Coffee } from '@brewlab/shared';
 import { daysOffRoast } from '../lib/format';
 
-export default function CoffeeCard({ coffee, action }: { coffee: Coffee; action?: React.ReactNode }) {
+export default function CoffeeCard({
+  coffee,
+  action,
+}: {
+  coffee: Coffee;
+  action?: React.ReactNode;
+}) {
   const off = daysOffRoast(coffee.roastDate);
   return (
     <div className="list-item">
@@ -25,15 +31,15 @@ export default function CoffeeCard({ coffee, action }: { coffee: Coffee; action?
         {coffee.process ? <span className="tag cool">{coffee.process}</span> : null}
         {coffee.varietal ? <span className="tag">{coffee.varietal}</span> : null}
         {off != null ? (
-          <span className={`tag ${off > 30 ? 'bad' : off < 5 ? '' : 'good'}`}>{off}d off roast</span>
+          <span className={`tag ${off > 30 ? 'bad' : off < 5 ? '' : 'good'}`}>
+            {off}d off roast
+          </span>
         ) : null}
         {coffee.isPublic ? <span className="tag accent">shared</span> : null}
       </div>
 
       {coffee.tastingNotes.length ? (
-        <div className="small dim mt-2">
-          {coffee.tastingNotes.join(' · ')}
-        </div>
+        <div className="small dim mt-2">{coffee.tastingNotes.join(' · ')}</div>
       ) : null}
 
       <div className="small faint mt-2">

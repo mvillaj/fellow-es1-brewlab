@@ -26,10 +26,19 @@ interface Props {
   onSaved: (shot: Shot, suggestion: Suggestion) => void;
 }
 
-export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId, basedOn, onSaved }: Props) {
+export default function ShotForm({
+  coffees,
+  grinders,
+  profiles,
+  defaultCoffeeId,
+  basedOn,
+  onSaved,
+}: Props) {
   const { machines, active, capabilities } = useMachines();
   const [machineId, setMachineId] = useState(basedOn?.machineId ?? active?.id ?? '');
-  const [coffeeId, setCoffeeId] = useState(defaultCoffeeId ?? basedOn?.coffeeId ?? coffees[0]?.id ?? '');
+  const [coffeeId, setCoffeeId] = useState(
+    defaultCoffeeId ?? basedOn?.coffeeId ?? coffees[0]?.id ?? '',
+  );
   const [grinderId, setGrinderId] = useState(
     basedOn?.grinderId ?? grinders.find((g) => g.isDefault)?.id ?? grinders[0]?.id ?? '',
   );
@@ -52,7 +61,10 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
   const tempRange = machine?.limits.tempC ?? { min: 0, max: 130 };
   const setting = Number(grindSetting);
   const microns = useMemo(
-    () => (grinder && grindSetting !== '' && Number.isFinite(setting) ? Math.round(settingToMicrons(grinder, setting)) : null),
+    () =>
+      grinder && grindSetting !== '' && Number.isFinite(setting)
+        ? Math.round(settingToMicrons(grinder, setting))
+        : null,
     [grinder, grindSetting, setting],
   );
   const grindProblem = grinder && grindSetting !== '' ? grindSettingError(grinder, setting) : null;
@@ -146,7 +158,9 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
           label={`Grind setting${grinder ? ` (${grinder.scale.unitLabel})` : ''}`}
           hint={
             grindProblem ??
-            (microns != null ? `≈ ${microns} µm · ${grindBucket(microns)}` : 'Pick a grinder to see the micron estimate')
+            (microns != null
+              ? `≈ ${microns} µm · ${grindBucket(microns)}`
+              : 'Pick a grinder to see the micron estimate')
           }
         >
           <input
@@ -162,30 +176,56 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
       </div>
 
       {capabilities.profiling !== 'none' ? (
-      <Field label="Brew profile" hint="Selecting one fills in dose, yield, temperature and time.">
-        <select value={profileId} onChange={(e) => applyProfile(e.target.value)}>
-          <option value="">— none —</option>
-          {profiles.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </select>
-      </Field>
+        <Field
+          label="Brew profile"
+          hint="Selecting one fills in dose, yield, temperature and time."
+        >
+          <select value={profileId} onChange={(e) => applyProfile(e.target.value)}>
+            <option value="">— none —</option>
+            {profiles.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+        </Field>
       ) : null}
 
       <div className="grid grid-4">
         <Field label="Dose (g)">
-          <input type="number" step="0.1" value={doseG} onChange={(e) => setDoseG(e.target.value)} required />
+          <input
+            type="number"
+            step="0.1"
+            value={doseG}
+            onChange={(e) => setDoseG(e.target.value)}
+            required
+          />
         </Field>
         <Field label="Yield (g)" hint={`Ratio ${ratioText}`}>
-          <input type="number" step="0.1" value={yieldGrams} onChange={(e) => setYieldGrams(e.target.value)} required />
+          <input
+            type="number"
+            step="0.1"
+            value={yieldGrams}
+            onChange={(e) => setYieldGrams(e.target.value)}
+            required
+          />
         </Field>
         <Field label="Shot time (s)">
-          <input type="number" step="0.5" value={shotTimeS} onChange={(e) => setShotTimeS(e.target.value)} required />
+          <input
+            type="number"
+            step="0.5"
+            value={shotTimeS}
+            onChange={(e) => setShotTimeS(e.target.value)}
+            required
+          />
         </Field>
         <Field label="Pre-infusion (s)">
-          <input type="number" step="1" value={preInfusionS} onChange={(e) => setPreInfusionS(e.target.value)} />
+          <input
+            type="number"
+            step="1"
+            value={preInfusionS}
+            onChange={(e) => setPreInfusionS(e.target.value)}
+          />
         </Field>
       </div>
 
@@ -214,7 +254,10 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
         </Field>
       </div>
 
-      <Field label={`Taste — ${TASTE_LABELS[tasteBalance]}`} hint="Sour on the left, bitter on the right. This drives the next suggestion.">
+      <Field
+        label={`Taste — ${TASTE_LABELS[tasteBalance]}`}
+        hint="Sour on the left, bitter on the right. This drives the next suggestion."
+      >
         <input
           type="range"
           min={-2}
@@ -226,11 +269,19 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
       </Field>
 
       <Field label="Flavour notes" hint="Comma separated.">
-        <input value={flavourNotes} onChange={(e) => setFlavourNotes(e.target.value)} placeholder="peach, jasmine, black tea" />
+        <input
+          value={flavourNotes}
+          onChange={(e) => setFlavourNotes(e.target.value)}
+          placeholder="peach, jasmine, black tea"
+        />
       </Field>
 
       <Field label="Notes">
-        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="What did you change, and what happened?" />
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="What did you change, and what happened?"
+        />
       </Field>
 
       {error ? <Banner kind="bad">{error}</Banner> : null}

@@ -16,7 +16,6 @@ db.exec('PRAGMA foreign_keys = ON');
 
 runMigrations(db);
 
-
 export function jsonCol<T>(raw: unknown, fallback: T): T {
   if (typeof raw !== 'string') return fallback;
   try {

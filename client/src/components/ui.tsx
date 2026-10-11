@@ -32,14 +32,19 @@ export function Field({
 
   if (control) {
     const controlId = control.props.id ?? `${uid}-control`;
-    const describedBy = [control.props['aria-describedby'], hintId].filter(Boolean).join(' ') || undefined;
+    const describedBy =
+      [control.props['aria-describedby'], hintId].filter(Boolean).join(' ') || undefined;
     return (
       <div className="field">
         <label id={labelId} htmlFor={controlId}>
           {label}
         </label>
         {cloneElement(control, { id: controlId, 'aria-describedby': describedBy })}
-        {hint ? <span className="hint" id={hintId}>{hint}</span> : null}
+        {hint ? (
+          <span className="hint" id={hintId}>
+            {hint}
+          </span>
+        ) : null}
       </div>
     );
   }
@@ -48,7 +53,11 @@ export function Field({
     <div className="field" role="group" aria-labelledby={labelId} aria-describedby={hintId}>
       <label id={labelId}>{label}</label>
       {children}
-      {hint ? <span className="hint" id={hintId}>{hint}</span> : null}
+      {hint ? (
+        <span className="hint" id={hintId}>
+          {hint}
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -98,7 +107,13 @@ export function Empty({ title, children }: { title: string; children?: ReactNode
   );
 }
 
-export function Banner({ kind = 'info', children }: { kind?: 'info' | 'good' | 'bad'; children: ReactNode }) {
+export function Banner({
+  kind = 'info',
+  children,
+}: {
+  kind?: 'info' | 'good' | 'bad';
+  children: ReactNode;
+}) {
   return <div className={`banner ${kind}`}>{children}</div>;
 }
 
@@ -121,7 +136,12 @@ export function Modal({
 
   return (
     <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className={`modal${wide ? ' wide' : ''}`} role="dialog" aria-modal="true" aria-label={title}>
+      <div
+        className={`modal${wide ? ' wide' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+      >
         <div className="spread mb-4">
           <h2>{title}</h2>
           <button className="btn btn-ghost btn-icon" onClick={onClose} aria-label="Close">
@@ -146,7 +166,12 @@ export function Segmented<T extends string>({
   return (
     <div className="segmented">
       {options.map((o) => (
-        <button key={o.value} type="button" className={o.value === value ? 'on' : ''} onClick={() => onChange(o.value)}>
+        <button
+          key={o.value}
+          type="button"
+          className={o.value === value ? 'on' : ''}
+          onClick={() => onChange(o.value)}
+        >
           {o.label}
         </button>
       ))}

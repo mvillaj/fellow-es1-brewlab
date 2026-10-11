@@ -18,7 +18,8 @@ const publicUser = (r: any): PublicUser => ({
   onboardedAt: r.onboarded_at ?? null,
 });
 
-const readUser = (userId: string) => publicUser(db.prepare('SELECT * FROM users WHERE id = ?').get(userId));
+const readUser = (userId: string) =>
+  publicUser(db.prepare('SELECT * FROM users WHERE id = ?').get(userId));
 
 /**
  * Clerk runs signup and sign-in on its own hosted pages, so there is nothing
@@ -49,7 +50,9 @@ authRouter.post('/me/onboarded', requireAuth, (req: AuthedRequest, res) => {
 authRouter.patch('/me', requireAuth, async (req: AuthedRequest, res, next) => {
   const parsed = accountUpdateSchema.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.issues[0]?.message ?? 'Check the fields and try again' });
+    res
+      .status(400)
+      .json({ error: parsed.error.issues[0]?.message ?? 'Check the fields and try again' });
     return;
   }
   const subject = getAuth(req).userId!;
@@ -78,7 +81,10 @@ authRouter.patch('/me', requireAuth, async (req: AuthedRequest, res, next) => {
 authRouter.post('/me/sync', requireAuth, async (req: AuthedRequest, res, next) => {
   try {
     const subject = getAuth(req).userId!;
-    mirrorClerkProfile(req.userId!, profileFromClerk(subject, await clerkClient.users.getUser(subject)));
+    mirrorClerkProfile(
+      req.userId!,
+      profileFromClerk(subject, await clerkClient.users.getUser(subject)),
+    );
     res.json(readUser(req.userId!));
   } catch (err) {
     next(err);

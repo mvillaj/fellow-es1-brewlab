@@ -36,8 +36,8 @@ export default function Grinders() {
         <div>
           <h1>Grinders</h1>
           <p>
-            Every grinder speaks its own dialect. Mousetail translates settings into approximate microns so a shot
-            ground on one is comparable to a shot ground on another.
+            Every grinder speaks its own dialect. Mousetail translates settings into approximate
+            microns so a shot ground on one is comparable to a shot ground on another.
           </p>
         </div>
         <button className="btn btn-primary" onClick={() => setAdding(true)}>
@@ -59,8 +59,8 @@ export default function Grinders() {
                     <div className="item-title">{g.name}</div>
                     <div className="small dim">
                       {g.burrType ?? 'unknown'} burrs
-                      {spec?.burrSizeMm ? ` · ${spec.burrSizeMm} mm` : ''} ·{' '}
-                      {g.scale.min}–{g.scale.max} {g.scale.unitLabel}
+                      {spec?.burrSizeMm ? ` · ${spec.burrSizeMm} mm` : ''} · {g.scale.min}–
+                      {g.scale.max} {g.scale.unitLabel}
                     </div>
                   </div>
                   {g.isDefault ? (
@@ -80,22 +80,21 @@ export default function Grinders() {
                   {g.calibration.interceptUm ? ` + ${g.calibration.interceptUm} µm offset` : ''}
                 </div>
                 <div className="row-wrap small mt-2">
-                  <span className={`tag ${g.calibration.source === 'measured' ? 'good' : g.calibration.source === 'estimated' ? 'bad' : ''}`}>
+                  <span
+                    className={`tag ${g.calibration.source === 'measured' ? 'good' : g.calibration.source === 'estimated' ? 'bad' : ''}`}
+                  >
                     {g.calibration.source}
                   </span>
                   {espresso ? (
                     <span className="tag mono">
-                      espresso {espresso[0]}–{espresso[1]} ({Math.round(settingToMicrons(g, espresso[0]))}–
+                      espresso {espresso[0]}–{espresso[1]} (
+                      {Math.round(settingToMicrons(g, espresso[0]))}–
                       {Math.round(settingToMicrons(g, espresso[1]))} µm)
                     </span>
                   ) : null}
                 </div>
 
-                {g.notes ? (
-                  <p className="small faint mt-2 mb-0">
-                    {g.notes}
-                  </p>
-                ) : null}
+                {g.notes ? <p className="small faint mt-2 mb-0">{g.notes}</p> : null}
 
                 <div className="row mt-3">
                   <button className="btn btn-sm" onClick={() => setCalibrating(g)}>
@@ -142,7 +141,10 @@ export default function Grinders() {
 /** The headline feature: "I know 4 on the Opus — what is that on the hand grinder?" */
 function Converter({ grinders }: { grinders: Grinder[] }) {
   const [fromId, setFromId] = useState(grinders.find((g) => g.isDefault)?.id ?? grinders[0].id);
-  const [toId, setToId] = useState(grinders.find((g) => g.id !== (grinders.find((x) => x.isDefault)?.id ?? grinders[0].id))?.id ?? grinders[1].id);
+  const [toId, setToId] = useState(
+    grinders.find((g) => g.id !== (grinders.find((x) => x.isDefault)?.id ?? grinders[0].id))?.id ??
+      grinders[1].id,
+  );
   const [setting, setSetting] = useState('4');
 
   const from = grinders.find((g) => g.id === fromId)!;
@@ -195,13 +197,15 @@ function Converter({ grinders }: { grinders: Grinder[] }) {
       {result ? (
         <>
           <div className="row-wrap mt-4 align-baseline">
-            <span className="mono readout">
-              {result.setting}
+            <span className="mono readout">{result.setting}</span>
+            <span className="dim">
+              {to.scale.unitLabel} on the {to.name}
             </span>
-            <span className="dim">{to.scale.unitLabel} on the {to.name}</span>
             <span className="tag accent mono">≈ {result.microns} µm</span>
             <span className="tag">{grindBucket(result.microns)}</span>
-            <span className={`tag ${result.confidence === 'measured' ? 'good' : result.confidence === 'estimated' ? 'bad' : ''}`}>
+            <span
+              className={`tag ${result.confidence === 'measured' ? 'good' : result.confidence === 'estimated' ? 'bad' : ''}`}
+            >
               {result.confidence}
             </span>
           </div>
@@ -218,8 +222,8 @@ function Converter({ grinders }: { grinders: Grinder[] }) {
           {result.outOfRange ? (
             <div className="mt-3">
               <Banner kind="bad">
-                That grind is off the end of the {to.name}'s dial — clamped to {result.setting}. The two grinders do
-                not overlap here.
+                That grind is off the end of the {to.name}'s dial — clamped to {result.setting}. The
+                two grinders do not overlap here.
               </Banner>
             </div>
           ) : null}
@@ -317,38 +321,63 @@ function AddGrinder({ onSaved }: { onSaved: () => void }) {
                 {spec.calibration.source}
               </span>
             </div>
-            {spec.notes ? (
-              <p className="small dim mb-0 mt-2">
-                {spec.notes}
-              </p>
-            ) : null}
+            {spec.notes ? <p className="small dim mb-0 mt-2">{spec.notes}</p> : null}
           </div>
         </>
       ) : (
         <>
           <Field label="Name">
-            <input value={custom.name} onChange={(e) => setCustom({ ...custom, name: e.target.value })} placeholder="Shop grinder" />
+            <input
+              value={custom.name}
+              onChange={(e) => setCustom({ ...custom, name: e.target.value })}
+              placeholder="Shop grinder"
+            />
           </Field>
           <div className="grid grid-4">
             <Field label="Unit label">
-              <input value={custom.unitLabel} onChange={(e) => setCustom({ ...custom, unitLabel: e.target.value })} />
+              <input
+                value={custom.unitLabel}
+                onChange={(e) => setCustom({ ...custom, unitLabel: e.target.value })}
+              />
             </Field>
             <Field label="Min">
-              <input type="number" value={custom.min} onChange={(e) => setCustom({ ...custom, min: e.target.value })} />
+              <input
+                type="number"
+                value={custom.min}
+                onChange={(e) => setCustom({ ...custom, min: e.target.value })}
+              />
             </Field>
             <Field label="Max">
-              <input type="number" value={custom.max} onChange={(e) => setCustom({ ...custom, max: e.target.value })} />
+              <input
+                type="number"
+                value={custom.max}
+                onChange={(e) => setCustom({ ...custom, max: e.target.value })}
+              />
             </Field>
             <Field label="Step">
-              <input type="number" step="0.1" value={custom.step} onChange={(e) => setCustom({ ...custom, step: e.target.value })} />
+              <input
+                type="number"
+                step="0.1"
+                value={custom.step}
+                onChange={(e) => setCustom({ ...custom, step: e.target.value })}
+              />
             </Field>
           </div>
           <div className="grid grid-2">
             <Field label="µm per step" hint="Rough is fine — calibrate later.">
-              <input type="number" step="0.1" value={custom.umPerUnit} onChange={(e) => setCustom({ ...custom, umPerUnit: e.target.value })} />
+              <input
+                type="number"
+                step="0.1"
+                value={custom.umPerUnit}
+                onChange={(e) => setCustom({ ...custom, umPerUnit: e.target.value })}
+              />
             </Field>
             <Field label="µm at setting zero">
-              <input type="number" value={custom.interceptUm} onChange={(e) => setCustom({ ...custom, interceptUm: e.target.value })} />
+              <input
+                type="number"
+                value={custom.interceptUm}
+                onChange={(e) => setCustom({ ...custom, interceptUm: e.target.value })}
+              />
             </Field>
           </div>
         </>
@@ -371,8 +400,14 @@ function AddGrinder({ onSaved }: { onSaved: () => void }) {
  * them beats our estimate every time.
  */
 function Calibrate({ grinder, onSaved }: { grinder: Grinder; onSaved: () => void }) {
-  const [a, setA] = useState({ setting: String(grinder.scale.min + grinder.scale.step * 2), microns: '250' });
-  const [b, setB] = useState({ setting: String(grinder.scale.min + grinder.scale.step * 10), microns: '450' });
+  const [a, setA] = useState({
+    setting: String(grinder.scale.min + grinder.scale.step * 2),
+    microns: '250',
+  });
+  const [b, setB] = useState({
+    setting: String(grinder.scale.min + grinder.scale.step * 10),
+    microns: '450',
+  });
   const [error, setError] = useState<string | null>(null);
 
   let preview: ReturnType<typeof calibrateFromTwoPoints> | null = null;
@@ -401,8 +436,9 @@ function Calibrate({ grinder, onSaved }: { grinder: Grinder; onSaved: () => void
   return (
     <div className="stack">
       <p className="small dim m-0">
-        Give two settings you have a feel for and the particle size each behaves like. Espresso lands around
-        200–400 µm; a good pour over is 600–800 µm. The line through your two points replaces our estimate.
+        Give two settings you have a feel for and the particle size each behaves like. Espresso
+        lands around 200–400 µm; a good pour over is 600–800 µm. The line through your two points
+        replaces our estimate.
       </p>
 
       {[
@@ -411,10 +447,20 @@ function Calibrate({ grinder, onSaved }: { grinder: Grinder; onSaved: () => void
       ].map(({ label, state, set }) => (
         <div key={label} className="grid grid-2">
           <Field label={`${label} — setting`}>
-            <input type="number" step={grinder.scale.step} value={state.setting} onChange={(e) => set({ ...state, setting: e.target.value })} />
+            <input
+              type="number"
+              step={grinder.scale.step}
+              value={state.setting}
+              onChange={(e) => set({ ...state, setting: e.target.value })}
+            />
           </Field>
           <Field label="behaves like (µm)">
-            <input type="number" step="10" value={state.microns} onChange={(e) => set({ ...state, microns: e.target.value })} />
+            <input
+              type="number"
+              step="10"
+              value={state.microns}
+              onChange={(e) => set({ ...state, microns: e.target.value })}
+            />
           </Field>
         </div>
       ))}

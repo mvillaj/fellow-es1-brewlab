@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import {
   activeMachine,
   capabilitiesOf,
@@ -67,6 +75,8 @@ export function MachineProvider({ children }: { children: ReactNode }) {
       return;
     }
     void reload();
+    // Deliberately keyed on the user alone, through reload (see above).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   const ready = loadedFor === userId;

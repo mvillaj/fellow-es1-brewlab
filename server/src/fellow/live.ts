@@ -198,7 +198,9 @@ export type PreservedWireFields = Pick<
   'adaptive' | 'decliningTemp' | 'transition' | 'roasterName'
 >;
 
-export function preservedFrom(wire: Es1WireProfileRead | null | undefined): PreservedWireFields | null {
+export function preservedFrom(
+  wire: Es1WireProfileRead | null | undefined,
+): PreservedWireFields | null {
   if (!wire) return null;
   return {
     adaptive: wire.adaptive,
@@ -208,7 +210,10 @@ export function preservedFrom(wire: Es1WireProfileRead | null | undefined): Pres
   };
 }
 
-export function toEs1Payload(profile: Es1Profile, preserved?: PreservedWireFields | null): Es1WireProfile {
+export function toEs1Payload(
+  profile: Es1Profile,
+  preserved?: PreservedWireFields | null,
+): Es1WireProfile {
   const preInfusion = profile.stages.find((s) => s.kind === 'preinfusion');
   const rampDown = profile.stages.find((s) => s.kind === 'rampdown');
   const infusion = profile.stages
@@ -316,7 +321,9 @@ export function fromEs1Wire(wire: Es1WireProfileRead): Es1Profile {
  */
 export function profileOrigin(wire: Es1WireProfileRead): 'factory' | 'drop' | 'custom' {
   if (wire.isDefaultProfile === true) return 'factory';
-  const folder = String(wire.folder ?? '').trim().toLowerCase();
+  const folder = String(wire.folder ?? '')
+    .trim()
+    .toLowerCase();
   if (folder === 'fellow') return 'factory';
   if (folder === 'drops') return 'drop';
   if (folder === CUSTOM_FOLDER) return 'custom';
@@ -396,7 +403,8 @@ export function classifyDevice(raw: Record<string, unknown>): {
     Number(/^1SSE/i.test(sku)) +
     Number(deviceType === 'Solo') +
     Number(/espresso|series\s*1/i.test(displayName));
-  const brewerSignals = Number(id.startsWith('FB_')) + Number(/^EBRWS/i.test(sku)) + Number(/aiden/i.test(displayName));
+  const brewerSignals =
+    Number(id.startsWith('FB_')) + Number(/^EBRWS/i.test(sku)) + Number(/aiden/i.test(displayName));
 
   if (espressoSignals >= 2) return { family: 'espresso', model: 'Espresso Series 1' };
   if (brewerSignals >= 2) return { family: 'brewer', model: 'Aiden' };
@@ -431,7 +439,10 @@ function normaliseDevice(raw: Record<string, unknown>): FellowDevice {
  * /devices/{id} at all -- the espresso line lives under /v2/solo. Now that the
  * path is right, a 404 means something genuinely changed, and this says so.
  */
-function explainFailure(err: Error & { status?: number; body?: unknown }, deviceId: string): string {
+function explainFailure(
+  err: Error & { status?: number; body?: unknown },
+  deviceId: string,
+): string {
   const body = err.body as { message?: unknown } | null | undefined;
   const deviceMissing =
     err.status === 404 && /device could not be found/i.test(String(body?.message ?? ''));

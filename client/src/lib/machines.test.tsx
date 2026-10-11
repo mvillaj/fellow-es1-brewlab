@@ -34,7 +34,10 @@ describe('MachineProvider', () => {
   // the signed-in render before the bench loaded, so the route was not mounted.
   it('is not ready for a newly signed-in user until their bench has loaded', async () => {
     let resolve: ((r: Response) => void) | undefined;
-    vi.stubGlobal('fetch', vi.fn(() => new Promise<Response>((r) => (resolve = r))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => new Promise<Response>((r) => (resolve = r))),
+    );
 
     const { rerender } = render(
       <MachineProvider>

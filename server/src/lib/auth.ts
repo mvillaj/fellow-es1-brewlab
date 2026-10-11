@@ -89,7 +89,10 @@ async function provision(clerkSubject: string): Promise<UserRow> {
  * moves if no other row holds it: it is UNIQUE here, and a seeded demo brewer
  * sharing an address should not make a rename fail.
  */
-export function mirrorClerkProfile(userId: string, profile: { email: string; displayName: string }) {
+export function mirrorClerkProfile(
+  userId: string,
+  profile: { email: string; displayName: string },
+) {
   db.prepare(
     `UPDATE users SET display_name = ?,
        email = CASE WHEN EXISTS (SELECT 1 FROM users WHERE email = ? AND id <> ?) THEN email ELSE ? END
@@ -122,8 +125,7 @@ function adminEmails(): Set<string> {
 
 export function isAdmin(userId: string): boolean {
   const row = db.prepare('SELECT email FROM users WHERE id = ?').get(userId) as
-    | { email: string }
-    | undefined;
+    { email: string } | undefined;
   return Boolean(row && adminEmails().has(row.email.toLowerCase()));
 }
 

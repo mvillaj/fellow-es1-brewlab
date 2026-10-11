@@ -19,12 +19,12 @@ const CREMA: Record<number, string> = {
 };
 
 export function cremaColour(taste: number | null | undefined) {
-  return taste == null ? 'var(--crema-unknown)' : CREMA[taste] ?? 'var(--crema-unknown)';
+  return taste == null ? 'var(--crema-unknown)' : (CREMA[taste] ?? 'var(--crema-unknown)');
 }
 
 /** "Balanced", "Leaning sour", or "Not tasted", for labels beside a glass. */
 export function tasteLabel(taste: number | null | undefined) {
-  return taste == null ? 'Not tasted' : TASTE_LABELS[taste] ?? 'Not tasted';
+  return taste == null ? 'Not tasted' : (TASTE_LABELS[taste] ?? 'Not tasted');
 }
 
 /**
@@ -81,11 +81,16 @@ export default function ShotGlass({
 
       <path className="handle" d="M43 18 C53 17 54.5 22 54.5 28.5 C54.5 36 50 40.5 41.4 40.5" />
       {/* The glass's own tint sits behind the coffee; only its outline goes on top. */}
-      <path className="glass-back" d="M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z" />
+      <path
+        className="glass-back"
+        d="M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z"
+      />
 
       <g clipPath={`url(#${clip})`}>
         <g className="liquid-group">
-          {liquidH > 0 ? <rect className="liquid" x="0" y={liquidTop} width="60" height={liquidH + 4} /> : null}
+          {liquidH > 0 ? (
+            <rect className="liquid" x="0" y={liquidTop} width="60" height={liquidH + 4} />
+          ) : null}
           {cremaH > 0 ? (
             <>
               <rect x="0" y={liquidTop} width="60" height={cremaH} fill={cremaColour(taste)} />
@@ -93,9 +98,27 @@ export default function ShotGlass({
               {balanced ? (
                 // Tiger-striping: the mottle a well-extracted shot shows on top.
                 <>
-                  <ellipse className="fleck" cx="18" cy={liquidTop + cremaH * 0.45} rx="4" ry={cremaH * 0.22} />
-                  <ellipse className="fleck" cx="30" cy={liquidTop + cremaH * 0.6} rx="5.5" ry={cremaH * 0.18} />
-                  <ellipse className="fleck" cx="39" cy={liquidTop + cremaH * 0.4} rx="3" ry={cremaH * 0.2} />
+                  <ellipse
+                    className="fleck"
+                    cx="18"
+                    cy={liquidTop + cremaH * 0.45}
+                    rx="4"
+                    ry={cremaH * 0.22}
+                  />
+                  <ellipse
+                    className="fleck"
+                    cx="30"
+                    cy={liquidTop + cremaH * 0.6}
+                    rx="5.5"
+                    ry={cremaH * 0.18}
+                  />
+                  <ellipse
+                    className="fleck"
+                    cx="39"
+                    cy={liquidTop + cremaH * 0.4}
+                    rx="3"
+                    ry={cremaH * 0.2}
+                  />
                 </>
               ) : null}
             </>
@@ -103,7 +126,10 @@ export default function ShotGlass({
         </g>
       </g>
 
-      <path className="glass-rim" d="M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z" />
+      <path
+        className="glass-rim"
+        d="M8 6.5 H44 L41.7 52.2 Q41.3 58.5 35 58.5 H17 Q10.7 58.5 10.3 52.2 Z"
+      />
       <path className="shine" d="M14 13 L15.4 46" />
       {over ? <path className="over" d="M22 2.5 L26 6.5 L30 2.5" /> : null}
     </svg>

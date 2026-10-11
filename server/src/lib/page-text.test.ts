@@ -67,10 +67,17 @@ test('the extract is bounded', () => {
 });
 
 test('a bare link is recognised, prose is not', () => {
-  assert.equal(asUrl('https://perccoffee.com/products/outpost-coffee'), 'https://perccoffee.com/products/outpost-coffee');
+  assert.equal(
+    asUrl('https://perccoffee.com/products/outpost-coffee'),
+    'https://perccoffee.com/products/outpost-coffee',
+  );
   assert.equal(asUrl('  https://x.test/a?b=1  '), 'https://x.test/a?b=1');
   assert.equal(asUrl('Ethiopia Guji, washed heirloom'), null);
-  assert.equal(asUrl('see https://x.test for details'), null, 'prose mentioning a link is still prose');
+  assert.equal(
+    asUrl('see https://x.test for details'),
+    null,
+    'prose mentioning a link is still prose',
+  );
   assert.equal(asUrl('file:///etc/passwd'), null);
   assert.equal(asUrl('perccoffee.com/products/outpost'), null, 'no scheme, treat as text');
 });

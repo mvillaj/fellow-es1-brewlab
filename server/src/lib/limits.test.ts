@@ -61,7 +61,10 @@ test('CF-Connecting-IP from a non-Cloudflare address is ignored', async () => {
 });
 
 test('Cloudflare IPv6 edges are recognised', async () => {
-  const key = await keyFor({ 'fly-client-ip': '2a06:98c1:3120::3', 'cf-connecting-ip': '203.0.113.7' });
+  const key = await keyFor({
+    'fly-client-ip': '2a06:98c1:3120::3',
+    'cf-connecting-ip': '203.0.113.7',
+  });
   assert.equal(key, '203.0.113.7');
 });
 
@@ -77,5 +80,8 @@ test('IPv6 clients are grouped by /56', async () => {
 });
 
 test('a signed-in user is keyed by account, not address', async () => {
-  assert.equal(await keyFor({ 'fly-client-ip': '203.0.113.7', 'x-test-user': 'usr_1' }), 'user:usr_1');
+  assert.equal(
+    await keyFor({ 'fly-client-ip': '203.0.113.7', 'x-test-user': 'usr_1' }),
+    'user:usr_1',
+  );
 });

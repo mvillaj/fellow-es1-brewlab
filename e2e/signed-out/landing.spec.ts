@@ -35,5 +35,7 @@ test('the hero pull links each stage to its section', async ({ page }) => {
   const stages = page.getByRole('navigation', { name: 'What Mousetail does' });
   await stages.getByRole('link', { name: /Infusion/ }).click();
   await expect(page).toHaveURL(/#coach$/);
-  await expect(page.getByRole('heading', { name: 'One change at a time.', exact: true })).toBeInViewport();
+  await expect(
+    page.getByRole('heading', { name: 'One change at a time.', exact: true }),
+  ).toBeInViewport();
 });

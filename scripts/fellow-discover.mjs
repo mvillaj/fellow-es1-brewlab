@@ -42,7 +42,8 @@ import { writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const HOST = process.env.FELLOW_API_HOST ?? 'https://l8qtmnc692.execute-api.us-west-2.amazonaws.com';
+const HOST =
+  process.env.FELLOW_API_HOST ?? 'https://l8qtmnc692.execute-api.us-west-2.amazonaws.com';
 const STAGE = process.env.FELLOW_API_STAGE ?? '/v1';
 const USER_AGENT = process.env.FELLOW_USER_AGENT ?? 'Fellow/5 CFNetwork/1568.300.101 Darwin/24.2.0';
 
@@ -88,7 +89,9 @@ async function probe(url) {
   // The last one is why /v3, /beta and /espresso/v1 came back looking mapped on
   // the first run. They are not stages; nothing is behind them.
   const gatewayReject =
-    res.status === 403 && typeof body?.message === 'string' && body.message.includes('Invalid key=value pair');
+    res.status === 403 &&
+    typeof body?.message === 'string' &&
+    body.message.includes('Invalid key=value pair');
   const missingAuth = res.status === 403 && body?.message === 'Missing Authentication Token';
   const noStage = res.status === 403 && body?.message === 'Forbidden';
   const mapped = !(gatewayReject || missingAuth || noStage);
@@ -96,14 +99,14 @@ async function probe(url) {
   const note = noStage
     ? 'no such stage'
     : !mapped
-    ? 'no such route'
-    : res.ok
-      ? Array.isArray(body)
-        ? `${body.length} item(s)`
-        : 'object'
-      : typeof body?.message === 'string'
-        ? body.message
-        : String(body).slice(0, 70);
+      ? 'no such route'
+      : res.ok
+        ? Array.isArray(body)
+          ? `${body.length} item(s)`
+          : 'object'
+        : typeof body?.message === 'string'
+          ? body.message
+          : String(body).slice(0, 70);
 
   return { url, status: res.status, mapped, note, body: mapped && res.ok ? body : undefined };
 }
@@ -111,7 +114,8 @@ async function probe(url) {
 function report(rows) {
   for (const r of rows) {
     const path = r.url.replace(HOST, '');
-    const flag = r.mapped === null ? '?' : r.mapped ? (r.status < 300 ? green('✓') : amber('•')) : dim('·');
+    const flag =
+      r.mapped === null ? '?' : r.mapped ? (r.status < 300 ? green('✓') : amber('•')) : dim('·');
     console.log(`  ${flag} ${String(r.status).padEnd(4)} ${path.padEnd(62)} ${dim(r.note)}`);
   }
 }
@@ -161,7 +165,9 @@ const idVariants = [
   [encodeURIComponent(es1.id), 'url-encoded'],
 ];
 
-console.log(`\n${bold('1. ES1 identifier variants')} ${dim('(against routes that work for the Aiden)')}`);
+console.log(
+  `\n${bold('1. ES1 identifier variants')} ${dim('(against routes that work for the Aiden)')}`,
+);
 const section1 = [];
 for (const [id, label] of idVariants) {
   for (const suffix of ['', '/profiles']) {
@@ -180,9 +186,27 @@ output.sections.identifierVariants = section1;
 
 console.log(`\n${bold('2. Device sub-resources')} ${dim('(probed on the Aiden, which resolves)')}`);
 const subResources = [
-  'profiles', 'schedules', 'settings', 'state', 'shadow', 'config', 'configuration',
-  'shots', 'brews', 'history', 'stats', 'telemetry', 'commands', 'actions',
-  'presets', 'recipes', 'espresso-profiles', 'shot-profiles', 'espresso', 'firmware', 'notifications',
+  'profiles',
+  'schedules',
+  'settings',
+  'state',
+  'shadow',
+  'config',
+  'configuration',
+  'shots',
+  'brews',
+  'history',
+  'stats',
+  'telemetry',
+  'commands',
+  'actions',
+  'presets',
+  'recipes',
+  'espresso-profiles',
+  'shot-profiles',
+  'espresso',
+  'firmware',
+  'notifications',
 ];
 const section2 = [];
 for (const sub of subResources) {
@@ -195,9 +219,27 @@ output.sections.subResources = section2;
 
 console.log(`\n${bold('3. Top-level collections')}`);
 const collections = [
-  'devices', 'device', 'users', 'users/me', 'me', 'account', 'accounts',
-  'profiles', 'espresso-profiles', 'shot-profiles', 'shared', 'drops', 'coffees',
-  'espresso', 'es1', 'machines', 'brewers', 'grinders', 'schedules', 'shots', 'firmware',
+  'devices',
+  'device',
+  'users',
+  'users/me',
+  'me',
+  'account',
+  'accounts',
+  'profiles',
+  'espresso-profiles',
+  'shot-profiles',
+  'shared',
+  'drops',
+  'coffees',
+  'espresso',
+  'es1',
+  'machines',
+  'brewers',
+  'grinders',
+  'schedules',
+  'shots',
+  'firmware',
 ];
 const section3 = [];
 for (const c of collections) {
@@ -213,7 +255,11 @@ output.sections.collections = section3;
 console.log(`\n${bold('4. Other API stages')} ${dim('(same gateway host)')}`);
 const section4 = [];
 for (const stage of ['/v2', '/v3', '/beta', '/espresso/v1']) {
-  for (const path of ['/devices?dataType=real', `/devices/${es1.id}`, `/devices/${es1.id}/profiles`]) {
+  for (const path of [
+    '/devices?dataType=real',
+    `/devices/${es1.id}`,
+    `/devices/${es1.id}/profiles`,
+  ]) {
     section4.push(await probe(`${HOST}${stage}${path}`));
   }
 }
@@ -250,6 +296,10 @@ output.sections.otherStagesFull = section5;
 const outPath = resolve(dirname(fileURLToPath(import.meta.url)), 'fellow-discover-output.json');
 writeFileSync(outPath, JSON.stringify(output, null, 2));
 
-const hits = [...section1, ...section2, ...section3, ...section4, ...section5].filter((r) => r.mapped && r.status < 300);
-console.log(`\n${bold('Reachable:')} ${hits.length ? hits.map((h) => h.url.replace(HOST, '')).join('\n           ') : dim('nothing new')}`);
+const hits = [...section1, ...section2, ...section3, ...section4, ...section5].filter(
+  (r) => r.mapped && r.status < 300,
+);
+console.log(
+  `\n${bold('Reachable:')} ${hits.length ? hits.map((h) => h.url.replace(HOST, '')).join('\n           ') : dim('nothing new')}`,
+);
 console.log(dim(`\nFull dump → ${outPath}\n`));

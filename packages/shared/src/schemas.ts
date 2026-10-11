@@ -121,10 +121,10 @@ export const es1ProfileSchema = z
     brewTempC: z.number().min(L.tempC.min).max(L.tempC.max),
     stages: z.array(es1StageSchema).min(L.stages.min).max(L.stages.max),
   })
-  .refine(
-    (p) => p.stages.reduce((s, x) => s + x.durationS, 0) <= L.totalDurationS.max,
-    { message: `Total shot time must be ${L.totalDurationS.max}s or less`, path: ['stages'] },
-  );
+  .refine((p) => p.stages.reduce((s, x) => s + x.durationS, 0) <= L.totalDurationS.max, {
+    message: `Total shot time must be ${L.totalDurationS.max}s or less`,
+    path: ['stages'],
+  });
 
 export const brewProfileInputSchema = z.object({
   name: z.string().min(1).max(50),

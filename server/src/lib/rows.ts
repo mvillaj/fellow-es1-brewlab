@@ -38,7 +38,13 @@ export const toGrinder = (r: Row): Grinder => ({
   builtInId: r.built_in_id ?? null,
   name: r.name,
   burrType: r.burr_type ?? null,
-  scale: jsonCol<GrinderScale>(r.scale, { kind: 'clicks', min: 0, max: 40, step: 1, unitLabel: 'clicks' }),
+  scale: jsonCol<GrinderScale>(r.scale, {
+    kind: 'clicks',
+    min: 0,
+    max: 40,
+    step: 1,
+    unitLabel: 'clicks',
+  }),
   calibration: jsonCol<GrinderCalibration>(r.calibration, {
     umPerUnit: 25,
     interceptUm: 150,

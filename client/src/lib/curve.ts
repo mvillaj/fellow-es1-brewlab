@@ -59,7 +59,9 @@ export function pressureEaser(profile: Pick<Es1Profile, 'stages'>): (t: number) 
     const after = idx < segs.length - 1 ? edges[idx] : 0;
     if (before && t < seg.from + before) {
       const prev = segs[idx - 1];
-      bar = lineAt(prev, t) + (bar - lineAt(prev, t)) * smoother((t - (seg.from - before)) / (2 * before));
+      bar =
+        lineAt(prev, t) +
+        (bar - lineAt(prev, t)) * smoother((t - (seg.from - before)) / (2 * before));
     } else if (after && t > seg.to - after) {
       const next = segs[idx + 1];
       bar = bar + (lineAt(next, t) - bar) * smoother((t - (seg.to - after)) / (2 * after));
@@ -86,7 +88,9 @@ export function smoothPressurePaths(
   y: (bar: number) => number,
 ) {
   const pts = smoothPressurePoints(profile);
-  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.t).toFixed(2)},${y(p.bar).toFixed(2)}`).join(' ');
+  const line = pts
+    .map((p, i) => `${i ? 'L' : 'M'}${x(p.t).toFixed(2)},${y(p.bar).toFixed(2)}`)
+    .join(' ');
   const last = pts[pts.length - 1];
   const area = `${line} L${x(last.t).toFixed(2)},${y(0).toFixed(2)} L${x(0).toFixed(2)},${y(0).toFixed(2)} Z`;
   return { line, area };

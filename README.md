@@ -1,11 +1,24 @@
 # Mousetail — ES1 Brew Lab
 
+[![CI](https://github.com/mvillaj/mousetail-web/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mvillaj/mousetail-web/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/mvillaj/mousetail-web/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/mvillaj/mousetail-web/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 An espresso logbook and profile studio for the **Fellow Espresso Series 1**.
+
+**Live:** [es1-brew-lab.fly.dev](https://es1-brew-lab.fly.dev)
+
+![Mousetail landing page: "Dial in espresso on your ES1, one change at a time," above a live pressure-profile chart](docs/images/landing.png)
 
 Track every shot with the setting that produced it, compare grind sizes across
 grinders that don't agree on what a number means, keep a shared library of
 coffees, and build multi-stage pressure profiles you can push to your Fellow
 account.
+
+**Stack:** TypeScript end to end · React + Vite · Express on Node 22 with the
+built-in `node:sqlite` · zod schemas shared by client and server · Clerk for
+auth · Claude for the model-backed features · Fly.io with Litestream backups ·
+node:test, Vitest and Playwright, with deploys gated on all three.
 
 React SPA + a small Node API + SQLite. Runs locally for development, or as a
 single container with the API serving the built client — see Deploying below.
@@ -46,6 +59,8 @@ pnpm test         # shared + server (node:test) and client (Vitest)
 pnpm --filter @brewlab/client test:watch   # client tests in watch mode
 pnpm test:e2e     # Playwright browser tests (see below)
 pnpm typecheck    # tsc across all three packages
+pnpm lint         # ESLint
+pnpm format       # Prettier (CI runs format:check)
 pnpm reset        # wipe the database and re-seed
 ```
 

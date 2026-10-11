@@ -1,4 +1,10 @@
-import { ES1_LIMITS, pressureCurve, totalDurationS, type Es1Profile, type Es1Stage } from '@brewlab/shared';
+import {
+  ES1_LIMITS,
+  pressureCurve,
+  totalDurationS,
+  type Es1Profile,
+  type Es1Stage,
+} from '@brewlab/shared';
 import type { Shot } from '@brewlab/shared';
 import { relativeDate } from '../lib/format';
 import { smoothPressurePaths } from '../lib/curve';
@@ -55,7 +61,11 @@ export function ProfileCurve({
     <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pressure profile">
       <defs>
         <linearGradient id="crema-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="var(--chart-pressure)" stopOpacity="var(--chart-area-opacity)" />
+          <stop
+            offset="0%"
+            stopColor="var(--chart-pressure)"
+            stopOpacity="var(--chart-area-opacity)"
+          />
           <stop offset="100%" stopColor="var(--chart-pressure)" stopOpacity="0.02" />
         </linearGradient>
       </defs>
@@ -83,16 +93,42 @@ export function ProfileCurve({
             fill={STAGE_COLOUR[b.stage.kind]}
           />
           {i > 0 ? (
-            <line className="grid-line" x1={x(b.from)} y1={pad.top} x2={x(b.from)} y2={H - pad.bottom} strokeDasharray="2 3" />
+            <line
+              className="grid-line"
+              x1={x(b.from)}
+              y1={pad.top}
+              x2={x(b.from)}
+              y2={H - pad.bottom}
+              strokeDasharray="2 3"
+            />
           ) : null}
         </g>
       ))}
 
       <path d={area} fill="url(#crema-fill)" />
-      <path d={flowLine} fill="none" stroke="var(--cool)" strokeWidth="1.4" strokeDasharray="4 3" opacity="0.75" />
-      <path d={line} fill="none" stroke="var(--chart-pressure)" strokeWidth="2.2" strokeLinejoin="round" />
+      <path
+        d={flowLine}
+        fill="none"
+        stroke="var(--cool)"
+        strokeWidth="1.4"
+        strokeDasharray="4 3"
+        opacity="0.75"
+      />
+      <path
+        d={line}
+        fill="none"
+        stroke="var(--chart-pressure)"
+        strokeWidth="2.2"
+        strokeLinejoin="round"
+      />
 
-      <line className="axis" x1={pad.left} y1={H - pad.bottom} x2={W - pad.right} y2={H - pad.bottom} />
+      <line
+        className="axis"
+        x1={pad.left}
+        y1={H - pad.bottom}
+        x2={W - pad.right}
+        y2={H - pad.bottom}
+      />
       {[0, 0.25, 0.5, 0.75, 1].map((f) => (
         <text key={f} x={x(total * f)} y={H - pad.bottom + 14} textAnchor="middle">
           {Math.round(total * f)}s
@@ -124,12 +160,21 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
   const lo = Math.min(...times, targetS - 8) - 2;
   const hi = Math.max(...times, targetS + 8) + 2;
 
-  const x = (i: number) => pad.left + (i / Math.max(1, ordered.length - 1)) * (W - pad.left - pad.right);
+  const x = (i: number) =>
+    pad.left + (i / Math.max(1, ordered.length - 1)) * (W - pad.left - pad.right);
   const y = (t: number) => H - pad.bottom - ((t - lo) / (hi - lo)) * (H - pad.top - pad.bottom);
 
-  const path = ordered.map((s, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(s.shotTimeS).toFixed(1)}`).join(' ');
+  const path = ordered
+    .map((s, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(s.shotTimeS).toFixed(1)}`)
+    .join(' ');
   const colour = (s: Shot) =>
-    s.rating == null ? 'var(--text-faint)' : s.rating >= 4 ? 'var(--good)' : s.rating >= 3 ? 'var(--warn)' : 'var(--bad)';
+    s.rating == null
+      ? 'var(--text-faint)'
+      : s.rating >= 4
+        ? 'var(--good)'
+        : s.rating >= 3
+          ? 'var(--warn)'
+          : 'var(--bad)';
 
   return (
     <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Shot time history">
@@ -141,7 +186,14 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
         height={Math.max(0, y(targetS - 4) - y(targetS + 4))}
         fill="var(--good)"
       />
-      <line className="grid-line" x1={pad.left} y1={y(targetS)} x2={W - pad.right} y2={y(targetS)} strokeDasharray="3 4" />
+      <line
+        className="grid-line"
+        x1={pad.left}
+        y1={y(targetS)}
+        x2={W - pad.right}
+        y2={y(targetS)}
+        strokeDasharray="3 4"
+      />
       <text x={W - pad.right} y={y(targetS) - 5} textAnchor="end" fill="var(--good)">
         {targetS}s target
       </text>
@@ -149,7 +201,14 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
       <path d={path} fill="none" stroke="var(--text-dim)" strokeWidth="1.5" opacity="0.55" />
       {ordered.map((s, i) => (
         <g key={s.id}>
-          <circle cx={x(i)} cy={y(s.shotTimeS)} r="5" fill={colour(s)} stroke="var(--surface)" strokeWidth="1.5">
+          <circle
+            cx={x(i)}
+            cy={y(s.shotTimeS)}
+            r="5"
+            fill={colour(s)}
+            stroke="var(--surface)"
+            strokeWidth="1.5"
+          >
             <title>{`${relativeDate(s.brewedAt)} · ${s.shotTimeS}s · ${s.rating ?? '–'}★${
               s.grindSetting != null ? ` · grind ${s.grindSetting}` : ''
             }`}</title>
@@ -157,7 +216,13 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
         </g>
       ))}
 
-      <line className="axis" x1={pad.left} y1={H - pad.bottom} x2={W - pad.right} y2={H - pad.bottom} />
+      <line
+        className="axis"
+        x1={pad.left}
+        y1={H - pad.bottom}
+        x2={W - pad.right}
+        y2={H - pad.bottom}
+      />
       {[lo, (lo + hi) / 2, hi].map((t) => (
         <text key={t} x={pad.left - 7} y={y(t) + 3} textAnchor="end">
           {Math.round(t)}s
@@ -174,7 +239,17 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
 }
 
 /** A tiny inline bar for a value inside a known range. */
-export function Meter({ value, min, max, colour = 'var(--action)' }: { value: number; min: number; max: number; colour?: string }) {
+export function Meter({
+  value,
+  min,
+  max,
+  colour = 'var(--action)',
+}: {
+  value: number;
+  min: number;
+  max: number;
+  colour?: string;
+}) {
   const pct = Math.max(0, Math.min(1, (value - min) / (max - min))) * 100;
   return (
     <div className="meter">
