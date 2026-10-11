@@ -47,7 +47,6 @@ export default defineConfig({
       env: {
         PORT: String(API_PORT),
         BREWLAB_DB: E2E_DB,
-        FELLOW_MODE: 'mock',
         // Never spend real model calls from a test run: no key, and a config dir
         // with no `ant auth login` credentials in it, so the AI features render
         // in their disabled state.

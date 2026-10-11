@@ -9,7 +9,6 @@ primary_region = 'iad'
 [build]
 [env]
   BREWLAB_DB = '/data/brewlab.db'
-  FELLOW_MODE = 'mock'
   PORT = '4000'
 
 [[mounts]]

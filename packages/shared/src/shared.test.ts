@@ -27,7 +27,7 @@ import {
 import { coffeeExtractionSchema, suggestionToProfile } from './ai.ts';
 import { buildStages, splitStages } from './es1.ts';
 import { roundF } from './temp.ts';
-import { es1ProfileSchema, es1StageSchema } from './schemas.ts';
+import { accountUpdateSchema, es1ProfileSchema, es1StageSchema, fellowOptInSchema } from './schemas.ts';
 import { flowRate, ratioOf, suggestNextShot } from './dialin.ts';
 
 const g = (id: string) => specToUserGrinder(GRINDERS_BY_ID[id]);
@@ -71,7 +71,11 @@ test('converting a setting there and back is stable within one step', () => {
 });
 
 test('conversion confidence is the weaker of the two calibrations', () => {
-  const measured = g('1zpresso-j-ultra'); // measured
+  const measured = {
+    name: 'calibrated',
+    scale: g('niche-zero').scale,
+    calibration: calibrateFromTwoPoints({ setting: 10, microns: 230 }, { setting: 25, microns: 455 }),
+  };
   const estimated = g('fellow-opus-2'); // estimated
   assert.equal(convertSetting(measured, 30, estimated).confidence, 'estimated');
   assert.equal(convertSetting(estimated, 4, measured).confidence, 'estimated');
@@ -79,10 +83,10 @@ test('conversion confidence is the weaker of the two calibrations', () => {
 
 test('a setting off the end of the target dial is flagged, not silently clamped away', () => {
   const ode = g('fellow-ode-2'); // coarse, brew-focused
-  const jUltra = g('1zpresso-j-ultra');
-  const result = convertSetting(ode, 11, jUltra); // very coarse -> way past the espresso dial
+  const jMax = g('1zpresso-j-max');
+  const result = convertSetting(ode, 11, jMax); // very coarse -> past the end of the J-Max dial
   assert.equal(result.outOfRange, true);
-  assert.equal(result.setting, jUltra.scale.max);
+  assert.equal(result.setting, jMax.scale.max);
 });
 
 test('snapping respects step size without floating-point dust', () => {
@@ -383,3 +387,21 @@ test('pre-infusion may run longer than an infusion step', () => {
 });
 
 const GOOD_PROFILE = { id: 'p', name: 'x', doseG: 18, ratio: 2, brewTempC: 93, stages: [] };
+
+test('the Fellow opt-in takes an explicit yes and nothing looser', () => {
+  assert.equal(fellowOptInSchema.safeParse({ accept: true }).success, true);
+  for (const body of [{}, { accept: false }, { accept: 'true' }, { accept: 1 }, null]) {
+    assert.equal(fellowOptInSchema.safeParse(body).success, false, JSON.stringify(body));
+  }
+});
+
+test('account update trims names and needs a first name', () => {
+  assert.deepEqual(accountUpdateSchema.parse({ firstName: '  Ada ', lastName: ' Lovelace ' }), {
+    firstName: 'Ada',
+    lastName: 'Lovelace',
+  });
+  assert.deepEqual(accountUpdateSchema.parse({ firstName: 'Ada', lastName: '' }), { firstName: 'Ada', lastName: '' });
+  assert.equal(accountUpdateSchema.safeParse({ firstName: '   ', lastName: 'Lovelace' }).success, false);
+  assert.equal(accountUpdateSchema.safeParse({ firstName: 'Ada' }).success, false);
+  assert.equal(accountUpdateSchema.safeParse({ firstName: 'A'.repeat(257), lastName: '' }).success, false);
+});

@@ -61,6 +61,8 @@ export default function ProfileEditor() {
   // new profile rather than over the original, so say so on the button.
   const origin = record.data?.origin ?? 'local';
   const clonesOnPush = origin === 'factory' || origin === 'drop';
+  // Sending is opt-in per user. Until then the editor says nothing about Fellow.
+  const fellowOn = fellow.data?.optedIn === true;
 
   useEffect(() => {
     if (record.data) {
@@ -210,19 +212,21 @@ export default function ProfileEditor() {
     <>
       <div className="page-head spread">
         <div>
-          <Link className="small dim" to="/profiles">
+          <Link className="back small dim" to="/profiles">
             ← profiles
           </Link>
-          <h1 style={{ marginTop: 6 }}>{isNew ? 'New profile' : profile.name}</h1>
+          <h1>{isNew ? 'New profile' : profile.name}</h1>
           <p>
             Optional pre-infusion, one or more flat infusion steps, an optional ramp down. A falling curve
             is made of successive steps, not a slope — that is how the machine expresses it.
           </p>
         </div>
         <div className="row">
-          <button className="btn" onClick={pushToFellow} disabled={busy || isNew}>
-            {clonesOnPush ? 'Save to Fellow as a copy' : 'Send to Fellow'}
-          </button>
+          {fellowOn ? (
+            <button className="btn" onClick={pushToFellow} disabled={busy || isNew}>
+              {clonesOnPush ? 'Save to Fellow as a copy' : 'Send to Fellow'}
+            </button>
+          ) : null}
           <button className="btn btn-primary" onClick={save} disabled={busy || overLimit}>
             {busy ? 'Working…' : 'Save'}
           </button>
@@ -230,38 +234,38 @@ export default function ProfileEditor() {
       </div>
 
       {status ? (
-        <div style={{ marginBottom: 16 }}>
+        <div className="mb-4">
           <Banner kind={status.kind}>{status.text}</Banner>
         </div>
       ) : null}
 
       {draft ? (
         <Banner kind="info">
-          <div style={{ marginBottom: 5 }}>
+          <div className="mb-2">
             <strong>Suggested for {draft.coffeeName}.</strong> {draft.rationale} Nothing is saved yet —
             change whatever you disagree with, then hit Save.
           </div>
         </Banner>
       ) : null}
 
-      {clonesOnPush ? (
+      {fellowOn && clonesOnPush ? (
         <Banner kind="info">
           This came off your machine as one of Fellow's own profiles, so it is read-only up there. Editing it here
           is fine — sending it back saves a separate copy in your custom folder and leaves the original alone.
         </Banner>
       ) : null}
 
-      {fellow.data && !fellow.data.connected ? (
-        <div style={{ marginBottom: 16, marginTop: 5 }}>
+      {fellowOn && !fellow.data?.connected ? (
+        <div className="mb-4 mt-1">
           <Banner kind="info">
             No Fellow account connected — <Link to="/fellow">connect one</Link> to send profiles to the machine.
           </Banner>
         </div>
       ) : null}
 
-      <div className="card" style={{ marginBottom: 16 }}>
+      <div className="card mb-4">
         <ProfileCurve profile={profile} height={230} />
-        <div className="row-wrap small" style={{ marginTop: 12 }}>
+        <div className="row-wrap small mt-3">
           {profile.stages.map((s, i) => (
             <span key={s.id} className="tag" style={{ borderColor: STAGE_COLOUR[s.kind] }}>
               <span style={{ color: STAGE_COLOUR[s.kind] }}>●</span> {i + 1}. {s.label ?? s.kind} · {s.durationS}s ·{' '}
@@ -271,7 +275,7 @@ export default function ProfileEditor() {
         </div>
       </div>
 
-      <div className="grid grid-2" style={{ marginBottom: 16 }}>
+      <div className="grid grid-2 mb-4">
         <div className="card">
           <div className="card-head">
             <h2>Recipe</h2>
@@ -354,7 +358,7 @@ export default function ProfileEditor() {
             </div>
           </div>
           {overLimit ? (
-            <div style={{ marginTop: 14 }}>
+            <div className="mt-3">
               <Banner kind="bad">
                 {total}s is longer than the {ES1_LIMITS.totalDurationS.max}s the machine will accept.
               </Banner>
@@ -532,7 +536,7 @@ export default function ProfileEditor() {
           </div>
         </div>
 
-        <p className="small faint" style={{ marginTop: 14, marginBottom: 0 }}>
+        <p className="small faint mt-3 mb-0">
           {RANGE_NOTES.pressureBar} {RANGE_NOTES.preInfusion}
         </p>
       </div>
@@ -544,7 +548,7 @@ export default function ProfileEditor() {
             {pushResult.warnings?.length ? (
               <Banner kind="info">
                 <strong>What the machine will not have received:</strong>
-                <ul style={{ margin: '6px 0 0', paddingLeft: 18 }}>
+                <ul className="banner-list">
                   {pushResult.warnings.map((w) => (
                     <li key={w}>{w}</li>
                   ))}
@@ -554,17 +558,7 @@ export default function ProfileEditor() {
             {pushResult.raw ? (
               <>
                 <div className="small dim">Raw response — this is how you learn the real schema.</div>
-                <pre
-                  className="mono small"
-                  style={{
-                    background: 'var(--bg-raised)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 8,
-                    padding: 12,
-                    overflowX: 'auto',
-                    margin: 0,
-                  }}
-                >
+                <pre className="code-block mono small">
                   {JSON.stringify(pushResult.raw, null, 2)}
                 </pre>
               </>

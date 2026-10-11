@@ -47,7 +47,7 @@ export default function Explore() {
         </p>
       </div>
 
-      <div className="row-wrap" style={{ marginBottom: 16 }}>
+      <div className="row-wrap mb-4">
         {canProfile ? (
           <Segmented
             value={tab}
@@ -61,12 +61,12 @@ export default function Explore() {
         {activeTab === 'coffees' ? (
           <>
             <input
+              className="max-w-md"
               placeholder="Search roaster, origin, varietal…"
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              style={{ maxWidth: 320 }}
             />
-            <select value={roast} onChange={(e) => setRoast(e.target.value)} style={{ maxWidth: 180 }}>
+            <select className="max-w-sm" value={roast} onChange={(e) => setRoast(e.target.value)}>
               <option value="">Any roast level</option>
               {ROAST_LEVELS.map((r) => (
                 <option key={r} value={r}>
@@ -79,7 +79,7 @@ export default function Explore() {
       </div>
 
       {flash ? (
-        <div style={{ marginBottom: 16 }}>
+        <div className="mb-4">
           <Banner kind="good">{flash}</Banner>
         </div>
       ) : null}
@@ -106,9 +106,9 @@ export default function Explore() {
         <div className="grid grid-2">
           {profiles.data.map((p) => (
             <div key={p.id} className="card">
-              <div className="spread" style={{ alignItems: 'flex-start', marginBottom: 10 }}>
+              <div className="spread align-start mb-2">
                 <div>
-                  <Link to={`/profiles/${p.id}`} style={{ fontSize: '1.05rem' }}>
+                  <Link className="item-title" to={`/profiles/${p.id}`}>
                     {p.name}
                   </Link>
                   <div className="small faint">by {p.ownerName}</div>
@@ -118,7 +118,7 @@ export default function Explore() {
                 </button>
               </div>
               <ProfileCurve profile={p.profile} height={150} />
-              <div className="row-wrap small" style={{ marginTop: 10 }}>
+              <div className="row-wrap small mt-2">
                 <span className="tag mono">{tempF(p.profile.brewTempC)}</span>
                 <span className="tag mono">
                   {p.profile.doseG} → {yieldG(p.profile)} g
@@ -128,7 +128,7 @@ export default function Explore() {
                 <span className="tag">{p.profile.stages.length} stages</span>
               </div>
               {p.description ? (
-                <p className="small dim" style={{ marginBottom: 0 }}>
+                <p className="small dim mb-0">
                   {p.description}
                 </p>
               ) : null}

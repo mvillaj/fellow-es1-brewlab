@@ -8,6 +8,8 @@ interface AuthState {
   user: PublicUser | null;
   ready: boolean;
   logout: () => void;
+  /** Swap in the profile the server returned after an account change. */
+  setUser: (user: PublicUser) => void;
 }
 
 const Ctx = createContext<AuthState | null>(null);
@@ -60,6 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
         void signOut();
       },
+      setUser,
     }),
     [user, ready, signOut],
   );

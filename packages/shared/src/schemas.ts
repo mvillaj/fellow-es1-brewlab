@@ -138,6 +138,25 @@ export const fellowConnectSchema = z.object({
   password: z.string().min(1),
 });
 
+/**
+ * Turning on the Fellow integration. `accept` must be literally true: the
+ * server records it as the user's acknowledgement of the warning, so anything
+ * looser than an explicit yes is a no.
+ */
+export const fellowOptInSchema = z.object({
+  accept: z.literal(true),
+});
+
+/**
+ * The Mousetail account fields a user edits in the app. Clerk is the source of
+ * truth for both; the server writes them there and mirrors the result locally.
+ * The limits are Clerk's own, so a value that passes here does not bounce there.
+ */
+export const accountUpdateSchema = z.object({
+  firstName: z.string().trim().min(1, 'Add a first name').max(256),
+  lastName: z.string().trim().max(256),
+});
+
 export const changeKinds = ['new', 'improved', 'fixed'] as const;
 
 export const changelogEntryInputSchema = z.object({

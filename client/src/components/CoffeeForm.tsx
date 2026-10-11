@@ -119,11 +119,11 @@ export default function CoffeeForm({
             }
           >
             <textarea
+              className="short"
               value={paste}
               onChange={(e) => setPaste(e.target.value)}
               disabled={!ai.enabled}
               placeholder="https://roaster.com/products/… — or paste the bag copy"
-              style={{ minHeight: 78 }}
             />
           </Field>
           <div className="row">

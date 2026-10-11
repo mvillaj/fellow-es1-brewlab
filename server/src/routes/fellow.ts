@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { fellowConnectSchema, type FellowConnectionStatus } from '@brewlab/shared';
+import { fellowConnectSchema, fellowOptInSchema, type FellowConnectionStatus } from '@brewlab/shared';
 import { db, jsonCol, nowIso } from '../lib/db';
 import { requireAuth, type AuthedRequest } from '../lib/auth';
 import { decryptSecret, encryptSecret } from '../lib/crypto';
+import { fellowOptInGate } from '../lib/fellow-opt-in';
 import { fellowConnectLimiter } from '../lib/limits';
 import { toProfile } from '../lib/rows';
 import { getFellowClient, type FellowSession } from '../fellow/index';
@@ -36,29 +37,64 @@ function loadConnection(userId: string) {
   return { row, session, devices: jsonCol(row.devices, [] as any[]) };
 }
 
+function optedIn(userId: string): boolean {
+  const row = db.prepare('SELECT fellow_opt_in_at FROM users WHERE id = ?').get(userId) as
+    | { fellow_opt_in_at: string | null }
+    | undefined;
+  return Boolean(row?.fellow_opt_in_at);
+}
+
+function disconnect(userId: string) {
+  db.prepare('DELETE FROM fellow_connections WHERE user_id = ?').run(userId);
+}
+
+const WARNING =
+  'Writes reach your real machine. ES1 profiles go to /v2/solo/devices/{id}/profiles. ' +
+  "Fellow's own factory profiles are read-only here: editing one saves a copy into your " +
+  'custom folder rather than overwriting it. Flow limits are only sent for pre-infusion.';
+
+/** Ungated: the page needs it to know whether to show the opt-in at all. */
 fellowRouter.get('/status', (req: AuthedRequest, res) => {
-  const client = getFellowClient();
+  if (!optedIn(req.userId!)) {
+    const status: FellowConnectionStatus = { optedIn: false, connected: false, devices: [] };
+    res.json(status);
+    return;
+  }
   const conn = loadConnection(req.userId!);
   const status: FellowConnectionStatus = conn
-    ? { connected: true, mode: client.mode, email: conn.row.email, devices: conn.devices }
-    : { connected: false, mode: client.mode, devices: [] };
-  // The condition used to be inverted: live mode, the one that can actually
-  // change your machine, got no warning at all.
-  if (client.mode === 'live') {
-    status.warning =
-      'Live mode — writes reach your real machine. ES1 profiles go to ' +
-      '/v2/solo/devices/{id}/profiles. Fellow\'s own factory profiles are read-only here: ' +
-      'editing one saves a copy into your custom folder rather than overwriting it. ' +
-      'Flow limits are only sent for pre-infusion.';
-  } else {
-    status.warning =
-      'The Fellow connection is not live here, so nothing you do on this page ' +
-      'reaches Fellow or an espresso machine. The seven factory profiles below ' +
-      'are stand-ins: connect with any email and password to try a simulated ' +
-      'run and see how pushing a profile behaves.';
-  }
+    ? { optedIn: true, connected: true, email: conn.row.email, devices: conn.devices, warning: WARNING }
+    : { optedIn: true, connected: false, devices: [], warning: WARNING };
   res.json(status);
 });
+
+/**
+ * The user's acknowledgement that this is experimental, unofficial, and theirs
+ * to answer for. The timestamp is the record of it; re-accepting refreshes it.
+ */
+fellowRouter.post('/opt-in', (req: AuthedRequest, res) => {
+  if (!fellowOptInSchema.safeParse(req.body).success) {
+    res.status(400).json({ error: 'Tick the box to accept the warning first' });
+    return;
+  }
+  db.prepare('UPDATE users SET fellow_opt_in_at = ? WHERE id = ?').run(nowIso(), req.userId!);
+  res.status(204).end();
+});
+
+/** Turning it off also drops the stored token: off means nothing is held for Fellow. */
+fellowRouter.post('/opt-out', (req: AuthedRequest, res) => {
+  db.prepare('UPDATE users SET fellow_opt_in_at = NULL WHERE id = ?').run(req.userId!);
+  disconnect(req.userId!);
+  res.status(204).end();
+});
+
+/** Ungated too: removing a credential should never need permission. */
+fellowRouter.post('/disconnect', (req: AuthedRequest, res) => {
+  disconnect(req.userId!);
+  res.status(204).end();
+});
+
+// Everything below talks to Fellow and needs the user's opt-in.
+fellowRouter.use(fellowOptInGate(optedIn));
 
 fellowRouter.post('/connect', fellowConnectLimiter, async (req: AuthedRequest, res) => {
   const parsed = fellowConnectSchema.safeParse(req.body);
@@ -78,27 +114,23 @@ fellowRouter.post('/connect', fellowConnectLimiter, async (req: AuthedRequest, r
          connected_at=excluded.connected_at`,
     ).run(
       req.userId!,
-      client.mode,
+      'live',
       session.email,
       encryptSecret(session.accessToken),
       JSON.stringify(devices),
       nowIso(),
     );
     const status: FellowConnectionStatus = {
+      optedIn: true,
       connected: true,
-      mode: client.mode,
       email: session.email,
       devices,
+      warning: WARNING,
     };
     res.json(status);
   } catch (err) {
     res.status(401).json({ error: (err as Error).message });
   }
-});
-
-fellowRouter.post('/disconnect', (req: AuthedRequest, res) => {
-  db.prepare('DELETE FROM fellow_connections WHERE user_id = ?').run(req.userId!);
-  res.status(204).end();
 });
 
 /** Raw device dump — the fastest way to learn what fields the API really returns. */

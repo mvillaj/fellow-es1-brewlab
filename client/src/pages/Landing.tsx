@@ -197,6 +197,7 @@ function HeroPull() {
             </defs>
             {HERO_BANDS.map((b, i) => (
               <rect
+                className="chart-band"
                 key={b.stage.id}
                 x={(b.from / HERO_TOTAL) * VB_W}
                 y="0"
@@ -205,7 +206,6 @@ function HeroPull() {
                 width={((b.to - b.from) / HERO_TOTAL) * VB_W + (i === HERO_BANDS.length - 1 ? VB_W : 0)}
                 height={VB_H}
                 fill={STAGE_COLOUR[b.stage.kind]}
-                style={{ opacity: 'var(--chart-band-opacity)' }}
               />
             ))}
             {[3, 6, 9].map((bar) => (
@@ -322,7 +322,7 @@ function StageMark({ kind }: { kind: StageKind }) {
         </defs>
         <path d={line} className="stage-mark-rest" />
         <g clipPath={`url(#${id})`}>
-          <path d={area} fill={colour} style={{ opacity: 'var(--chart-area-opacity)' }} />
+          <path className="chart-area" d={area} fill={colour} />
           <path d={line} className="stage-mark-lit" style={{ stroke: colour }} />
         </g>
       </svg>
@@ -402,15 +402,15 @@ function DialInDemo() {
       </div>
       <div className="dialin-legend" aria-hidden="true">
         <span>
-          <i style={{ background: 'var(--crema-sour)' }} />
+          <i className="sour" />
           Sour
         </span>
         <span>
-          <i style={{ background: 'var(--crema-balanced)' }} />
+          <i className="balanced" />
           Balanced
         </span>
         <span>
-          <i style={{ background: 'var(--crema-bitter)' }} />
+          <i className="bitter" />
           Bitter
         </span>
         <span>Height is yield · green time is on target</span>

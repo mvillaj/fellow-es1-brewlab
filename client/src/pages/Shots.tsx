@@ -40,8 +40,8 @@ export default function Shots() {
         </button>
       </div>
 
-      <div className="row" style={{ marginBottom: 16 }}>
-        <select value={coffeeFilter} onChange={(e) => setCoffeeFilter(e.target.value)} style={{ maxWidth: 300 }}>
+      <div className="row mb-4">
+        <select className="max-w-md" value={coffeeFilter} onChange={(e) => setCoffeeFilter(e.target.value)}>
           <option value="">All coffees</option>
           {(coffees.data ?? []).map((c) => (
             <option key={c.id} value={c.id}>
@@ -71,7 +71,7 @@ export default function Shots() {
             </thead>
             <tbody>
               {shots.data.map((s) => (
-                <tr key={s.id} onClick={() => setExpanded(expanded === s.id ? null : s.id)} style={{ cursor: 'pointer' }}>
+                <tr className="clickable" key={s.id} onClick={() => setExpanded(expanded === s.id ? null : s.id)}>
                   <td className="glass-cell">
                     <ShotGlass yieldG={s.yieldG} taste={s.tasteBalance} width={26} />
                   </td>
@@ -163,7 +163,7 @@ export default function Shots() {
                     ))}
                   </div>
                 ) : null}
-                {s.notes ? <p className="dim" style={{ margin: 0 }}>{s.notes}</p> : null}
+                {s.notes ? <p className="dim m-0">{s.notes}</p> : null}
                 <div className="row">
                   <button
                     className="btn"

@@ -227,9 +227,9 @@ export default function Dashboard() {
                 })}
               </div>
               <div className="dialin-legend" aria-hidden="true">
-                <span><i style={{ background: 'var(--crema-sour)' }} />Sour</span>
-                <span><i style={{ background: 'var(--crema-balanced)' }} />Balanced</span>
-                <span><i style={{ background: 'var(--crema-bitter)' }} />Bitter</span>
+                <span><i className="sour" />Sour</span>
+                <span><i className="balanced" />Balanced</span>
+                <span><i className="bitter" />Bitter</span>
                 <span>Height is yield · green time is on target ({TARGET_S} ± 4 s)</span>
               </div>
             </>
@@ -257,7 +257,7 @@ export default function Dashboard() {
         <div className="card-head">
           <h2>Recent shots</h2>
           <Link to="/shots">
-            All shots <ArrowRight size={14} aria-hidden="true" style={{ verticalAlign: '-2px' }} />
+            All shots <ArrowRight size={14} aria-hidden="true" />
           </Link>
         </div>
         {loadingShots ? (
@@ -326,7 +326,7 @@ export default function Dashboard() {
       {justSaved ? (
         <Modal title="Shot logged" onClose={() => setJustSaved(null)}>
           <div className="stack">
-            <div className="row" style={{ alignItems: 'flex-end', gap: 18 }}>
+            <div className="row align-end gap-4">
               <ShotGlass
                 yieldG={justSaved.shot.yieldG}
                 taste={justSaved.shot.tasteBalance}
@@ -334,8 +334,8 @@ export default function Dashboard() {
                 className="coach-glass"
               />
               <div>
-                <h2 style={{ fontSize: '1.6rem', letterSpacing: '-0.03em' }}>{baristaLine(justSaved.suggestion)}</h2>
-                <p className="coach-reason" style={{ marginTop: 6 }}>{justSaved.suggestion.reason}</p>
+                <h2 className="coach-line">{baristaLine(justSaved.suggestion)}</h2>
+                <p className="coach-reason">{justSaved.suggestion.reason}</p>
               </div>
             </div>
             <button className="btn btn-primary" onClick={() => setJustSaved(null)}>

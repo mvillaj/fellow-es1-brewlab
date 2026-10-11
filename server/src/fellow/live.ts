@@ -18,7 +18,7 @@ import type { FellowClient, FellowSession, PushResult } from './types';
  *     does not know espresso devices, and the ES1 surfaces only in the shared
  *     GET /devices listing.
  *
- * Enable with FELLOW_MODE=live. Nothing here runs otherwise.
+ * Nothing here runs for a user until they opt in on the Fellow page.
  */
 
 const API_HOST =
@@ -449,8 +449,6 @@ function explainFailure(err: Error & { status?: number; body?: unknown }, device
 }
 
 export const liveFellowClient: FellowClient = {
-  mode: 'live',
-
   async login(email, password): Promise<FellowSession> {
     // Fellow also returns a refreshToken. It is deliberately dropped on the
     // floor: nothing here ever called a refresh endpoint with it, so persisting

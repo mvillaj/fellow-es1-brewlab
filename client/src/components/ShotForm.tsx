@@ -202,7 +202,7 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
           />
         </Field>
         <Field label="Rating">
-          <div style={{ paddingTop: 4 }}>
+          <div className="pt-1">
             <RatingInput value={rating} onChange={setRating} />
           </div>
         </Field>

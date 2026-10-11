@@ -29,29 +29,37 @@ const Ctx = createContext<MachineState | null>(null);
 
 export function MachineProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
+  const userId = user?.id ?? null;
   const [machines, setMachines] = useState<Machine[]>([]);
-  const [ready, setReady] = useState(false);
+  // Whose bench `machines` is: null for signed out, undefined before any load.
+  // `ready` used to be a plain boolean that the signed-out pass set before the
+  // user had loaded, and nothing reset it when they arrived. For one render the
+  // app had a user but no capabilities, so a deep link to /fellow or /profiles
+  // matched no route and the catch-all sent it home.
+  const [loadedFor, setLoadedFor] = useState<string | null | undefined>(undefined);
 
   const reload = useCallback(async () => {
-    if (!user) {
+    if (!userId) {
       setMachines([]);
-      setReady(true);
+      setLoadedFor(null);
       return;
     }
+    let next: Machine[] = [];
     try {
-      setMachines(await api<Machine[]>('/machines'));
+      next = await api<Machine[]>('/machines');
     } catch {
       // A bench we cannot read is a bench with nothing on it: the app degrades to
       // the plain logbook rather than erroring out of the shell.
-      setMachines([]);
-    } finally {
-      setReady(true);
     }
-  }, [user]);
+    setMachines(next);
+    setLoadedFor(userId);
+  }, [userId]);
 
   useEffect(() => {
     void reload();
-  }, [reload, user?.id]);
+  }, [reload]);
+
+  const ready = loadedFor === userId;
 
   const value = useMemo<MachineState>(() => {
     const active = activeMachine(machines);
