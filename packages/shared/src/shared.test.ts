@@ -10,6 +10,7 @@ import {
   BUILT_IN_GRINDERS,
   GRINDERS_BY_ID,
   calibrateFromTwoPoints,
+  grindSettingError,
   convertSetting,
   grindBucket,
   settingToMicrons,
@@ -60,7 +61,7 @@ test('every espresso range lands inside a plausible espresso particle window', (
 test('converting a setting there and back is stable within one step', () => {
   const from = g('fellow-opus-2');
   const to = g('1zpresso-j-ultra');
-  for (const setting of [2, 4, 6, 8]) {
+  for (const setting of [0.4, 0.8, 1.2, 1.6]) {
     const there = convertSetting(from, setting, to);
     const back = convertSetting(to, there.setting, from);
     assert.ok(
@@ -87,6 +88,30 @@ test('a setting off the end of the target dial is flagged, not silently clamped 
   const result = convertSetting(ode, 11, jMax); // very coarse -> past the end of the J-Max dial
   assert.equal(result.outOfRange, true);
   assert.equal(result.setting, jMax.scale.max);
+});
+
+test('the Opus 2 is a stepless 0-10 dial, not the original 41 clicks', () => {
+  const opus2 = GRINDERS_BY_ID['fellow-opus-2'];
+  assert.equal(opus2.scale.kind, 'stepless');
+  assert.deepEqual([opus2.scale.min, opus2.scale.max], [0, 10]);
+  assert.equal(opus2.burrSizeMm, 48);
+});
+
+test('grind settings must be on the dial and, for stepped dials, on a step', () => {
+  const opus = g('fellow-opus'); // clicks 1-41
+  assert.equal(grindSettingError(opus, 12), null);
+  assert.match(grindSettingError(opus, 0)!, /goes from 1 to 41$/);
+  assert.match(grindSettingError(opus, 42)!, /goes from 1 to 41$/);
+  assert.match(grindSettingError(opus, 4.5)!, /steps of 1$/);
+
+  const ode = g('fellow-ode-2'); // stepped, 0.1 marks
+  assert.equal(grindSettingError(ode, 2.3), null); // 0.1-step float dust must not trip it
+  assert.match(grindSettingError(ode, 2.35)!, /steps of 0\.1$/);
+
+  const opus2 = g('fellow-opus-2'); // stepless: range only
+  assert.equal(grindSettingError(opus2, 1.25), null);
+  assert.match(grindSettingError(opus2, 10.5)!, /goes from 0 to 10$/);
+  assert.equal(grindSettingError(opus2, Number.NaN), 'Grind setting must be a number');
 });
 
 test('snapping respects step size without floating-point dust', () => {
