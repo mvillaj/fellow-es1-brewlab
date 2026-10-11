@@ -10,6 +10,13 @@ primary_region = 'iad'
 [env]
   BREWLAB_DB = '/data/brewlab.db'
   PORT = '4000'
+  # Claude API via workload identity federation: the server trades this Machine's
+  # Fly OIDC token for a short-lived Claude token, so no API key is stored. These
+  # are identifiers, not secrets. A set ANTHROPIC_API_KEY secret overrides them.
+  ANTHROPIC_FEDERATION_RULE_ID = 'fdrl_01Lz2Datm7CpNv7oLo5akhNJ'
+  ANTHROPIC_ORGANIZATION_ID = '919fe6ee-204d-4b02-a7f8-5779036418de'
+  ANTHROPIC_SERVICE_ACCOUNT_ID = 'svac_019UXx8qUwkzEc4f2pHdHoX4'
+  ANTHROPIC_WORKSPACE_ID = 'wrkspc_01SwmXo2SzH3N94AQ3v9dK5C'
 
 [[mounts]]
   source = 'brewlab_data'

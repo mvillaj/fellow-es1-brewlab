@@ -52,6 +52,7 @@ export default defineConfig({
         // in their disabled state.
         ANTHROPIC_API_KEY: '',
         ANTHROPIC_AUTH_TOKEN: '',
+        ANTHROPIC_FEDERATION_RULE_ID: '',
         ANTHROPIC_CONFIG_DIR: resolve('e2e/.no-anthropic'),
       },
     },
