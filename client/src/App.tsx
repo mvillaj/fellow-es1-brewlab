@@ -22,6 +22,7 @@ import {
 import { NO_MACHINE_CAPABILITIES, type MachineCapabilities } from '@brewlab/shared';
 import { useAuth } from './lib/auth';
 import { useMachines } from './lib/machines';
+import { useDelayPassed } from './lib/delay';
 import AuthPage from './pages/Auth';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
@@ -276,9 +277,6 @@ function Shell({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Most reloads finish inside this, and then nothing loading-shaped shows at all. */
-export const LOADING_DELAY_MS = 250;
-
 /**
  * What shows while Clerk and the bench load. For the first moment, just the
  * page's ground. After that, a signed-in user gets the shell's frame with soft
@@ -290,12 +288,7 @@ export const LOADING_DELAY_MS = 250;
  * from page load, not from each step.
  */
 export function Loading({ shell }: { shell: boolean }) {
-  const [late, setLate] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => setLate(true), LOADING_DELAY_MS);
-    return () => clearTimeout(t);
-  }, []);
-
+  const late = useDelayPassed();
   if (!late || !shell) return <div className="boot" aria-busy="true" />;
 
   // The smallest nav there is, so a richer bench only adds rows when it lands.

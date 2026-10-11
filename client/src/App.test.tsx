@@ -1,7 +1,8 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import App, { LOADING_DELAY_MS, MoreSheet, navFor } from './App';
+import App, { MoreSheet, navFor } from './App';
+import { LOADING_DELAY_MS } from './lib/delay';
 import { ThemeProvider } from './lib/theme';
 
 let authUser: { displayName: string; onboardedAt: string | null } = {
