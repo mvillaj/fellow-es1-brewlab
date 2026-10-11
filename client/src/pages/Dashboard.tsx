@@ -11,6 +11,7 @@ import {
 } from '@brewlab/shared';
 import { useApi } from '../lib/api';
 import { useAuth } from '../lib/auth';
+import { useDelayPassed } from '../lib/delay';
 import { baristaLine, CONFIDENCE_LABEL } from '../lib/coach';
 import { Banner, Empty, Modal, Stars } from '../components/ui';
 import ShotForm from '../components/ShotForm';
@@ -101,6 +102,13 @@ export default function Dashboard() {
 
   // First load only: a reload after logging keeps the old data on screen.
   const loadingShots = shots.data == null && !shots.error;
+  // A quick first load shows only the greeting until the shots and stats land,
+  // so the cards appear once at full size rather than as short placeholders
+  // that grow, or a stats strip that slots in between them, and push the page
+  // down. A slow one gets the placeholders.
+  const loadingStats = stats.data == null && !stats.error;
+  const slow = useDelayPassed();
+  const holding = (loadingShots || loadingStats) && !slow;
   const loadError = shots.error ?? stats.error;
   const unavailable = <p className="faint small">Unavailable until your shots load.</p>;
 
@@ -122,7 +130,7 @@ export default function Dashboard() {
         </div>
         {/* With a coach card on screen its button is the one press; a second
             primary up here would split the action. */}
-        {latest && suggestion ? null : (
+        {holding || (latest && suggestion) ? null : (
           <button className="btn btn-primary btn-lg head-log" onClick={() => setLogging(true)}>
             <Plus aria-hidden="true" />
             Log a shot
@@ -130,233 +138,241 @@ export default function Dashboard() {
         )}
       </div>
 
-      {loadError ? (
-        <div className="dash-error">
-          <Banner kind="bad">Couldn't load your shots: {loadError}</Banner>
-        </div>
-      ) : null}
-
-      <div className="dash-top">
-        {loadingShots ? (
-          <section className="coach is-empty" aria-busy="true">
-            <ShotGlass yieldG={0} width={84} className="coach-glass" />
-            <p className="coach-reason">Loading your last shot…</p>
-          </section>
-        ) : latest && suggestion ? (
-          <section className="coach" aria-label="What to change next" key={latest.id}>
-            <ShotGlass
-              yieldG={latest.yieldG}
-              taste={latest.tasteBalance}
-              width={92}
-              className="coach-glass"
-              label={`Last shot: ${fmt(latest.yieldG)} g out, ${tasteLabel(latest.tasteBalance).toLowerCase()}`}
-            />
-            <div>
-              <h2 className="coach-headline">{baristaLine(suggestion)}</h2>
-              <p className="coach-reason">{suggestion.reason}</p>
-              <div className="coach-meta">
-                <span>
-                  <span className="mono">{fmt(latest.shotTimeS)}</span> s
-                </span>
-                <span>
-                  <span className="mono">
-                    {fmt(latest.doseG)} → {fmt(latest.yieldG)}
-                  </span>{' '}
-                  g
-                </span>
-                {latest.grindSetting != null ? (
-                  <span>
-                    grind <span className="mono">{latest.grindSetting}</span>
-                  </span>
-                ) : null}
-                <span>{tasteLabel(latest.tasteBalance)}</span>
-              </div>
+      {holding ? null : (
+        <>
+          {loadError ? (
+            <div className="dash-error">
+              <Banner kind="bad">Couldn't load your shots: {loadError}</Banner>
             </div>
-            <div className="coach-actions">
-              <button className="btn btn-primary" onClick={() => setLogging(true)}>
-                <Plus aria-hidden="true" />
-                Log the next shot
-              </button>
-              {latest.coffeeId ? (
-                <Link className="btn btn-ghost" to={`/coffees/${latest.coffeeId}`}>
-                  {latest.coffeeName}
-                </Link>
-              ) : null}
-              <span className="confidence">{CONFIDENCE_LABEL[suggestion.confidence]}</span>
-            </div>
-          </section>
-        ) : shots.error ? (
-          <section className="coach is-empty">
-            <ShotGlass yieldG={0} width={84} className="coach-glass" />
-            <p className="coach-reason">The coach needs your shots, and they didn't load.</p>
-          </section>
-        ) : (
-          <section className="coach is-empty" aria-label="What to change next">
-            <ShotGlass yieldG={0} width={92} className="coach-glass" />
-            <div>
-              <h2 className="coach-headline">Pull your first shot</h2>
-              <p className="coach-reason">
-                Log it here and the coach tells you the one thing to change next: grind, ratio, or
-                nothing at all.
-              </p>
-              <p className="coach-reason">
-                New to espresso? <Link to="/getting-started">Start here</Link>.
-              </p>
-            </div>
-            <div className="coach-actions">
-              <button className="btn btn-primary" onClick={() => setLogging(true)}>
-                <Plus aria-hidden="true" />
-                Log a shot
-              </button>
-            </div>
-          </section>
-        )}
-
-        <section className="card" aria-label="Dial-in progress">
-          <div className="card-head">
-            <h2>{latest?.coffeeName ? `Dialing in ${latest.coffeeName}` : 'Dial-in'}</h2>
-            {latest?.coffeeId ? <Link to={`/coffees/${latest.coffeeId}`}>Details</Link> : null}
-          </div>
-          {loadingShots ? (
-            <p className="faint small">Loading…</p>
-          ) : activeCoffeeShots.length >= 2 ? (
-            <>
-              <div className="dialin-strip">
-                {activeCoffeeShots.map((s, i) => {
-                  const onTarget = Math.abs(s.shotTimeS - TARGET_S) <= 4;
-                  return (
-                    <div
-                      key={s.id}
-                      className={`dialin-shot${i === activeCoffeeShots.length - 1 ? ' latest' : ''}`}
-                      title={`${relativeDate(s.brewedAt)} · ${fmt(s.doseG)} → ${fmt(s.yieldG)} g · ${tasteLabel(s.tasteBalance)}`}
-                    >
-                      <ShotGlass
-                        yieldG={s.yieldG}
-                        taste={s.tasteBalance}
-                        width={44}
-                        label={`${fmt(s.yieldG)} g, ${fmt(s.shotTimeS)} s, ${tasteLabel(s.tasteBalance).toLowerCase()}`}
-                      />
-                      <span className={`dialin-time${onTarget ? ' on-target' : ''}`}>
-                        {fmt(s.shotTimeS)}s
-                      </span>
-                      <span className="dialin-delta">
-                        <Delta shot={s} prev={activeCoffeeShots[i - 1]} />
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="dialin-legend" aria-hidden="true">
-                <span>
-                  <i className="sour" />
-                  Sour
-                </span>
-                <span>
-                  <i className="balanced" />
-                  Balanced
-                </span>
-                <span>
-                  <i className="bitter" />
-                  Bitter
-                </span>
-                <span>Height is yield · green time is on target ({TARGET_S} ± 4 s)</span>
-              </div>
-            </>
-          ) : shots.error ? (
-            unavailable
-          ) : (
-            <Empty title="Two shots and a story appears">
-              Each pull of this coffee lines up here as a glass, so you can watch it come in.
-            </Empty>
-          )}
-        </section>
-      </div>
-
-      {stats.data && stats.data.total > 0 ? (
-        <p className="dash-summary">
-          <span>
-            <b>{stats.data.total}</b>shots logged
-          </span>
-          <span>
-            <b>{stats.data.goodShots}</b>rated 4 stars or better
-          </span>
-          {stats.data.avgTimeS != null ? (
-            <span>
-              <b>
-                {fmt(stats.data.avgTimeS)}
-                <small>s</small>
-              </b>
-              average time
-            </span>
           ) : null}
-          {stats.data.avgRatio ? (
-            <span>
-              <b>1:{fmt(stats.data.avgRatio)}</b>average ratio
-            </span>
-          ) : null}
-          <span>
-            <b>{stats.data.activeDaysLast30}</b>days brewing this month
-          </span>
-        </p>
-      ) : null}
 
-      <section className="card">
-        <div className="card-head">
-          <h2>Recent shots</h2>
-          <Link to="/shots">
-            All shots <ArrowRight size={14} aria-hidden="true" />
-          </Link>
-        </div>
-        {loadingShots ? (
-          <p className="faint small">Loading…</p>
-        ) : shots.data?.length ? (
-          <table className="table">
-            <thead>
-              <tr>
-                <th aria-label="Glass" />
-                <th>When</th>
-                <th>Coffee</th>
-                <th>Grind</th>
-                <th className="num">Dose → Yield</th>
-                <th className="num">Time</th>
-                <th>Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              {shots.data.slice(0, 6).map((s) => (
-                <tr key={s.id}>
-                  <td className="glass-cell">
-                    <ShotGlass yieldG={s.yieldG} taste={s.tasteBalance} width={26} />
-                  </td>
-                  <td data-label="When" className="dim">
-                    {relativeDate(s.brewedAt)}
-                  </td>
-                  <td data-label="Coffee">{s.coffeeName ?? <span className="faint">—</span>}</td>
-                  <td data-label="Grind" className="num dim">
+          <div className="dash-top">
+            {loadingShots ? (
+              <section className="coach is-empty" aria-busy="true">
+                <ShotGlass yieldG={0} width={84} className="coach-glass" />
+                <p className="coach-reason">Loading your last shot…</p>
+              </section>
+            ) : latest && suggestion ? (
+              <section className="coach" aria-label="What to change next" key={latest.id}>
+                <ShotGlass
+                  yieldG={latest.yieldG}
+                  taste={latest.tasteBalance}
+                  width={92}
+                  className="coach-glass"
+                  label={`Last shot: ${fmt(latest.yieldG)} g out, ${tasteLabel(latest.tasteBalance).toLowerCase()}`}
+                />
+                <div>
+                  <h2 className="coach-headline">{baristaLine(suggestion)}</h2>
+                  <p className="coach-reason">{suggestion.reason}</p>
+                  <div className="coach-meta">
                     <span>
-                      {s.grindSetting ?? '—'}
-                      {s.grindMicrons ? <span className="faint"> · {s.grindMicrons}µm</span> : null}
+                      <span className="mono">{fmt(latest.shotTimeS)}</span> s
                     </span>
-                  </td>
-                  <td data-label="Dose → Yield" className="num">
-                    {fmt(s.doseG)} → {fmt(s.yieldG)}
-                  </td>
-                  <td data-label="Time" className="num">
-                    {fmt(s.shotTimeS)}s
-                  </td>
-                  <td data-label="Rating">
-                    <Stars value={s.rating} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : shots.error ? (
-          unavailable
-        ) : (
-          <Empty title="No shots yet">Your pulls show up here, newest first.</Empty>
-        )}
-      </section>
+                    <span>
+                      <span className="mono">
+                        {fmt(latest.doseG)} → {fmt(latest.yieldG)}
+                      </span>{' '}
+                      g
+                    </span>
+                    {latest.grindSetting != null ? (
+                      <span>
+                        grind <span className="mono">{latest.grindSetting}</span>
+                      </span>
+                    ) : null}
+                    <span>{tasteLabel(latest.tasteBalance)}</span>
+                  </div>
+                </div>
+                <div className="coach-actions">
+                  <button className="btn btn-primary" onClick={() => setLogging(true)}>
+                    <Plus aria-hidden="true" />
+                    Log the next shot
+                  </button>
+                  {latest.coffeeId ? (
+                    <Link className="btn btn-ghost" to={`/coffees/${latest.coffeeId}`}>
+                      {latest.coffeeName}
+                    </Link>
+                  ) : null}
+                  <span className="confidence">{CONFIDENCE_LABEL[suggestion.confidence]}</span>
+                </div>
+              </section>
+            ) : shots.error ? (
+              <section className="coach is-empty">
+                <ShotGlass yieldG={0} width={84} className="coach-glass" />
+                <p className="coach-reason">The coach needs your shots, and they didn't load.</p>
+              </section>
+            ) : (
+              <section className="coach is-empty" aria-label="What to change next">
+                <ShotGlass yieldG={0} width={92} className="coach-glass" />
+                <div>
+                  <h2 className="coach-headline">Pull your first shot</h2>
+                  <p className="coach-reason">
+                    Log it here and the coach tells you the one thing to change next: grind, ratio,
+                    or nothing at all.
+                  </p>
+                  <p className="coach-reason">
+                    New to espresso? <Link to="/getting-started">Start here</Link>.
+                  </p>
+                </div>
+                <div className="coach-actions">
+                  <button className="btn btn-primary" onClick={() => setLogging(true)}>
+                    <Plus aria-hidden="true" />
+                    Log a shot
+                  </button>
+                </div>
+              </section>
+            )}
+
+            <section className="card" aria-label="Dial-in progress">
+              <div className="card-head">
+                <h2>{latest?.coffeeName ? `Dialing in ${latest.coffeeName}` : 'Dial-in'}</h2>
+                {latest?.coffeeId ? <Link to={`/coffees/${latest.coffeeId}`}>Details</Link> : null}
+              </div>
+              {loadingShots ? (
+                <p className="faint small">Loading…</p>
+              ) : activeCoffeeShots.length >= 2 ? (
+                <>
+                  <div className="dialin-strip">
+                    {activeCoffeeShots.map((s, i) => {
+                      const onTarget = Math.abs(s.shotTimeS - TARGET_S) <= 4;
+                      return (
+                        <div
+                          key={s.id}
+                          className={`dialin-shot${i === activeCoffeeShots.length - 1 ? ' latest' : ''}`}
+                          title={`${relativeDate(s.brewedAt)} · ${fmt(s.doseG)} → ${fmt(s.yieldG)} g · ${tasteLabel(s.tasteBalance)}`}
+                        >
+                          <ShotGlass
+                            yieldG={s.yieldG}
+                            taste={s.tasteBalance}
+                            width={44}
+                            label={`${fmt(s.yieldG)} g, ${fmt(s.shotTimeS)} s, ${tasteLabel(s.tasteBalance).toLowerCase()}`}
+                          />
+                          <span className={`dialin-time${onTarget ? ' on-target' : ''}`}>
+                            {fmt(s.shotTimeS)}s
+                          </span>
+                          <span className="dialin-delta">
+                            <Delta shot={s} prev={activeCoffeeShots[i - 1]} />
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="dialin-legend" aria-hidden="true">
+                    <span>
+                      <i className="sour" />
+                      Sour
+                    </span>
+                    <span>
+                      <i className="balanced" />
+                      Balanced
+                    </span>
+                    <span>
+                      <i className="bitter" />
+                      Bitter
+                    </span>
+                    <span>Height is yield · green time is on target ({TARGET_S} ± 4 s)</span>
+                  </div>
+                </>
+              ) : shots.error ? (
+                unavailable
+              ) : (
+                <Empty title="Two shots and a story appears">
+                  Each pull of this coffee lines up here as a glass, so you can watch it come in.
+                </Empty>
+              )}
+            </section>
+          </div>
+
+          {stats.data && stats.data.total > 0 ? (
+            <p className="dash-summary">
+              <span>
+                <b>{stats.data.total}</b>shots logged
+              </span>
+              <span>
+                <b>{stats.data.goodShots}</b>rated 4 stars or better
+              </span>
+              {stats.data.avgTimeS != null ? (
+                <span>
+                  <b>
+                    {fmt(stats.data.avgTimeS)}
+                    <small>s</small>
+                  </b>
+                  average time
+                </span>
+              ) : null}
+              {stats.data.avgRatio ? (
+                <span>
+                  <b>1:{fmt(stats.data.avgRatio)}</b>average ratio
+                </span>
+              ) : null}
+              <span>
+                <b>{stats.data.activeDaysLast30}</b>days brewing this month
+              </span>
+            </p>
+          ) : null}
+
+          <section className="card">
+            <div className="card-head">
+              <h2>Recent shots</h2>
+              <Link to="/shots">
+                All shots <ArrowRight size={14} aria-hidden="true" />
+              </Link>
+            </div>
+            {loadingShots ? (
+              <p className="faint small">Loading…</p>
+            ) : shots.data?.length ? (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th aria-label="Glass" />
+                    <th>When</th>
+                    <th>Coffee</th>
+                    <th>Grind</th>
+                    <th className="num">Dose → Yield</th>
+                    <th className="num">Time</th>
+                    <th>Rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {shots.data.slice(0, 6).map((s) => (
+                    <tr key={s.id}>
+                      <td className="glass-cell">
+                        <ShotGlass yieldG={s.yieldG} taste={s.tasteBalance} width={26} />
+                      </td>
+                      <td data-label="When" className="dim">
+                        {relativeDate(s.brewedAt)}
+                      </td>
+                      <td data-label="Coffee">
+                        {s.coffeeName ?? <span className="faint">—</span>}
+                      </td>
+                      <td data-label="Grind" className="num dim">
+                        <span>
+                          {s.grindSetting ?? '—'}
+                          {s.grindMicrons ? (
+                            <span className="faint"> · {s.grindMicrons}µm</span>
+                          ) : null}
+                        </span>
+                      </td>
+                      <td data-label="Dose → Yield" className="num">
+                        {fmt(s.doseG)} → {fmt(s.yieldG)}
+                      </td>
+                      <td data-label="Time" className="num">
+                        {fmt(s.shotTimeS)}s
+                      </td>
+                      <td data-label="Rating">
+                        <Stars value={s.rating} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : shots.error ? (
+              unavailable
+            ) : (
+              <Empty title="No shots yet">Your pulls show up here, newest first.</Empty>
+            )}
+          </section>
+        </>
+      )}
 
       {logging ? (
         <Modal title="Log a shot" onClose={() => setLogging(false)} wide>
