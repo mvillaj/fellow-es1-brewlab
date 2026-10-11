@@ -8,7 +8,17 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # A package goes to the first group that matches it. The named groups hold
+    # packages that only work at matching versions, so their majors arrive in
+    # one PR: Dependabot bumped react to 19 without react-dom, and vite to 8
+    # without the React plugin, and both broke the build.
     groups:
+      react:
+        patterns: ['react', 'react-dom', '@types/react', '@types/react-dom']
+      vite:
+        patterns: ['vite', '@vitejs/*', 'vitest']
+      eslint:
+        patterns: ['eslint', '@eslint/*', 'typescript-eslint', 'eslint-*']
       minor-and-patch:
         update-types: [minor, patch]
     commit-message:
