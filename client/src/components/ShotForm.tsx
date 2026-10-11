@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import {
   grindBucket,
+  grindSettingError,
   settingToMicrons,
   yieldG,
   type BrewProfileRecord,
@@ -54,6 +55,7 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
     () => (grinder && grindSetting !== '' && Number.isFinite(setting) ? Math.round(settingToMicrons(grinder, setting)) : null),
     [grinder, grindSetting, setting],
   );
+  const grindProblem = grinder && grindSetting !== '' ? grindSettingError(grinder, setting) : null;
 
   const dose = Number(doseG) || 0;
   const out = Number(yieldGrams) || 0;
@@ -142,15 +144,19 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
         </Field>
         <Field
           label={`Grind setting${grinder ? ` (${grinder.scale.unitLabel})` : ''}`}
-          hint={microns != null ? `≈ ${microns} µm · ${grindBucket(microns)}` : 'Pick a grinder to see the micron estimate'}
+          hint={
+            grindProblem ??
+            (microns != null ? `≈ ${microns} µm · ${grindBucket(microns)}` : 'Pick a grinder to see the micron estimate')
+          }
         >
           <input
             type="number"
-            step={grinder?.scale.step ?? 1}
+            step={grinder?.scale.kind === 'stepless' ? 'any' : (grinder?.scale.step ?? 1)}
             min={grinder?.scale.min}
             max={grinder?.scale.max}
             value={grindSetting}
             onChange={(e) => setGrindSetting(e.target.value)}
+            aria-invalid={grindProblem ? true : undefined}
           />
         </Field>
       </div>
@@ -230,7 +236,7 @@ export default function ShotForm({ coffees, grinders, profiles, defaultCoffeeId,
       {error ? <Banner kind="bad">{error}</Banner> : null}
 
       <div className="row">
-        <button className="btn btn-primary" disabled={busy}>
+        <button className="btn btn-primary" disabled={busy || grindProblem != null}>
           {busy ? 'Saving…' : 'Log shot'}
         </button>
       </div>

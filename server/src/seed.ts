@@ -279,21 +279,21 @@ addProfile(michael, {
 
 // ── A dial-in that actually goes somewhere ──────────────────────────────────
 const dialIn: ShotSeed[] = [
-  { daysAgo: 11, hour: 7, grindSetting: 9, doseG: 18, yieldG: 44, shotTimeS: 16, rating: 1, tasteBalance: -2, notes: 'Gusher. Straight to the sink.', flavourNotes: ['sour', 'thin'] },
-  { daysAgo: 10, hour: 7, grindSetting: 7, doseG: 18, yieldG: 41, shotTimeS: 20, rating: 2, tasteBalance: -2, notes: 'Still fast, still sharp.', flavourNotes: ['sour', 'lemon'] },
-  { daysAgo: 9, hour: 8, grindSetting: 5, doseG: 18, yieldG: 40, shotTimeS: 25, rating: 3, tasteBalance: -1, notes: 'Getting somewhere. Peach showing up.', flavourNotes: ['peach', 'bright'] },
-  { daysAgo: 8, hour: 7, grindSetting: 4, doseG: 18, yieldG: 45, shotTimeS: 29, rating: 4, tasteBalance: 0, notes: 'Long ratio suits it. Jasmine on the finish.', flavourNotes: ['peach', 'jasmine'] },
-  { daysAgo: 7, hour: 7, grindSetting: 3, doseG: 18, yieldG: 47, shotTimeS: 34, rating: 3, tasteBalance: 1, notes: 'One step too far — drying.', flavourNotes: ['drying', 'tannic'] },
-  { daysAgo: 6, hour: 8, grindSetting: 4, doseG: 18, yieldG: 48, shotTimeS: 30, rating: 5, tasteBalance: 0, notes: 'This is the one. 12s pre-infusion.', flavourNotes: ['peach', 'jasmine', 'black tea'], preInfusionS: 12 },
-  { daysAgo: 4, hour: 7, grindSetting: 4, doseG: 18, yieldG: 48, shotTimeS: 31, rating: 5, tasteBalance: 0, notes: 'Repeated it. Holding.', flavourNotes: ['peach', 'jasmine'], preInfusionS: 12 },
-  { daysAgo: 2, hour: 7, grindSetting: 4.5, doseG: 18, yieldG: 47, shotTimeS: 28, rating: 4, tasteBalance: 0, notes: 'Day 10 off roast, opening up. Half step coarser.', flavourNotes: ['peach', 'honey'], preInfusionS: 12 },
+  { daysAgo: 11, hour: 7, grindSetting: 1.6, doseG: 18, yieldG: 44, shotTimeS: 16, rating: 1, tasteBalance: -2, notes: 'Gusher. Straight to the sink.', flavourNotes: ['sour', 'thin'] },
+  { daysAgo: 10, hour: 7, grindSetting: 1.4, doseG: 18, yieldG: 41, shotTimeS: 20, rating: 2, tasteBalance: -2, notes: 'Still fast, still sharp.', flavourNotes: ['sour', 'lemon'] },
+  { daysAgo: 9, hour: 8, grindSetting: 1.2, doseG: 18, yieldG: 40, shotTimeS: 25, rating: 3, tasteBalance: -1, notes: 'Getting somewhere. Peach showing up.', flavourNotes: ['peach', 'bright'] },
+  { daysAgo: 8, hour: 7, grindSetting: 1, doseG: 18, yieldG: 45, shotTimeS: 29, rating: 4, tasteBalance: 0, notes: 'Long ratio suits it. Jasmine on the finish.', flavourNotes: ['peach', 'jasmine'] },
+  { daysAgo: 7, hour: 7, grindSetting: 0.8, doseG: 18, yieldG: 47, shotTimeS: 34, rating: 3, tasteBalance: 1, notes: 'One step too far — drying.', flavourNotes: ['drying', 'tannic'] },
+  { daysAgo: 6, hour: 8, grindSetting: 1, doseG: 18, yieldG: 48, shotTimeS: 30, rating: 5, tasteBalance: 0, notes: 'This is the one. 12s pre-infusion.', flavourNotes: ['peach', 'jasmine', 'black tea'], preInfusionS: 12 },
+  { daysAgo: 4, hour: 7, grindSetting: 1, doseG: 18, yieldG: 48, shotTimeS: 31, rating: 5, tasteBalance: 0, notes: 'Repeated it. Holding.', flavourNotes: ['peach', 'jasmine'], preInfusionS: 12 },
+  { daysAgo: 2, hour: 7, grindSetting: 1.1, doseG: 18, yieldG: 47, shotTimeS: 28, rating: 4, tasteBalance: 0, notes: 'Day 10 off roast, opening up. A touch coarser.', flavourNotes: ['peach', 'honey'], preInfusionS: 12 },
 ];
 for (const s of dialIn) addShot(michael, ethiopia, opus2, es1.id, lightRoast, s);
 
 // Same bag on the hand grinder — this is what makes the converter worth having.
 addShot(michael, ethiopia, jUltra, es1.id, lightRoast, {
-  daysAgo: 3, hour: 15, grindSetting: 99, doseG: 18, yieldG: 46, shotTimeS: 30, rating: 4,
-  tasteBalance: 0, notes: 'Travel setup. Converter said 99 clicks; it was right.',
+  daysAgo: 3, hour: 15, grindSetting: 114, doseG: 18, yieldG: 46, shotTimeS: 30, rating: 4,
+  tasteBalance: 0, notes: 'Travel setup. Converter said 114 clicks; it was right.',
   flavourNotes: ['peach', 'clean'], preInfusionS: 12,
 });
 

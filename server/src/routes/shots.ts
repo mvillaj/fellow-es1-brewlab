@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { settingToMicrons, shotInputSchema, suggestNextShot } from '@brewlab/shared';
+import { grindSettingError, settingToMicrons, shotInputSchema, suggestNextShot } from '@brewlab/shared';
 import { bool, db, id, nowIso } from '../lib/db';
 import { requireAuth, type AuthedRequest } from '../lib/auth';
 import { toGrinder, toMachine, toShot } from '../lib/rows';
@@ -76,7 +76,15 @@ shotRouter.post('/', (req: AuthedRequest, res) => {
     const row = db
       .prepare('SELECT * FROM grinders WHERE id = ? AND user_id = ?')
       .get(s.grinderId, req.userId!) as any;
-    if (row) microns = Math.round(settingToMicrons(toGrinder(row), s.grindSetting));
+    if (row) {
+      const grinder = toGrinder(row);
+      const problem = grindSettingError(grinder, s.grindSetting);
+      if (problem) {
+        res.status(400).json({ error: problem });
+        return;
+      }
+      microns = Math.round(settingToMicrons(grinder, s.grindSetting));
+    }
   }
 
   const sid = id('sht');

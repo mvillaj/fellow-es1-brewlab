@@ -61,6 +61,8 @@ export const BUILT_IN_GRINDERS: GrinderSpec[] = [
     burrType: 'conical',
     burrSizeMm: 40,
     handPowered: false,
+    // The outer ring is labelled 1-11 with four clicks per number, so click n
+    // here is dial 1 + (n - 1) / 4. Click 5 is dial 2; click 41 is dial 11.
     scale: { kind: 'clicks', min: 1, max: 41, step: 1, unitLabel: 'clicks' },
     calibration: { umPerUnit: 30, interceptUm: 170, source: 'community' },
     espressoRange: [1, 8],
@@ -72,13 +74,15 @@ export const BUILT_IN_GRINDERS: GrinderSpec[] = [
     brand: 'Fellow',
     model: 'Opus 2',
     burrType: 'conical',
-    burrSizeMm: 40,
+    burrSizeMm: 48,
     handPowered: false,
-    scale: { kind: 'clicks', min: 1, max: 41, step: 1, unitLabel: 'clicks' },
-    calibration: { umPerUnit: 28, interceptUm: 150, source: 'estimated' },
-    espressoRange: [1, 9],
+    scale: { kind: 'stepless', min: 0, max: 10, step: 0.1, unitLabel: 'dial' },
+    // Fitted so Fellow's espresso window (dial 0-2) maps to 200-400 µm. Stepless
+    // dials are rarely linear end to end, so filter conversions drift coarse.
+    calibration: { umPerUnit: 100, interceptUm: 200, source: 'estimated' },
+    espressoRange: [0, 2],
     notes:
-      'Same 41-step dial as the original Opus, tightened burr alignment. Calibration here is an estimate — worth dialling in with the two-point calibrator.',
+      'Not the original Opus dial: a stepless side dial marked 0-10, with new 48 mm burrs. Fellow puts most espresso around 0-2. Calibrate it if you convert filter settings.',
   },
   {
     id: 'fellow-ode-2',
@@ -336,6 +340,24 @@ export function calibrateFromTwoPoints(
   const umPerUnit = (b.microns - a.microns) / (b.setting - a.setting);
   const interceptUm = a.microns - a.setting * umPerUnit;
   return { umPerUnit, interceptUm, source: 'measured' };
+}
+
+/**
+ * Why a setting can't be dialled on this grinder, or null if it can. Clicked
+ * and stepped dials must land on a step; stepless dials only need to be in
+ * range, since `step` there is just the UI's resolution.
+ */
+export function grindSettingError(g: UserGrinderLike, setting: number): string | null {
+  const { kind, min, max, step } = g.scale;
+  if (!Number.isFinite(setting)) return 'Grind setting must be a number';
+  if (setting < min || setting > max) return `${g.name} goes from ${min} to ${max}`;
+  if (kind !== 'stepless') {
+    const steps = (setting - min) / step;
+    if (Math.abs(steps - Math.round(steps)) > 1e-6) {
+      return `${g.name} moves in steps of ${step}`;
+    }
+  }
+  return null;
 }
 
 /** Human-readable bucket for a micron value, used for chips and filters. */
