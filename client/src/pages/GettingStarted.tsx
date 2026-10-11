@@ -31,14 +31,22 @@ const STEPS: Step[] = ['welcome', 'basics', 'gear', 'shop', 'shot'];
 
 const usd = (n: number) => `~$${n.toLocaleString('en-US')}`;
 const recName = (r: Recommendation) => `${r.brand} ${r.model}`;
-const asOf = new Date(`${RECOMMENDATIONS_AS_OF}-01T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+const asOf = new Date(`${RECOMMENDATIONS_AS_OF}-01T12:00:00Z`).toLocaleDateString('en-US', {
+  month: 'long',
+  year: 'numeric',
+});
 
 /** Puts a catalogue grinder on the bench as the default. */
 async function addGrinder(builtInId: string) {
   const spec = GRINDERS_BY_ID[builtInId];
   await api('/grinders', {
     method: 'POST',
-    body: { ...specToUserGrinder(spec), burrType: spec.burrType, notes: spec.notes ?? null, isDefault: true },
+    body: {
+      ...specToUserGrinder(spec),
+      burrType: spec.burrType,
+      notes: spec.notes ?? null,
+      isDefault: true,
+    },
   });
 }
 
@@ -56,7 +64,9 @@ export default function GettingStarted() {
   const [params, setParams] = useSearchParams();
   const { markOnboarded } = useAuth();
   const { machines } = useMachines();
-  const step = (STEPS.includes(params.get('step') as Step) ? params.get('step') : 'welcome') as Step;
+  const step = (
+    STEPS.includes(params.get('step') as Step) ? params.get('step') : 'welcome'
+  ) as Step;
   const isNew = params.get('new') === '1';
 
   function go(next: Step, opts: { isNew?: boolean } = {}) {
@@ -86,7 +96,9 @@ export default function GettingStarted() {
         </button>
       </div>
 
-      {step === 'welcome' ? <Welcome onAnswer={(fresh) => go(fresh ? 'basics' : 'gear', { isNew: fresh })} /> : null}
+      {step === 'welcome' ? (
+        <Welcome onAnswer={(fresh) => go(fresh ? 'basics' : 'gear', { isNew: fresh })} />
+      ) : null}
       {step === 'basics' ? <Basics onBack={() => go('welcome')} onNext={() => go('gear')} /> : null}
       {step === 'gear' ? (
         <Gear
@@ -96,7 +108,9 @@ export default function GettingStarted() {
           onReady={() => go('shot')}
         />
       ) : null}
-      {step === 'shop' ? <Shop onBack={() => go('gear')} onNext={() => go('shot')} onFinish={() => void finish()} /> : null}
+      {step === 'shop' ? (
+        <Shop onBack={() => go('gear')} onNext={() => go('shot')} onFinish={() => void finish()} />
+      ) : null}
       {step === 'shot' ? (
         <FirstShot
           hasMachine={machines.length > 0}
@@ -113,7 +127,10 @@ function Welcome({ onAnswer }: { onAnswer: (isNew: boolean) => void }) {
     <section className="stack">
       <div className="page-head">
         <h1>Let's get you pulling shots</h1>
-        <p>Two quick questions, then we'll set up your bench and walk you through your first espresso.</p>
+        <p>
+          Two quick questions, then we'll set up your bench and walk you through your first
+          espresso.
+        </p>
       </div>
       <h2>Have you made espresso before?</h2>
       <div className="choices">
@@ -163,7 +180,14 @@ function Basics({ onBack, onNext }: { onBack: () => void; onNext: () => void }) 
           </li>
         ))}
       </ol>
-      <WizardNav onBack={onBack} next={<button className="btn btn-primary" onClick={onNext}>Got it <ArrowRight aria-hidden="true" /></button>} />
+      <WizardNav
+        onBack={onBack}
+        next={
+          <button className="btn btn-primary" onClick={onNext}>
+            Got it <ArrowRight aria-hidden="true" />
+          </button>
+        }
+      />
     </section>
   );
 }
@@ -188,8 +212,8 @@ function Gear({
         <div className="page-head">
           <h1>You're set up</h1>
           <p>
-            Your bench has {machines.map((m) => m.name).join(', ')}. You can change it any time under Machines and
-            Grinders.
+            Your bench has {machines.map((m) => m.name).join(', ')}. You can change it any time
+            under Machines and Grinders.
           </p>
         </div>
         <WizardNav
@@ -213,7 +237,10 @@ function Gear({
     <section className="stack">
       <div className="page-head">
         <h1>Do you have an espresso machine?</h1>
-        <p>If you do, we'll put it on your bench so the shot log knows its temperature range and features.</p>
+        <p>
+          If you do, we'll put it on your bench so the shot log knows its temperature range and
+          features.
+        </p>
       </div>
       {answer === 'yes' ? (
         <BenchForm onSaved={onReady} onCancel={() => setAnswer(null)} />
@@ -264,7 +291,12 @@ function BenchForm({ onSaved, onCancel }: { onSaved: () => void; onCancel: () =>
       const name = rec ? recName(rec) : otherName.trim() || 'My espresso machine';
       await api('/machines', {
         method: 'POST',
-        body: { ...base, name: spec.id === 'generic-espresso' ? name : base.name, notes: spec.notes ?? null, isDefault: true },
+        body: {
+          ...base,
+          name: spec.id === 'generic-espresso' ? name : base.name,
+          notes: spec.notes ?? null,
+          isDefault: true,
+        },
       });
       if (!hasGrinder && grinderId !== NO_GRINDER) await addGrinder(grinderId);
       await reload();
@@ -289,7 +321,12 @@ function BenchForm({ onSaved, onCancel }: { onSaved: () => void; onCancel: () =>
       </Field>
       {machineId === OTHER_MACHINE ? (
         <Field label="What is it called?" hint="Everything in the logbook works with any machine.">
-          <input value={otherName} onChange={(e) => setOtherName(e.target.value)} placeholder="My espresso machine" maxLength={80} />
+          <input
+            value={otherName}
+            onChange={(e) => setOtherName(e.target.value)}
+            placeholder="My espresso machine"
+            maxLength={80}
+          />
         </Field>
       ) : null}
       {hasGrinder ? null : (
@@ -320,7 +357,15 @@ function BenchForm({ onSaved, onCancel }: { onSaved: () => void; onCancel: () =>
   );
 }
 
-function Shop({ onBack, onNext, onFinish }: { onBack: () => void; onNext: () => void; onFinish: () => void }) {
+function Shop({
+  onBack,
+  onNext,
+  onFinish,
+}: {
+  onBack: () => void;
+  onNext: () => void;
+  onFinish: () => void;
+}) {
   const { machines } = useMachines();
   const [dir, setDir] = useState<'asc' | 'desc'>('asc');
   const [added, setAdded] = useState<Set<string>>(new Set());
@@ -341,8 +386,8 @@ function Shop({ onBack, onNext, onFinish }: { onBack: () => void; onNext: () => 
       <div className="page-head">
         <h1>Choosing your first setup</h1>
         <p>
-          Budget for the grinder as seriously as the machine: espresso needs a fine, even grind, and a great machine
-          can't fix a grinder that can't get there.
+          Budget for the grinder as seriously as the machine: espresso needs a fine, even grind, and
+          a great machine can't fix a grinder that can't get there.
         </p>
       </div>
 
@@ -385,7 +430,8 @@ function Shop({ onBack, onNext, onFinish }: { onBack: () => void; onNext: () => 
         <div className="card stack-sm">
           <h3>Come back when it arrives</h3>
           <p className="dim small mb-0">
-            Add your machine under Machines once it's here. Meanwhile, you can read how a first shot goes.
+            Add your machine under Machines once it's here. Meanwhile, you can read how a first shot
+            goes.
           </p>
         </div>
       )}
@@ -433,7 +479,8 @@ function RecList({
               <p className="dim small">{r.why}</p>
               {r.pairsWith?.length ? (
                 <p className="faint small">
-                  Pairs with {r.pairsWith.map((id) => recName(RECOMMENDATIONS_BY_ID[id])).join(' or ')}
+                  Pairs with{' '}
+                  {r.pairsWith.map((id) => recName(RECOMMENDATIONS_BY_ID[id])).join(' or ')}
                 </p>
               ) : null}
             </div>

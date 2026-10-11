@@ -37,12 +37,11 @@ const corsOrigins = process.env.CORS_ORIGINS?.split(',')
   .filter(Boolean);
 app.use(
   cors({
-    origin:
-      corsOrigins?.length
-        ? corsOrigins
-        : process.env.NODE_ENV === 'production'
-          ? false
-          : ['http://localhost:5173'],
+    origin: corsOrigins?.length
+      ? corsOrigins
+      : process.env.NODE_ENV === 'production'
+        ? false
+        : ['http://localhost:5173'],
   }),
 );
 

@@ -50,27 +50,42 @@ interface NavLinkDef {
 
 export function navFor(caps: MachineCapabilities) {
   const groups: { section: string; links: NavLinkDef[] }[] = [
-    { section: 'Brewing', links: [
-      { to: '/', label: 'Dashboard', icon: LayoutGrid, end: true, show: true },
-      { to: '/shots', label: 'Shot log', icon: History, show: true },
-      { to: '/profiles', label: 'Profiles', icon: Waves, show: caps.profiling !== 'none' },
-    ]},
-    { section: 'Equipment', links: [
-      { to: '/machines', label: 'Machines', icon: CoffeeIcon, show: true },
-      { to: '/grinders', label: 'Grinders', icon: Cog, show: true },
-    ]},
-    { section: 'Library', links: [
-      { to: '/coffees', label: 'My coffees', icon: Bean, show: true },
-      { to: '/explore', label: 'Explore', icon: Compass, show: true },
-    ]},
-    { section: 'Settings', links: [
-      { to: '/account', label: 'My account', icon: UserRound, show: true },
-      { to: '/fellow', label: 'Fellow account', icon: CloudCog, show: caps.cloud === 'fellow' },
-    ]},
-    { section: 'About', links: [
-      { to: '/getting-started', label: 'Getting started', icon: Sprout, show: true },
-      { to: '/changelog', label: 'Changelog', icon: BookOpen, show: true },
-    ]},
+    {
+      section: 'Brewing',
+      links: [
+        { to: '/', label: 'Dashboard', icon: LayoutGrid, end: true, show: true },
+        { to: '/shots', label: 'Shot log', icon: History, show: true },
+        { to: '/profiles', label: 'Profiles', icon: Waves, show: caps.profiling !== 'none' },
+      ],
+    },
+    {
+      section: 'Equipment',
+      links: [
+        { to: '/machines', label: 'Machines', icon: CoffeeIcon, show: true },
+        { to: '/grinders', label: 'Grinders', icon: Cog, show: true },
+      ],
+    },
+    {
+      section: 'Library',
+      links: [
+        { to: '/coffees', label: 'My coffees', icon: Bean, show: true },
+        { to: '/explore', label: 'Explore', icon: Compass, show: true },
+      ],
+    },
+    {
+      section: 'Settings',
+      links: [
+        { to: '/account', label: 'My account', icon: UserRound, show: true },
+        { to: '/fellow', label: 'Fellow account', icon: CloudCog, show: caps.cloud === 'fellow' },
+      ],
+    },
+    {
+      section: 'About',
+      links: [
+        { to: '/getting-started', label: 'Getting started', icon: Sprout, show: true },
+        { to: '/changelog', label: 'Changelog', icon: BookOpen, show: true },
+      ],
+    },
   ];
   return groups
     .map((g) => ({ ...g, links: g.links.filter((l) => l.show) }))
@@ -157,7 +172,12 @@ function Settings({ inline = false }: { inline?: boolean }) {
             <Palette aria-hidden="true" />
           </button>
         )}
-        <button className="btn btn-ghost btn-icon" onClick={logout} aria-label="Sign out" title="Sign out">
+        <button
+          className="btn btn-ghost btn-icon"
+          onClick={logout}
+          aria-label="Sign out"
+          title="Sign out"
+        >
           <LogOut aria-hidden="true" />
         </button>
         {open && !inline ? (
@@ -184,7 +204,11 @@ function TabBar({ onMore }: { onMore: () => void }) {
         <History aria-hidden="true" />
         Shots
       </NavLink>
-      <button type="button" className="tab tab-log" onClick={() => navigate('/', { state: { log: true } })}>
+      <button
+        type="button"
+        className="tab tab-log"
+        onClick={() => navigate('/', { state: { log: true } })}
+      >
         <span className="tab-log-disc">
           <Plus aria-hidden="true" />
         </span>
@@ -205,7 +229,13 @@ function TabBar({ onMore }: { onMore: () => void }) {
 /** Destinations the tab bar already carries, so the sheet doesn't repeat them. */
 const IN_TAB_BAR = new Set(['/', '/shots', '/coffees']);
 
-export function MoreSheet({ groups, onClose }: { groups: ReturnType<typeof navFor>; onClose: () => void }) {
+export function MoreSheet({
+  groups,
+  onClose,
+}: {
+  groups: ReturnType<typeof navFor>;
+  onClose: () => void;
+}) {
   const location = useLocation();
   const rest = groups
     .map((g) => ({ ...g, links: g.links.filter((l) => !IN_TAB_BAR.has(l.to)) }))
@@ -236,7 +266,13 @@ export function MoreSheet({ groups, onClose }: { groups: ReturnType<typeof navFo
       <div className="sheet" role="dialog" aria-modal="true" aria-label="More">
         <div className="sheet-head">
           <h2>More</h2>
-          <button type="button" className="btn btn-ghost btn-icon" onClick={onClose} aria-label="Close" title="Close">
+          <button
+            type="button"
+            className="btn btn-ghost btn-icon"
+            onClick={onClose}
+            aria-label="Close"
+            title="Close"
+          >
             <X aria-hidden="true" />
           </button>
         </div>

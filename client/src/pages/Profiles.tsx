@@ -49,8 +49,8 @@ export default function Profiles() {
         <div>
           <h1>Brew profiles</h1>
           <p>
-            Shots the ES1 runs as timed phases: each one targets a pressure and the machine modulates flow to hold
-            it. Build one here, then send it to your Fellow account.
+            Shots the ES1 runs as timed phases: each one targets a pressure and the machine
+            modulates flow to hold it. Build one here, then send it to your Fellow account.
           </p>
         </div>
         <button className="btn btn-primary" onClick={() => setPicking(true)}>
@@ -69,7 +69,12 @@ export default function Profiles() {
                   </Link>
                   {p.description ? <div className="small dim">{p.description}</div> : null}
                 </div>
-                <button className="btn btn-ghost btn-icon" onClick={() => remove(p)} aria-label={`Delete ${p.name}`} title="Delete">
+                <button
+                  className="btn btn-ghost btn-icon"
+                  onClick={() => remove(p)}
+                  aria-label={`Delete ${p.name}`}
+                  title="Delete"
+                >
                   <Trash2 aria-hidden="true" />
                 </button>
               </div>
@@ -83,9 +88,13 @@ export default function Profiles() {
                 </span>
                 <span className="tag mono">{totalDurationS(p.profile)}s</span>
                 <span className="tag">{p.profile.stages.length} stages</span>
-                <span className={`tag ${SYNC_TAG[p.syncState].cls}`}>{SYNC_TAG[p.syncState].label}</span>
+                <span className={`tag ${SYNC_TAG[p.syncState].cls}`}>
+                  {SYNC_TAG[p.syncState].label}
+                </span>
                 {ORIGIN_TAG[p.origin] ? (
-                  <span className={`tag ${ORIGIN_TAG[p.origin]!.cls}`}>{ORIGIN_TAG[p.origin]!.label}</span>
+                  <span className={`tag ${ORIGIN_TAG[p.origin]!.cls}`}>
+                    {ORIGIN_TAG[p.origin]!.label}
+                  </span>
                 ) : null}
                 {p.isPublic ? <span className="tag crema">shared</span> : null}
               </div>
@@ -93,7 +102,9 @@ export default function Profiles() {
           ))}
         </div>
       ) : (
-        <Empty title="No profiles yet">Start from one of Fellow's factory profiles and bend it to your coffee.</Empty>
+        <Empty title="No profiles yet">
+          Start from one of Fellow's factory profiles and bend it to your coffee.
+        </Empty>
       )}
 
       {picking ? (
@@ -101,7 +112,9 @@ export default function Profiles() {
           <div className="grid grid-2">
             <button className="list-item" onClick={() => navigate('/profiles/new')}>
               <div className="item-title">Blank profile</div>
-              <div className="small dim">Pre-infusion, infusion, ramp down — then change everything.</div>
+              <div className="small dim">
+                Pre-infusion, infusion, ramp down — then change everything.
+              </div>
             </button>
             {STOCK_PROFILES.map((s) => (
               <button key={s.name} className="list-item" onClick={() => createFromStock(s.name)}>
@@ -109,9 +122,7 @@ export default function Profiles() {
                   <span className="item-title">{s.name}</span>
                   <span className="tag mono">{tempF(s.brewTempC)}</span>
                 </div>
-                <div className="small dim mt-1">
-                  {s.description}
-                </div>
+                <div className="small dim mt-1">{s.description}</div>
                 <div className="row-wrap small mt-2">
                   <span className="tag mono">1:{s.ratio}</span>
                   <span className="tag mono">{totalDurationS(s)}s</span>

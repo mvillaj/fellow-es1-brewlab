@@ -5,7 +5,11 @@ import { GRINDERS_BY_ID, type Grinder } from '@brewlab/shared';
 import ShotForm from './ShotForm';
 
 vi.mock('../lib/machines', () => ({
-  useMachines: () => ({ machines: [], active: null, capabilities: { profiling: 'none', cloud: null } }),
+  useMachines: () => ({
+    machines: [],
+    active: null,
+    capabilities: { profiling: 'none', cloud: null },
+  }),
 }));
 
 function grinder(builtInId: string): Grinder {

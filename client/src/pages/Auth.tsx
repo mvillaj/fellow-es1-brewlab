@@ -10,7 +10,8 @@ import { useClerkAppearance } from '../lib/clerkAppearance';
  */
 export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
   const navigate = useNavigate();
-  const setMode = (m: 'login' | 'signup') => navigate(m === 'login' ? '/sign-in' : '/sign-up', { replace: true });
+  const setMode = (m: 'login' | 'signup') =>
+    navigate(m === 'login' ? '/sign-in' : '/sign-up', { replace: true });
   const appearance = useClerkAppearance();
 
   return (
@@ -26,7 +27,10 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
         </div>
 
         <div className="segmented w-full mb-4">
-          <button className={mode === 'login' ? 'on grow' : 'grow'} onClick={() => setMode('login')}>
+          <button
+            className={mode === 'login' ? 'on grow' : 'grow'}
+            onClick={() => setMode('login')}
+          >
             Sign in
           </button>
           <button

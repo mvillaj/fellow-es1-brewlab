@@ -70,7 +70,8 @@ export const BUILT_IN_MACHINES: MachineSpec[] = [
     // Wide enough for anything from a lever pulled cool to a temperature-surfing
     // single boiler. The point is to not get in the way.
     limits: { tempC: { min: 80, max: 105 }, maxPressureBar: 15 },
-    notes: 'Everything the logbook does, minus the profile studio. Pick this if your machine is not listed.',
+    notes:
+      'Everything the logbook does, minus the profile studio. Pick this if your machine is not listed.',
   },
 ];
 

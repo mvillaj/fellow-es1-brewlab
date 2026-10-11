@@ -41,8 +41,11 @@ if (!entries.length) {
 function redact(text) {
   if (typeof text !== 'string') return text;
   return text
-    .replace(/("(?:accessToken|refreshToken|idToken|password|Authorization)"\s*:\s*")[^"]*/gi, '$1<redacted>')
-    .replace(/(Bearer\s+)[\w.\-]+/gi, '$1<redacted>')
+    .replace(
+      /("(?:accessToken|refreshToken|idToken|password|Authorization)"\s*:\s*")[^"]*/gi,
+      '$1<redacted>',
+    )
+    .replace(/(Bearer\s+)[\w.-]+/gi, '$1<redacted>')
     .replace(/(eyJ[\w-]{10,}\.[\w-]{10,})\.[\w-]+/g, '<jwt>');
 }
 
@@ -87,8 +90,12 @@ for (const [host, n] of [...byHost].sort((a, b) => b[1] - a[1])) {
   console.log(`  ${String(n).padStart(4)}  ${host.padEnd(56)} ${tag}`);
 }
 if (byHost.size === 1 && byHost.has(KNOWN_GATEWAY)) {
-  console.log(dim('\n  Only the known gateway. If a profile save happened during this capture and'));
-  console.log(dim('  produced no request, the ES1 is not driven over HTTPS — look for a WebSocket'));
+  console.log(
+    dim('\n  Only the known gateway. If a profile save happened during this capture and'),
+  );
+  console.log(
+    dim('  produced no request, the ES1 is not driven over HTTPS — look for a WebSocket'),
+  );
   console.log(dim('  (MQTT over WSS to *-ats.iot.<region>.amazonaws.com) or a BLE transport.'));
 }
 
@@ -103,7 +110,9 @@ for (const r of es1Rows) {
 
 // --- 3. writes ---------------------------------------------------------------
 
-console.log(`\n${bold('3. Writes')} ${dim('(POST/PUT/PATCH — where a profile upload would live)')}`);
+console.log(
+  `\n${bold('3. Writes')} ${dim('(POST/PUT/PATCH — where a profile upload would live)')}`,
+);
 const writes = rows.filter((r) => ['POST', 'PUT', 'PATCH'].includes(r.method));
 for (const r of writes) {
   const flag = r.mentionsEs1 || r.mentionsEspresso ? amber('●') : ' ';
@@ -121,10 +130,21 @@ if (!candidates.length) {
 for (const r of candidates) {
   console.log(`\n${green(`${r.method} ${r.host}${r.path}`)} ${dim(`→ ${r.status}`)}`);
   console.log(dim('  request:'));
-  console.log(redact(JSON.stringify(r.reqBody, null, 2)).split('\n').map((l) => `    ${l}`).join('\n'));
+  console.log(
+    redact(JSON.stringify(r.reqBody, null, 2))
+      .split('\n')
+      .map((l) => `    ${l}`)
+      .join('\n'),
+  );
   if (r.resBody) {
     console.log(dim('  response:'));
-    console.log(redact(JSON.stringify(r.resBody, null, 2)).split('\n').slice(0, 60).map((l) => `    ${l}`).join('\n'));
+    console.log(
+      redact(JSON.stringify(r.resBody, null, 2))
+        .split('\n')
+        .slice(0, 60)
+        .map((l) => `    ${l}`)
+        .join('\n'),
+    );
   }
 }
 
@@ -133,7 +153,9 @@ for (const r of candidates) {
 // same way we read the Aiden's.
 
 function describe(values) {
-  const types = new Set(values.map((v) => (v === null ? 'null' : Array.isArray(v) ? 'array' : typeof v)));
+  const types = new Set(
+    values.map((v) => (v === null ? 'null' : Array.isArray(v) ? 'array' : typeof v)),
+  );
   const nonNull = values.filter((v) => v !== null && v !== undefined);
   const type = [...types].join(' | ');
   if (nonNull.length && nonNull.every((v) => typeof v === 'number')) {
@@ -150,7 +172,8 @@ function inferSchema(objects, prefix = '') {
     const values = objects.map((o) => o?.[key]).filter((v) => v !== undefined);
     lines.push(`  ${(prefix + key).padEnd(30)} ${describe(values)}`);
     const nested = values.filter((v) => v && typeof v === 'object' && !Array.isArray(v));
-    if (nested.length === values.length && nested.length) lines.push(...inferSchema(nested, `${prefix}${key}.`));
+    if (nested.length === values.length && nested.length)
+      lines.push(...inferSchema(nested, `${prefix}${key}.`));
     const arrayed = values.filter(Array.isArray).flat();
     if (arrayed.length && arrayed.every((v) => v && typeof v === 'object')) {
       lines.push(...inferSchema(arrayed, `${prefix}${key}[].`));
@@ -159,11 +182,15 @@ function inferSchema(objects, prefix = '') {
   return lines;
 }
 
-const payloads = candidates.map((r) => r.reqBody).filter((b) => b && typeof b === 'object' && !Array.isArray(b));
+const payloads = candidates
+  .map((r) => r.reqBody)
+  .filter((b) => b && typeof b === 'object' && !Array.isArray(b));
 if (payloads.length) {
   console.log(`\n${bold('5. Inferred ES1 profile schema')}`);
   console.log(inferSchema(payloads).join('\n'));
-  console.log(`\n${amber('↑ Encode this in packages/shared/src/es1.ts and map to it in toEs1Payload().')}`);
+  console.log(
+    `\n${amber('↑ Encode this in packages/shared/src/es1.ts and map to it in toEs1Payload().')}`,
+  );
 }
 
 // --- 6. websockets -----------------------------------------------------------

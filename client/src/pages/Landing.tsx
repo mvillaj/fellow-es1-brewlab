@@ -89,7 +89,9 @@ function curvePaths(profile: Pick<Es1Profile, 'stages'>, w: number, h: number, t
 }
 
 function prefersReducedMotion() {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return (
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 }
 
 /* ── Hero: the pull ────────────────────────────────────────────────────────── */
@@ -178,17 +180,42 @@ function HeroPull() {
         <div className="pull-track">
           <svg viewBox={`0 0 ${VB_W} ${VB_H}`} preserveAspectRatio="none" aria-hidden="true">
             <defs>
-              <linearGradient id="pull-fill" gradientUnits="userSpaceOnUse" x1="0" y1={VB_TOP} x2="0" y2={VB_H}>
-                <stop offset="0%" stopColor="var(--chart-pressure)" stopOpacity="var(--chart-area-opacity)" />
+              <linearGradient
+                id="pull-fill"
+                gradientUnits="userSpaceOnUse"
+                x1="0"
+                y1={VB_TOP}
+                x2="0"
+                y2={VB_H}
+              >
+                <stop
+                  offset="0%"
+                  stopColor="var(--chart-pressure)"
+                  stopOpacity="var(--chart-area-opacity)"
+                />
                 <stop offset="100%" stopColor="var(--chart-pressure)" stopOpacity="0" />
               </linearGradient>
               {/* The shot's tail past the last reading fades out across the gutter, so
                   the fill leaves the page instead of stopping in a hard edge. */}
-              <linearGradient id="pull-tail-fade" gradientUnits="userSpaceOnUse" x1={VB_W} y1="0" x2={VB_W * 1.035} y2="0">
+              <linearGradient
+                id="pull-tail-fade"
+                gradientUnits="userSpaceOnUse"
+                x1={VB_W}
+                y1="0"
+                x2={VB_W * 1.035}
+                y2="0"
+              >
                 <stop offset="0%" stopColor="#fff" />
                 <stop offset="100%" stopColor="#fff" stopOpacity="0" />
               </linearGradient>
-              <mask id="pull-tail-mask" maskUnits="userSpaceOnUse" x={VB_W} y="0" width={VB_W} height={VB_H}>
+              <mask
+                id="pull-tail-mask"
+                maskUnits="userSpaceOnUse"
+                x={VB_W}
+                y="0"
+                width={VB_W}
+                height={VB_H}
+              >
                 <rect x={VB_W} y="0" width={VB_W} height={VB_H} fill="url(#pull-tail-fade)" />
               </mask>
               <clipPath id="pull-clip">
@@ -203,18 +230,35 @@ function HeroPull() {
                 y="0"
                 // The last band runs on past the track to the viewport edge, so the
                 // shot ends inside its stage rather than against a bare column.
-                width={((b.to - b.from) / HERO_TOTAL) * VB_W + (i === HERO_BANDS.length - 1 ? VB_W : 0)}
+                width={
+                  ((b.to - b.from) / HERO_TOTAL) * VB_W + (i === HERO_BANDS.length - 1 ? VB_W : 0)
+                }
                 height={VB_H}
                 fill={STAGE_COLOUR[b.stage.kind]}
               />
             ))}
             {[3, 6, 9].map((bar) => (
-              <line key={bar} className="pull-grid" x1="0" x2={VB_W * 2} y1={y(bar)} y2={y(bar)} vectorEffect="non-scaling-stroke" />
+              <line
+                key={bar}
+                className="pull-grid"
+                x1="0"
+                x2={VB_W * 2}
+                y1={y(bar)}
+                y2={y(bar)}
+                vectorEffect="non-scaling-stroke"
+              />
             ))}
             <path d={line} className="pull-ghost" vectorEffect="non-scaling-stroke" />
             <g className="pull-tail" mask="url(#pull-tail-mask)">
-              <path d={`M${VB_W},${y(END_BAR)} L${VB_W * 2},${y(END_BAR)} L${VB_W * 2},${VB_H} L${VB_W},${VB_H} Z`} fill="url(#pull-fill)" />
-              <path d={`M${VB_W},${y(END_BAR)} L${VB_W * 2},${y(END_BAR)}`} className="pull-ghost" vectorEffect="non-scaling-stroke" />
+              <path
+                d={`M${VB_W},${y(END_BAR)} L${VB_W * 2},${y(END_BAR)} L${VB_W * 2},${VB_H} L${VB_W},${VB_H} Z`}
+                fill="url(#pull-fill)"
+              />
+              <path
+                d={`M${VB_W},${y(END_BAR)} L${VB_W * 2},${y(END_BAR)}`}
+                className="pull-ghost"
+                vectorEffect="non-scaling-stroke"
+              />
             </g>
             <g clipPath="url(#pull-clip)">
               <path d={area} fill="url(#pull-fill)" />
@@ -238,14 +282,23 @@ function HeroPull() {
             <div className="pull-figures">
               <div className="pull-readings">
                 <span className="pull-reading">
-                  <span ref={barText} className="mono">0.0</span> bar
+                  <span ref={barText} className="mono">
+                    0.0
+                  </span>{' '}
+                  bar
                 </span>
                 <span className="pull-reading">
-                  <span ref={timeText} className="mono">0.0</span> s
+                  <span ref={timeText} className="mono">
+                    0.0
+                  </span>{' '}
+                  s
                 </span>
                 {/* The profile carries a flow ceiling, not a measured flow, so it is labelled as one. */}
                 <span className="pull-reading" title="Flow limit for this stage">
-                  <span ref={flowText} className="mono">{HERO.stages[0].flowLimitMlS.toFixed(1)}</span> ml/s max
+                  <span ref={flowText} className="mono">
+                    {HERO.stages[0].flowLimitMlS.toFixed(1)}
+                  </span>{' '}
+                  ml/s max
                 </span>
               </div>
               <span className="pull-stage">
@@ -269,7 +322,11 @@ function HeroPull() {
                 key={b.stage.id}
                 href={`#${STAGE_ANCHOR[b.stage.kind]}`}
                 className={i === HERO_BANDS.length - 1 && i > 0 ? 'last' : undefined}
-                style={i === HERO_BANDS.length - 1 && i > 0 ? { right: 0 } : { left: `${(b.from / HERO_TOTAL) * 100}%` }}
+                style={
+                  i === HERO_BANDS.length - 1 && i > 0
+                    ? { right: 0 }
+                    : { left: `${(b.from / HERO_TOTAL) * 100}%` }
+                }
               >
                 <span className="pull-stage-name">
                   <i style={{ background: STAGE_COLOUR[b.stage.kind] }} aria-hidden="true" />
@@ -288,13 +345,19 @@ function HeroPull() {
       </div>
 
       <figcaption className="pull-caption">
-        <button type="button" className="btn btn-sm" onClick={() => setRun((n) => n + 1)} disabled={!done}>
+        <button
+          type="button"
+          className="btn btn-sm"
+          onClick={() => setRun((n) => n + 1)}
+          disabled={!done}
+        >
           <RotateCcw aria-hidden="true" />
           Pull it again
         </button>
         <span>
-          {HERO.name}, one of Fellow’s factory profiles: <span className="mono">{HERO.doseG}</span> g in,{' '}
-          <span className="mono">{HERO_YIELD}</span> g out at <span className="mono">{HERO.brewTempC}</span> °C.
+          {HERO.name}, one of Fellow’s factory profiles: <span className="mono">{HERO.doseG}</span>{' '}
+          g in, <span className="mono">{HERO_YIELD}</span> g out at{' '}
+          <span className="mono">{HERO.brewTempC}</span> °C.
         </span>
       </figcaption>
     </figure>
@@ -386,11 +449,16 @@ function DialInDemo() {
                 width={52}
                 label={`${s.yieldG} g, ${s.timeS} s, ${tasteLabel(s.taste).toLowerCase()}`}
               />
-              <span className={`dialin-time${Math.abs(s.timeS - SAMPLE_TARGET_S) <= 4 ? ' on-target' : ''}`}>{s.timeS}s</span>
+              <span
+                className={`dialin-time${Math.abs(s.timeS - SAMPLE_TARGET_S) <= 4 ? ' on-target' : ''}`}
+              >
+                {s.timeS}s
+              </span>
               <span className="dialin-delta">
                 {prev ? (
                   <>
-                    <span className="mono">{`${steps > 0 ? '+' : '−'}${Math.abs(steps)}`}</span> step
+                    <span className="mono">{`${steps > 0 ? '+' : '−'}${Math.abs(steps)}`}</span>{' '}
+                    step
                   </>
                 ) : (
                   'first'
@@ -480,7 +548,10 @@ function GrindTranslator() {
         </div>
         <div className="field">
           <label htmlFor="grind-setting">
-            Setting <span className="demo-value">{settingLabel(value, spec.scale.unitLabel, spec.scale.step)}</span>
+            Setting{' '}
+            <span className="demo-value">
+              {settingLabel(value, spec.scale.unitLabel, spec.scale.step)}
+            </span>
           </label>
           <input
             id="grind-setting"
@@ -544,7 +615,12 @@ const SAMPLE_YIELD = 36;
 function CoachDemo() {
   const [time, setTime] = useState(21);
   const [taste, setTaste] = useState(-2);
-  const s = suggestNextShot({ doseG: SAMPLE_DOSE, yieldG: SAMPLE_YIELD, shotTimeS: time, tasteBalance: taste });
+  const s = suggestNextShot({
+    doseG: SAMPLE_DOSE,
+    yieldG: SAMPLE_YIELD,
+    shotTimeS: time,
+    tasteBalance: taste,
+  });
 
   return (
     <div className="coach-demo">
@@ -645,10 +721,38 @@ const SAMPLE_PROFILE: Es1Profile = {
   ratio: 2.2,
   brewTempC: 93,
   stages: [
-    { id: 'a', kind: 'preinfusion', durationS: 12, pressureBar: 2, endPressureBar: 2, flowLimitMlS: 3 },
-    { id: 'b', kind: 'infusion', durationS: 10, pressureBar: 9, endPressureBar: 9, flowLimitMlS: 4.5 },
-    { id: 'c', kind: 'infusion', durationS: 8, pressureBar: 7.5, endPressureBar: 7.5, flowLimitMlS: 4.5 },
-    { id: 'd', kind: 'rampdown', durationS: 6, pressureBar: 7.5, endPressureBar: 4, flowLimitMlS: 4.5 },
+    {
+      id: 'a',
+      kind: 'preinfusion',
+      durationS: 12,
+      pressureBar: 2,
+      endPressureBar: 2,
+      flowLimitMlS: 3,
+    },
+    {
+      id: 'b',
+      kind: 'infusion',
+      durationS: 10,
+      pressureBar: 9,
+      endPressureBar: 9,
+      flowLimitMlS: 4.5,
+    },
+    {
+      id: 'c',
+      kind: 'infusion',
+      durationS: 8,
+      pressureBar: 7.5,
+      endPressureBar: 7.5,
+      flowLimitMlS: 4.5,
+    },
+    {
+      id: 'd',
+      kind: 'rampdown',
+      durationS: 6,
+      pressureBar: 7.5,
+      endPressureBar: 4,
+      flowLimitMlS: 4.5,
+    },
   ],
 };
 
@@ -670,7 +774,9 @@ function ProfileDemo() {
             </span>
             <span>
               <span className="mono">
-                {st.pressureBar === st.endPressureBar ? st.pressureBar : `${st.pressureBar} → ${st.endPressureBar}`}
+                {st.pressureBar === st.endPressureBar
+                  ? st.pressureBar
+                  : `${st.pressureBar} → ${st.endPressureBar}`}
               </span>{' '}
               bar
             </span>
@@ -712,8 +818,8 @@ export default function Landing() {
         <div className="hero-copy">
           <h1>Dial in espresso on your ES1, one change at a time.</h1>
           <p>
-            Mousetail is a shot log, a dial-in coach and a pressure-profile editor for people who own a Fellow Espresso Series 1. Log
-            a shot, get the single next change, pull again.
+            Mousetail is a shot log, a dial-in coach and a pressure-profile editor for people who
+            own a Fellow Espresso Series 1. Log a shot, get the single next change, pull again.
           </p>
           <Ctas />
         </div>
@@ -725,9 +831,10 @@ export default function Landing() {
         <div className="stage-body">
           <h2>Every shot, logged with the setting that made it.</h2>
           <p className="lead">
-            Dose, yield, time, pre-infusion, temperature, grind, a rating, and where the cup landed between sour and bitter. Each
-            shot is drawn as a glass on one scale, so a run of pulls reads at a glance. The grind is also stored in microns, so
-            shots from grinders that disagree about what “15” means sit on one axis, and recalibrating a grinder later never
+            Dose, yield, time, pre-infusion, temperature, grind, a rating, and where the cup landed
+            between sour and bitter. Each shot is drawn as a glass on one scale, so a run of pulls
+            reads at a glance. The grind is also stored in microns, so shots from grinders that
+            disagree about what “15” means sit on one axis, and recalibrating a grinder later never
             rewrites your history.
           </p>
           <div className="stage-demos">
@@ -735,8 +842,8 @@ export default function Landing() {
             <GrindTranslator />
           </div>
           <p className="aside">
-            Coffees live on a shelf of the bags you’re working through. Paste a roaster’s page to prefill one, and share coffees to
-            a library other brewers can clone.
+            Coffees live on a shelf of the bags you’re working through. Paste a roaster’s page to
+            prefill one, and share coffees to a library other brewers can clone.
           </p>
         </div>
       </section>
@@ -746,13 +853,14 @@ export default function Landing() {
         <div className="stage-body">
           <h2>One change at a time.</h2>
           <p className="lead">
-            After each shot the coach reads the time and the taste and hands back exactly one adjustment: finer, coarser, longer,
-            shorter, or hold. Change two things at once and you learn nothing. Try it on a shot you pulled this morning.
+            After each shot the coach reads the time and the taste and hands back exactly one
+            adjustment: finer, coarser, longer, shorter, or hold. Change two things at once and you
+            learn nothing. Try it on a shot you pulled this morning.
           </p>
           <CoachDemo />
           <p className="aside">
-            This is the same code the app runs. It’s a barista’s checklist written down, not science: judge the time against a 28
-            s target, then let taste break the tie.
+            This is the same code the app runs. It’s a barista’s checklist written down, not
+            science: judge the time against a 28 s target, then let taste break the tie.
           </p>
         </div>
       </section>
@@ -762,32 +870,36 @@ export default function Landing() {
         <div className="stage-body">
           <h2>Profiles the machine can actually run.</h2>
           <p className="lead">
-            The editor builds only what the ES1 runs: an optional pre-infusion, flat infusion steps and an optional ramp down,
-            inside the machine’s limits. Every profile is validated before it can reach the machine.
+            The editor builds only what the ES1 runs: an optional pre-infusion, flat infusion steps
+            and an optional ramp down, inside the machine’s limits. Every profile is validated
+            before it can reach the machine.
           </p>
           <div className="profile-split">
             <ProfileDemo />
             <ul className="facts">
               <li>
-                <strong>Bring your own.</strong> Import the profiles on your Fellow account, edit them here, and push them back.
+                <strong>Bring your own.</strong> Import the profiles on your Fellow account, edit
+                them here, and push them back.
               </li>
               <li>
-                <strong>Never touches what isn’t yours.</strong> Only profiles Mousetail can tell are yours get updated. Factory
-                profiles and Drops are left alone, and the editor says what will happen before it happens.
+                <strong>Never touches what isn’t yours.</strong> Only profiles Mousetail can tell
+                are yours get updated. Factory profiles and Drops are left alone, and the editor
+                says what will happen before it happens.
               </li>
               <li>
-                <strong>A starting point, if you want one.</strong> Describe a coffee and ask a model for a first profile. It
-                opens unsaved, for you to check.
+                <strong>A starting point, if you want one.</strong> Describe a coffee and ask a
+                model for a first profile. It opens unsaved, for you to check.
               </li>
               <li>
                 <strong>Honest about estimates.</strong> Grinder calibrations are tagged{' '}
-                <span className="tag good">measured</span> <span className="tag cool">community</span> or{' '}
-                <span className="tag">estimated</span>. Machine limits Fellow hasn’t published are marked as inferred, and anything
-                a model filled in says so.
+                <span className="tag good">measured</span>{' '}
+                <span className="tag cool">community</span> or{' '}
+                <span className="tag">estimated</span>. Machine limits Fellow hasn’t published are
+                marked as inferred, and anything a model filled in says so.
               </li>
               <li>
-                <strong>Candid about the plumbing.</strong> Fellow’s API is private and unofficial. If it changes, pushing breaks
-                and tells you so; your log keeps working.
+                <strong>Candid about the plumbing.</strong> Fellow’s API is private and unofficial.
+                If it changes, pushing breaks and tells you so; your log keeps working.
               </li>
             </ul>
           </div>
@@ -799,8 +911,9 @@ export default function Landing() {
         <div className="stage-body">
           <h2>Who it’s for</h2>
           <p className="lead">
-            ES1 owners who want a record of what they pulled and a plain answer about what to change next. The shot log, coach and
-            coffee library work with any espresso machine; the profile studio needs the ES1.
+            ES1 owners who want a record of what they pulled and a plain answer about what to change
+            next. The shot log, coach and coffee library work with any espresso machine; the profile
+            studio needs the ES1.
           </p>
         </div>
       </section>
@@ -812,8 +925,8 @@ export default function Landing() {
       </section>
 
       <footer className="landing-foot">
-        Mousetail is an independent project. It is not affiliated with, endorsed by, or supported by Fellow Products. Fellow and
-        Espresso Series 1 belong to their owner.
+        Mousetail is an independent project. It is not affiliated with, endorsed by, or supported by
+        Fellow Products. Fellow and Espresso Series 1 belong to their owner.
       </footer>
     </div>
   );

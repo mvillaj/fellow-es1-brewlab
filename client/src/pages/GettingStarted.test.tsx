@@ -97,7 +97,10 @@ describe('Getting started', () => {
     await waitFor(() => expect(grinders.getByText('On your bench')).toBeTruthy());
     const [url, init] = fetch.mock.calls.find(([u]) => u === '/api/grinders')!;
     expect(url).toBe('/api/grinders');
-    expect(JSON.parse(String(init?.body))).toMatchObject({ builtInId: 'timemore-c3-esp', isDefault: true });
+    expect(JSON.parse(String(init?.body))).toMatchObject({
+      builtInId: 'timemore-c3-esp',
+      isDefault: true,
+    });
   });
 
   it('adds the machine and grinder someone already owns', async () => {
@@ -115,7 +118,11 @@ describe('Getting started', () => {
     const posts = fetch.mock.calls.filter(([, init]) => init?.method === 'POST');
     const body = (path: string) => JSON.parse(String(posts.find(([u]) => u === path)![1]!.body));
     // Not an ES1, so it goes on as the generic machine under its real name.
-    expect(body('/api/machines')).toMatchObject({ builtInId: 'generic-espresso', name: 'Gaggia Classic Pro', isDefault: true });
+    expect(body('/api/machines')).toMatchObject({
+      builtInId: 'generic-espresso',
+      name: 'Gaggia Classic Pro',
+      isDefault: true,
+    });
     expect(body('/api/grinders')).toMatchObject({ builtInId: 'niche-zero', isDefault: true });
   });
 

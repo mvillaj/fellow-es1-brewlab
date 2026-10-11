@@ -40,7 +40,12 @@ export default function Coffees() {
                   <button className="btn btn-ghost btn-sm" onClick={() => setEditing(c)}>
                     Edit
                   </button>
-                  <button className="btn btn-ghost btn-icon" onClick={() => remove(c)} aria-label={`Delete ${c.name}`} title="Delete">
+                  <button
+                    className="btn btn-ghost btn-icon"
+                    onClick={() => remove(c)}
+                    aria-label={`Delete ${c.name}`}
+                    title="Delete"
+                  >
                     <Trash2 aria-hidden="true" />
                   </button>
                 </div>
@@ -49,11 +54,17 @@ export default function Coffees() {
           ))}
         </div>
       ) : (
-        <Empty title="Nothing on the shelf">Add the bag you are drinking now — everything else hangs off it.</Empty>
+        <Empty title="Nothing on the shelf">
+          Add the bag you are drinking now — everything else hangs off it.
+        </Empty>
       )}
 
       {editing !== undefined ? (
-        <Modal title={editing ? 'Edit coffee' : 'Add coffee'} onClose={() => setEditing(undefined)} wide>
+        <Modal
+          title={editing ? 'Edit coffee' : 'Add coffee'}
+          onClose={() => setEditing(undefined)}
+          wide
+        >
           <CoffeeForm
             existing={editing}
             onSaved={(saved) => {

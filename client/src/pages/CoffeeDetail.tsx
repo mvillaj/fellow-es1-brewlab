@@ -40,7 +40,9 @@ export default function CoffeeDetail() {
         `/ai/suggest-profile/${id}`,
         { method: 'POST', body: {} },
       );
-      navigate('/profiles/new', { state: { draft: res.profile, rationale: res.rationale, coffeeName: res.coffeeName } });
+      navigate('/profiles/new', {
+        state: { draft: res.profile, rationale: res.rationale, coffeeName: res.coffeeName },
+      });
     } catch (err) {
       setSuggestError((err as Error).message);
     } finally {
@@ -60,7 +62,10 @@ export default function CoffeeDetail() {
   const c = coffee.data;
   const mine = c.ownerId === user?.id;
   const list = shots.data ?? [];
-  const best = [...list].filter((s) => s.rating != null).sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))[0] ?? null;
+  const best =
+    [...list]
+      .filter((s) => s.rating != null)
+      .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))[0] ?? null;
   const latest = list[0] ?? null;
   const suggestion = latest ? suggestNextShot(latest) : null;
   const off = daysOffRoast(c.roastDate);
@@ -89,7 +94,11 @@ export default function CoffeeDetail() {
               aria-busy={suggesting}
               title={ai.enabled ? 'Design a starting profile for this coffee' : ai.reason}
             >
-              {suggesting ? <Working label="Designing" seconds={designingFor} /> : 'Suggest a profile'}
+              {suggesting ? (
+                <Working label="Designing" seconds={designingFor} />
+              ) : (
+                'Suggest a profile'
+              )}
             </button>
           ) : null}
           {mine ? (
@@ -126,11 +135,19 @@ export default function CoffeeDetail() {
 
       <div className="grid grid-4 mb-5">
         <Stat label="Shots" value={list.length} />
-        <Stat label="Average rating" value={c.avgRating ?? '—'} unit={c.avgRating ? '★' : undefined} />
+        <Stat
+          label="Average rating"
+          value={c.avgRating ?? '—'}
+          unit={c.avgRating ? '★' : undefined}
+        />
         <Stat
           label="Best pull"
           value={best ? `${fmt(best.shotTimeS)}s` : '—'}
-          note={best ? `grind ${best.grindSetting ?? '—'} · 1:${(best.yieldG / best.doseG).toFixed(1)}` : undefined}
+          note={
+            best
+              ? `grind ${best.grindSetting ?? '—'} · 1:${(best.yieldG / best.doseG).toFixed(1)}`
+              : undefined
+          }
         />
         <Stat label="Cloned by" value={c.cloneCount ?? 0} note="other brewers" />
       </div>
@@ -151,9 +168,7 @@ export default function CoffeeDetail() {
             <h2>Next pull</h2>
           </div>
           <h3 className="next-pull">{baristaLine(suggestion)}</h3>
-          <p className="dim small m-0 mt-2">
-            {suggestion.reason}
-          </p>
+          <p className="dim small m-0 mt-2">{suggestion.reason}</p>
         </div>
       ) : null}
 
@@ -177,8 +192,12 @@ export default function CoffeeDetail() {
             <tbody>
               {list.map((s) => (
                 <tr key={s.id}>
-                  <td data-label="When" className="dim">{relativeDate(s.brewedAt)}</td>
-                  <td data-label="Grinder" className="dim">{s.grinderName ?? '—'}</td>
+                  <td data-label="When" className="dim">
+                    {relativeDate(s.brewedAt)}
+                  </td>
+                  <td data-label="Grinder" className="dim">
+                    {s.grinderName ?? '—'}
+                  </td>
                   <td data-label="Grind" className="num">
                     {s.grindSetting ?? '—'}
                     {s.grindMicrons ? <span className="faint"> · {s.grindMicrons}µm</span> : null}
@@ -186,11 +205,15 @@ export default function CoffeeDetail() {
                   <td data-label="Dose → Yield" className="num">
                     {fmt(s.doseG)} → {fmt(s.yieldG)}
                   </td>
-                  <td data-label="Time" className="num">{fmt(s.shotTimeS)}s</td>
+                  <td data-label="Time" className="num">
+                    {fmt(s.shotTimeS)}s
+                  </td>
                   <td data-label="Rating">
                     <Stars value={s.rating} />
                   </td>
-                  <td data-label="Notes" className="dim small">{s.notes}</td>
+                  <td data-label="Notes" className="dim small">
+                    {s.notes}
+                  </td>
                 </tr>
               ))}
             </tbody>

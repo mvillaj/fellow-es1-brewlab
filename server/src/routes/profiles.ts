@@ -50,8 +50,19 @@ profileRouter.post('/', (req: AuthedRequest, res) => {
   db.prepare(
     `INSERT INTO brew_profiles (id, user_id, name, description, is_public, profile, sync_state, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, 'local', ?, ?)`,
-  ).run(pid, req.userId!, p.name, p.description ?? null, bool(p.isPublic), JSON.stringify({ ...p.profile, id: pid }), now, now);
-  res.status(201).json(toProfile(required(db.prepare(`${SELECT} WHERE p.id = ?`).get(pid), 'profile')));
+  ).run(
+    pid,
+    req.userId!,
+    p.name,
+    p.description ?? null,
+    bool(p.isPublic),
+    JSON.stringify({ ...p.profile, id: pid }),
+    now,
+    now,
+  );
+  res
+    .status(201)
+    .json(toProfile(required(db.prepare(`${SELECT} WHERE p.id = ?`).get(pid), 'profile')));
 });
 
 profileRouter.patch('/:id', (req: AuthedRequest, res) => {
@@ -89,11 +100,16 @@ profileRouter.patch('/:id', (req: AuthedRequest, res) => {
     req.params.id,
     req.userId!,
   );
-  res.json(toProfile(required(db.prepare(`${SELECT} WHERE p.id = ?`).get(req.params.id), 'profile')));
+  res.json(
+    toProfile(required(db.prepare(`${SELECT} WHERE p.id = ?`).get(req.params.id), 'profile')),
+  );
 });
 
 profileRouter.delete('/:id', (req: AuthedRequest, res) => {
-  db.prepare('DELETE FROM brew_profiles WHERE id = ? AND user_id = ?').run(req.params.id, req.userId!);
+  db.prepare('DELETE FROM brew_profiles WHERE id = ? AND user_id = ?').run(
+    req.params.id,
+    req.userId!,
+  );
   res.status(204).end();
 });
 
@@ -119,5 +135,7 @@ profileRouter.post('/:id/clone', (req: AuthedRequest, res) => {
     now,
     now,
   );
-  res.status(201).json(toProfile(required(db.prepare(`${SELECT} WHERE p.id = ?`).get(pid), 'profile')));
+  res
+    .status(201)
+    .json(toProfile(required(db.prepare(`${SELECT} WHERE p.id = ?`).get(pid), 'profile')));
 });

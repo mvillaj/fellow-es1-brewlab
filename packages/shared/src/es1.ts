@@ -37,11 +37,13 @@ export const ES1_LIMITS = {
 
 export const RANGE_NOTES: Record<string, string> = {
   tempC: 'Published by Fellow: 122-201 degF (50-94 degC). Captured profiles top out at 201 degF.',
-  pressureBar: 'Captured infusion and pre-infusion pressures span 3-9 bar; the app caps pre-infusion at 1-9.',
+  pressureBar:
+    'Captured infusion and pre-infusion pressures span 3-9 bar; the app caps pre-infusion at 1-9.',
   stageDurationS: 'Not published. Longest captured infusion step is 30 s.',
   doseG: 'Not published. Every captured profile uses an 18 g dose.',
   preInfusion: 'Confirmed from the app UI: 1-120 s, 1-9 bar, 1-6.5 ml/s in 0.1 steps.',
-  grindSize: 'Unknown scale. Captured values run 0 to 2 in tenths; every factory profile is 0, which suggests a relative offset rather than an absolute setting.',
+  grindSize:
+    'Unknown scale. Captured values run 0 to 2 in tenths; every factory profile is 0, which suggests a relative offset rather than an absolute setting.',
 };
 
 export type StageKind = 'preinfusion' | 'infusion' | 'rampdown';
@@ -96,8 +98,9 @@ export function pressureCurve(p: Pick<Es1Profile, 'stages'>, resolutionS = 0.5) 
       points.push({
         t: Math.round((t + frac * stage.durationS) * 10) / 10,
         bar:
-          Math.round((stage.pressureBar + (stage.endPressureBar - stage.pressureBar) * frac) * 100) /
-          100,
+          Math.round(
+            (stage.pressureBar + (stage.endPressureBar - stage.pressureBar) * frac) * 100,
+          ) / 100,
         flow: stage.flowLimitMlS,
         stage: stage.label ?? stage.kind,
       });
@@ -134,9 +137,33 @@ export const STOCK_PROFILES: Omit<Es1Profile, 'id'>[] = [
     ratio: 2.5,
     brewTempC: 94,
     stages: [
-      { id: 's1', kind: 'preinfusion', label: 'Pre-infusion', durationS: 5, pressureBar: 3, endPressureBar: 3, flowLimitMlS: 4.5 },
-      { id: 's2', kind: 'infusion', label: 'Infusion', durationS: 20, pressureBar: 9, endPressureBar: 9, flowLimitMlS: 4.5 },
-      { id: 's3', kind: 'rampdown', label: 'Ramp down', durationS: 5, pressureBar: 9, endPressureBar: 3, flowLimitMlS: 4.5 },
+      {
+        id: 's1',
+        kind: 'preinfusion',
+        label: 'Pre-infusion',
+        durationS: 5,
+        pressureBar: 3,
+        endPressureBar: 3,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's2',
+        kind: 'infusion',
+        label: 'Infusion',
+        durationS: 20,
+        pressureBar: 9,
+        endPressureBar: 9,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's3',
+        kind: 'rampdown',
+        label: 'Ramp down',
+        durationS: 5,
+        pressureBar: 9,
+        endPressureBar: 3,
+        flowLimitMlS: 4.5,
+      },
     ],
   },
   {
@@ -146,18 +173,43 @@ export const STOCK_PROFILES: Omit<Es1Profile, 'id'>[] = [
     ratio: 2,
     brewTempC: 92,
     stages: [
-      { id: 's1', kind: 'preinfusion', label: 'Pre-infusion', durationS: 5, pressureBar: 3, endPressureBar: 3, flowLimitMlS: 4.5 },
-      { id: 's2', kind: 'infusion', label: 'Infusion', durationS: 25, pressureBar: 9, endPressureBar: 9, flowLimitMlS: 4.5 },
+      {
+        id: 's1',
+        kind: 'preinfusion',
+        label: 'Pre-infusion',
+        durationS: 5,
+        pressureBar: 3,
+        endPressureBar: 3,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's2',
+        kind: 'infusion',
+        label: 'Infusion',
+        durationS: 25,
+        pressureBar: 9,
+        endPressureBar: 9,
+        flowLimitMlS: 4.5,
+      },
     ],
   },
   {
     name: 'Dark Roast',
-    description: 'Cooler and shorter, with no pre-infusion, to keep dark roasts out of ashtray territory.',
+    description:
+      'Cooler and shorter, with no pre-infusion, to keep dark roasts out of ashtray territory.',
     doseG: 18,
     ratio: 1.5,
     brewTempC: 90,
     stages: [
-      { id: 's1', kind: 'infusion', label: 'Infusion', durationS: 27, pressureBar: 8, endPressureBar: 8, flowLimitMlS: 4.5 },
+      {
+        id: 's1',
+        kind: 'infusion',
+        label: 'Infusion',
+        durationS: 27,
+        pressureBar: 8,
+        endPressureBar: 8,
+        flowLimitMlS: 4.5,
+      },
     ],
   },
   {
@@ -167,11 +219,35 @@ export const STOCK_PROFILES: Omit<Es1Profile, 'id'>[] = [
     ratio: 2,
     brewTempC: 92.5,
     stages: [
-      { id: 's1', kind: 'preinfusion', label: 'Pre-infusion', durationS: 10, pressureBar: 3, endPressureBar: 3, flowLimitMlS: 4.5 },
-      { id: 's2', kind: 'infusion', label: 'Infusion', durationS: 20, pressureBar: 9, endPressureBar: 9, flowLimitMlS: 4.5 },
+      {
+        id: 's1',
+        kind: 'preinfusion',
+        label: 'Pre-infusion',
+        durationS: 10,
+        pressureBar: 3,
+        endPressureBar: 3,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's2',
+        kind: 'infusion',
+        label: 'Infusion',
+        durationS: 20,
+        pressureBar: 9,
+        endPressureBar: 9,
+        flowLimitMlS: 4.5,
+      },
       // Corrected against the captured factory profile (6_modernarc): the tail
       // lands at 6 bar, not 3. Light Roast is the one that descends to 3.
-      { id: 's3', kind: 'rampdown', label: 'Ramp down', durationS: 5, pressureBar: 9, endPressureBar: 6, flowLimitMlS: 4.5 },
+      {
+        id: 's3',
+        kind: 'rampdown',
+        label: 'Ramp down',
+        durationS: 5,
+        pressureBar: 9,
+        endPressureBar: 6,
+        flowLimitMlS: 4.5,
+      },
     ],
   },
   {
@@ -181,7 +257,15 @@ export const STOCK_PROFILES: Omit<Es1Profile, 'id'>[] = [
     ratio: 2,
     brewTempC: 93,
     stages: [
-      { id: 's1', kind: 'infusion', label: 'Infusion', durationS: 28, pressureBar: 9, endPressureBar: 9, flowLimitMlS: 4.5 },
+      {
+        id: 's1',
+        kind: 'infusion',
+        label: 'Infusion',
+        durationS: 28,
+        pressureBar: 9,
+        endPressureBar: 9,
+        flowLimitMlS: 4.5,
+      },
     ],
   },
   {
@@ -191,13 +275,69 @@ export const STOCK_PROFILES: Omit<Es1Profile, 'id'>[] = [
     ratio: 2.5,
     brewTempC: 94,
     stages: [
-      { id: 's1', kind: 'preinfusion', label: 'Pre-infusion', durationS: 10, pressureBar: 3, endPressureBar: 3, flowLimitMlS: 3 },
-      { id: 's2', kind: 'infusion', label: 'Decline 1', durationS: 5, pressureBar: 9, endPressureBar: 9, flowLimitMlS: 4.5 },
-      { id: 's3', kind: 'infusion', label: 'Decline 2', durationS: 5, pressureBar: 8, endPressureBar: 8, flowLimitMlS: 4.5 },
-      { id: 's4', kind: 'infusion', label: 'Decline 3', durationS: 5, pressureBar: 7, endPressureBar: 7, flowLimitMlS: 4.5 },
-      { id: 's5', kind: 'infusion', label: 'Decline 4', durationS: 5, pressureBar: 6, endPressureBar: 6, flowLimitMlS: 4.5 },
-      { id: 's6', kind: 'infusion', label: 'Decline 5', durationS: 5, pressureBar: 5, endPressureBar: 5, flowLimitMlS: 4.5 },
-      { id: 's7', kind: 'rampdown', label: 'Decline 6', durationS: 5, pressureBar: 4, endPressureBar: 4, flowLimitMlS: 4.5 },
+      {
+        id: 's1',
+        kind: 'preinfusion',
+        label: 'Pre-infusion',
+        durationS: 10,
+        pressureBar: 3,
+        endPressureBar: 3,
+        flowLimitMlS: 3,
+      },
+      {
+        id: 's2',
+        kind: 'infusion',
+        label: 'Decline 1',
+        durationS: 5,
+        pressureBar: 9,
+        endPressureBar: 9,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's3',
+        kind: 'infusion',
+        label: 'Decline 2',
+        durationS: 5,
+        pressureBar: 8,
+        endPressureBar: 8,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's4',
+        kind: 'infusion',
+        label: 'Decline 3',
+        durationS: 5,
+        pressureBar: 7,
+        endPressureBar: 7,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's5',
+        kind: 'infusion',
+        label: 'Decline 4',
+        durationS: 5,
+        pressureBar: 6,
+        endPressureBar: 6,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's6',
+        kind: 'infusion',
+        label: 'Decline 5',
+        durationS: 5,
+        pressureBar: 5,
+        endPressureBar: 5,
+        flowLimitMlS: 4.5,
+      },
+      {
+        id: 's7',
+        kind: 'rampdown',
+        label: 'Decline 6',
+        durationS: 5,
+        pressureBar: 4,
+        endPressureBar: 4,
+        flowLimitMlS: 4.5,
+      },
     ],
   },
   {
@@ -207,7 +347,15 @@ export const STOCK_PROFILES: Omit<Es1Profile, 'id'>[] = [
     ratio: 3,
     brewTempC: 93,
     stages: [
-      { id: 's1', kind: 'infusion', label: 'Infusion', durationS: 17, pressureBar: 6, endPressureBar: 6, flowLimitMlS: 4.5 },
+      {
+        id: 's1',
+        kind: 'infusion',
+        label: 'Infusion',
+        durationS: 17,
+        pressureBar: 6,
+        endPressureBar: 6,
+        flowLimitMlS: 4.5,
+      },
     ],
   },
 ];
@@ -265,11 +413,18 @@ export function splitStages(stages: Es1Stage[]): Es1Shot {
 
   return {
     preInfusion: pre
-      ? { id: pre.id, durationS: pre.durationS, pressureBar: pre.pressureBar, flowLimitMlS: pre.flowLimitMlS }
+      ? {
+          id: pre.id,
+          durationS: pre.durationS,
+          pressureBar: pre.pressureBar,
+          flowLimitMlS: pre.flowLimitMlS,
+        }
       : null,
     // A profile that somehow arrived with no infusion still has to be editable.
     infusions: infusions.length ? infusions : [{ id: 'inf0', durationS: 22, pressureBar: 9 }],
-    rampDown: ramp ? { id: ramp.id, durationS: ramp.durationS, endPressureBar: ramp.endPressureBar } : null,
+    rampDown: ramp
+      ? { id: ramp.id, durationS: ramp.durationS, endPressureBar: ramp.endPressureBar }
+      : null,
   };
 }
 

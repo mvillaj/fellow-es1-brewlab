@@ -66,7 +66,10 @@ describe('RatingInput', () => {
   it('marks stars up to the value as pressed', () => {
     render(<RatingInput value={2} onChange={() => {}} />);
     expect(screen.getByRole('button', { name: '2 stars' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('button', { name: '3 stars' })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByRole('button', { name: '3 stars' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
   });
 });
 

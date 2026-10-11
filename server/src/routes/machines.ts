@@ -33,7 +33,8 @@ machineRouter.post('/', (req: AuthedRequest, res) => {
   }
   const m = parsed.data;
   const mid = id('mch');
-  if (m.isDefault) db.prepare('UPDATE machines SET is_default = 0 WHERE user_id = ?').run(req.userId!);
+  if (m.isDefault)
+    db.prepare('UPDATE machines SET is_default = 0 WHERE user_id = ?').run(req.userId!);
   db.prepare(
     `INSERT INTO machines (id, user_id, built_in_id, name, capabilities, limits, is_default, notes, created_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -48,7 +49,11 @@ machineRouter.post('/', (req: AuthedRequest, res) => {
     m.notes ?? null,
     nowIso(),
   );
-  res.status(201).json(toMachine(required(db.prepare('SELECT * FROM machines WHERE id = ?').get(mid), 'machine')));
+  res
+    .status(201)
+    .json(
+      toMachine(required(db.prepare('SELECT * FROM machines WHERE id = ?').get(mid), 'machine')),
+    );
 });
 
 machineRouter.patch('/:id', (req: AuthedRequest, res) => {
@@ -66,7 +71,8 @@ machineRouter.patch('/:id', (req: AuthedRequest, res) => {
     return;
   }
   const m = parsed.data;
-  if (m.isDefault) db.prepare('UPDATE machines SET is_default = 0 WHERE user_id = ?').run(req.userId!);
+  if (m.isDefault)
+    db.prepare('UPDATE machines SET is_default = 0 WHERE user_id = ?').run(req.userId!);
   db.prepare(
     `UPDATE machines SET built_in_id = ?, name = ?, capabilities = ?, limits = ?, is_default = ?, notes = ?
      WHERE id = ? AND user_id = ?`,
@@ -80,7 +86,11 @@ machineRouter.patch('/:id', (req: AuthedRequest, res) => {
     req.params.id,
     req.userId!,
   );
-  res.json(toMachine(required(db.prepare('SELECT * FROM machines WHERE id = ?').get(req.params.id), 'machine')));
+  res.json(
+    toMachine(
+      required(db.prepare('SELECT * FROM machines WHERE id = ?').get(req.params.id), 'machine'),
+    ),
+  );
 });
 
 machineRouter.delete('/:id', (req: AuthedRequest, res) => {

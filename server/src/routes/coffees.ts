@@ -29,7 +29,9 @@ coffeeRouter.get('/public', optionalAuth, (req: AuthedRequest, res) => {
     params.push(roast);
   }
   const rows = db
-    .prepare(`${SELECT} WHERE ${clauses.join(' AND ')} ORDER BY shot_count DESC, c.created_at DESC LIMIT 200`)
+    .prepare(
+      `${SELECT} WHERE ${clauses.join(' AND ')} ORDER BY shot_count DESC, c.created_at DESC LIMIT 200`,
+    )
     .all(...(params as any[])) as any[];
   res.json(rows.map(toCoffee));
 });
@@ -52,7 +54,13 @@ coffeeRouter.get('/', (req: AuthedRequest, res) => {
   res.json(rows.map(toCoffee));
 });
 
-function writeCoffee(cid: string, ownerId: string, data: any, clonedFromId: string | null, createdAt: string) {
+function writeCoffee(
+  cid: string,
+  ownerId: string,
+  data: any,
+  clonedFromId: string | null,
+  createdAt: string,
+) {
   db.prepare(
     `INSERT INTO coffees (id, owner_id, name, roaster, origin, region, producer, varietal, process,
        roast_level, altitude_masl, roast_date, tasting_notes, url, notes, is_public, cloned_from_id, created_at)
@@ -87,7 +95,9 @@ coffeeRouter.post('/', (req: AuthedRequest, res) => {
   }
   const cid = id('cof');
   writeCoffee(cid, req.userId!, parsed.data, null, nowIso());
-  res.status(201).json(toCoffee(required(db.prepare(`${SELECT} WHERE c.id = ?`).get(cid), 'coffee')));
+  res
+    .status(201)
+    .json(toCoffee(required(db.prepare(`${SELECT} WHERE c.id = ?`).get(cid), 'coffee')));
 });
 
 coffeeRouter.patch('/:id', (req: AuthedRequest, res) => {
@@ -149,5 +159,7 @@ coffeeRouter.post('/:id/clone', (req: AuthedRequest, res) => {
     src.id,
     nowIso(),
   );
-  res.status(201).json(toCoffee(required(db.prepare(`${SELECT} WHERE c.id = ?`).get(cid), 'coffee')));
+  res
+    .status(201)
+    .json(toCoffee(required(db.prepare(`${SELECT} WHERE c.id = ?`).get(cid), 'coffee')));
 });

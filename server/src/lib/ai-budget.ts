@@ -40,7 +40,9 @@ const today = () => nowIso().slice(0, 10);
 function spend(day: string, userId?: string): number {
   const row = userId
     ? (db
-        .prepare('SELECT COALESCE(SUM(cost_usd), 0) AS total FROM ai_usage WHERE day = ? AND user_id = ?')
+        .prepare(
+          'SELECT COALESCE(SUM(cost_usd), 0) AS total FROM ai_usage WHERE day = ? AND user_id = ?',
+        )
         .get(day, userId) as { total: number })
     : (db
         .prepare('SELECT COALESCE(SUM(cost_usd), 0) AS total FROM ai_usage WHERE day = ?')
@@ -51,8 +53,7 @@ function spend(day: string, userId?: string): number {
 /** `false` disables both model routes. Flip it without a redeploy; see the migration. */
 export function aiDisabledByFlag(): boolean {
   const row = db.prepare("SELECT value FROM app_flags WHERE key = 'ai_enabled'").get() as
-    | { value: string }
-    | undefined;
+    { value: string } | undefined;
   return row?.value === 'false';
 }
 

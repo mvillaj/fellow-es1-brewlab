@@ -34,7 +34,8 @@ grinderRouter.post('/', (req: AuthedRequest, res) => {
   }
   const g = parsed.data;
   const gid = id('grd');
-  if (g.isDefault) db.prepare('UPDATE grinders SET is_default = 0 WHERE user_id = ?').run(req.userId!);
+  if (g.isDefault)
+    db.prepare('UPDATE grinders SET is_default = 0 WHERE user_id = ?').run(req.userId!);
   db.prepare(
     `INSERT INTO grinders (id, user_id, built_in_id, name, burr_type, scale, calibration, is_default, notes, created_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -50,7 +51,11 @@ grinderRouter.post('/', (req: AuthedRequest, res) => {
     g.notes ?? null,
     nowIso(),
   );
-  res.status(201).json(toGrinder(required(db.prepare('SELECT * FROM grinders WHERE id = ?').get(gid), 'grinder')));
+  res
+    .status(201)
+    .json(
+      toGrinder(required(db.prepare('SELECT * FROM grinders WHERE id = ?').get(gid), 'grinder')),
+    );
 });
 
 grinderRouter.patch('/:id', (req: AuthedRequest, res) => {
@@ -68,7 +73,8 @@ grinderRouter.patch('/:id', (req: AuthedRequest, res) => {
     return;
   }
   const g = parsed.data;
-  if (g.isDefault) db.prepare('UPDATE grinders SET is_default = 0 WHERE user_id = ?').run(req.userId!);
+  if (g.isDefault)
+    db.prepare('UPDATE grinders SET is_default = 0 WHERE user_id = ?').run(req.userId!);
   db.prepare(
     `UPDATE grinders SET built_in_id = ?, name = ?, burr_type = ?, scale = ?, calibration = ?, is_default = ?, notes = ?
      WHERE id = ? AND user_id = ?`,
@@ -83,7 +89,11 @@ grinderRouter.patch('/:id', (req: AuthedRequest, res) => {
     req.params.id,
     req.userId!,
   );
-  res.json(toGrinder(required(db.prepare('SELECT * FROM grinders WHERE id = ?').get(req.params.id), 'grinder')));
+  res.json(
+    toGrinder(
+      required(db.prepare('SELECT * FROM grinders WHERE id = ?').get(req.params.id), 'grinder'),
+    ),
+  );
 });
 
 grinderRouter.delete('/:id', (req: AuthedRequest, res) => {
@@ -117,7 +127,12 @@ grinderRouter.post('/convert', (req: AuthedRequest, res) => {
   res.json({
     ...result,
     bucket: grindBucket(result.microns),
-    from: { id: from.id, name: from.name, setting, microns: Math.round(settingToMicrons(from, setting)) },
+    from: {
+      id: from.id,
+      name: from.name,
+      setting,
+      microns: Math.round(settingToMicrons(from, setting)),
+    },
     to: { id: to.id, name: to.name },
   });
 });

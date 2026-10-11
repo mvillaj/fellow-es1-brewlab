@@ -21,13 +21,19 @@ test('first and last name make the display name', () => {
 });
 
 test('a first name alone has no trailing space', () => {
-  assert.equal(profileFromClerk('user_1', { ...base, firstName: 'Ada', lastName: '' }).displayName, 'Ada');
+  assert.equal(
+    profileFromClerk('user_1', { ...base, firstName: 'Ada', lastName: '' }).displayName,
+    'Ada',
+  );
 });
 
 test('without a name it falls back to username, then the email local part', () => {
   assert.equal(profileFromClerk('user_1', { ...base, username: 'ada' }).displayName, 'ada');
   assert.equal(
-    profileFromClerk('user_1', { ...base, emailAddresses: [{ emailAddress: 'lovelace@example.com' }] }).displayName,
+    profileFromClerk('user_1', {
+      ...base,
+      emailAddresses: [{ emailAddress: 'lovelace@example.com' }],
+    }).displayName,
     'lovelace',
   );
   assert.equal(profileFromClerk('user_1', base).displayName, 'Brewer');
@@ -47,7 +53,9 @@ test('an account with no email gets a per-user synthetic one', () => {
 });
 
 test("Clerk's long message is what the user sees", () => {
-  const err = { errors: [{ message: 'is invalid', longMessage: 'first_name is not a valid parameter' }] };
+  const err = {
+    errors: [{ message: 'is invalid', longMessage: 'first_name is not a valid parameter' }],
+  };
   assert.equal(clerkErrorMessage(err), 'first_name is not a valid parameter');
   assert.equal(clerkErrorMessage({ errors: [{ message: 'is invalid' }] }), 'is invalid');
   assert.match(clerkErrorMessage(new Error('boom')), /would not save/);

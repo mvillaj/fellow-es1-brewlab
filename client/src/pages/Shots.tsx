@@ -9,7 +9,9 @@ import { TASTE_LABELS, fmt, relativeDate, tempF } from '../lib/format';
 
 export default function Shots() {
   const [coffeeFilter, setCoffeeFilter] = useState('');
-  const shots = useApi<Shot[]>(`/shots${coffeeFilter ? `?coffeeId=${coffeeFilter}` : ''}`, [coffeeFilter]);
+  const shots = useApi<Shot[]>(`/shots${coffeeFilter ? `?coffeeId=${coffeeFilter}` : ''}`, [
+    coffeeFilter,
+  ]);
   const coffees = useApi<Coffee[]>('/coffees');
   const grinders = useApi<Grinder[]>('/grinders');
   const profiles = useApi<BrewProfileRecord[]>('/profiles');
@@ -41,7 +43,11 @@ export default function Shots() {
       </div>
 
       <div className="row mb-4">
-        <select className="max-w-md" value={coffeeFilter} onChange={(e) => setCoffeeFilter(e.target.value)}>
+        <select
+          className="max-w-md"
+          value={coffeeFilter}
+          onChange={(e) => setCoffeeFilter(e.target.value)}
+        >
           <option value="">All coffees</option>
           {(coffees.data ?? []).map((c) => (
             <option key={c.id} value={c.id}>
@@ -71,13 +77,21 @@ export default function Shots() {
             </thead>
             <tbody>
               {shots.data.map((s) => (
-                <tr className="clickable" key={s.id} onClick={() => setExpanded(expanded === s.id ? null : s.id)}>
+                <tr
+                  className="clickable"
+                  key={s.id}
+                  onClick={() => setExpanded(expanded === s.id ? null : s.id)}
+                >
                   <td className="glass-cell">
                     <ShotGlass yieldG={s.yieldG} taste={s.tasteBalance} width={26} />
                   </td>
-                  <td data-label="When" className="dim">{relativeDate(s.brewedAt)}</td>
+                  <td data-label="When" className="dim">
+                    {relativeDate(s.brewedAt)}
+                  </td>
                   <td data-label="Coffee">{s.coffeeName ?? <span className="faint">—</span>}</td>
-                  <td data-label="Grinder" className="dim">{s.grinderName ?? <span className="faint">—</span>}</td>
+                  <td data-label="Grinder" className="dim">
+                    {s.grinderName ?? <span className="faint">—</span>}
+                  </td>
                   <td data-label="Grind" className="num">
                     {s.grindSetting ?? '—'}
                     {s.grindMicrons ? <span className="faint"> · {s.grindMicrons}µm</span> : null}
@@ -85,8 +99,12 @@ export default function Shots() {
                   <td data-label="Dose → Yield" className="num">
                     {fmt(s.doseG)} → {fmt(s.yieldG)}
                   </td>
-                  <td data-label="Ratio" className="num dim">1:{(s.yieldG / s.doseG).toFixed(1)}</td>
-                  <td data-label="Time" className="num">{fmt(s.shotTimeS)}s</td>
+                  <td data-label="Ratio" className="num dim">
+                    1:{(s.yieldG / s.doseG).toFixed(1)}
+                  </td>
+                  <td data-label="Time" className="num">
+                    {fmt(s.shotTimeS)}s
+                  </td>
                   <td data-label="Rating">
                     <Stars value={s.rating} />
                   </td>
@@ -109,90 +127,98 @@ export default function Shots() {
             </tbody>
           </table>
         ) : (
-          <Empty title="No shots here yet">Pull one and log it — the numbers only get useful in a row.</Empty>
+          <Empty title="No shots here yet">
+            Pull one and log it — the numbers only get useful in a row.
+          </Empty>
         )}
       </div>
 
-      {expanded && shots.data ? (
-        (() => {
-          const s = shots.data.find((x) => x.id === expanded);
-          if (!s) return null;
-          return (
-            <Modal title={s.coffeeName ?? 'Shot'} onClose={() => setExpanded(null)}>
-              <div className="stack">
-                <div className="grid grid-3">
-                  <div>
-                    <div className="stat-label">Brewed</div>
-                    <div>{new Date(s.brewedAt).toLocaleString()}</div>
-                  </div>
-                  <div>
-                    <div className="stat-label">Profile</div>
-                    <div>{s.profileName ?? '—'}</div>
-                  </div>
-                  <div>
-                    <div className="stat-label">Basket</div>
-                    <div>{s.basket ?? '—'}</div>
-                  </div>
-                </div>
-                <div className="grid grid-4">
-                  <div>
-                    <div className="stat-label">Grind</div>
-                    <div className="mono">
-                      {s.grindSetting ?? '—'} {s.grindMicrons ? `· ${s.grindMicrons}µm` : ''}
+      {expanded && shots.data
+        ? (() => {
+            const s = shots.data.find((x) => x.id === expanded);
+            if (!s) return null;
+            return (
+              <Modal title={s.coffeeName ?? 'Shot'} onClose={() => setExpanded(null)}>
+                <div className="stack">
+                  <div className="grid grid-3">
+                    <div>
+                      <div className="stat-label">Brewed</div>
+                      <div>{new Date(s.brewedAt).toLocaleString()}</div>
+                    </div>
+                    <div>
+                      <div className="stat-label">Profile</div>
+                      <div>{s.profileName ?? '—'}</div>
+                    </div>
+                    <div>
+                      <div className="stat-label">Basket</div>
+                      <div>{s.basket ?? '—'}</div>
                     </div>
                   </div>
-                  <div>
-                    <div className="stat-label">Pre-infusion</div>
-                    <div className="mono">{s.preInfusionS != null ? `${s.preInfusionS}s` : '—'}</div>
+                  <div className="grid grid-4">
+                    <div>
+                      <div className="stat-label">Grind</div>
+                      <div className="mono">
+                        {s.grindSetting ?? '—'} {s.grindMicrons ? `· ${s.grindMicrons}µm` : ''}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="stat-label">Pre-infusion</div>
+                      <div className="mono">
+                        {s.preInfusionS != null ? `${s.preInfusionS}s` : '—'}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="stat-label">Temperature</div>
+                      <div className="mono">{tempF(s.brewTempC)}</div>
+                    </div>
+                    <div>
+                      <div className="stat-label">Taste</div>
+                      <div>{s.tasteBalance != null ? TASTE_LABELS[s.tasteBalance] : '—'}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="stat-label">Temperature</div>
-                    <div className="mono">{tempF(s.brewTempC)}</div>
-                  </div>
-                  <div>
-                    <div className="stat-label">Taste</div>
-                    <div>{s.tasteBalance != null ? TASTE_LABELS[s.tasteBalance] : '—'}</div>
+                  {s.flavourNotes.length ? (
+                    <div className="row-wrap">
+                      {s.flavourNotes.map((n) => (
+                        <span key={n} className="tag accent">
+                          {n}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {s.notes ? <p className="dim m-0">{s.notes}</p> : null}
+                  <div className="row">
+                    <button
+                      className="btn"
+                      onClick={() => {
+                        setRepeat(s);
+                        setExpanded(null);
+                        setLogging(true);
+                      }}
+                    >
+                      Log another like this
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={async () => {
+                        await remove(s.id);
+                        setExpanded(null);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
-                {s.flavourNotes.length ? (
-                  <div className="row-wrap">
-                    {s.flavourNotes.map((n) => (
-                      <span key={n} className="tag accent">
-                        {n}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-                {s.notes ? <p className="dim m-0">{s.notes}</p> : null}
-                <div className="row">
-                  <button
-                    className="btn"
-                    onClick={() => {
-                      setRepeat(s);
-                      setExpanded(null);
-                      setLogging(true);
-                    }}
-                  >
-                    Log another like this
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={async () => {
-                      await remove(s.id);
-                      setExpanded(null);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </Modal>
-          );
-        })()
-      ) : null}
+              </Modal>
+            );
+          })()
+        : null}
 
       {logging ? (
-        <Modal title={repeat ? 'Log another like that one' : 'Log a shot'} onClose={() => setLogging(false)} wide>
+        <Modal
+          title={repeat ? 'Log another like that one' : 'Log a shot'}
+          onClose={() => setLogging(false)}
+          wide
+        >
           <ShotForm
             coffees={coffees.data ?? []}
             grinders={grinders.data ?? []}

@@ -58,7 +58,11 @@ beforeEach(() => {
     lastName: 'Lovelace',
     updatedAt: new Date('2026-10-01T00:00:00Z'),
     primaryEmailAddress: { emailAddress: 'ada@example.com' },
-    reload: vi.fn(async () => ({ ...clerkUser, firstName: 'Augusta', updatedAt: new Date('2026-10-11T00:00:00Z') })),
+    reload: vi.fn(async () => ({
+      ...clerkUser,
+      firstName: 'Augusta',
+      updatedAt: new Date('2026-10-11T00:00:00Z'),
+    })),
   };
 });
 
@@ -98,7 +102,10 @@ describe('Account page', () => {
 
     expect(await screen.findByText('Saved.')).toBeInTheDocument();
     const patch = fetch.mock.calls.find(([url]) => url === '/api/auth/me');
-    expect(JSON.parse(String(patch?.[1]?.body))).toEqual({ firstName: 'Augusta', lastName: 'Lovelace' });
+    expect(JSON.parse(String(patch?.[1]?.body))).toEqual({
+      firstName: 'Augusta',
+      lastName: 'Lovelace',
+    });
     expect(setUser).toHaveBeenCalledWith(renamed);
     expect(clerkUser.reload).toHaveBeenCalled();
     // Our own save must not set off a second round trip to resync.

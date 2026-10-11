@@ -119,7 +119,8 @@ export const BUILT_IN_GRINDERS: GrinderSpec[] = [
     scale: { kind: 'stepless', min: 0, max: 50, step: 0.5, unitLabel: 'numbers' },
     calibration: { umPerUnit: 15, interceptUm: 80, source: 'community' },
     espressoRange: [10, 25],
-    notes: 'Single-dose, effectively zero retention. Most people live between 12 and 20 for espresso.',
+    notes:
+      'Single-dose, effectively zero retention. Most people live between 12 and 20 for espresso.',
   },
   {
     id: 'eureka-specialita',

@@ -50,7 +50,11 @@ function productFacts(html: string): string[] {
       const brand = typeof d.brand === 'string' ? d.brand : d.brand?.name;
       if (brand) out.push(`Brand: ${brand}`);
       if (d.description) {
-        out.push(`Description: ${decode(String(d.description).replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim()}`);
+        out.push(
+          `Description: ${decode(String(d.description).replace(/<[^>]+>/g, ' '))
+            .replace(/\s+/g, ' ')
+            .trim()}`,
+        );
       }
     }
   }
@@ -119,7 +123,9 @@ function isPrivate(ip: string): boolean {
   if (/^192\.168\./.test(ip)) return true;
   if (/^172\.(1[6-9]|2\d|3[01])\./.test(ip)) return true;
   const lower = ip.toLowerCase();
-  return lower === '::1' || lower.startsWith('fc') || lower.startsWith('fd') || lower.startsWith('fe80');
+  return (
+    lower === '::1' || lower.startsWith('fc') || lower.startsWith('fd') || lower.startsWith('fe80')
+  );
 }
 
 const MAX_BYTES = 2_000_000;

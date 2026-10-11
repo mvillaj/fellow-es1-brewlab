@@ -7,7 +7,9 @@ export default async function globalSetup() {
   // This setup creates a user, and the suite then writes coffees as them. That is
   // fine on a development instance and never fine on production.
   if (!secretKey.startsWith('sk_test_')) {
-    throw new Error('E2E tests need a Clerk development instance: CLERK_SECRET_KEY must be an sk_test_ key.');
+    throw new Error(
+      'E2E tests need a Clerk development instance: CLERK_SECRET_KEY must be an sk_test_ key.',
+    );
   }
 
   // Fetches a testing token so Clerk's bot protection lets the browser through.

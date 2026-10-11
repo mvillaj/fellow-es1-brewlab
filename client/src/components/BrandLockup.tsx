@@ -10,10 +10,23 @@ export default function BrandLockup({ heading = false }: { heading?: boolean }) 
   return (
     <div className="brand-lockup">
       <svg className="brand-glass" viewBox="0 0 60 72" aria-hidden="true">
-        <path d="M43 38 C52 37 53.5 41 53.5 47 C53.5 54 49 58 41.5 58" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+        <path
+          d="M43 38 C52 37 53.5 41 53.5 47 C53.5 54 49 58 41.5 58"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
         <path d="M8 30 H44 L42 64 Q41.6 70 35.5 70 H16.5 Q10.4 70 10 64 Z" fill="currentColor" />
         <path d="M8.4 36 H43.6 L43.2 43 H8.8 Z" fill="var(--crema-balanced)" />
-        <path className="brand-stream" d="M27 3 C27 11 32.5 13 31 20 C29.8 25 25.5 26.5 26.5 34" fill="none" stroke="var(--action)" strokeWidth="3.6" strokeLinecap="round" />
+        <path
+          className="brand-stream"
+          d="M27 3 C27 11 32.5 13 31 20 C29.8 25 25.5 26.5 26.5 34"
+          fill="none"
+          stroke="var(--action)"
+          strokeWidth="3.6"
+          strokeLinecap="round"
+        />
       </svg>
       <Name className="brand-name">
         {/* The drawn word swaps the i for a dotless one under a drop, so

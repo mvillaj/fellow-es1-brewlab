@@ -13,11 +13,20 @@ let authReady = true;
 let signedIn = true;
 
 vi.mock('./lib/auth', () => ({
-  useAuth: () => ({ user: authReady ? authUser : null, ready: authReady, signedIn, logout: vi.fn() }),
+  useAuth: () => ({
+    user: authReady ? authUser : null,
+    ready: authReady,
+    signedIn,
+    logout: vi.fn(),
+  }),
 }));
 
 vi.mock('./lib/machines', () => ({
-  useMachines: () => ({ machines: [], capabilities: { profiling: 'none', cloud: null }, ready: true }),
+  useMachines: () => ({
+    machines: [],
+    capabilities: { profiling: 'none', cloud: null },
+    ready: true,
+  }),
 }));
 
 // The routing is under test here, not the pages.
@@ -82,7 +91,9 @@ describe('navFor', () => {
   });
 
   it('lists My account first in Settings, above the Fellow one', () => {
-    const account = navFor({ profiling: 'pressure', cloud: 'fellow' }).find((g) => g.section === 'Settings');
+    const account = navFor({ profiling: 'pressure', cloud: 'fellow' }).find(
+      (g) => g.section === 'Settings',
+    );
     expect(account?.links.map((l) => l.to)).toEqual(['/account', '/fellow']);
   });
 });
@@ -117,7 +128,9 @@ describe('first-run redirect', () => {
   });
 
   it('keeps getting started reachable from the nav afterwards', () => {
-    const links = navFor({ profiling: 'none', cloud: null }).flatMap((g) => g.links.map((l) => l.to));
+    const links = navFor({ profiling: 'none', cloud: null }).flatMap((g) =>
+      g.links.map((l) => l.to),
+    );
     expect(links).toContain('/getting-started');
   });
 });

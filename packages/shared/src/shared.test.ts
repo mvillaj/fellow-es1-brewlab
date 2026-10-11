@@ -28,7 +28,12 @@ import {
 import { coffeeExtractionSchema, suggestionToProfile } from './ai.ts';
 import { buildStages, splitStages } from './es1.ts';
 import { roundF } from './temp.ts';
-import { accountUpdateSchema, es1ProfileSchema, es1StageSchema, fellowOptInSchema } from './schemas.ts';
+import {
+  accountUpdateSchema,
+  es1ProfileSchema,
+  es1StageSchema,
+  fellowOptInSchema,
+} from './schemas.ts';
 import { flowRate, ratioOf, suggestNextShot } from './dialin.ts';
 import {
   RECOMMENDATIONS_BY_ID,
@@ -82,7 +87,10 @@ test('conversion confidence is the weaker of the two calibrations', () => {
   const measured = {
     name: 'calibrated',
     scale: g('niche-zero').scale,
-    calibration: calibrateFromTwoPoints({ setting: 10, microns: 230 }, { setting: 25, microns: 455 }),
+    calibration: calibrateFromTwoPoints(
+      { setting: 10, microns: 230 },
+      { setting: 25, microns: 455 },
+    ),
   };
   const estimated = g('fellow-opus-2'); // estimated
   assert.equal(convertSetting(measured, 30, estimated).confidence, 'estimated');
@@ -134,7 +142,9 @@ test('two-point calibration reproduces its own reference points', () => {
   const grinder = { name: 'test', scale: g('niche-zero').scale, calibration: cal };
   assert.equal(settingToMicrons(grinder, 10), 300);
   assert.equal(settingToMicrons(grinder, 20), 500);
-  assert.throws(() => calibrateFromTwoPoints({ setting: 5, microns: 200 }, { setting: 5, microns: 400 }));
+  assert.throws(() =>
+    calibrateFromTwoPoints({ setting: 5, microns: 200 }, { setting: 5, microns: 400 }),
+  );
 });
 
 test('grind buckets are ordered and cover the range', () => {
@@ -150,7 +160,10 @@ test('every stock profile is inside the ES1 hardware limits', () => {
     assert.ok(totalDurationS(p) <= ES1_LIMITS.totalDurationS.max, p.name);
     for (const s of p.stages) {
       assert.ok(s.pressureBar <= ES1_LIMITS.pressureBar.max, `${p.name}: ${s.pressureBar} bar`);
-      assert.ok(s.endPressureBar <= ES1_LIMITS.pressureBar.max, `${p.name}: ${s.endPressureBar} bar`);
+      assert.ok(
+        s.endPressureBar <= ES1_LIMITS.pressureBar.max,
+        `${p.name}: ${s.endPressureBar} bar`,
+      );
       assert.ok(s.flowLimitMlS <= ES1_LIMITS.flowMlS.max, `${p.name}: ${s.flowLimitMlS} ml/s`);
       assert.ok(s.durationS >= 1, `${p.name}: ${s.durationS}s stage`);
     }
@@ -184,8 +197,14 @@ test('dial-in suggests finer for a fast sour shot and coarser for a slow bitter 
 });
 
 test('on-time but off-taste shots change the ratio, not the grind', () => {
-  assert.equal(suggestNextShot({ doseG: 18, yieldG: 36, shotTimeS: 28, tasteBalance: -1 }).direction, 'more-yield');
-  assert.equal(suggestNextShot({ doseG: 18, yieldG: 36, shotTimeS: 28, tasteBalance: 1 }).direction, 'less-yield');
+  assert.equal(
+    suggestNextShot({ doseG: 18, yieldG: 36, shotTimeS: 28, tasteBalance: -1 }).direction,
+    'more-yield',
+  );
+  assert.equal(
+    suggestNextShot({ doseG: 18, yieldG: 36, shotTimeS: 28, tasteBalance: 1 }).direction,
+    'less-yield',
+  );
 });
 
 test('a shot with no taste rating gets a low-confidence hold', () => {
@@ -258,8 +277,22 @@ const GOOD_SUGGESTION = {
   ratio: 2.5,
   brewTempF: 201,
   stages: [
-    { kind: 'preinfusion' as const, label: 'Pre-infusion', durationS: 12, pressureBar: 3, endPressureBar: 3, flowLimitMlS: 4 },
-    { kind: 'infusion' as const, label: 'Infusion', durationS: 24, pressureBar: 8, endPressureBar: 8, flowLimitMlS: 4.5 },
+    {
+      kind: 'preinfusion' as const,
+      label: 'Pre-infusion',
+      durationS: 12,
+      pressureBar: 3,
+      endPressureBar: 3,
+      flowLimitMlS: 4,
+    },
+    {
+      kind: 'infusion' as const,
+      label: 'Infusion',
+      durationS: 24,
+      pressureBar: 8,
+      endPressureBar: 8,
+      flowLimitMlS: 4.5,
+    },
   ],
   rationale: 'Dense and light, so hotter and longer with a soft ramp.',
 };
@@ -288,7 +321,10 @@ test('a Fahrenheit temperature above the machine ceiling is still rejected', () 
 
 test('a suggestion over the pressure ceiling is rejected, not opened', () => {
   const p = suggestionToProfile(
-    { ...GOOD_SUGGESTION, stages: [{ ...GOOD_SUGGESTION.stages[1], pressureBar: 15, endPressureBar: 15 }] },
+    {
+      ...GOOD_SUGGESTION,
+      stages: [{ ...GOOD_SUGGESTION.stages[1], pressureBar: 15, endPressureBar: 15 }],
+    },
     (i) => `s${i}`,
   );
   assert.equal(es1ProfileSchema.safeParse(p).success, false, '15 bar must not reach the machine');
@@ -348,9 +384,18 @@ test('anything filled from knowledge rather than the page must be declared', () 
 
 test('the extraction schema rejects a process the app cannot store', () => {
   const bad = coffeeExtractionSchema.safeParse({
-    name: 'x', roaster: 'y', origin: null, region: null, producer: null, varietal: null,
+    name: 'x',
+    roaster: 'y',
+    origin: null,
+    region: null,
+    producer: null,
+    varietal: null,
     process: 'carbonic-maceration-double-fermented',
-    roastLevel: null, altitudeMasl: null, tastingNotes: [], notFound: [], derived: [],
+    roastLevel: null,
+    altitudeMasl: null,
+    tastingNotes: [],
+    notFound: [],
+    derived: [],
   });
   assert.equal(bad.success, false);
 });
@@ -369,8 +414,14 @@ const SHOT = {
 
 test('a shot builds into stages in the order the machine runs them', () => {
   const stages = buildStages(SHOT);
-  assert.deepEqual(stages.map((s) => s.kind), ['preinfusion', 'infusion', 'infusion', 'rampdown']);
-  assert.deepEqual(stages.map((s) => s.label), ['Pre-infusion', 'Infusion 1', 'Infusion 2', 'Ramp down']);
+  assert.deepEqual(
+    stages.map((s) => s.kind),
+    ['preinfusion', 'infusion', 'infusion', 'rampdown'],
+  );
+  assert.deepEqual(
+    stages.map((s) => s.label),
+    ['Pre-infusion', 'Infusion 1', 'Infusion 2', 'Ramp down'],
+  );
 });
 
 test('every infusion step is flat — a curve is made of steps, not slopes', () => {
@@ -392,7 +443,10 @@ test('splitting and rebuilding is lossless', () => {
 
 test('both optional phases can be off, leaving a bare infusion', () => {
   const stages = buildStages({ ...SHOT, preInfusion: null, rampDown: null });
-  assert.deepEqual(stages.map((s) => s.kind), ['infusion', 'infusion']);
+  assert.deepEqual(
+    stages.map((s) => s.kind),
+    ['infusion', 'infusion'],
+  );
   assert.equal(es1ProfileSchema.safeParse({ ...GOOD_PROFILE, stages }).success, true);
 });
 
@@ -432,16 +486,28 @@ test('account update trims names and needs a first name', () => {
     firstName: 'Ada',
     lastName: 'Lovelace',
   });
-  assert.deepEqual(accountUpdateSchema.parse({ firstName: 'Ada', lastName: '' }), { firstName: 'Ada', lastName: '' });
-  assert.equal(accountUpdateSchema.safeParse({ firstName: '   ', lastName: 'Lovelace' }).success, false);
+  assert.deepEqual(accountUpdateSchema.parse({ firstName: 'Ada', lastName: '' }), {
+    firstName: 'Ada',
+    lastName: '',
+  });
+  assert.equal(
+    accountUpdateSchema.safeParse({ firstName: '   ', lastName: 'Lovelace' }).success,
+    false,
+  );
   assert.equal(accountUpdateSchema.safeParse({ firstName: 'Ada' }).success, false);
-  assert.equal(accountUpdateSchema.safeParse({ firstName: 'A'.repeat(257), lastName: '' }).success, false);
+  assert.equal(
+    accountUpdateSchema.safeParse({ firstName: 'A'.repeat(257), lastName: '' }).success,
+    false,
+  );
 });
 
 test('every recommendation maps onto a real spec, and grinders onto their own', () => {
   for (const r of RECOMMENDED_MACHINES) {
     assert.equal(r.kind, 'machine');
-    assert.ok(BUILT_IN_MACHINES.some((m) => m.id === r.builtInId), `${r.id}: no machine spec ${r.builtInId}`);
+    assert.ok(
+      BUILT_IN_MACHINES.some((m) => m.id === r.builtInId),
+      `${r.id}: no machine spec ${r.builtInId}`,
+    );
   }
   for (const r of RECOMMENDED_GRINDERS) {
     assert.equal(r.kind, 'grinder');
@@ -453,7 +519,11 @@ test('every recommendation maps onto a real spec, and grinders onto their own', 
 test('a machine only pairs with grinders the guide actually lists', () => {
   for (const r of RECOMMENDED_MACHINES) {
     for (const pid of r.pairsWith ?? []) {
-      assert.equal(RECOMMENDATIONS_BY_ID[pid]?.kind, 'grinder', `${r.id} pairs with unknown ${pid}`);
+      assert.equal(
+        RECOMMENDATIONS_BY_ID[pid]?.kind,
+        'grinder',
+        `${r.id} pairs with unknown ${pid}`,
+      );
     }
   }
 });
@@ -464,9 +534,18 @@ test('sortByPrice orders both ways, keeps ties stable, and leaves the input alon
     { id: 'a', priceUsd: 100 },
     { id: 'c', priceUsd: 200 },
   ];
-  assert.deepEqual(sortByPrice(list, 'asc').map((x) => x.id), ['a', 'b', 'c']);
-  assert.deepEqual(sortByPrice(list, 'desc').map((x) => x.id), ['b', 'c', 'a']);
-  assert.deepEqual(list.map((x) => x.id), ['b', 'a', 'c']);
+  assert.deepEqual(
+    sortByPrice(list, 'asc').map((x) => x.id),
+    ['a', 'b', 'c'],
+  );
+  assert.deepEqual(
+    sortByPrice(list, 'desc').map((x) => x.id),
+    ['b', 'c', 'a'],
+  );
+  assert.deepEqual(
+    list.map((x) => x.id),
+    ['b', 'a', 'c'],
+  );
 });
 
 test('price tiers use separate bands for machines and grinders', () => {

@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { BUILT_IN_MACHINES, specToUserMachine, type Machine, type MachineSpec } from '@brewlab/shared';
+import {
+  BUILT_IN_MACHINES,
+  specToUserMachine,
+  type Machine,
+  type MachineSpec,
+} from '@brewlab/shared';
 import { api } from '../lib/api';
 import { useMachines } from '../lib/machines';
 import { Banner, Empty, Field, Modal } from '../components/ui';
@@ -43,8 +48,8 @@ export default function Machines() {
         <div>
           <h1>Machines</h1>
           <p>
-            What you pull shots on. The default machine sets the temperature range the shot log will accept, and
-            decides whether the profile studio and a vendor account are any use to you.
+            What you pull shots on. The default machine sets the temperature range the shot log will
+            accept, and decides whether the profile studio and a vendor account are any use to you.
           </p>
         </div>
         <button className="btn btn-primary" onClick={() => setAdding(true)}>
@@ -67,11 +72,7 @@ export default function Machines() {
                 )}
               </div>
               <CapabilityTags m={m} />
-              {m.notes ? (
-                <p className="small dim mt-3 mb-0">
-                  {m.notes}
-                </p>
-              ) : null}
+              {m.notes ? <p className="small dim mt-3 mb-0">{m.notes}</p> : null}
               <div className="row mt-3">
                 <button className="btn btn-ghost btn-sm btn-danger" onClick={() => remove(m)}>
                   Remove
@@ -169,17 +170,15 @@ function AddMachine({ onSaved }: { onSaved: () => void }) {
               ) : (
                 <span className="tag">no profiling</span>
               )}
-              {spec.capabilities.cloud === 'fellow' ? <span className="tag cool">Fellow account</span> : null}
+              {spec.capabilities.cloud === 'fellow' ? (
+                <span className="tag cool">Fellow account</span>
+              ) : null}
               <span className="tag mono">
                 {roundF(spec.limits.tempC.min)}–{roundF(spec.limits.tempC.max)} °F
               </span>
               <span className="tag mono">{spec.limits.maxPressureBar} bar</span>
             </div>
-            {spec.notes ? (
-              <p className="small dim mt-2 mb-0">
-                {spec.notes}
-              </p>
-            ) : null}
+            {spec.notes ? <p className="small dim mt-2 mb-0">{spec.notes}</p> : null}
           </div>
         </>
       ) : (
@@ -222,7 +221,9 @@ function AddMachine({ onSaved }: { onSaved: () => void }) {
           >
             <select
               value={custom.profiling}
-              onChange={(e) => setCustom({ ...custom, profiling: e.target.value as 'none' | 'pressure' })}
+              onChange={(e) =>
+                setCustom({ ...custom, profiling: e.target.value as 'none' | 'pressure' })
+              }
             >
               <option value="none">No — one pump, one pressure</option>
               <option value="pressure">Yes — timed pressure phases</option>
@@ -234,7 +235,11 @@ function AddMachine({ onSaved }: { onSaved: () => void }) {
       {error ? <Banner kind="bad">{error}</Banner> : null}
 
       <div className="row">
-        <button className="btn btn-primary" onClick={save} disabled={mode === 'custom' && !custom.name.trim()}>
+        <button
+          className="btn btn-primary"
+          onClick={save}
+          disabled={mode === 'custom' && !custom.name.trim()}
+        >
           Add to my bench
         </button>
       </div>

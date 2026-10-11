@@ -50,17 +50,17 @@ export function OptInGate({ onEnabled }: { onEnabled: () => void }) {
       </div>
       <ul className="fellow-risks">
         <li>
-          Mousetail talks to Fellow through its private API. It is not public or documented, and it can change or
-          stop working at any time, without notice.
+          Mousetail talks to Fellow through its private API. It is not public or documented, and it
+          can change or stop working at any time, without notice.
         </li>
         <li>
-          Profiles you send are written to your real Espresso Series 1. A wrong or malformed profile can pull bad
-          shots, make the machine behave unexpectedly, or need a reset to clear.
+          Profiles you send are written to your real Espresso Series 1. A wrong or malformed profile
+          can pull bad shots, make the machine behave unexpectedly, or need a reset to clear.
         </li>
         <li>
-          This feature is provided as is, with no warranty. You use it at your own risk, and Mousetail and its
-          developer are not responsible for any damage to your machine, your Fellow account or its profiles, or
-          anything else that results from using it.
+          This feature is provided as is, with no warranty. You use it at your own risk, and
+          Mousetail and its developer are not responsible for any damage to your machine, your
+          Fellow account or its profiles, or anything else that results from using it.
         </li>
       </ul>
       <label className="checkbox fellow-accept">
@@ -159,12 +159,13 @@ export default function Fellow() {
       <div className="page-head">
         <h1>Fellow account</h1>
         <p>
-          Connect the account your ES1 is paired with, then push profiles to it from the editor. Your password is
-          used for the sign-in call and is never stored; the access token it returns is.
+          Connect the account your ES1 is paired with, then push profiles to it from the editor.
+          Your password is used for the sign-in call and is never stored; the access token it
+          returns is.
         </p>
         <p className="small faint">
-          Mousetail is an independent project, not affiliated with, endorsed by or supported by Fellow. It talks to
-          Fellow's private API, which can change or stop working without notice.
+          Mousetail is an independent project, not affiliated with, endorsed by or supported by
+          Fellow. It talks to Fellow's private API, which can change or stop working without notice.
         </p>
       </div>
 
@@ -198,7 +199,9 @@ export default function Fellow() {
                       <div className="row-wrap tight">
                         <span className="item-title">{d.displayName}</span>
                         <span className={`tag ${d.supportsEspressoProfiles ? 'good' : ''}`}>
-                          {d.supportsEspressoProfiles ? 'espresso profiles' : 'not an espresso machine'}
+                          {d.supportsEspressoProfiles
+                            ? 'espresso profiles'
+                            : 'not an espresso machine'}
                         </span>
                       </div>
                       <div className="small dim mt-1">
@@ -242,8 +245,9 @@ export default function Fellow() {
                 </button>
               </div>
               <p className="small dim fellow-note">
-                Importing copies a profile onto your shelf. Fellow's own profiles are read-only — editing one and
-                sending it back saves a new profile in your custom folder rather than overwriting the original.
+                Importing copies a profile onto your shelf. Fellow's own profiles are read-only —
+                editing one and sending it back saves a new profile in your custom folder rather
+                than overwriting the original.
               </p>
               {remote.list.length ? (
                 <div className="fellow-rows">
@@ -252,7 +256,9 @@ export default function Fellow() {
                       <div className="min-w-0">
                         <div className="row-wrap tight">
                           <strong>{p.name}</strong>
-                          <span className={`tag ${ORIGIN_TAG[p.origin].cls}`}>{ORIGIN_TAG[p.origin].label}</span>
+                          <span className={`tag ${ORIGIN_TAG[p.origin].cls}`}>
+                            {ORIGIN_TAG[p.origin].label}
+                          </span>
                           {!p.editable ? <span className="tag">read-only</span> : null}
                         </div>
                         <div className="small dim mt-1">
@@ -290,8 +296,8 @@ export default function Fellow() {
                 </button>
               </div>
               <p className="small dim fellow-note">
-                The wire format is captured, but this is still the quickest way to see exactly what the API
-                returns for an account.
+                The wire format is captured, but this is still the quickest way to see exactly what
+                the API returns for an account.
               </p>
               <pre className="code-block capped mono small">{JSON.stringify(raw, null, 2)}</pre>
             </section>
@@ -304,10 +310,20 @@ export default function Fellow() {
           </div>
           <form onSubmit={connect} className="stack fellow-form">
             <Field label="Fellow email">
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </Field>
             <Field label="Fellow password">
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </Field>
             {error ? <Banner kind="bad">{error}</Banner> : null}
             <div>
@@ -324,8 +340,8 @@ export default function Fellow() {
           <div>
             <h3>Turn off the Fellow integration</h3>
             <p className="small dim">
-              Disconnects your Fellow account and deletes the stored access token. Profiles already on your machine
-              stay there, and you can turn this back on at any time.
+              Disconnects your Fellow account and deletes the stored access token. Profiles already
+              on your machine stay there, and you can turn this back on at any time.
             </p>
           </div>
           <button className="btn btn-danger btn-sm" onClick={turnOff}>
