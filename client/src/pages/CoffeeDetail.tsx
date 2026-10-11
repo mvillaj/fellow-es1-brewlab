@@ -69,10 +69,10 @@ export default function CoffeeDetail() {
     <>
       <div className="page-head spread">
         <div>
-          <Link className="small dim" to={mine ? '/coffees' : '/explore'}>
+          <Link className="back small dim" to={mine ? '/coffees' : '/explore'}>
             ← back
           </Link>
-          <h1 style={{ marginTop: 6 }}>{c.name}</h1>
+          <h1>{c.name}</h1>
           <p>
             {c.roaster}
             {c.origin ? ` · ${c.origin}` : ''}
@@ -102,10 +102,10 @@ export default function CoffeeDetail() {
 
       {suggestError ? <Banner kind="bad">{suggestError}</Banner> : null}
       {capabilities.profiling !== 'none' && !ai.enabled ? (
-        <p className="small faint" style={{ marginTop: -14, marginBottom: 18 }}>{ai.reason}</p>
+        <p className="page-note small faint">{ai.reason}</p>
       ) : null}
 
-      <div className="row-wrap" style={{ marginBottom: 20 }}>
+      <div className="row-wrap mb-5">
         {c.roastLevel ? <span className="tag">{c.roastLevel}</span> : null}
         {c.process ? <span className="tag cool">{c.process}</span> : null}
         {c.varietal ? <span className="tag">{c.varietal}</span> : null}
@@ -119,12 +119,12 @@ export default function CoffeeDetail() {
       </div>
 
       {c.notes ? (
-        <div style={{ marginBottom: 20 }}>
+        <div className="mb-5">
           <Banner>{c.notes}</Banner>
         </div>
       ) : null}
 
-      <div className="grid grid-4" style={{ marginBottom: 20 }}>
+      <div className="grid grid-4 mb-5">
         <Stat label="Shots" value={list.length} />
         <Stat label="Average rating" value={c.avgRating ?? '—'} unit={c.avgRating ? '★' : undefined} />
         <Stat
@@ -136,7 +136,7 @@ export default function CoffeeDetail() {
       </div>
 
       {list.length >= 2 ? (
-        <div className="card" style={{ marginBottom: 16 }}>
+        <div className="card mb-4">
           <div className="card-head">
             <h2>Dial-in</h2>
             <span className="small faint">shot time over successive pulls</span>
@@ -146,12 +146,12 @@ export default function CoffeeDetail() {
       ) : null}
 
       {suggestion && mine ? (
-        <div className="card" style={{ marginBottom: 16 }}>
+        <div className="card mb-4">
           <div className="card-head">
             <h2>Next pull</h2>
           </div>
           <h3 className="next-pull">{baristaLine(suggestion)}</h3>
-          <p className="dim small" style={{ margin: '6px 0 0' }}>
+          <p className="dim small m-0 mt-2">
             {suggestion.reason}
           </p>
         </div>

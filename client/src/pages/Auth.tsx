@@ -20,12 +20,12 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           <Link to="/" aria-label="Mousetail home">
             <BrandLockup heading />
           </Link>
-          <p className="dim small" style={{ marginTop: 6 }}>
+          <p className="dim small mt-2">
             Track every shot you pull — across machines, grinders, coffees and profiles.
           </p>
         </div>
 
-        <div className="segmented" style={{ width: '100%', marginBottom: 18 }}>
+        <div className="segmented w-full mb-4">
           <button className={mode === 'login' ? 'on grow' : 'grow'} onClick={() => setMode('login')}>
             Sign in
           </button>

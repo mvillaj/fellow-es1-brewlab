@@ -62,9 +62,9 @@ export default function Profiles() {
         <div className="grid grid-2">
           {profiles.data.map((p) => (
             <div key={p.id} className="card">
-              <div className="spread" style={{ alignItems: 'flex-start', marginBottom: 10 }}>
+              <div className="spread align-start mb-2">
                 <div>
-                  <Link to={`/profiles/${p.id}`} style={{ fontSize: '1.05rem' }}>
+                  <Link className="item-title" to={`/profiles/${p.id}`}>
                     {p.name}
                   </Link>
                   {p.description ? <div className="small dim">{p.description}</div> : null}
@@ -76,7 +76,7 @@ export default function Profiles() {
 
               <ProfileCurve profile={p.profile} height={150} />
 
-              <div className="row-wrap small" style={{ marginTop: 10 }}>
+              <div className="row-wrap small mt-2">
                 <span className="tag mono">{tempF(p.profile.brewTempC)}</span>
                 <span className="tag mono">
                   {p.profile.doseG} → {yieldG(p.profile)} g
@@ -100,19 +100,19 @@ export default function Profiles() {
         <Modal title="Start from" onClose={() => setPicking(false)} wide>
           <div className="grid grid-2">
             <button className="list-item" onClick={() => navigate('/profiles/new')}>
-              <div style={{ fontSize: '1.02rem' }}>Blank profile</div>
+              <div className="item-title">Blank profile</div>
               <div className="small dim">Pre-infusion, infusion, ramp down — then change everything.</div>
             </button>
             {STOCK_PROFILES.map((s) => (
               <button key={s.name} className="list-item" onClick={() => createFromStock(s.name)}>
                 <div className="spread">
-                  <span style={{ fontSize: '1.02rem' }}>{s.name}</span>
+                  <span className="item-title">{s.name}</span>
                   <span className="tag mono">{tempF(s.brewTempC)}</span>
                 </div>
-                <div className="small dim" style={{ marginTop: 4 }}>
+                <div className="small dim mt-1">
                   {s.description}
                 </div>
-                <div className="row-wrap small" style={{ marginTop: 8 }}>
+                <div className="row-wrap small mt-2">
                   <span className="tag mono">1:{s.ratio}</span>
                   <span className="tag mono">{totalDurationS(s)}s</span>
                   <span className="tag">{s.stages.length} stages</span>

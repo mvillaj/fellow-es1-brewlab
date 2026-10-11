@@ -11,18 +11,16 @@ import {
   LayoutGrid,
   LogOut,
   Menu,
-  Monitor,
-  Moon,
   Palette,
   Plus,
-  Sun,
+  UserRound,
   Waves,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import type { MachineCapabilities } from '@brewlab/shared';
 import { useAuth } from './lib/auth';
 import { useMachines } from './lib/machines';
-import { FINISHES, useTheme, type ThemePref } from './lib/theme';
 import AuthPage from './pages/Auth';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
@@ -36,7 +34,9 @@ import Profiles from './pages/Profiles';
 import ProfileEditor from './pages/ProfileEditor';
 import Fellow from './pages/Fellow';
 import Changelog from './pages/Changelog';
+import Account from './pages/Account';
 import BrandLockup from './components/BrandLockup';
+import { FinishPicker, ThemeToggle } from './components/Appearance';
 
 interface NavLinkDef {
   to: string;
@@ -61,7 +61,8 @@ export function navFor(caps: MachineCapabilities) {
       { to: '/coffees', label: 'My coffees', icon: Bean, show: true },
       { to: '/explore', label: 'Explore', icon: Compass, show: true },
     ]},
-    { section: 'Account', links: [
+    { section: 'Settings', links: [
+      { to: '/account', label: 'My account', icon: UserRound, show: true },
       { to: '/fellow', label: 'Fellow account', icon: CloudCog, show: caps.cloud === 'fellow' },
     ]},
     { section: 'About', links: [
@@ -71,59 +72,6 @@ export function navFor(caps: MachineCapabilities) {
   return groups
     .map((g) => ({ ...g, links: g.links.filter((l) => l.show) }))
     .filter((g) => g.links.length > 0);
-}
-
-const THEMES: { value: ThemePref; icon: LucideIcon; title: string }[] = [
-  { value: 'light', icon: Sun, title: 'Light' },
-  { value: 'dark', icon: Moon, title: 'Dark' },
-  { value: 'auto', icon: Monitor, title: 'Match the system' },
-];
-
-function ThemeToggle() {
-  const { pref, setPref } = useTheme();
-  return (
-    <div className="segmented theme-toggle" role="group" aria-label="Colour theme">
-      {THEMES.map((t) => (
-        <button
-          key={t.value}
-          type="button"
-          className={pref === t.value ? 'on' : ''}
-          onClick={() => setPref(t.value)}
-          title={t.title}
-          aria-label={t.title}
-          aria-pressed={pref === t.value}
-        >
-          <t.icon aria-hidden="true" />
-        </button>
-      ))}
-    </div>
-  );
-}
-
-/** Two-tone swatches, body over wood, like picking the machine itself. */
-function FinishPicker() {
-  const { finish, setFinish } = useTheme();
-  const current = FINISHES.find((f) => f.value === finish);
-  return (
-    <div className="stack-sm">
-      <div className="finish-picker" role="group" aria-label="Colour">
-        {FINISHES.map((f, i) => [
-          i === 1 ? <span key="sep" className="finish-sep" aria-hidden="true" /> : null,
-          <button
-            key={f.value}
-            type="button"
-            className={finish === f.value ? 'on' : ''}
-            onClick={() => setFinish(f.value)}
-            title={f.label}
-            aria-label={f.label}
-            aria-pressed={finish === f.value}
-            style={{ '--swatch-body': f.body, '--swatch-wood': f.wood } as React.CSSProperties}
-          />,
-        ])}
-      </div>
-      <span className="finish-name">{current?.label}</span>
-    </div>
-  );
 }
 
 function Nav({ groups }: { groups: ReturnType<typeof navFor> }) {
@@ -269,14 +217,30 @@ export function MoreSheet({ groups, onClose }: { groups: ReturnType<typeof navFo
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
+  // Hold the page still underneath, so a drag on the sheet never scrolls it.
+  useEffect(() => {
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = prev;
+    };
+  }, []);
   // Close on click, not mousedown: iOS Safari doesn't fire mouse events for a
   // tap on a plain div, but React gives onClick targets the hook Safari needs.
   return (
     <div className="sheet-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="sheet" role="dialog" aria-modal="true" aria-label="More">
-        <div className="sheet-grip" aria-hidden="true" />
-        <Nav groups={rest} />
-        <Settings inline />
+        <div className="sheet-head">
+          <h2>More</h2>
+          <button type="button" className="btn btn-ghost btn-icon" onClick={onClose} aria-label="Close" title="Close">
+            <X aria-hidden="true" />
+          </button>
+        </div>
+        <div className="sheet-body">
+          <Nav groups={rest} />
+          <Settings inline />
+        </div>
       </div>
     </div>
   );
@@ -350,6 +314,7 @@ export default function App() {
           </>
         ) : null}
         {capabilities.cloud === 'fellow' ? <Route path="/fellow" element={<Fellow />} /> : null}
+        <Route path="/account" element={<Account />} />
         <Route path="/changelog" element={<Changelog />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

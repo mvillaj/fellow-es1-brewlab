@@ -10,7 +10,7 @@ export interface PushResult {
   ok: boolean;
   fellowProfileId?: string;
   shareLink?: string;
-  /** Raw response body, surfaced in the UI so you can iterate against the real API. */
+  /** Raw response body, surfaced in the UI so you can see exactly what Fellow returned. */
   raw?: unknown;
   message: string;
 }
@@ -18,15 +18,11 @@ export interface PushResult {
 /**
  * Everything the app needs from Fellow, behind one seam.
  *
- * There are two implementations. `mock` always works and is what the demo runs
- * on. `live` talks to the real cloud API that fellow-aiden / fellow-aiden-ts
- * reverse-engineered. The live one is a hypothesis: those clients were written
- * for the Aiden drip brewer, and there is no public evidence that the ES1 shares
- * the backend or the profile schema. It exists so you can point it at a real
- * account, dump what comes back, and find out.
+ * The one implementation, `live`, talks to Fellow's private cloud API, found by
+ * reverse-engineering the app (see live.ts). It is not public and can change
+ * without notice, which is why the whole integration is opt-in per user.
  */
 export interface FellowClient {
-  readonly mode: 'mock' | 'live';
   login(email: string, password: string): Promise<FellowSession>;
   listDevices(session: FellowSession): Promise<FellowDevice[]>;
   listProfiles(session: FellowSession, deviceId: string): Promise<unknown[]>;

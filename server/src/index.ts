@@ -16,7 +16,6 @@ import { machineRouter } from './routes/machines';
 import { aiRouter } from './routes/ai';
 import { profileRouter } from './routes/profiles';
 import { shotRouter } from './routes/shots';
-import { getFellowClient } from './fellow/index';
 
 const PORT = Number(process.env.PORT ?? 4000);
 // Containers need 0.0.0.0; Node's default of localhost is unreachable from
@@ -53,7 +52,7 @@ app.use(express.json({ limit: '1mb' }));
 // auth provider is misconfigured cannot tell you the process is up, which is
 // the one thing it exists to answer.
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, fellowMode: getFellowClient().mode, node: process.version });
+  res.json({ ok: true, node: process.version });
 });
 
 // After /api/health so a flood cannot make the liveness probe fail, which would
@@ -118,5 +117,4 @@ if (!encryptionConfigured()) {
 
 app.listen(PORT, HOST, () => {
   console.log(`  API      http://localhost:${PORT}`);
-  console.log(`  Fellow   ${getFellowClient().mode} mode`);
 });

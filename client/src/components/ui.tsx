@@ -122,7 +122,7 @@ export function Modal({
   return (
     <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div className={`modal${wide ? ' wide' : ''}`} role="dialog" aria-modal="true" aria-label={title}>
-        <div className="spread" style={{ marginBottom: 18 }}>
+        <div className="spread mb-4">
           <h2>{title}</h2>
           <button className="btn btn-ghost btn-icon" onClick={onClose} aria-label="Close">
             <X aria-hidden="true" />

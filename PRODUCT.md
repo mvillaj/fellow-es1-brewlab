@@ -41,7 +41,7 @@ Adjacent workflows: reading a bag (paste a roaster URL or bag copy to prefill th
 
 - **Stack:** Vite + React SPA, Express + `node:sqlite` API, shared TypeScript/zod package. Hand-rolled SVG charts, no chart library. Clerk for sign-in. One Fly machine serves API and built client.
 - **Routes:** Dashboard, Shots, Coffees (+ detail), Explore, Grinders, Machines, Profiles (+ editor, only when the machine profiles), Fellow (only when the cloud is Fellow).
-- **Fellow integration:** unofficial, reverse-engineered private API; `mock` mode by default, `live` opt-in. Fellow's own profiles (factory, Drops, unrecognised folders) are never written to; only profiles positively identified as the user's are updated in place. The editor says so before a push.
+- **Fellow integration:** unofficial, reverse-engineered private API, off until each user opts in past an experimental-feature warning. Fellow's own profiles (factory, Drops, unrecognised folders) are never written to; only profiles positively identified as the user's are updated in place. The editor says so before a push.
 - **Model features** (bag reading, profile suggestion) need `ANTHROPIC_API_KEY`; without it they render disabled with the reason, and the rest of the app is untouched.
 - **Machine limits:** temperature 50–94 °C and up to 9 bar extraction are Fellow's published figures. Flow bounds, stage-duration max, and dose range are inferred from factory profiles and surfaced as field hints (`RANGE_NOTES` in `packages/shared/src/es1.ts`).
 - **Terminology:** shot, dose, yield, pre-infusion, grind setting, bench, shelf (personal coffees), shared library, profile, stage/phase, factory profile, Drops, dial-in.

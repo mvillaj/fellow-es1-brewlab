@@ -6,9 +6,9 @@ export default function CoffeeCard({ coffee, action }: { coffee: Coffee; action?
   const off = daysOffRoast(coffee.roastDate);
   return (
     <div className="list-item">
-      <div className="spread" style={{ alignItems: 'flex-start' }}>
+      <div className="spread align-start">
         <div>
-          <Link to={`/coffees/${coffee.id}`} style={{ fontSize: '1.05rem' }}>
+          <Link className="item-title" to={`/coffees/${coffee.id}`}>
             {coffee.name}
           </Link>
           <div className="small dim">
@@ -20,7 +20,7 @@ export default function CoffeeCard({ coffee, action }: { coffee: Coffee; action?
         {action}
       </div>
 
-      <div className="row-wrap small" style={{ marginTop: 10 }}>
+      <div className="row-wrap small mt-2">
         {coffee.roastLevel ? <span className="tag">{coffee.roastLevel}</span> : null}
         {coffee.process ? <span className="tag cool">{coffee.process}</span> : null}
         {coffee.varietal ? <span className="tag">{coffee.varietal}</span> : null}
@@ -31,12 +31,12 @@ export default function CoffeeCard({ coffee, action }: { coffee: Coffee; action?
       </div>
 
       {coffee.tastingNotes.length ? (
-        <div className="small dim" style={{ marginTop: 8 }}>
+        <div className="small dim mt-2">
           {coffee.tastingNotes.join(' · ')}
         </div>
       ) : null}
 
-      <div className="small faint" style={{ marginTop: 10 }}>
+      <div className="small faint mt-2">
         {coffee.shotCount ?? 0} shots
         {coffee.avgRating ? ` · ${coffee.avgRating}★ average` : ''}
         {coffee.cloneCount ? ` · cloned ${coffee.cloneCount}×` : ''}

@@ -48,15 +48,15 @@ export default function Grinders() {
       {list.length >= 2 ? <Converter grinders={list} /> : null}
 
       {list.length ? (
-        <div className="grid grid-2" style={{ marginTop: 16 }}>
+        <div className="grid grid-2 mt-4">
           {list.map((g) => {
             const spec = BUILT_IN_GRINDERS.find((s) => s.id === g.builtInId);
             const espresso = spec?.espressoRange;
             return (
               <div key={g.id} className="card">
-                <div className="spread" style={{ alignItems: 'flex-start' }}>
+                <div className="spread align-start">
                   <div>
-                    <div style={{ fontSize: '1.05rem' }}>{g.name}</div>
+                    <div className="item-title">{g.name}</div>
                     <div className="small dim">
                       {g.burrType ?? 'unknown'} burrs
                       {spec?.burrSizeMm ? ` · ${spec.burrSizeMm} mm` : ''} ·{' '}
@@ -75,11 +75,11 @@ export default function Grinders() {
                 <div className="divider" />
 
                 <div className="small dim">Micron model</div>
-                <div className="mono small" style={{ marginTop: 2 }}>
+                <div className="mono small mt-1">
                   {g.calibration.umPerUnit} µm per {g.scale.unitLabel.replace(/s$/, '')}
                   {g.calibration.interceptUm ? ` + ${g.calibration.interceptUm} µm offset` : ''}
                 </div>
-                <div className="row-wrap small" style={{ marginTop: 8 }}>
+                <div className="row-wrap small mt-2">
                   <span className={`tag ${g.calibration.source === 'measured' ? 'good' : g.calibration.source === 'estimated' ? 'bad' : ''}`}>
                     {g.calibration.source}
                   </span>
@@ -92,12 +92,12 @@ export default function Grinders() {
                 </div>
 
                 {g.notes ? (
-                  <p className="small faint" style={{ marginTop: 10, marginBottom: 0 }}>
+                  <p className="small faint mt-2 mb-0">
                     {g.notes}
                   </p>
                 ) : null}
 
-                <div className="row" style={{ marginTop: 14 }}>
+                <div className="row mt-3">
                   <button className="btn btn-sm" onClick={() => setCalibrating(g)}>
                     Calibrate
                   </button>
@@ -194,8 +194,8 @@ function Converter({ grinders }: { grinders: Grinder[] }) {
 
       {result ? (
         <>
-          <div className="row-wrap" style={{ marginTop: 18, alignItems: 'baseline' }}>
-            <span className="mono" style={{ fontSize: '2rem' }}>
+          <div className="row-wrap mt-4 align-baseline">
+            <span className="mono readout">
               {result.setting}
             </span>
             <span className="dim">{to.scale.unitLabel} on the {to.name}</span>
@@ -206,9 +206,9 @@ function Converter({ grinders }: { grinders: Grinder[] }) {
             </span>
           </div>
 
-          <div style={{ marginTop: 14 }}>
+          <div className="mt-3">
             <Meter value={result.microns} min={120} max={700} />
-            <div className="spread small faint" style={{ marginTop: 4 }}>
+            <div className="spread small faint mt-1">
               <span>120 µm</span>
               <span>espresso window 200–400 µm</span>
               <span>700 µm</span>
@@ -216,7 +216,7 @@ function Converter({ grinders }: { grinders: Grinder[] }) {
           </div>
 
           {result.outOfRange ? (
-            <div style={{ marginTop: 12 }}>
+            <div className="mt-3">
               <Banner kind="bad">
                 That grind is off the end of the {to.name}'s dial — clamped to {result.setting}. The two grinders do
                 not overlap here.
@@ -318,7 +318,7 @@ function AddGrinder({ onSaved }: { onSaved: () => void }) {
               </span>
             </div>
             {spec.notes ? (
-              <p className="small dim" style={{ marginBottom: 0, marginTop: 10 }}>
+              <p className="small dim mb-0 mt-2">
                 {spec.notes}
               </p>
             ) : null}
@@ -400,7 +400,7 @@ function Calibrate({ grinder, onSaved }: { grinder: Grinder; onSaved: () => void
 
   return (
     <div className="stack">
-      <p className="small dim" style={{ margin: 0 }}>
+      <p className="small dim m-0">
         Give two settings you have a feel for and the particle size each behaves like. Espresso lands around
         200–400 µm; a good pour over is 600–800 µm. The line through your two points replaces our estimate.
       </p>

@@ -9,6 +9,10 @@
  *     microns = interceptUm + setting * umPerUnit
  *
  * The published numbers below are community estimates, not lab measurements.
+ * Manufacturer "µm per click" figures (1Zpresso, Kingrinder) describe burr
+ * travel, not particle size, so they can't be used as the slope directly. Where
+ * we have a community espresso window we fit the line so that window lands at
+ * roughly 200-400 µm, which keeps every grinder on the same axis.
  * They are good enough to land you in the right neighbourhood when switching
  * grinders; they are not good enough to be treated as truth. Every user grinder
  * can carry a two-point calibration that overrides the defaults — see
@@ -155,10 +159,12 @@ export const BUILT_IN_GRINDERS: GrinderSpec[] = [
     burrType: 'conical',
     burrSizeMm: 48,
     handPowered: true,
-    scale: { kind: 'clicks', min: 0, max: 120, step: 1, unitLabel: 'clicks' },
-    calibration: { umPerUnit: 8.0, interceptUm: 0, source: 'measured' },
-    espressoRange: [24, 48],
-    notes: '8.0 µm per click, 30 clicks per rotation. Published by 1Zpresso.',
+    scale: { kind: 'clicks', min: 0, max: 500, step: 1, unitLabel: 'clicks' },
+    // Fitted so the community espresso window (74-154 clicks) maps to 200-400 µm.
+    calibration: { umPerUnit: 2.5, interceptUm: 15, source: 'community' },
+    espressoRange: [74, 154],
+    notes:
+      '100 clicks per rotation, 5 rotations. 1Zpresso publishes 8 µm of burr travel per click; that is burr movement, not particle size. Espresso range from the Honest Coffee Guide chart.',
   },
   {
     id: '1zpresso-j-max',
@@ -167,10 +173,12 @@ export const BUILT_IN_GRINDERS: GrinderSpec[] = [
     burrType: 'conical',
     burrSizeMm: 48,
     handPowered: true,
-    scale: { kind: 'clicks', min: 0, max: 90, step: 1, unitLabel: 'clicks' },
-    calibration: { umPerUnit: 8.8, interceptUm: 0, source: 'measured' },
-    espressoRange: [22, 44],
-    notes: '8.8 µm per click, 90 clicks per rotation. Espresso-first hand grinder.',
+    scale: { kind: 'clicks', min: 0, max: 405, step: 1, unitLabel: 'clicks' },
+    // Fitted so the community espresso window (69-143 clicks) maps to 200-400 µm.
+    calibration: { umPerUnit: 2.7, interceptUm: 14, source: 'community' },
+    espressoRange: [69, 143],
+    notes:
+      '90 clicks per rotation, 4.5 rotations. 1Zpresso publishes 8.8 µm of burr travel per click. Espresso range from the Honest Coffee Guide chart.',
   },
   {
     id: '1zpresso-jx-pro',
@@ -180,8 +188,11 @@ export const BUILT_IN_GRINDERS: GrinderSpec[] = [
     burrSizeMm: 48,
     handPowered: true,
     scale: { kind: 'clicks', min: 0, max: 120, step: 1, unitLabel: 'clicks' },
-    calibration: { umPerUnit: 12.5, interceptUm: 0, source: 'measured' },
-    espressoRange: [16, 32],
+    // Fitted so the community espresso window (40-83 clicks) maps to 200-400 µm.
+    calibration: { umPerUnit: 4.65, interceptUm: 14, source: 'community' },
+    espressoRange: [40, 83],
+    notes:
+      '40 clicks per rotation. 1Zpresso publishes 12.5 µm of burr travel per click. Espresso range from the Honest Coffee Guide chart; other guides disagree, so calibrate.',
   },
   {
     id: '1zpresso-k-ultra',
@@ -191,8 +202,11 @@ export const BUILT_IN_GRINDERS: GrinderSpec[] = [
     burrSizeMm: 48,
     handPowered: true,
     scale: { kind: 'clicks', min: 0, max: 100, step: 1, unitLabel: 'clicks' },
-    calibration: { umPerUnit: 12.5, interceptUm: 0, source: 'measured' },
-    espressoRange: [16, 32],
+    // Fitted so the community espresso window (24-49 clicks) maps to 200-400 µm.
+    calibration: { umPerUnit: 8, interceptUm: 8, source: 'community' },
+    espressoRange: [24, 49],
+    notes:
+      '100 clicks per rotation. 1Zpresso publishes 20 µm of burr travel per click. Espresso range from the Honest Coffee Guide chart.',
   },
   {
     id: 'comandante-c40',

@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { clerkClient, getAuth } from '@clerk/express';
 import { BUILT_IN_GRINDERS, BUILT_IN_MACHINES, specToUserMachine } from '@brewlab/shared';
 import { db, id, nowIso } from './db';
+import { profileFromClerk } from './clerk-profile';
 
 /**
  * Fail at boot, not on the first request. Without these, clerkMiddleware throws
@@ -110,19 +111,24 @@ function insertUser(clerkSubject: string, email: string, displayName: string): U
 
 /** Pulls the name and email off the Clerk profile so the UI has something to show. */
 async function provision(clerkSubject: string): Promise<UserRow> {
-  const profile = await clerkClient.users.getUser(clerkSubject);
-  const email =
-    profile.primaryEmailAddress?.emailAddress ?? profile.emailAddresses[0]?.emailAddress ?? null;
-  const displayName =
-    [profile.firstName, profile.lastName].filter(Boolean).join(' ').trim() ||
-    profile.username ||
-    email?.split('@')[0] ||
-    'Brewer';
+  const { email, displayName } = profileFromClerk(
+    clerkSubject,
+    await clerkClient.users.getUser(clerkSubject),
+  );
+  return insertUser(clerkSubject, email, displayName);
+}
 
-  // `email` is UNIQUE and Clerk allows accounts without one (phone-only, some
-  // OAuth providers). Fall back to a per-user synthetic address rather than
-  // letting the insert fail and locking the account out of its own bench.
-  return insertUser(clerkSubject, email ?? `${clerkSubject}@clerk.local`, displayName);
+/**
+ * Copies Clerk's current name and email onto the local row. The email only
+ * moves if no other row holds it: it is UNIQUE here, and a seeded demo brewer
+ * sharing an address should not make a rename fail.
+ */
+export function mirrorClerkProfile(userId: string, profile: { email: string; displayName: string }) {
+  db.prepare(
+    `UPDATE users SET display_name = ?,
+       email = CASE WHEN EXISTS (SELECT 1 FROM users WHERE email = ? AND id <> ?) THEN email ELSE ? END
+     WHERE id = ?`,
+  ).run(profile.displayName, profile.email, userId, profile.email, userId);
 }
 
 async function resolveUser(req: AuthedRequest): Promise<boolean> {

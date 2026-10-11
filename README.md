@@ -122,100 +122,28 @@ One change at a time, because two teaches you nothing.
 
 ---
 
-## The Fellow integration — read this before you demo it
+## The Fellow integration
 
 The app talks to Fellow through one interface, `FellowClient`
-(`server/src/fellow/types.ts`), with two implementations:
+(`server/src/fellow/types.ts`), implemented against Fellow's real cloud API in
+`server/src/fellow/live.ts`. There is no simulated mode any more: it was
+removed because a real user could not tell its fake ES1 from their own.
 
-| Mode | When | What it does |
-| --- | --- | --- |
-| `mock` (default) | always | An in-memory Fellow cloud: accepts a login, exposes an ES1 and an Aiden, stores profiles, returns a `brew.link`-style share URL. Any email and a 4+ character password will connect. |
-| `live` | `FELLOW_MODE=live` | Talks to the real cloud API. |
+**It is opt-in per user.** Every user starts with it off. The Fellow page shows
+a warning — experimental, unofficial, private API, writes reach the real machine,
+no warranty, at your own risk — and the integration only turns on once they tick
+the box and confirm. The server enforces this: every `/api/fellow/*` route except
+`status`, `opt-in`, `opt-out` and `disconnect` returns 403 until
+`users.fellow_opt_in_at` is set. Turning it off clears that and deletes the
+stored token.
 
-The endpoints, base URL and auth flow come from the reverse-engineered Aiden
+The endpoints, base URL and auth flow started from the reverse-engineered Aiden
 clients ([9b/fellow-aiden](https://github.com/9b/fellow-aiden),
-[simmerkaer/fellow-aiden-ts](https://github.com/simmerkaer/fellow-aiden-ts)).
-Login is `POST /auth/login` → `accessToken`; devices at `/devices?dataType=real`;
-profiles at `/devices/{id}/profiles`.
-
-**The ES1 is on that same backend** — confirmed against a real account with both
-machines on it. What those clients don't do is tell the two apart: both simply
-take `devices[0]`, which breaks outright on a mixed account. The device objects
-carry clear discriminators:
-
-| | Aiden | ES1 |
-| --- | --- | --- |
-| `id` prefix | `FB_` | `FS_` |
-| `sku` | `EBRWS-NA` | `1SSE-NA` |
-| `deviceType` | *(absent)* | `Solo` |
-| active profile | `ibSelectedProfileId: "plocal1"` | `activeProfileId: "2_mediumroast"` |
-| units | `metricUnit`, `preciseUnit` | `tempUnit`, `dvolUnit`, `bvolUnit`, `whUnit`, `htUnit` |
-| maintenance | rinse, clean | `backflushRem`, `descaleRem`, `showerRem`, `waterHardness` |
-
-`classifyDevice()` in `server/src/fellow/live.ts` scores those signals and
-refuses to guess — an unrecognised device comes back as `unknown` rather than
-being handed an espresso profile.
-
-**The ES1 profile schema is captured.** It is a different object from the Aiden's
-— that one is drip-specific (bloom ratio, pulse counts, a 14–20 brew ratio) and
-cannot express a shot, and the id formats don't match either (`2_mediumroast` vs
-`p7` / `plocal1`). The ES1 wire format in `live.ts` was confirmed against a full
-GET of a real account plus the responses to a create and a PATCH, 2026-08-28.
-
-Three things are still inferred rather than observed, and are marked as such in
-code: `ASSUMED_INFUSION_FLOW_ML_S`, and the `adaptive` / `decliningTemp` /
-`transition` values pinned in `OBSERVED_DEFAULTS`. Those three have never been
-seen to vary, but rather than re-pin them on every write, an imported profile
-carries its original wire record in `brew_profiles.source_wire` and replays them.
-
-### Profiles on the machine
-
-The Fellow page lists what actually lives on your account, tagged by origin, and
-imports any of them onto your shelf. Import maps the wire profile back through
-`fromEs1Wire`, so the factory Lever arrives as the seven flat stages it really is.
-
-**Fellow's own profiles are never written to.** `profileOrigin()` classifies each
-one, and it **fails closed**: only a profile positively identified as yours is
-updated in place with `PATCH`. Everything else — factory profiles, weekly Drops,
-anything whose folder we don't recognise — is written as a *new* profile in the
-custom folder, leaving the original untouched. The editor says so before you push.
-
-That strictness is not theoretical. The classifier keys on a `folder` string that
-Fellow's own data spells inconsistently: the captured account has the factory
-folder as `"Fellow"`, and both `"drops"` and `"Drops"` on sibling records. It now
-compares case-insensitively, prefers the `isDefaultProfile` flag where present,
-and treats anything unrecognised as read-only.
-
-### Re-running the probe
-
-```bash
-pnpm probe you@example.com 'your-password'
-```
-
-`scripts/fellow-probe.mjs` is dependency-free and **read-only** — no POST, PATCH
-or DELETE. It logs in, classifies every device, pulls all profiles and schedules,
-prints an inferred field-by-field schema (types, value ranges, enum samples,
-nested phase arrays), and writes the full dump to
-`scripts/fellow-probe-output.json`. Use it to re-check the wire format against
-your own account, or to see what a device other than an ES1 returns.
-
-The Fellow page's **Raw JSON** button does the same thing through the UI, and a
-failed push returns Fellow's raw response verbatim.
-
-Two practical notes: the API sends no CORS headers and is picky about its
-`User-Agent`, which is why these calls go through the local server rather than
-the browser. And in live mode your Fellow token is stored in the SQLite database in
-plaintext, which matters wherever this runs and matters more once it is hosted.
-
-Hosting changes the threat model rather than the code. The Fellow token in
-plaintext, no rate limits on a route that relays credentials to Fellow, permissive
-CORS, and an uncapped model key are all survivable on a laptop and none of them
-are survivable on the open internet. Work through them before letting anyone else
-sign up.
-
-```bash
-FELLOW_MODE=live pnpm dev
-```
+[simmerkaer/fellow-aiden-ts](https://github.com/simmerkaer/fellow-aiden-ts)), and
+the espresso routes were captured from the iOS app — see the notes at the top of
+`live.ts`. The API sends no CORS headers and is picky about its `User-Agent`,
+which is why these calls go through the server rather than the browser. The
+access token is encrypted at rest with `BREWLAB_ENCRYPTION_KEY`.
 
 ---
 
@@ -241,12 +169,11 @@ breaks the build in both places at once — which is the point.
 | `CLERK_PUBLISHABLE_KEY` | *(unset)* | **Required.** The API verifies session tokens with it |
 | `VITE_CLERK_PUBLISHABLE_KEY` | *(unset)* | **Required.** Same value; Vite only exposes `VITE_`-prefixed vars to the bundle |
 | `CLERK_SECRET_KEY` | *(unset)* | **Required.** Server only — never let this reach the client |
-| `FELLOW_MODE` | `mock` | `live` to hit the real Fellow API |
 | `ANTHROPIC_API_KEY` | *(unset)* | Enables the two model-backed features; without it they show disabled |
 
 These are read from a gitignored `.env` at the repo root if you make one — see
 `.env.example` — or from the environment. The server reloads it on restart.
-| `FELLOW_API_BASE` | AWS endpoint | Override for a proxy |
+| `FELLOW_API_HOST` | AWS endpoint | Override for a proxy |
 
 ---
 

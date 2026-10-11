@@ -141,8 +141,12 @@ export interface FellowDevice {
 }
 
 export interface FellowConnectionStatus {
+  /**
+   * Whether this user has accepted the experimental-feature warning. Until they
+   * have, nothing else on the Fellow surface is reachable.
+   */
+  optedIn: boolean;
   connected: boolean;
-  mode: 'mock' | 'live';
   email?: string;
   devices: FellowDevice[];
   warning?: string;

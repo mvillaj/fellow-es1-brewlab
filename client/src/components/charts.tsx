@@ -75,12 +75,12 @@ export function ProfileCurve({
       {bands.map((b, i) => (
         <g key={b.stage.id ?? i}>
           <rect
+            className="chart-band"
             x={x(b.from)}
             y={pad.top}
             width={Math.max(0, x(b.to) - x(b.from))}
             height={H - pad.top - pad.bottom}
             fill={STAGE_COLOUR[b.stage.kind]}
-            style={{ opacity: 'var(--chart-band-opacity)' }}
           />
           {i > 0 ? (
             <line className="grid-line" x1={x(b.from)} y1={pad.top} x2={x(b.from)} y2={H - pad.bottom} strokeDasharray="2 3" />
@@ -134,12 +134,12 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
   return (
     <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Shot time history">
       <rect
+        className="chart-target"
         x={pad.left}
         y={y(targetS + 4)}
         width={W - pad.left - pad.right}
         height={Math.max(0, y(targetS - 4) - y(targetS + 4))}
         fill="var(--good)"
-        style={{ opacity: 'var(--chart-target-opacity)' }}
       />
       <line className="grid-line" x1={pad.left} y1={y(targetS)} x2={W - pad.right} y2={y(targetS)} strokeDasharray="3 4" />
       <text x={W - pad.right} y={y(targetS) - 5} textAnchor="end" fill="var(--good)">
@@ -177,8 +177,8 @@ export function DialInChart({ shots, targetS = 28 }: { shots: Shot[]; targetS?: 
 export function Meter({ value, min, max, colour = 'var(--action)' }: { value: number; min: number; max: number; colour?: string }) {
   const pct = Math.max(0, Math.min(1, (value - min) / (max - min))) * 100;
   return (
-    <div style={{ height: 5, background: 'var(--surface-2)', borderRadius: 3, overflow: 'hidden' }}>
-      <div style={{ width: `${pct}%`, height: '100%', background: colour, borderRadius: 3 }} />
+    <div className="meter">
+      <span style={{ width: `${pct}%`, background: colour }} />
     </div>
   );
 }

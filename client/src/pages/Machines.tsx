@@ -68,11 +68,11 @@ export default function Machines() {
               </div>
               <CapabilityTags m={m} />
               {m.notes ? (
-                <p className="small dim" style={{ marginTop: 12, marginBottom: 0 }}>
+                <p className="small dim mt-3 mb-0">
                   {m.notes}
                 </p>
               ) : null}
-              <div className="row" style={{ marginTop: 14 }}>
+              <div className="row mt-3">
                 <button className="btn btn-ghost btn-sm btn-danger" onClick={() => remove(m)}>
                   Remove
                 </button>
@@ -176,7 +176,7 @@ function AddMachine({ onSaved }: { onSaved: () => void }) {
               <span className="tag mono">{spec.limits.maxPressureBar} bar</span>
             </div>
             {spec.notes ? (
-              <p className="small dim" style={{ marginTop: 10, marginBottom: 0 }}>
+              <p className="small dim mt-2 mb-0">
                 {spec.notes}
               </p>
             ) : null}

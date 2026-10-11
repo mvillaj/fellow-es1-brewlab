@@ -292,8 +292,8 @@ for (const s of dialIn) addShot(michael, ethiopia, opus2, es1.id, lightRoast, s)
 
 // Same bag on the hand grinder — this is what makes the converter worth having.
 addShot(michael, ethiopia, jUltra, es1.id, lightRoast, {
-  daysAgo: 3, hour: 15, grindSetting: 33, doseG: 18, yieldG: 46, shotTimeS: 30, rating: 4,
-  tasteBalance: 0, notes: 'Travel setup. Converter said 33 clicks; it was right.',
+  daysAgo: 3, hour: 15, grindSetting: 99, doseG: 18, yieldG: 46, shotTimeS: 30, rating: 4,
+  tasteBalance: 0, notes: 'Travel setup. Converter said 99 clicks; it was right.',
   flavourNotes: ['peach', 'clean'], preInfusionS: 12,
 });
 
