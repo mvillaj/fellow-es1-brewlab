@@ -19,7 +19,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
       <div className="auth-card">
         <div className="auth-hero">
           <Link to="/" aria-label="Mousetail home">
-            <BrandLockup heading />
+            <BrandLockup heading pour />
           </Link>
           <p className="dim small mt-2">
             Track every shot you pull — across machines, grinders, coffees and profiles.

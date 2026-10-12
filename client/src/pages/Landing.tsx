@@ -816,10 +816,11 @@ export default function Landing() {
 
       <section className="hero">
         <div className="hero-copy">
-          <h1>Dial in espresso on your ES1, one change at a time.</h1>
+          <h1>Dial in espresso, one change at a time.</h1>
           <p>
-            Mousetail is a shot log, a dial-in coach and a pressure-profile editor for people who
-            own a Fellow Espresso Series 1. Log a shot, get the single next change, pull again.
+            Mousetail is a shot log and dial-in coach for any espresso machine, with a
+            pressure-profile editor for the Fellow Espresso Series&nbsp;1. Log a shot, get the
+            single next change, pull again.
           </p>
           <Ctas />
         </div>
@@ -911,9 +912,9 @@ export default function Landing() {
         <div className="stage-body">
           <h2>Who it’s for</h2>
           <p className="lead">
-            ES1 owners who want a record of what they pulled and a plain answer about what to change
-            next. The shot log, coach and coffee library work with any espresso machine; the profile
-            studio needs the ES1.
+            Home baristas who want a record of what they pulled and a plain answer about what to
+            change next. The shot log, coach and coffee library work with any espresso machine; ES1
+            owners get the profile studio too.
           </p>
         </div>
       </section>

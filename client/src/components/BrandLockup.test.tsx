@@ -16,6 +16,13 @@ describe('BrandLockup', () => {
     expect(drawn).toHaveTextContent('mousetaıl');
   });
 
+  it('only plays the pour when asked', () => {
+    const { container, rerender } = render(<BrandLockup />);
+    expect(container.firstChild).not.toHaveClass('brand-pour');
+    rerender(<BrandLockup pour />);
+    expect(container.firstChild).toHaveClass('brand-lockup', 'brand-pour');
+  });
+
   it('is the page heading when asked', () => {
     render(<BrandLockup heading />);
     expect(screen.getByRole('heading', { level: 1, name: 'mousetail' })).toBeInTheDocument();
