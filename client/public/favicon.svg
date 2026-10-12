@@ -1,9 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="7" fill="#d9622b"/>
-  <g transform="translate(5.2 3) scale(0.36)">
-    <path d="M43 38 C52 37 53.5 41 53.5 47 C53.5 54 49 58 41.5 58" stroke="#2a1408" stroke-width="6" stroke-linecap="round"/>
-    <path d="M8 30 H44 L42 64 Q41.6 70 35.5 70 H16.5 Q10.4 70 10 64 Z" fill="#2a1408"/>
-    <path d="M8.4 36 H43.6 L43.2 43 H8.8 Z" fill="#ecdba6"/>
-    <path d="M27 3 C27 11 32.5 13 31 20 C29.8 25 25.5 26.5 26.5 34" stroke="#fff8ef" stroke-width="5.5" stroke-linecap="round"/>
+  <!-- The logo on a square tile, its stream pouring in over the top edge. The
+       stream is cream on the tile; above it, espresso on a light tab and cream
+       on a dark one. It is drawn heavier than the full-size mark to hold at 16px. -->
+  <style>
+    .out { fill: #2a1408; }
+    @media (prefers-color-scheme: dark) { .out { fill: #fff8ef; } }
+  </style>
+  <defs>
+    <clipPath id="tile"><rect x="2" y="4" width="28" height="28" rx="6.5"/></clipPath>
+    <path id="pour" d="M24.48 -6.15 L24.13 -4.57 L24.07 -2.64 L24.4 -0.9 L24.97 0.6 L25.65 1.91 L26.36 3.08 L27.06 4.17 L27.7 5.22 L28.26 6.25 L28.72 7.28 L29.05 8.36 L29.23 9.51 L29.23 10.81 L28.95 12.46 L28.66 14.04 L28.32 15.48 L27.92 16.87 L27.47 18.24 L26.99 19.6 L26.49 20.97 L26 22.38 L25.54 23.83 L25.12 25.35 L24.78 26.95 L24.54 28.65 L24.41 30.44 L24.43 32.35 L24.6 34.31 A1.8 1.8 0 0 0 28.2 34.09 L28.2 34.09 L28.14 32.26 L28.23 30.66 L28.43 29.18 L28.73 27.79 L29.12 26.47 L29.58 25.19 L30.1 23.92 L30.67 22.64 L31.27 21.32 L31.88 19.95 L32.49 18.49 L33.07 16.94 L33.61 15.27 L34.05 13.54 L34.52 11.5 L34.7 9.4 L34.57 7.44 L34.21 5.63 L33.68 3.99 L33.07 2.52 L32.44 1.21 L31.87 0.04 L31.41 -0.97 L31.11 -1.8 L30.99 -2.43 L31.01 -2.85 L31.12 -3.13 L31.52 -3.85 A3.7 3.7 0 0 0 24.48 -6.15 Z" transform="translate(6.31 2.93) scale(0.334)"/>
+  </defs>
+  <rect x="2" y="4" width="28" height="28" rx="6.5" fill="#d9622b"/>
+  <g transform="translate(6.31 2.93) scale(0.334)">
+    <path d="M43.5 37 C52.5 35.5 55 40.5 53.5 46.5 C52 52.5 46.5 55 40.5 53.5" stroke="#2a1408" stroke-width="6" stroke-linecap="round"/>
+    <path d="M7 30 H45 C45 46 41.5 61 33.5 67.5 Q30.5 70 26 70 Q21.5 70 18.5 67.5 C10.5 61 7 46 7 30 Z" fill="#2a1408"/>
+    <path d="M7.17 36 C7.31 38.39 7.53 40.73 7.84 43 H44.16 C44.47 40.73 44.69 38.39 44.83 36 Z" fill="#ecdba6"/>
   </g>
+  <use href="#pour" class="out"/>
+  <use href="#pour" fill="#fff8ef" clip-path="url(#tile)"/>
 </svg>

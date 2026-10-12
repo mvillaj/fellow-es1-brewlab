@@ -295,7 +295,6 @@ function Shell({ children }: { children: React.ReactNode }) {
       <aside className="sidebar">
         <div className="brand">
           <BrandLockup />
-          <div className="brand-sub">ES1 Brew Lab</div>
         </div>
         <Nav groups={nav} />
         <Settings />
@@ -337,7 +336,6 @@ export function Loading({ shell }: { shell: boolean }) {
       <aside className="sidebar">
         <div className="brand">
           <BrandLockup />
-          <div className="brand-sub">ES1 Brew Lab</div>
         </div>
         <div className="nav" aria-hidden="true">
           {groups.map((g) => (
