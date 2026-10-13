@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import type { ReactNode } from 'react';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
 import App from './App';
 import { AuthProvider } from './lib/auth';
@@ -30,10 +31,29 @@ if (!publishableKey) {
   throw new Error('VITE_CLERK_PUBLISHABLE_KEY is not set — see .env.example');
 }
 
+/**
+ * Clerk inside the router, steering with it. Left to itself Clerk navigates by
+ * setting `window.location`, so signing out reloaded the whole page on the way
+ * back to the landing.
+ */
+function ClerkWithRouter({ children }: { children: ReactNode }) {
+  const navigate = useNavigate();
+  return (
+    <ClerkProvider
+      publishableKey={publishableKey}
+      afterSignOutUrl="/"
+      routerPush={(to) => navigate(to)}
+      routerReplace={(to) => navigate(to, { replace: true })}
+    >
+      {children}
+    </ClerkProvider>
+  );
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ClerkProvider publishableKey={publishableKey} afterSignOutUrl="/">
-      <BrowserRouter>
+    <BrowserRouter>
+      <ClerkWithRouter>
         <ThemeProvider>
           <AuthProvider>
             <MachineProvider>
@@ -43,7 +63,7 @@ createRoot(document.getElementById('root')!).render(
             </MachineProvider>
           </AuthProvider>
         </ThemeProvider>
-      </BrowserRouter>
-    </ClerkProvider>
+      </ClerkWithRouter>
+    </BrowserRouter>
   </StrictMode>,
 );
