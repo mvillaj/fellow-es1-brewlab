@@ -1,8 +1,9 @@
 /* ── Landing: the public front page ────────────────────────────────────────────
-   One shot across the page, in the app's own world: the same ground, cards,
-   pills, glasses and coach as the dashboard. Everything sits on the tokens in
-   app.css, so both themes and every finish come for free; the only new values
-   here are layout and the hero's scale. */
+   A full-screen photograph of a pour, then one shot across the page in the
+   app's own world: the same ground, cards, pills, glasses and coach as the
+   dashboard. Below the photo everything sits on the tokens in app.css, so both
+   themes and every finish come for free; the only new values are layout, the
+   display scale and the photo's fixed cream ink. */
 
 .landing {
   --gutter: clamp(16px, 4vw, 48px);
@@ -11,50 +12,180 @@
   overflow-x: clip;
 }
 
+/* ── Splash: the pour, full screen ──
+   The photo holds still while the sheet below slides up over it. Its ink is a
+   fixed cream whatever the theme or finish, because the photo never changes;
+   the one press keeps the action colour. */
+
+.splash {
+  /* The photo is a dark ground in every theme, so presses and the lockup's
+     stream take the finish's dark-ground action; the tints derive again here
+     because :root resolved them from the theme's own action. */
+  --action: var(--action-on-dark);
+  --on-action: var(--on-action-on-dark);
+  --action-hover: color-mix(in oklab, var(--action) 86%, #2b211c);
+  --focus-ring: color-mix(in oklab, var(--action) 26%, transparent);
+  --splash-ink: #fff8ef;
+  --splash-dim: rgba(255, 248, 239, 0.8);
+  --splash-inset: max(var(--gutter), calc((100% - var(--measure)) / 2 + var(--gutter)));
+  position: sticky;
+  /* Under 520px tall the splash is taller than the window; pin it by its
+     bottom edge instead, so the press can still scroll into view. */
+  top: min(0px, calc(100svh - 520px));
+  height: 100vh;
+  height: 100svh;
+  min-height: 520px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  isolation: isolate;
+  background: #1c120c;
+  color: var(--splash-ink);
+}
+/* The picture only chooses a format; the bar, copy and cue claim their rows
+   by name so nothing else in the splash can take one. */
+.splash picture {
+  display: contents;
+}
+.splash > .landing-bar {
+  grid-row: 1;
+}
+.splash-copy {
+  grid-row: 2;
+}
+.splash-cue {
+  grid-row: 3;
+}
+.splash-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%;
+}
+/* Shade where the words sit: the bright steel at the top behind the bar, and
+   the blurred grey lower left behind the headline. The stream stays lit. */
+.splash-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to bottom, rgba(20, 12, 7, 0.55), rgba(20, 12, 7, 0) 22%),
+    linear-gradient(
+      to top,
+      rgba(20, 12, 7, 0.82),
+      rgba(20, 12, 7, 0.32) 42%,
+      rgba(20, 12, 7, 0) 64%
+    ),
+    linear-gradient(to right, rgba(20, 12, 7, 0.5), rgba(20, 12, 7, 0) 52%);
+}
+
 .landing-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 20px var(--gutter) 0;
+  padding: 20px var(--splash-inset) 0;
 }
 .landing-bar .brand-lockup {
   font-size: 1.6rem;
 }
-
-/* ── Hero ── */
-
-.landing .hero {
-  padding-top: clamp(32px, 6vh, 72px);
+.splash .landing-bar a,
+.splash .brand-lockup {
+  color: var(--splash-ink);
+}
+.splash .btn-ghost:hover {
+  background: rgba(255, 248, 239, 0.14);
 }
 
-.landing .hero-copy {
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
+.splash-copy {
+  align-self: end;
+  padding: 0 var(--splash-inset);
 }
-.landing .hero-copy h1 {
+.splash-copy h1 {
   font-weight: 800;
-  font-size: clamp(2.5rem, 5.8vw, 4.6rem);
-  line-height: 1;
+  font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+  line-height: 0.98;
   letter-spacing: -0.04em;
   font-variation-settings: 'opsz' 96;
-  max-width: 12.5em;
+  max-width: 7.6em;
+  text-wrap: balance;
+  color: var(--splash-ink);
 }
-.landing .hero-copy p {
-  margin: 22px 0 0;
-  max-width: 54ch;
-  font-size: clamp(1.02rem, 1.3vw, 1.15rem);
-  line-height: 1.55;
-  color: var(--text-dim);
+.splash-copy p {
+  margin: 18px 0 0;
+  font-size: clamp(1.04rem, 1.4vw, 1.2rem);
+  color: var(--splash-dim);
 }
+.splash-copy .landing-ctas {
+  margin-top: 28px;
+}
+
+.splash-cue {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 var(--splash-inset) clamp(24px, 5vh, 44px);
+  padding: 8px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--splash-dim);
+  transition: color 0.15s;
+}
+.splash-cue:hover {
+  color: var(--splash-ink);
+}
+.splash-cue svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* ── The sheet: everything after the photo, on the app's own ground ── */
+
+.landing-sheet {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -20px 48px -28px rgba(20, 12, 7, 0.5);
+}
+
 .landing-ctas {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 30px;
+}
+
+/* ── Intro: the pull ── */
+
+.landing .intro {
+  padding-top: clamp(72px, 12vh, 128px);
+  scroll-margin-top: 0;
+}
+.landing .intro-copy {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.landing .intro-copy h2,
+.landing .stage-body h2 {
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-variation-settings: 'opsz' 72;
+  text-wrap: balance;
+}
+.landing .intro-copy .lead,
+.landing .stage-body .lead {
+  margin: 16px 0 28px;
+  max-width: 60ch;
+  color: var(--text-dim);
+  font-size: 1.04rem;
 }
 
 /* The pull: full-bleed, the profile first as a ghost, then the shot drawn over
@@ -334,48 +465,11 @@
   max-width: 860px;
   min-width: 0;
 }
-.landing .stage-body h2 {
-  font-weight: 800;
-  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
-  line-height: 1.04;
-  letter-spacing: -0.035em;
-  font-variation-settings: 'opsz' 72;
-}
-.landing .stage-body .lead {
-  margin: 16px 0 28px;
-  max-width: 64ch;
-  color: var(--text-dim);
-  font-size: 1.04rem;
-}
-.landing .stage-body .aside {
-  margin: 16px 4px 0;
-  max-width: 64ch;
-  font-size: 0.88rem;
-  color: var(--text-dim);
-}
-
-.landing .stage-demos {
-  display: grid;
-  gap: 18px;
-  align-items: start;
-  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-}
-.landing .stage-demos .demo-controls {
-  grid-template-columns: minmax(0, 1fr);
-}
-.landing .stage-demos .dialin-strip {
-  gap: 10px;
-  padding-top: 8px;
-}
-.landing .stage-demos .dialin-shot .shot-glass {
-  width: min(52px, 100%);
-}
-.landing .stage-demos .dialin-legend {
-  flex-direction: column;
-  gap: 6px;
-}
-
 /* ── Demos: the app's own panels, running on sample inputs ── */
+
+.landing .solo-demo {
+  max-width: 520px;
+}
 
 .landing .card-head h3 {
   font-size: 1.12rem;
@@ -385,11 +479,7 @@
 
 .landing .demo-controls {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 22px;
-}
-.landing .demo-controls.stacked {
-  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
 }
 .landing .demo-value {
   color: var(--text);
@@ -403,68 +493,6 @@
   justify-content: space-between;
   font-size: 0.76rem;
   color: var(--text-faint);
-}
-
-.landing .grind-reading {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 6px 16px;
-  margin: 24px 0 12px;
-}
-.landing .reading-xl {
-  font-size: clamp(2.4rem, 5vw, 3.2rem);
-  line-height: 1;
-  color: var(--text);
-}
-.landing .reading-xl .mono {
-  letter-spacing: -0.03em;
-}
-.landing .reading-xl small {
-  font-size: 0.4em;
-  color: var(--text-faint);
-  margin-left: 4px;
-}
-
-/* A plain table even on phones: three short columns fit, so it skips the app's
-   stacked-row layout. */
-.landing .grind-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.92rem;
-}
-.landing .grind-table th {
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.8rem;
-  color: var(--text-faint);
-  padding: 0 10px 10px;
-}
-.landing .grind-table td {
-  padding: 11px 10px;
-  border-top: 1px solid var(--border);
-  vertical-align: middle;
-}
-.landing .grind-table th:first-child,
-.landing .grind-table td:first-child {
-  padding-left: 0;
-}
-.landing .grind-table th:last-child,
-.landing .grind-table td:last-child {
-  padding-right: 0;
-}
-.landing .grind-table td.setting {
-  white-space: nowrap;
-}
-@media (max-width: 600px) {
-  .landing .grind-table {
-    font-size: 0.86rem;
-  }
-  .landing .grind-table th,
-  .landing .grind-table td {
-    padding-left: 6px;
-    padding-right: 6px;
-  }
 }
 
 /* The coach demo is the dashboard's top row: what you did, then the one change. */
@@ -582,12 +610,8 @@
 /* ── Smaller screens ── */
 
 @media (max-width: 1020px) {
-  .landing .coach-demo,
-  .landing .stage-demos {
+  .landing .coach-demo {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .landing .stage-demos .dialin-legend {
-    flex-direction: row;
   }
 }
 
@@ -645,11 +669,15 @@
   .landing-bar .brand-lockup {
     font-size: 1.35rem;
   }
-  .landing .hero-copy p {
-    margin-top: 16px;
-  }
-  .landing-ctas .btn {
+  .splash-copy .landing-ctas .btn,
+  .close .landing-ctas .btn {
     flex: 1 1 auto;
+  }
+  .splash-cue {
+    justify-self: start;
+  }
+  .landing-sheet {
+    border-radius: 22px 22px 0 0;
   }
   .landing .pull-plot {
     height: 300px;
@@ -681,9 +709,6 @@
   .landing .pull-stage-time {
     font-size: 0.68rem;
   }
-  .landing .demo-controls {
-    grid-template-columns: minmax(0, 1fr);
-  }
   .landing .stage-mark-curve {
     width: 120px;
   }
@@ -695,5 +720,27 @@
 @media (prefers-reduced-motion: no-preference) {
   html:has(.landing) {
     scroll-behavior: smooth;
+  }
+
+  /* The photo settles once on arrival, then dims as the sheet covers it. */
+  .splash-photo {
+    animation: splash-settle 1.8s var(--ease-out) both;
+  }
+  @supports (animation-timeline: scroll()) {
+    .splash-scrim {
+      animation: splash-dim linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+  }
+}
+@keyframes splash-settle {
+  from {
+    transform: scale(1.05);
+  }
+}
+@keyframes splash-dim {
+  to {
+    background-color: rgba(20, 12, 7, 0.55);
   }
 }

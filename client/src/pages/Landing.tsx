@@ -1,13 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, RotateCcw } from 'lucide-react';
+import { ArrowDown, ArrowRight, RotateCcw } from 'lucide-react';
 import {
-  BUILT_IN_GRINDERS,
   STOCK_PROFILES,
-  convertSetting,
-  grindBucket,
-  settingToMicrons,
-  specToUserGrinder,
   suggestNextShot,
   totalDurationS,
   type Es1Profile,
@@ -19,12 +14,21 @@ import ShotGlass, { tasteLabel } from '../components/ShotGlass';
 import { ProfileCurve, STAGE_COLOUR } from '../components/charts';
 import { baristaLine, CONFIDENCE_LABEL } from '../lib/coach';
 import { pressureEaser, smoothPressurePaths } from '../lib/curve';
+import pour640 from '../assets/hero/pour-640.jpg';
+import pour1080 from '../assets/hero/pour-1080.jpg';
+import pour1600 from '../assets/hero/pour-1600.jpg';
+import pour2000 from '../assets/hero/pour-2000.jpg';
+import pour640Webp from '../assets/hero/pour-640.webp';
+import pour1080Webp from '../assets/hero/pour-1080.webp';
+import pour1600Webp from '../assets/hero/pour-1600.webp';
+import pour2000Webp from '../assets/hero/pour-2000.webp';
 import '../styles/landing.css';
 
 /**
- * The public front door. The page is one shot: the hero pulls a real factory
- * profile across the full width and pours it into a glass, and its stages carry
- * the story below. Every demo runs the app's own shared code on sample inputs,
+ * The public front door. It opens on a photograph of a pour and nothing else
+ * but the headline and one press; the page then slides up over it as one shot:
+ * a real factory profile pulls across the full width and pours into a glass,
+ * and its stages carry the story below. Every demo runs the app's own shared code on sample inputs,
  * so what a visitor plays with here is what the app will tell them at the bench.
  */
 
@@ -111,10 +115,32 @@ function HeroPull() {
   const flowText = useRef<HTMLSpanElement>(null);
   const stageText = useRef<HTMLSpanElement>(null);
   const stageDot = useRef<HTMLElement>(null);
+  const figure = useRef<HTMLElement>(null);
   const [run, setRun] = useState(0);
   const [done, setDone] = useState(false);
+  const [inView, setInView] = useState(false);
 
   const { line, area, y } = useMemo(() => curvePaths(HERO, VB_W, VB_H, VB_TOP), []);
+
+  // The pull sits below the photo, so it waits to be seen before the pump starts.
+  useEffect(() => {
+    const el = figure.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     // Written straight to the DOM: one React render per frame would be a lot of
@@ -152,6 +178,10 @@ function HeroPull() {
     }
 
     setDone(false);
+    if (!inView) {
+      paint(0);
+      return;
+    }
     let frame = 0;
     let start = 0;
     const duration = HERO_TOTAL * MS_PER_SECOND;
@@ -164,15 +194,16 @@ function HeroPull() {
     };
     paint(0);
     // A beat before the pump starts, so the empty profile reads first.
-    const delay = window.setTimeout(() => (frame = requestAnimationFrame(tick)), run ? 150 : 650);
+    const delay = window.setTimeout(() => (frame = requestAnimationFrame(tick)), run ? 150 : 450);
     return () => {
       window.clearTimeout(delay);
       cancelAnimationFrame(frame);
     };
-  }, [run, y]);
+  }, [run, y, inView]);
 
   return (
     <figure
+      ref={figure}
       className="pull"
       aria-label={`${HERO.name}: ${HERO.stages.map((s) => STAGE_NAME[s.kind]).join(', then ')}, over ${HERO_TOTAL} seconds, ${HERO_YIELD} g out`}
     >
@@ -487,126 +518,6 @@ function DialInDemo() {
   );
 }
 
-/* ── Demo: grind translator ────────────────────────────────────────────────── */
-
-const ESPRESSO_GRINDERS = BUILT_IN_GRINDERS.filter((g) => g.espressoRange);
-
-/** "DF DF64" reads as a stutter; some models already carry the brand. */
-function grinderName(g: { brand: string; model: string }) {
-  return g.model.startsWith(g.brand) ? g.model : `${g.brand} ${g.model}`;
-}
-
-/** A setting as a mono figure with its unit in prose. */
-function settingLabel(value: number, unit: string, step: number) {
-  const decimals = (String(step).split('.')[1] ?? '').length;
-  return (
-    <>
-      <span className="mono">{value.toFixed(decimals)}</span> {unit}
-    </>
-  );
-}
-
-function GrindTranslator() {
-  const [fromId, setFromId] = useState('niche-zero');
-  const spec = ESPRESSO_GRINDERS.find((g) => g.id === fromId) ?? ESPRESSO_GRINDERS[0];
-  const [lo, hi] = spec.espressoRange!;
-  const [setting, setSetting] = useState(15);
-  const value = Math.min(hi, Math.max(lo, setting));
-  const from = specToUserGrinder(spec);
-  const microns = Math.round(settingToMicrons(from, value));
-
-  const others = ESPRESSO_GRINDERS.filter((g) => g.id !== spec.id)
-    .slice(0, 5)
-    .map((g) => ({ spec: g, result: convertSetting(from, value, specToUserGrinder(g)) }));
-
-  return (
-    <section className="card" aria-label="Grind translator">
-      <div className="card-head">
-        <h3>Grind translator</h3>
-        <span className="tag">Built-in calibrations</span>
-      </div>
-
-      <div className="demo-controls">
-        <div className="field">
-          <label htmlFor="grind-from">Your grinder</label>
-          <select
-            id="grind-from"
-            value={spec.id}
-            onChange={(e) => {
-              const next = ESPRESSO_GRINDERS.find((g) => g.id === e.target.value)!;
-              setFromId(next.id);
-              const [a, b] = next.espressoRange!;
-              setSetting(Number(((a + b) / 2).toFixed(1)));
-            }}
-          >
-            {ESPRESSO_GRINDERS.map((g) => (
-              <option key={g.id} value={g.id}>
-                {grinderName(g)}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="field">
-          <label htmlFor="grind-setting">
-            Setting{' '}
-            <span className="demo-value">
-              {settingLabel(value, spec.scale.unitLabel, spec.scale.step)}
-            </span>
-          </label>
-          <input
-            id="grind-setting"
-            type="range"
-            min={lo}
-            max={hi}
-            step={spec.scale.step}
-            value={value}
-            onChange={(e) => setSetting(Number(e.target.value))}
-          />
-        </div>
-      </div>
-
-      <div className="grind-reading">
-        <span className="reading-xl">
-          <span className="mono">{microns}</span>
-          <small>µm</small>
-        </span>
-        <span className="dim">{grindBucket(microns)}</span>
-      </div>
-
-      <table className="grind-table">
-        <thead>
-          <tr>
-            <th scope="col">Same grind on</th>
-            <th scope="col">Setting</th>
-            <th scope="col">Confidence</th>
-          </tr>
-        </thead>
-        <tbody>
-          {others.map(({ spec: g, result }) => (
-            <tr key={g.id}>
-              <td>{grinderName(g)}</td>
-              <td className="setting">
-                {result.outOfRange ? (
-                  <span className="faint">off the dial</span>
-                ) : (
-                  settingLabel(result.setting, g.scale.unitLabel, g.scale.step)
-                )}
-              </td>
-              <td>
-                <span
-                  className={`tag ${result.confidence === 'measured' ? 'good' : result.confidence === 'community' ? 'cool' : ''}`}
-                >
-                  {result.confidence}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
-  );
-}
-
 /* ── Demo: the dial-in coach ───────────────────────────────────────────────── */
 
 const SAMPLE_DOSE = 18;
@@ -802,9 +713,30 @@ function Ctas() {
   );
 }
 
-export default function Landing() {
+/**
+ * The first screen: the pour, a headline and one press. Everything else waits
+ * below the fold, and the page slides up over the photo as you scroll.
+ */
+function Splash() {
   return (
-    <div className="landing">
+    <section className="splash">
+      <picture>
+        <source
+          type="image/webp"
+          srcSet={`${pour640Webp} 640w, ${pour1080Webp} 1080w, ${pour1600Webp} 1600w, ${pour2000Webp} 2000w`}
+          sizes="100vw"
+        />
+        <img
+          className="splash-photo"
+          src={pour1600}
+          srcSet={`${pour640} 640w, ${pour1080} 1080w, ${pour1600} 1600w, ${pour2000} 2000w`}
+          sizes="100vw"
+          alt="Espresso running from a portafilter into a glass in one thin, amber stream"
+          // React 18 only passes the lowercase attribute through to the DOM.
+          {...{ fetchpriority: 'high' }}
+        />
+      </picture>
+      <div className="splash-scrim" aria-hidden="true" />
       <header className="landing-bar">
         <Link to="/" aria-label="Mousetail home">
           <BrandLockup />
@@ -813,122 +745,120 @@ export default function Landing() {
           Sign in
         </Link>
       </header>
+      <div className="splash-copy">
+        <h1>Dial in espresso, one change at a time.</h1>
+        <p>A shot log and dial-in coach for any espresso machine.</p>
+        <div className="landing-ctas">
+          <Link to="/sign-up" className="btn btn-primary btn-lg">
+            Create account
+          </Link>
+        </div>
+      </div>
+      <a href="#pull" className="splash-cue">
+        Watch a shot pull
+        <ArrowDown aria-hidden="true" />
+      </a>
+    </section>
+  );
+}
 
-      <section className="hero">
-        <div className="hero-copy">
-          <h1>Dial in espresso, one change at a time.</h1>
-          <p>
-            Mousetail is a shot log and dial-in coach for any espresso machine, with a
-            pressure-profile editor for the Fellow Espresso Series&nbsp;1. Log a shot, get the
-            single next change, pull again.
-          </p>
+export default function Landing() {
+  return (
+    <main className="landing">
+      <Splash />
+
+      <div className="landing-sheet">
+        <section className="intro" id="pull">
+          <div className="intro-copy">
+            <h2>Every pull, as the machine runs it.</h2>
+            <p className="lead">
+              Mousetail keeps each shot with the setting that made it, hands back the one change to
+              make next and, on a Fellow Espresso Series&nbsp;1, builds the pressure profile the
+              machine runs. Here is one, from first drip to glass.
+            </p>
+          </div>
+          <HeroPull />
+        </section>
+
+        <section className="stage" id="log">
+          <StageMark kind="preinfusion" />
+          <div className="stage-body">
+            <h2>Every shot, logged with the setting that made it.</h2>
+            <p className="lead">
+              Each shot is a glass on one scale: height is yield, the crema is how it tasted. Grind
+              is stored in microns too, so grinders that disagree about what “15” means share one
+              axis.
+            </p>
+            <div className="solo-demo">
+              <DialInDemo />
+            </div>
+          </div>
+        </section>
+
+        <section className="stage" id="coach">
+          <StageMark kind="infusion" />
+          <div className="stage-body">
+            <h2>Then exactly one adjustment.</h2>
+            <p className="lead">
+              The coach reads the time and the taste and answers finer, coarser, longer, shorter, or
+              hold. It’s a barista’s checklist written down, not science. Try it on this morning’s
+              shot.
+            </p>
+            <CoachDemo />
+          </div>
+        </section>
+
+        <section className="stage" id="profiles">
+          <StageMark kind="rampdown" />
+          <div className="stage-body">
+            <h2>Profiles the machine can actually run.</h2>
+            <p className="lead">
+              The editor builds only what the ES1 runs, inside its limits, and checks every profile
+              before it can reach the machine.
+            </p>
+            <div className="profile-split">
+              <ProfileDemo />
+              <ul className="facts">
+                <li>
+                  <strong>Bring your own.</strong> Import the profiles on your Fellow account, edit
+                  them here, and push them back.
+                </li>
+                <li>
+                  <strong>Never touches what isn’t yours.</strong> Factory profiles and Drops are
+                  left alone, and the editor says what will happen before it happens.
+                </li>
+                <li>
+                  <strong>Candid about the plumbing.</strong> Fellow’s API is private and
+                  unofficial. If it changes, pushing breaks and says so; your log keeps working.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="stage who" id="who">
+          <YieldMark />
+          <div className="stage-body">
+            <h2>Who it’s for</h2>
+            <p className="lead">
+              Home baristas who want a record of what they pulled and a plain answer about what to
+              change next. The log and coach work with any machine; ES1 owners get the profile
+              studio too.
+            </p>
+          </div>
+        </section>
+
+        <section className="close">
+          <BrandLockup />
+          <p>Your next shot is the one to log.</p>
           <Ctas />
-        </div>
-        <HeroPull />
-      </section>
+        </section>
 
-      <section className="stage" id="log">
-        <StageMark kind="preinfusion" />
-        <div className="stage-body">
-          <h2>Every shot, logged with the setting that made it.</h2>
-          <p className="lead">
-            Dose, yield, time, pre-infusion, temperature, grind, a rating, and where the cup landed
-            between sour and bitter. Each shot is drawn as a glass on one scale, so a run of pulls
-            reads at a glance. The grind is also stored in microns, so shots from grinders that
-            disagree about what “15” means sit on one axis, and recalibrating a grinder later never
-            rewrites your history.
-          </p>
-          <div className="stage-demos">
-            <DialInDemo />
-            <GrindTranslator />
-          </div>
-          <p className="aside">
-            Coffees live on a shelf of the bags you’re working through. Paste a roaster’s page to
-            prefill one, and share coffees to a library other brewers can clone.
-          </p>
-        </div>
-      </section>
-
-      <section className="stage" id="coach">
-        <StageMark kind="infusion" />
-        <div className="stage-body">
-          <h2>One change at a time.</h2>
-          <p className="lead">
-            After each shot the coach reads the time and the taste and hands back exactly one
-            adjustment: finer, coarser, longer, shorter, or hold. Change two things at once and you
-            learn nothing. Try it on a shot you pulled this morning.
-          </p>
-          <CoachDemo />
-          <p className="aside">
-            This is the same code the app runs. It’s a barista’s checklist written down, not
-            science: judge the time against a 28 s target, then let taste break the tie.
-          </p>
-        </div>
-      </section>
-
-      <section className="stage" id="profiles">
-        <StageMark kind="rampdown" />
-        <div className="stage-body">
-          <h2>Profiles the machine can actually run.</h2>
-          <p className="lead">
-            The editor builds only what the ES1 runs: an optional pre-infusion, flat infusion steps
-            and an optional ramp down, inside the machine’s limits. Every profile is validated
-            before it can reach the machine.
-          </p>
-          <div className="profile-split">
-            <ProfileDemo />
-            <ul className="facts">
-              <li>
-                <strong>Bring your own.</strong> Import the profiles on your Fellow account, edit
-                them here, and push them back.
-              </li>
-              <li>
-                <strong>Never touches what isn’t yours.</strong> Only profiles Mousetail can tell
-                are yours get updated. Factory profiles and Drops are left alone, and the editor
-                says what will happen before it happens.
-              </li>
-              <li>
-                <strong>A starting point, if you want one.</strong> Describe a coffee and ask a
-                model for a first profile. It opens unsaved, for you to check.
-              </li>
-              <li>
-                <strong>Honest about estimates.</strong> Grinder calibrations are tagged{' '}
-                <span className="tag good">measured</span>{' '}
-                <span className="tag cool">community</span> or{' '}
-                <span className="tag">estimated</span>. Machine limits Fellow hasn’t published are
-                marked as inferred, and anything a model filled in says so.
-              </li>
-              <li>
-                <strong>Candid about the plumbing.</strong> Fellow’s API is private and unofficial.
-                If it changes, pushing breaks and tells you so; your log keeps working.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="stage who" id="who">
-        <YieldMark />
-        <div className="stage-body">
-          <h2>Who it’s for</h2>
-          <p className="lead">
-            Home baristas who want a record of what they pulled and a plain answer about what to
-            change next. The shot log, coach and coffee library work with any espresso machine; ES1
-            owners get the profile studio too.
-          </p>
-        </div>
-      </section>
-
-      <section className="close">
-        <BrandLockup />
-        <p>Your next shot is the one to log.</p>
-        <Ctas />
-      </section>
-
-      <footer className="landing-foot">
-        Mousetail is an independent project. It is not affiliated with, endorsed by, or supported by
-        Fellow Products. Fellow and Espresso Series 1 belong to their owner.
-      </footer>
-    </div>
+        <footer className="landing-foot">
+          Mousetail is an independent project. It is not affiliated with, endorsed by, or supported
+          by Fellow Products. Fellow and Espresso Series 1 belong to their owner.
+        </footer>
+      </div>
+    </main>
   );
 }

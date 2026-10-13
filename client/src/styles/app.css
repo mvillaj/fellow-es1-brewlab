@@ -140,7 +140,9 @@
 /* ── Finishes ───────────────────────────────────────────────────────────────
    --body fills the one coloured surface (the coach). --action fills buttons,
    and differs from --body only where the body is too pale or too dark to carry
-   a label on this ground (Sesame in light, Black in dark). */
+   a label on this ground (Sesame in light, Black in dark). The --*-on-dark pair
+   is each finish's dark-theme action in either theme, for presses that sit on
+   a fixed dark ground such as the landing photo. */
 
 /* Crema orange: the house finish and the default. A burnt orange, kept just
    light enough to carry espresso-dark text (4.8:1); any darker and neither
@@ -151,6 +153,8 @@
   --on-body: #2a1408;
   --action: #d9622b;
   --on-action: #2a1408;
+  --action-on-dark: #e3703a;
+  --on-action-on-dark: #2a1408;
 }
 :root[data-theme='dark'],
 :root[data-theme='dark'][data-finish='crema'] {
@@ -169,6 +173,8 @@
   --on-body: #3a2616;
   --action: #7b4a2b;
   --on-action: #fff8ef;
+  --action-on-dark: #e6d7bb;
+  --on-action-on-dark: #2b1d12;
 }
 /* Sesame is pale enough that a sesame-cast ground would melt into the coach
    card, so its light ground stays a near-neutral warm white instead. */
@@ -187,6 +193,8 @@
   --on-body: #fff6f2;
   --action: #c4302b;
   --on-action: #fff6f2;
+  --action-on-dark: #d23e36;
+  --on-action-on-dark: #fff6f2;
 }
 :root[data-theme='dark'][data-finish='cherry-walnut'] {
   --body: #b93530;
@@ -200,6 +208,8 @@
   --on-body: #f3f7fd;
   --action: #2c5a9a;
   --on-action: #f3f7fd;
+  --action-on-dark: #3d6db5;
+  --on-action-on-dark: #f3f7fd;
 }
 :root[data-theme='dark'][data-finish='marine-walnut'] {
   --body: #2f5c9c;
@@ -213,6 +223,8 @@
   --on-body: #f2f8f2;
   --action: #3d6a4b;
   --on-action: #f2f8f2;
+  --action-on-dark: #487a57;
+  --on-action-on-dark: #f2f8f2;
 }
 :root[data-theme='dark'][data-finish='woodland-walnut'] {
   --body: #3a6447;
@@ -226,6 +238,8 @@
   --on-body: #fbf3ea;
   --action: #6a4635;
   --on-action: #fbf3ea;
+  --action-on-dark: #8a5d47;
+  --on-action-on-dark: #fbf3ea;
 }
 :root[data-theme='dark'][data-finish='chocolate-maple'] {
   --body: #6e4a39;
@@ -239,6 +253,8 @@
   --on-body: #f6efe8;
   --action: #1f1c1b;
   --on-action: #f6efe8;
+  --action-on-dark: #f1ebe4;
+  --on-action-on-dark: #1a1614;
 }
 :root[data-theme='dark'][data-finish='black'] {
   --body: #0b0a0a;

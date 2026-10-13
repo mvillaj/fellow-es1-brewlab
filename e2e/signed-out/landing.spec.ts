@@ -11,6 +11,36 @@ test('visitors get the landing page with a way in', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Sign in' }).first()).toBeVisible();
 });
 
+test('the photo fills the first screen, with one way in on it', async ({ page }) => {
+  await page.goto('/');
+  const photo = page.getByRole('img', { name: /espresso running/i });
+  await expect(photo).toBeInViewport();
+  const box = await photo.boundingBox();
+  const viewport = page.viewportSize()!;
+  expect(box!.height).toBeGreaterThanOrEqual(viewport.height - 1);
+  await expect(page.getByRole('link', { name: 'Create account' }).first()).toBeInViewport();
+  await expect(page.getByRole('button', { name: /pull it again/i })).not.toBeInViewport();
+  // The bar sits at the top of the photo, not pushed down by it.
+  const bar = await page.locator('.splash .landing-bar').boundingBox();
+  expect(bar!.y).toBeLessThan(10);
+  expect(bar!.height).toBeLessThan(120);
+});
+
+test('a short window can still scroll to the splash press', async ({ page }) => {
+  await page.setViewportSize({ width: 812, height: 375 });
+  await page.goto('/');
+  const press = page.locator('.splash').getByRole('link', { name: 'Create account' });
+  await press.scrollIntoViewIfNeeded();
+  await expect(press).toBeInViewport();
+});
+
+test('a dark finish still gets a press that shows on the photo', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('brewlab.finish', 'black'));
+  await page.goto('/');
+  const press = page.locator('.splash').getByRole('link', { name: 'Create account' });
+  await expect(press).toHaveCSS('background-color', 'rgb(241, 235, 228)');
+});
+
 test('sign in opens the Clerk form', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: 'Sign in' }).first().click();
@@ -36,6 +66,6 @@ test('the hero pull links each stage to its section', async ({ page }) => {
   await stages.getByRole('link', { name: /Infusion/ }).click();
   await expect(page).toHaveURL(/#coach$/);
   await expect(
-    page.getByRole('heading', { name: 'One change at a time.', exact: true }),
+    page.getByRole('heading', { name: 'Then exactly one adjustment.', exact: true }),
   ).toBeInViewport();
 });
